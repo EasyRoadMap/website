@@ -32,7 +32,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/", "/error", "/erm-web/**", "/favicon.ico").permitAll()
-                        .requestMatchers("/auth/complete").authenticated()
+                        .requestMatchers("/auth/sign-up/complete").authenticated()
                         .requestMatchers("/auth/**", "/logout").permitAll()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
