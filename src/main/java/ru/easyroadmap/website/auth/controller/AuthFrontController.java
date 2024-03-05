@@ -12,10 +12,11 @@ public class AuthFrontController {
             "",
             "/sign-in",
             "/sign-up",
-            "/recovery",
-            "/recovery/code",
-            "/recovery/complete",
-            "/complete"
+            "/sign-up/email-code",
+            "/sign-up/setup-account",
+            "/sign-up/complete",
+            "/recovery/email-code",
+            "/recovery/set-password"
     })
     public String handleDefaultRequest() {
         return "auth";
