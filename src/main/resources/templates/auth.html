@@ -10,6 +10,7 @@
 </head>
 <body>
     <div id="root"></div>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <script type="text/javascript" th:src="@{/erm-web/js/auth_service.js}"></script>
 </body>
 </html>

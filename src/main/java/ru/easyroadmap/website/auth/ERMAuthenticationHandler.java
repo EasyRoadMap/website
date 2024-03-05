@@ -32,8 +32,8 @@ public class ERMAuthenticationHandler extends SavedRequestAwareAuthenticationSuc
             HttpServletRequest request,
             HttpServletResponse response,
             Authentication authentication
-    ) throws IOException {
-        response.sendRedirect("http://cp.localhost/");
+    ) throws ServletException, IOException {
+        super.onAuthenticationSuccess(request, response, authentication);
     }
 
     @Override

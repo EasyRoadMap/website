@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import ru.easyroadmap.website.auth.ERMAuthenticationHandler;
 
 @Configuration
@@ -34,6 +35,8 @@ public class SecurityConfig {
                         .requestMatchers("/auth/complete").authenticated()
                         .requestMatchers("/auth/**", "/logout").permitAll()
                         .anyRequest().authenticated())
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(new HttpSessionCsrfTokenRepository()))
                 .sessionManagement(sessionManagement -> sessionManagement
                         .maximumSessions(1))
                 .exceptionHandling(exceptionHandling -> exceptionHandling
