@@ -8,7 +8,7 @@ module.exports = {
     },
     devtool: false,
     cache: true,
-    mode: 'production',
+    mode: 'development',
     output: {
         path: __dirname + '/target/classes/static/built/',
         filename: '[name].js'
