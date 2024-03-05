@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/auth")
 public class AuthFrontController {
 
-    @GetMapping({
+    @GetMapping(value = {
             "",
             "/sign-in",
             "/sign-up",
