@@ -1,0 +1,63 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1/${DATABASE_NAME}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+    hibernate:
+      ddl-auto: update
+
+    open-in-view: false
+
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          introspection-uri: ${server.host}/oauth2/introspect
+          client-id: flow
+          client-secret: flow-secret
+
+  servlet:
+    multipart:
+      max-file-size: 4MB
+      max-request-size: 4MB
+
+  sql:
+    init:
+      mode: always
+
+logging:
+  level:
+    root: INFO
+    '[org.springframework.web]': DEBUG
+    '[org.springframework.security]': DEBUG
+    '[org.springframework.security.oauth2]': DEBUG
+    org.springframework.security.web.FilterChainProxy: DEBUG
+  pattern:
+    console: '%clr([){faint}%clr(%d{dd.MM.yy}){faint} %clr(%d{HH:mm:ss}){magenta}%clr(]){faint} %clr(%5p) %clr(:){faint} %clr(%-40.40logger{0}){cyan} %clr(:){faint} %m%n%wEx'
+
+server:
+  servlet:
+    session:
+      cookie:
+        same-site: lax
+
+  error:
+    whitelabel:
+      enabled: false
+    path: /error
+
+  host: http://localhost:8080
+
+  mail:
+    name: Flow
+    address: flow.mail.agent@gmail.com
+
+  storage:
+    data-directory: 'data'

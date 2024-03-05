@@ -11,6 +11,7 @@
     "react-router-dom": "^6.11.2"
   },
   "scripts": {
+    "build": "webpack",
     "watch": "webpack --watch"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 import styles from "./style.module.css";
-import Logo from "./components/Logo";
+import Logo from "./components/Logo.jsx";
 
 function App() {
   // Это не надо
