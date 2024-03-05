@@ -24,6 +24,8 @@ public class SecurityConfig {
 //    private final UserRepository userRepository;
     private final ERMAuthenticationHandler authenticationHandler;
 
+    @Value("${server.auth.default-redirect-url}")
+    private String authDefaultRedirectUrl;
     @Value("${server.host}")
     private String serverHost;
 
@@ -46,6 +48,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/auth/sign-in")
                         .successHandler(authenticationHandler)
                         .failureHandler(authenticationHandler)
+                        .defaultSuccessUrl(authDefaultRedirectUrl)
                         .usernameParameter("email")
                         .passwordParameter("password"))
                 .logout(logout -> logout
