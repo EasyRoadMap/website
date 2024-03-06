@@ -6,14 +6,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import ru.easyroadmap.website.auth.ERMAuthenticationHandler;
+import ru.easyroadmap.website.auth.service.UserStorageService;
+import ru.easyroadmap.website.storage.repository.UserRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -21,7 +24,7 @@ import ru.easyroadmap.website.auth.ERMAuthenticationHandler;
 public class SecurityConfig {
 
 //    private final DataSource dataSource;
-//    private final UserRepository userRepository;
+    private final UserRepository userRepository;
     private final ERMAuthenticationHandler authenticationHandler;
 
     @Value("${server.auth.default-redirect-url}")
@@ -60,13 +63,17 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("admin@easyroadmap.ru")
-                .password("admin")
-                .roles("USER")
-                .build();
+        return new UserStorageService(userRepository);
+    }
 
-        return new InMemoryUserDetailsManager(user);
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityContextRepository securityContextRepository() {
+        return new HttpSessionSecurityContextRepository();
     }
 
 }

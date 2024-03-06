@@ -5,3 +5,4 @@ target/
 /package-lock.json
 /spring-shell.log
 /test.mv.db
+/test.trace.db

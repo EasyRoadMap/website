@@ -12,8 +12,8 @@ public class AuthFrontController {
             "",
             "/sign-in",
             "/sign-up",
-            "/sign-up/email-code",
             "/sign-up/setup-account",
+            "/sign-up/email-code",
             "/sign-up/complete",
             "/recovery/email-code",
             "/recovery/set-password"
