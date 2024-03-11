@@ -26,7 +26,8 @@
 
         <!-- Dependencies -->
         <spring-shell.version>3.2.2</spring-shell.version>
-        <jansi.version>2.4.0</jansi.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.3.0</springdoc-openapi-starter-webmvc-ui.version>
+        <jansi.version>2.4.1</jansi.version>
         <jna.version>5.13.0</jna.version>
 
         <!-- Maven plugins -->
@@ -103,6 +104,14 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-cas</artifactId>
+        </dependency>
+
+        <!-- Spring OpenAPI WebMVC UI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- Jansi -->

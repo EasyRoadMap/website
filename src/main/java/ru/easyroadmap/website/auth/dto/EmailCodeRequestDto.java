@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.util.MultiValueMap;
 import ru.easyroadmap.website.validation.ValidEmailPattern;
 
 @Getter
@@ -19,12 +18,5 @@ public final class EmailCodeRequestDto {
 
     @NotNull @NotBlank @Size(min = 1, max = 64)
     private String name;
-
-    public static EmailCodeRequestDto fromFormData(MultiValueMap<String, String> formData) {
-        return new EmailCodeRequestDto(
-                formData.getFirst("email"),
-                formData.getFirst("name")
-        );
-    }
 
 }

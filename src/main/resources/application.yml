@@ -61,3 +61,11 @@ server:
 
   storage:
     data-directory: 'data'
+
+springdoc:
+  api-docs:
+    path: /docs/openapi
+  swagger-ui:
+    operations-sorter: method
+    path: /docs/swagger
+    url: /docs/openapi

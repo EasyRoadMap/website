@@ -6,12 +6,11 @@ import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.util.MultiValueMap;
 import ru.easyroadmap.website.validation.ValidEmailPattern;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class UserDto {
+public final class SignUpDto {
 
     @NotNull @NotBlank @Size(min = 1, max = 64)
     private String name;
@@ -22,13 +21,5 @@ public final class UserDto {
 
     @NotNull @NotBlank @Size(min = 8, max = 128)
     private String password;
-
-    public static UserDto fromFormData(MultiValueMap<String, String> formData) {
-        return new UserDto(
-                formData.getFirst("name"),
-                formData.getFirst("email"),
-                formData.getFirst("password")
-        );
-    }
 
 }

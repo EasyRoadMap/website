@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.easyroadmap.website.auth.dto.UserDto;
+import ru.easyroadmap.website.auth.dto.SignUpDto;
 import ru.easyroadmap.website.exception.GenericErrorException;
 import ru.easyroadmap.website.storage.model.User;
 import ru.easyroadmap.website.storage.model.auth.EmailConfirmation;
@@ -28,7 +28,7 @@ public final class RegistrationService {
 
     private final MailService mailService;
 
-    public User registerNewUser(UserDto userDto) throws GenericErrorException {
+    public User registerNewUser(SignUpDto userDto) throws GenericErrorException {
         String email = userDto.getEmail();
 
         Optional<User> existing = userRepository.findById(email);

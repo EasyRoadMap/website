@@ -37,6 +37,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/", "/error", "/erm-web/**", "/favicon.ico").permitAll()
+                        .requestMatchers("/docs/openapi", "/docs/swagger", "/docs/swagger-ui/**").permitAll()
                         .requestMatchers("/auth/sign-up/complete").authenticated()
                         .requestMatchers("/auth/**", "/logout").permitAll()
                         .anyRequest().authenticated())

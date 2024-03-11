@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.util.MultiValueMap;
 import ru.easyroadmap.website.validation.ValidEmailPattern;
 
 @Getter
@@ -16,9 +15,5 @@ public final class RecoveryCodeRequestDto {
     @NotNull @NotBlank @Size(min = 6, max = 128)
     @ValidEmailPattern
     private String email;
-
-    public static RecoveryCodeRequestDto fromFormData(MultiValueMap<String, String> formData) {
-        return new RecoveryCodeRequestDto(formData.getFirst("email"));
-    }
 
 }

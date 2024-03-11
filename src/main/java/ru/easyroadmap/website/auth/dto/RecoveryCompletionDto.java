@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.util.MultiValueMap;
 import ru.easyroadmap.website.validation.ValidEmailPattern;
 
 @Getter
@@ -19,12 +18,5 @@ public final class RecoveryCompletionDto {
 
     @NotNull @NotBlank @Size(min = 8, max = 128)
     private String password;
-
-    public static RecoveryCompletionDto fromFormData(MultiValueMap<String, String> formData) {
-        return new RecoveryCompletionDto(
-                formData.getFirst("email"),
-                formData.getFirst("password")
-        );
-    }
 
 }
