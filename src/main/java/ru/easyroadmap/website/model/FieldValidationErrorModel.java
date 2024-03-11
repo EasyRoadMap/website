@@ -15,7 +15,7 @@ public final class FieldValidationErrorModel {
 
     public FieldValidationErrorModel(String fieldName, String message) {
         this.errorCode = "incorrect_field_value";
-        this.errorMessage = "%s: %s".formatted(fieldName, message);
+        this.errorMessage = message;
         this.fieldName = fieldName;
     }
 
