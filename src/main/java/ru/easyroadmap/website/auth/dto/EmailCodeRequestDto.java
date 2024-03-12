@@ -12,11 +12,11 @@ import ru.easyroadmap.website.validation.ValidEmailPattern;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class EmailCodeRequestDto {
 
-    @NotNull @NotBlank @Size(min = 6, max = 128)
-    @ValidEmailPattern
-    private String email;
-
     @NotNull @NotBlank @Size(min = 1, max = 64)
     private String name;
+
+    @NotNull @NotBlank @Size(min = 6, max = 64)
+    @ValidEmailPattern
+    private String email;
 
 }

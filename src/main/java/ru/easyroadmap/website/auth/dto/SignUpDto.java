@@ -15,7 +15,7 @@ public final class SignUpDto {
     @NotNull @NotBlank @Size(min = 1, max = 64)
     private String name;
 
-    @NotNull @NotBlank @Size(min = 6, max = 128)
+    @NotNull @NotBlank @Size(min = 6, max = 64)
     @ValidEmailPattern
     private String email;
 

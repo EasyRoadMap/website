@@ -12,7 +12,7 @@ import ru.easyroadmap.website.validation.ValidEmailPattern;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SignInDto {
 
-    @NotNull @NotBlank @Size(min = 6, max = 128)
+    @NotNull @NotBlank @Size(min = 6, max = 64)
     @ValidEmailPattern
     private String email;
 
