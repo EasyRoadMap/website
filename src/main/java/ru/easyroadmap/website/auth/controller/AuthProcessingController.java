@@ -35,11 +35,44 @@ public final class AuthProcessingController {
     private final RecoveryService recoveryService;
     private final Validator validator;
 
-    @Operation(summary = "Register a new user")
+    @Operation(summary = "Log in account", tags = "auth")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "302",
+                    description = "Logged in, redirect to /workspace"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = {
+                                    @ExampleObject(
+                                            name = "Bad credentials",
+                                            value = "{\"error_code\": \"bad_credentials\", \"error_message\": \"The username or password is incorrect\"}"
+                                    ),
+                                    @ExampleObject(
+                                            name = "Provider not found",
+                                            description = "This response will come if there is a configuration error on the server side, it should not be on the production!",
+                                            value = "{\"error_code\": \"provider_not_found\", \"error_message\": \"Provider not found\"}"
+                                    ),
+                                    @ExampleObject(
+                                            name = "Unexpected error",
+                                            description = "This response shouldn't come, but you should handle it :)",
+                                            value = "{\"error_code\": \"unexpected_error\", \"error_message\": \"...\"}"
+                                    )
+                            }
+                    )
+            )
+    })
+    @PostMapping(value = "/sign-in", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
+    public void processSignIn(@Valid SignInDto signInDto) {}
+
+    @Operation(summary = "Register a new user", tags = "auth")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "308",
-                    description = "Redirect to sign-in page"
+                    description = "Registered, redirect to /auth/sign-in"
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -66,7 +99,7 @@ public final class AuthProcessingController {
         response.setStatus(308);
     }
 
-    @Operation(summary = "Request email confirmation code")
+    @Operation(summary = "Request email confirmation code", tags = "auth")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -96,7 +129,7 @@ public final class AuthProcessingController {
         registrationService.processEmailCodeRequest(requestDto.getEmail(), requestDto.getName());
     }
 
-    @Operation(summary = "Confirm email with code")
+    @Operation(summary = "Confirm email with code", tags = "auth")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -126,7 +159,7 @@ public final class AuthProcessingController {
         registrationService.processEmailConfirmation(confirmationDto.getEmail(), confirmationDto.getCode());
     }
 
-    @Operation(summary = "Request email confirmation code")
+    @Operation(summary = "Request email confirmation code", tags = "auth")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -159,7 +192,7 @@ public final class AuthProcessingController {
         response.addCookie(cookie);
     }
 
-    @Operation(summary = "Confirm email with code")
+    @Operation(summary = "Confirm email with code", tags = "auth")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -189,11 +222,11 @@ public final class AuthProcessingController {
         recoveryService.processRecoveryConfirmation(confirmationDto.getEmail(), confirmationDto.getCode(), obtainProofKey(request));
     }
 
-    @Operation(summary = "Complete recovery process")
+    @Operation(summary = "Complete recovery process", tags = "auth")
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "200",
-                    description = "Password has been changed"
+                    responseCode = "308",
+                    description = "Password changed, redirect to /auth/sign-in"
             ),
             @ApiResponse(
                     responseCode = "400",
