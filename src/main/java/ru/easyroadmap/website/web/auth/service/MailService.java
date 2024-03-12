@@ -1,4 +1,4 @@
-package ru.easyroadmap.website.auth.service;
+package ru.easyroadmap.website.web.auth.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

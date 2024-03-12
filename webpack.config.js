@@ -2,9 +2,9 @@ let path = require('path');
 
 module.exports = {
     entry: {
-        auth_service: './src/main/react/auth-service/index.js',
-        control_panel: './src/main/react/control-panel/index.js',
-        public_page: './src/main/react/public-page/index.js'
+        auth: './src/main/react/auth/index.js',
+        front: './src/main/react/front/index.js',
+        workspace: './src/main/react/workspace/index.js'
     },
     devtool: false,
     cache: true,

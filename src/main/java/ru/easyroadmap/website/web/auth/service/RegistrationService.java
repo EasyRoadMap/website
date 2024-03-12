@@ -1,11 +1,11 @@
-package ru.easyroadmap.website.auth.service;
+package ru.easyroadmap.website.web.auth.service;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.easyroadmap.website.auth.dto.SignUpDto;
+import ru.easyroadmap.website.web.auth.dto.SignUpDto;
 import ru.easyroadmap.website.exception.GenericErrorException;
 import ru.easyroadmap.website.storage.model.User;
 import ru.easyroadmap.website.storage.model.auth.EmailConfirmation;

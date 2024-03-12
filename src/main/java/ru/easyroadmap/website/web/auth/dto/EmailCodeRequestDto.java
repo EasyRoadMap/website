@@ -1,4 +1,4 @@
-package ru.easyroadmap.website.auth.dto;
+package ru.easyroadmap.website.web.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

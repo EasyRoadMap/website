@@ -1,7 +1,6 @@
-package ru.easyroadmap.website.auth;
+package ru.easyroadmap.website.web.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ public class ERMAuthenticationHandler extends SavedRequestAwareAuthenticationSuc
     private final ObjectMapper objectMapper;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         String errorCode = DEFAULT_ERROR_CODE;
         String errorMessage = exception.getMessage();
 

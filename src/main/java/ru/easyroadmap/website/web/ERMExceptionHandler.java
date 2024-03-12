@@ -1,4 +1,4 @@
-package ru.easyroadmap.website.exception;
+package ru.easyroadmap.website.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import ru.easyroadmap.website.exception.ApiException;
+import ru.easyroadmap.website.exception.GenericErrorException;
 import ru.easyroadmap.website.model.ErrorModel;
 import ru.easyroadmap.website.model.FieldValidationErrorModel;
 

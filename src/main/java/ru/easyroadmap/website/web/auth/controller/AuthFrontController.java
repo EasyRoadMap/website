@@ -1,4 +1,4 @@
-package ru.easyroadmap.website.auth.controller;
+package ru.easyroadmap.website.web.auth.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

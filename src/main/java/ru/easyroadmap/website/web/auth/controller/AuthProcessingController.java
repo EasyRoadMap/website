@@ -1,4 +1,4 @@
-package ru.easyroadmap.website.auth.controller;
+package ru.easyroadmap.website.web.auth.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,14 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import ru.easyroadmap.website.auth.dto.*;
-import ru.easyroadmap.website.auth.service.RecoveryService;
-import ru.easyroadmap.website.auth.service.RegistrationService;
 import ru.easyroadmap.website.exception.GenericErrorException;
 import ru.easyroadmap.website.storage.model.User;
-
-import static ru.easyroadmap.website.auth.service.RecoveryService.PROOF_KEY_COOKIE_MAX_AGE;
-import static ru.easyroadmap.website.auth.service.RecoveryService.PROOF_KEY_COOKIE_NAME;
+import ru.easyroadmap.website.web.auth.dto.*;
+import ru.easyroadmap.website.web.auth.service.RecoveryService;
+import ru.easyroadmap.website.web.auth.service.RegistrationService;
 
 @RestController
 @RequestMapping("/auth")
@@ -187,8 +184,8 @@ public final class AuthProcessingController {
     @ResponseStatus(HttpStatus.OK)
     public void processRecoveryCodeRequest(@Valid RecoveryCodeRequestDto requestDto, HttpServletResponse response) throws GenericErrorException {
         String proofKey = recoveryService.processRecoveryCodeRequest(requestDto.getEmail());
-        Cookie cookie = new Cookie(PROOF_KEY_COOKIE_NAME, proofKey);
-        cookie.setMaxAge(PROOF_KEY_COOKIE_MAX_AGE);
+        Cookie cookie = new Cookie(RecoveryService.PROOF_KEY_COOKIE_NAME, proofKey);
+        cookie.setMaxAge(RecoveryService.PROOF_KEY_COOKIE_MAX_AGE);
         response.addCookie(cookie);
     }
 
@@ -250,7 +247,7 @@ public final class AuthProcessingController {
     public void processRecoveryCompletion(@Valid RecoveryCompletionDto completionDto, HttpServletRequest request, HttpServletResponse response) throws GenericErrorException {
         User user = recoveryService.performRecovery(completionDto.getEmail(), completionDto.getPassword(), obtainProofKey(request));
 
-        Cookie cookie = new Cookie(PROOF_KEY_COOKIE_NAME, "");
+        Cookie cookie = new Cookie(RecoveryService.PROOF_KEY_COOKIE_NAME, "");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
 
@@ -262,7 +259,7 @@ public final class AuthProcessingController {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (PROOF_KEY_COOKIE_NAME.equals(cookie.getName())) {
+                if (RecoveryService.PROOF_KEY_COOKIE_NAME.equals(cookie.getName())) {
                     return cookie.getValue();
                 }
             }

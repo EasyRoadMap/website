@@ -14,8 +14,8 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import ru.easyroadmap.website.auth.ERMAuthenticationHandler;
-import ru.easyroadmap.website.auth.service.UserStorageService;
+import ru.easyroadmap.website.web.auth.ERMAuthenticationHandler;
+import ru.easyroadmap.website.web.auth.service.UserStorageService;
 import ru.easyroadmap.website.storage.repository.UserRepository;
 
 @Configuration
