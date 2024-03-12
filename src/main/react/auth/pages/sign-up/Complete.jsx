@@ -1,5 +1,5 @@
-import styles from "../style.module.css";
-import Logo from "../components/Logo.jsx";
+import styles from "../../style.module.css";
+import Logo from "../../components/Logo.jsx";
 
 function SignUpDone() {
   return (
