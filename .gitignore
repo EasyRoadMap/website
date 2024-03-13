@@ -6,3 +6,4 @@ target/
 /spring-shell.log
 /test.mv.db
 /test.trace.db
+.DS_Store
