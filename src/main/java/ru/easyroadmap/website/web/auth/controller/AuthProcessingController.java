@@ -23,6 +23,8 @@ import ru.easyroadmap.website.web.auth.dto.*;
 import ru.easyroadmap.website.web.auth.service.RecoveryService;
 import ru.easyroadmap.website.web.auth.service.RegistrationService;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -31,6 +33,31 @@ public final class AuthProcessingController {
     private final RegistrationService registrationService;
     private final RecoveryService recoveryService;
     private final Validator validator;
+
+    @Operation(summary = "Auth form redirect", tags = "auth")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "302",
+                    description = "Redirect to /auth/sign-up if this email isn't used or to /auth/sign-in overwise"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = {
+                                    @ExampleObject(
+                                            name = "Validation error",
+                                            value = "{\"error_code\": \"incorrect_field_value\", \"error_message\": \"...\", \"field_name\": \"...\"}"
+                                    ),
+                            }
+                    )
+            )
+    })
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public void processAuthRedirect(@Valid AuthRedirectDto redirectDto, HttpServletResponse response) throws IOException {
+        boolean emailUsed = registrationService.isEmailUsed(redirectDto.getEmail());
+        response.sendRedirect(emailUsed ? "/auth/sign-in" : "/auth/sign-up");
+    }
 
     @Operation(summary = "Log in account", tags = "auth")
     @ApiResponses({
