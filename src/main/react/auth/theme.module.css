@@ -1,0 +1,15 @@
+:root {
+  --bg-color: linear-gradient(180deg, white, #0066fe);
+  --text-color: #00ff22;
+  --color-form: #002c6f;
+}
+[data-theme="dark"] {
+  --bg-color: linear-gradient(180deg, white, #002c6f);
+  --text-color: #ffffff;
+  --color-form: #000e22;
+}
+[data-theme="light"] {
+  --bg-color: linear-gradient(180deg, white, #0066fe);
+  --text-color: #000000;
+  --color-form: white;
+}
