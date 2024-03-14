@@ -57,7 +57,7 @@ public class SecurityConfig {
                         .passwordParameter("password"))
                 .logout(logout -> logout
                         .deleteCookies("JSESSIONID")
-                        .logoutUrl("/logout")
+                        .logoutUrl("/auth/logout")
                         .logoutSuccessUrl("/auth"))
                 .build();
     }

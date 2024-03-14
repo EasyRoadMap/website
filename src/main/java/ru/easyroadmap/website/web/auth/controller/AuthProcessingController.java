@@ -282,6 +282,17 @@ public final class AuthProcessingController {
         response.setStatus(308);
     }
 
+    @Operation(summary = "Log out", tags = "auth")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "302",
+                    description = "Logged out, redirect to /auth"
+            )
+    })
+    @PostMapping(value = "/logout")
+    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
+    public void processLogout() {}
+
     private String obtainProofKey(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
