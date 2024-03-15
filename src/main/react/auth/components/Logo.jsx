@@ -1,5 +1,16 @@
-import styles from "../style.module.css";
+import styles from "./styleLogo.module.css";
+import LogoSVG from "../../assets/Logo.jsx";
 
 export default function Logo() {
-  return <img src="" alt="Logo" className={styles.logo} />;
+  return (
+    <div className={styles.LogoWrapper}>
+      {/* <div className={styles.logo}></div> */}
+      <LogoSVG className={styles.logo}/>
+      <h1 className={styles.TitleLogo}>
+        Easy
+        <br />
+        RoadMap
+      </h1>
+    </div>
+  );
 }

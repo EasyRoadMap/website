@@ -5,6 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Golos Text", sans-serif;
+  border-radius: 0;
 }
 .background {
   /* background: linear-gradient(white, #0066fe); */
@@ -29,8 +30,39 @@
   /* right: 0; */
   border-radius: 20px;
 }
+.button_theme {
+  width: 4vh;
+  height: 4vh;
+  border-radius: 10px;
+  border-color: #0066fe;
+  border-style: solid;
+  border-width: 1px;
+  background-color: white;
+  font-size: 2vh;
+  text-align: center;
+  z-index: 1;
+  margin: 0.5vh;
+  justify-content: center;
+  align-items: center;
+}
+.button_theme:hover {
+  background-color: #0066fe;
+  transition: 200ms linear;
+}
+.theme {
+  top: 2vh;
+  right: 2vh;
+  display: flex;
+  border-radius: 15px;
+  width: 7vw;
+  height: 6vh;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+}
 .button {
-  width: 25vw;
+  width: 40vw;
   height: 6vh;
   border-radius: 15px;
   border: none;
@@ -38,6 +70,7 @@
   color: white;
   background-color: #0066fe;
   font-size: 2vh;
+  max-width: 300px;
 }
 .title {
   width: 40vh;
@@ -52,6 +85,7 @@
 }
 .discription {
   margin-top: 1vh;
+  text-align: center;
   font-size: 2vh;
   color: rgb(0, 0, 0, 0.5);
 }
@@ -77,7 +111,7 @@
   font-size: 2vh;
 }
 .input {
-  width: 25vw;
+  width: 40vw;
   height: 6vh;
   border-radius: 15px;
   border-style: solid;
@@ -88,6 +122,7 @@
   background-color: white;
   display: flex;
   flex-direction: column;
+  max-width: 300px;
 }
 
 input::placeholder {
@@ -156,12 +191,6 @@ input::placeholder {
   background-color: #e9ecef;
 }
 
-.logo {
-  width: 13vh;
-  height: 13vh;
-  border-radius: 15px;
-  background-color: rgb(87, 87, 87);
-}
 .repeatLink {
   text-decoration: underline;
   color: rgb(0, 0, 0, 0.75);

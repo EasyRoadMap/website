@@ -61,8 +61,8 @@ function StartPage() {
           <button type="submit" form="greeting" className={styles.button}>
             Продолжить
           </button>
-          <ThemeToggler></ThemeToggler>
         </div>
+        <ThemeToggler></ThemeToggler>
       </div>
     </>
   );

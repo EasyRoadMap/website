@@ -11,13 +11,14 @@ const handleDarkThemeClick = () => {
 };
 
   return (
-    <div>
-      <button onClick={handleLightThemeClick} className={styles.button}>
-        Light
-      </button>
-      <button onClick={handleDarkThemeClick} className={styles.button}>
-        Dark
-      </button>
+    <div className={styles.theme}>
+            <button onClick={handleLightThemeClick} className={styles.button_theme}>
+              ☀️
+            </button>
+
+            <button onClick={handleDarkThemeClick} className={styles.button_theme}>
+              🌙
+            </button>
     </div>
   );
 }

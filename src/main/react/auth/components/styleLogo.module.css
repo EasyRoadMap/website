@@ -1,0 +1,15 @@
+.logo {
+  width: 13vh;
+  height: 13vh;
+  border-radius: 15px;
+  border: none;
+}
+.TitleLogo {
+  font-size: 4vh;
+  color: #0066fe;
+  margin-left: 1vh;
+}
+.LogoWrapper {
+  display: flex;
+  align-items: center;
+}

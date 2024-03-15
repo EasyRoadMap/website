@@ -1,10 +1,31 @@
-.button {
-  width: 25vw;
-  height: 6vh;
-  border-radius: 15px;
-  border: none;
-  margin-top: 0.5vh;
-  color: white;
-  background-color: #0066fe;
+.button_theme {
+  width: 4vh;
+  height: 4vh;
+  border-radius: 10px;
+  border-color: #0066fe;
+  border-style: solid;
+  border-width: 1px;
+  background-color: white;
   font-size: 2vh;
+  text-align: center;
+  z-index: 1;
+  margin: 0.5vh;
+  justify-content: center;
+  align-items: center;
+}
+.button_theme:hover {
+  background-color: #0066fe;
+  transition: 200ms linear;
+}
+.theme {
+  top: 2vh;
+  right: 2vh;
+  display: flex;
+  border-radius: 15px;
+  width: 7vw;
+  height: 6vh;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
 }
