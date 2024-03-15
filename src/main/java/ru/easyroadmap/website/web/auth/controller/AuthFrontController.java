@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AuthFrontController {
 
     @GetMapping(value = {
-            "",
             "/sign-in",
             "/sign-up",
-            "/sign-up/setup-account",
             "/sign-up/email-code",
             "/sign-up/complete",
             "/recovery/email-code",
-            "/recovery/set-password"
+            "/recovery/change-password",
+            "/recovery/complete"
     })
     public String handleDefaultRequest() {
         return "auth";

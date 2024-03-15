@@ -18,12 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import ru.easyroadmap.website.exception.GenericErrorException;
-import ru.easyroadmap.website.storage.model.User;
 import ru.easyroadmap.website.web.auth.dto.*;
 import ru.easyroadmap.website.web.auth.service.RecoveryService;
 import ru.easyroadmap.website.web.auth.service.RegistrationService;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
@@ -33,32 +30,6 @@ public final class AuthProcessingController {
     private final RegistrationService registrationService;
     private final RecoveryService recoveryService;
     private final Validator validator;
-
-    @Operation(summary = "Auth form redirect", tags = "auth")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "302",
-                    description = "Redirect to /auth/sign-up if this email isn't used or to /auth/sign-in overwise",
-                    content = @Content()
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Validation error",
-                                            value = "{\"error_code\": \"incorrect_field_value\", \"error_message\": \"...\", \"field_name\": \"...\"}"
-                                    ),
-                            }
-                    )
-            )
-    })
-    @PostMapping(value = "", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public void processAuthRedirect(@Valid AuthRedirectDto redirectDto, HttpServletResponse response) throws IOException {
-        boolean emailUsed = registrationService.isEmailUsed(redirectDto.getEmail());
-        response.sendRedirect(emailUsed ? "/auth/sign-in" : "/auth/sign-up");
-    }
 
     @Operation(summary = "Log in account", tags = "auth")
     @ApiResponses({
@@ -91,38 +62,7 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/sign-in", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
-    public void processSignIn(@Valid SignInDto signInDto) {}
-
-    @Operation(summary = "Register a new user", tags = "auth")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "308",
-                    description = "Registered, redirect to /auth/sign-in"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Validation error",
-                                            value = "{\"error_code\": \"incorrect_field_value\", \"error_message\": \"...\", \"field_name\": \"...\"}"
-                                    ),
-                                    @ExampleObject(
-                                            name = "Generic error",
-                                            description = "Used codes: 'user_already_exists', 'email_not_confirmed'",
-                                            value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
-                                    )
-                            }
-                    )
-            )
-    })
-    @PostMapping(value = "/sign-up", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public void processSignUp(@Valid SignUpDto signUpDto, HttpServletResponse response) throws GenericErrorException {
-        User user = registrationService.registerNewUser(signUpDto);
-        response.setHeader("Location", "/auth/sign-in");
-        response.setStatus(308);
-    }
+    public void processSignIn(@Valid SignInDto dto) {}
 
     @Operation(summary = "Request email confirmation code", tags = "auth")
     @ApiResponses({
@@ -150,8 +90,8 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/sign-up/email-code", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processEmailCodeRequest(@Valid EmailCodeRequestDto requestDto) throws GenericErrorException {
-        registrationService.processEmailCodeRequest(requestDto.getEmail(), requestDto.getName());
+    public void processSignUpCodeRequest(@Valid SignUpCodeRequestDto dto) throws GenericErrorException {
+        registrationService.processEmailCodeRequest(dto.getEmail(), dto.getName());
     }
 
     @Operation(summary = "Confirm email with code", tags = "auth")
@@ -180,8 +120,38 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/sign-up/confirm-email", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processEmailConfirmation(@Valid EmailConfirmationDto confirmationDto) throws GenericErrorException {
-        registrationService.processEmailConfirmation(confirmationDto.getEmail(), confirmationDto.getCode());
+    public void processSignUpConfirmation(@Valid SignUpConfirmationDto dto) throws GenericErrorException {
+        registrationService.processEmailConfirmation(dto.getEmail(), dto.getCode());
+    }
+
+    @Operation(summary = "Register a new user", tags = "auth")
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "A new user has been registered"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = {
+                                    @ExampleObject(
+                                            name = "Validation error",
+                                            value = "{\"error_code\": \"incorrect_field_value\", \"error_message\": \"...\", \"field_name\": \"...\"}"
+                                    ),
+                                    @ExampleObject(
+                                            name = "Generic error",
+                                            description = "Used codes: 'user_already_exists', 'email_not_confirmed'",
+                                            value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
+                                    )
+                            }
+                    )
+            )
+    })
+    @PostMapping(value = "/sign-up/complete", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void processSignUpComplete(@Valid SignUpCompleteDto dto, HttpServletResponse response) throws GenericErrorException {
+        registrationService.registerNewUser(dto);
     }
 
     @Operation(summary = "Request email confirmation code", tags = "auth")
@@ -201,7 +171,7 @@ public final class AuthProcessingController {
                                     ),
                                     @ExampleObject(
                                             name = "Generic error",
-                                            description = "Used codes: 'user_not_found', 'recovery_pending', 'recovery_confirmed'",
+                                            description = "Used codes: 'user_not_found', 'recovery_pending', 'recovery_already_confirmed'",
                                             value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
                                     )
                             }
@@ -210,8 +180,8 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/recovery/email-code", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processRecoveryCodeRequest(@Valid RecoveryCodeRequestDto requestDto, HttpServletResponse response) throws GenericErrorException {
-        String proofKey = recoveryService.processRecoveryCodeRequest(requestDto.getEmail());
+    public void processRecoveryCodeRequest(@Valid RecoveryCodeRequestDto dto, HttpServletResponse response) throws GenericErrorException {
+        String proofKey = recoveryService.processRecoveryCodeRequest(dto.getEmail());
         Cookie cookie = new Cookie(RecoveryService.PROOF_KEY_COOKIE_NAME, proofKey);
         cookie.setMaxAge(RecoveryService.PROOF_KEY_COOKIE_MAX_AGE);
         response.addCookie(cookie);
@@ -243,15 +213,15 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/recovery/confirm-email", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processRecoveryConfirmation(@Valid RecoveryConfirmationDto confirmationDto, HttpServletRequest request) throws GenericErrorException {
-        recoveryService.processRecoveryConfirmation(confirmationDto.getEmail(), confirmationDto.getCode(), obtainProofKey(request));
+    public void processRecoveryConfirmation(@Valid RecoveryConfirmationDto dto, HttpServletRequest request) throws GenericErrorException {
+        recoveryService.processRecoveryConfirmation(dto.getEmail(), dto.getCode(), obtainProofKey(request));
     }
 
     @Operation(summary = "Complete recovery process", tags = "auth")
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "308",
-                    description = "Password changed, redirect to /auth/sign-in"
+                    responseCode = "200",
+                    description = "Password changed"
             ),
             @ApiResponse(
                     responseCode = "400",
@@ -271,23 +241,21 @@ public final class AuthProcessingController {
                     )
             )
     })
-    @PostMapping(value = "/recovery/set-password", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public void processRecoveryCompletion(@Valid RecoveryCompletionDto completionDto, HttpServletRequest request, HttpServletResponse response) throws GenericErrorException {
-        User user = recoveryService.performRecovery(completionDto.getEmail(), completionDto.getPassword(), obtainProofKey(request));
+    @PostMapping(value = "/recovery/change-password", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void processRecoveryChangePassword(@Valid RecoveryChangePasswordDto dto, HttpServletRequest request, HttpServletResponse response) throws GenericErrorException {
+        recoveryService.performRecovery(dto.getEmail(), dto.getPassword(), obtainProofKey(request));
 
         Cookie cookie = new Cookie(RecoveryService.PROOF_KEY_COOKIE_NAME, "");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
-
-        response.setHeader("Location", "/auth/sign-in");
-        response.setStatus(308);
     }
 
     @Operation(summary = "Log out", tags = "auth")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "302",
-                    description = "Logged out, redirect to /auth"
+                    description = "Logged out, redirect to /auth/sign-in"
             )
     })
     @PostMapping(value = "/logout")

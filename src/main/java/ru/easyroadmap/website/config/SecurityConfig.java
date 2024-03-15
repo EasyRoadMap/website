@@ -29,7 +29,6 @@ public class SecurityConfig {
 
     private static final String REMEMBER_ME_KEY = "EasyRoadMapRMKEY";
 
-//    private final DataSource dataSource;
     private final UserRepository userRepository;
     private final ERMAuthenticationHandler authenticationHandler;
 
@@ -44,17 +43,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/", "/error", "/erm-web/**", "/favicon.ico").permitAll()
                         .requestMatchers("/docs/openapi", "/docs/swagger", "/docs/swagger-ui/**").permitAll()
-                        .requestMatchers("/auth/sign-up/complete").authenticated()
-                        .requestMatchers("/auth/**", "/logout").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(new HttpSessionCsrfTokenRepository()))
                 .sessionManagement(sessionManagement -> sessionManagement
                         .maximumSessions(1))
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth")))
+                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth/sign-in")))
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/auth")
+                        .loginPage("/auth/sign-in")
                         .loginProcessingUrl("/auth/sign-in")
                         .successHandler(authenticationHandler)
                         .failureHandler(authenticationHandler)
@@ -68,7 +66,7 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .deleteCookies("JSESSIONID")
                         .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl("/auth"))
+                        .logoutSuccessUrl("/auth/sign-in"))
                 .build();
     }
 

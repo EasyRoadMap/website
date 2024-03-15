@@ -47,7 +47,7 @@ public final class RecoveryService {
 
         if (existing.isPresent() && existing.get().isConfirmed())
             throw new GenericErrorException(
-                    "recovery_confirmed",
+                    "recovery_already_confirmed",
                     "This account already has a confirmed recovery request"
             );
 

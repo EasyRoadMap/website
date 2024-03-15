@@ -1,6 +1,5 @@
 package ru.easyroadmap.website.web.auth.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -10,10 +9,7 @@ import ru.easyroadmap.website.validation.ValidEmailPattern;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class SignUpDto {
-
-    @NotBlank @Size(min = 1, max = 64)
-    private String name;
+public final class RecoveryChangePasswordDto {
 
     @NotBlank @Size(min = 6, max = 64)
     @ValidEmailPattern
@@ -21,8 +17,5 @@ public final class SignUpDto {
 
     @NotBlank @Size(min = 8, max = 128)
     private String password;
-
-    @Schema(description = "Optional flag 'remember me' to persist an authentication for 2 weeks", example = "true / false")
-    private String rememberMe;
 
 }
