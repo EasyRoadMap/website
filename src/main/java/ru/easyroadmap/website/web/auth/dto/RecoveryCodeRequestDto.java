@@ -1,7 +1,6 @@
 package ru.easyroadmap.website.web.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,7 @@ import ru.easyroadmap.website.validation.ValidEmailPattern;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RecoveryCodeRequestDto {
 
-    @NotNull @NotBlank @Size(min = 6, max = 64)
+    @NotBlank @Size(min = 6, max = 64)
     @ValidEmailPattern
     private String email;
 

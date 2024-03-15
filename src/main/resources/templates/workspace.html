@@ -10,7 +10,7 @@
     <div id="root" style="display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center;">
         <h1 style="margin: 0;" >Hello world!</h1>
         <p style="margin: 0;">You're on the /workspace page :)</p>
-        <p style="margin: 16px 0 0; text-align: center;">You're logged in as<br><b th:text="|${username}|"></b>.</p>
+        <p style="margin: 16px 0 0; text-align: center;">You're logged in as<br><b th:text="|${username}|"></b><br><span th:text="|${remember_me}|"></span>.</p>
         <form th:action="@{/auth/logout}" method="post">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <input style="background: #0066FE; border: none; border-radius: 8px; color: WHITE; padding: 12px 24px; font-size: 16px; font-weight: 500;" type="submit" value="Log out" />

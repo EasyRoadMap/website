@@ -1,5 +1,6 @@
 package ru.easyroadmap.website.web.workspace.controller;
 
+import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,8 +18,15 @@ public class WorkspaceFrontController {
     })
     public String handleDefaultRequest(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails)
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
             model.addAttribute("username", userDetails.getUsername());
+
+            if (authentication instanceof RememberMeAuthenticationToken cast) {
+                model.addAttribute("remember_me", "with remember-me token");
+            } else {
+                model.addAttribute("remember_me", "with username/password token");
+            }
+        }
 
         return "workspace";
     }

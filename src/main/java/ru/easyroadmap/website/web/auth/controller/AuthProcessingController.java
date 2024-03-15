@@ -38,7 +38,8 @@ public final class AuthProcessingController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "302",
-                    description = "Redirect to /auth/sign-up if this email isn't used or to /auth/sign-in overwise"
+                    description = "Redirect to /auth/sign-up if this email isn't used or to /auth/sign-in overwise",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "400",

@@ -11,17 +11,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import ru.easyroadmap.website.storage.repository.UserRepository;
 import ru.easyroadmap.website.web.auth.ERMAuthenticationHandler;
 import ru.easyroadmap.website.web.auth.service.UserStorageService;
-import ru.easyroadmap.website.storage.repository.UserRepository;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private static final String REMEMBER_ME_KEY = "EasyRoadMapRMKEY";
 
 //    private final DataSource dataSource;
     private final UserRepository userRepository;
@@ -33,7 +39,7 @@ public class SecurityConfig {
     private String serverHost;
 
     @Bean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, PersistentTokenRepository tokenRepository) throws Exception {
         return http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/", "/error", "/erm-web/**", "/favicon.ico").permitAll()
@@ -55,6 +61,10 @@ public class SecurityConfig {
                         .defaultSuccessUrl(authDefaultRedirectUrl)
                         .usernameParameter("email")
                         .passwordParameter("password"))
+                .rememberMe(rememberMe -> rememberMe
+                        .key(REMEMBER_ME_KEY)
+                        .rememberMeParameter("rememberMe")
+                        .tokenRepository(tokenRepository))
                 .logout(logout -> logout
                         .deleteCookies("JSESSIONID")
                         .logoutUrl("/auth/logout")
@@ -65,6 +75,13 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserStorageService(userRepository);
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository(DataSource dataSource) {
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        return tokenRepository;
     }
 
     @Bean
