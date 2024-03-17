@@ -118,13 +118,13 @@ const Form = () => {
         className={styles.checkbox}
         disabled={pending}
       ></input>
-      <label for="check"  onChange={() => {console.log("asd"); setCheck(!check)}}>Запомни меня!</label>
+      <label for="check"  onChange={() => {setCheck(!check)}}>Запомни меня!</label>
     </form>
     <button type="submit" form="login" className={styles.button} disabled={pending}>
       Войти
     </button>
-    <button className={styles.button} onClick={() => {
-      if (validateEmail(email, saveEmail, setErrorEmail)) navigate("/auth/sign-up");
+    <button className={styles.button} onClick={() => { 
+      navigate("/auth/sign-up");
     }} disabled={pending}>
       Создать аккаунт
     </button>
