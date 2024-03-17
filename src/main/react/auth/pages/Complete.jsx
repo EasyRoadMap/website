@@ -1,5 +1,4 @@
 import styles from "../style.module.css";
-import Logo from "../components/Logo.jsx";
 import Base from "./Base.jsx";
 import { trySignIn } from "../api/WorkspaceAddresser.js";
 import { useState } from "react";

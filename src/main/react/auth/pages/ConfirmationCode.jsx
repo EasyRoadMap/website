@@ -40,10 +40,8 @@ const Form = ({
         e.preventDefault();
         if (!validateCode(code, setErrorCode)) return;
         const setters = {"code": setErrorCode};
-        // const navigateLinks = {"email": "/auth/sign-in", "password": "/auth/sign-in"};
         const navigateLinks = linksToPagesThatCanIncludeErrors
 
-        // tryConfirmEmail(email, getCode(code), showPopup, setters, navigateLinks, navigate);
         if ((!password) || (!name))
             APICallback(email, getCode(code), showPopup, setters, navigateLinks, navigate, setPending);
         else
