@@ -5,19 +5,19 @@ import Input from "../components/Input.jsx";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 
+import { useEmail } from "../hooks/useEmail.js";
 import { Auth } from "../api/Auth.js";
-import { validate } from "../utils/emailValidation.js";
 import ThemeToggler from "../../common/components/ThemeToggler.jsx";
 
 function StartPage() {
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
+  const {email, setEmail, saveEmail, removeEmail} = useEmail();
   const [error, setError] = useState(null);
 
   const location = useLocation();
 
   if (location.state?.error) {
-    setError(location.state?.error.descriptions);
-    setEmail(location.state?.error.email);
+    setError(location.state?.error);
   }
 
   // можно вынести в отдельный файл
@@ -27,8 +27,10 @@ function StartPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validate(email)) {
-      setError("Введите существующий email");
+    try {
+      saveEmail(email);
+    } catch(err) {
+      setError(err.message);
       return;
     }
 
@@ -52,8 +54,9 @@ function StartPage() {
           <form id="greeting" onSubmit={handleSubmit}>
             <Input 
               data={email}
+              // setData={setEmail}
               setData={setEmail}
-              clearError={() => {setError(null);}}
+              clearError={() => {setError("");}}
               placeholder="Введите адрес эл.почты"
               error={error}
             />
@@ -61,8 +64,8 @@ function StartPage() {
           <button type="submit" form="greeting" className={styles.button}>
             Продолжить
           </button>
+          <ThemeToggler></ThemeToggler>
         </div>
-        <ThemeToggler></ThemeToggler>
       </div>
     </>
   );

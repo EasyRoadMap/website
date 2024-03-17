@@ -1,85 +1,143 @@
+import styles from "../../style.module.css";
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useLocation } from "react-router-dom";
 
+import { useEmail } from "../../hooks/useEmail.js";
+
+import Base from "../Base.jsx";
+import Input from "../../components/Input.jsx";
+import { errorsHandler, errorApplier } from "../../utils/errorsHandler.js";
 import { signUpEmailCode } from "../../api/SignUpEmailCode.js";
 
-import styles from "../../style.module.css";
-import Logo from "../../components/Logo.jsx";
-import Input from "../../components/Input.jsx";
+const validatePassword = (password, setErrorPassword) => {
+  if (password.length >= 8 && password.length <= 128) return true;
+  setErrorPassword("Пароль должен быть не менее 8 и не более 128 символов");
+  return false;
+}
 
-function SetupAccount() {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatedPassword, setRepeatedPassword] = useState("");
+const validateName = (name, setErrorName) => {
+  if (name.length >= 1 && name.length <= 64) return true;
+  setErrorName("Имя должно быть не менее 1 и не более 64 символов");
+  return false;
+}
 
-  const location = useLocation();
-  const navigate = useNavigate();
+const tryGetCode = (email, name, password, showPopup, setters, setPending, navigate) => {
+  setPending(true);
 
-  const email = location.state.email;
+  signUpEmailCode(email, name)
+    .then((response) => {
+      navigate("/auth/sign-up/email-code", {
+        state: { password: password, name: name },
+      });
+    })
+    .catch((err) => {
+      const errData = err.response.data;
+      errorsHandler(errData, showPopup, setters);
+    }).finally(() => {
+      setPending(false);
+    })
+}
 
-  const passwordsMatches = () => {
-    return password === repeatedPassword;
-  };
+const setErrorsFromOtherPages = (location, errorSetters) => {
+  return errorApplier(location.state?.error, errorSetters);
+}
 
-  const buttonEnabled = () => {
-    const isEmailEntered = email != "";
-    const isPasswordEntered = password != "";
-    const isRepeatedPasswordEntered = repeatedPassword != "";
+const Form = () => {
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
+    const {email, setEmail, saveEmail} = useEmail();
+    const [errorName, setErrorName] = useState("");
+    const [errorPassword, setErrorPassword] = useState("");
+    const [errorEmail, setErrorEmail] = useState("");
+    const [pending, setPending] = useState(false);
+    const [policyBoxChecked, setPolicyBoxChecked] = useState(false);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    setErrorsFromOtherPages(location, {"email": setErrorEmail, "password": setErrorPassword, "name": setErrorName});
+
+    const showPopup = (error) => {
+        alert(error);
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        try {
+        saveEmail(email);
+        } catch (err) {
+        setErrorEmail(err.message);
+        return;
+        }
+
+        if (!validatePassword(password, setErrorPassword)) return;
+        if (!validateName(name, setErrorName)) return;
+
+        const setters = {"email": setErrorEmail, "password": setErrorPassword, "name": setErrorName};
+        tryGetCode(email, name, password, showPopup, setters, setPending, navigate);
+    };
 
     return (
-      isEmailEntered &&
-      isPasswordEntered &&
-      isRepeatedPasswordEntered &&
-      passwordsMatches()
-    );
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Setup: " + email);
-    signUpEmailCode(email, name)
-      .then((response) => {
-        console.log(response);
-        navigate("/auth/sign-up/email-code", {
-          state: { email: email, name: name, password: password },
-        });
-      })
-      .catch((err) => {
-        alert("error happened");
-      });
-  };
-
-  return (
-    <>
-      <div className={styles.background}>
-        <div className={styles.mainPage}>
-          <Logo></Logo>
-          <h1 className={styles.title1}>Создание аккаунта</h1>
+        <>
           <form id="sign-up" onSubmit={handleSubmit}>
-            <Input data={name} setData={setName} placeholder="Ваше имя" />
+            <Input 
+              data={name} 
+              setData={setName} 
+              placeholder="Ваше имя" 
+              error={errorName}
+              clearError={() => {setErrorName("");}}
+            />
+            <Input
+              data={email}
+              setData={setEmail}
+              placeholder="Электронная почта"
+              error={errorEmail}
+              clearError={() => {setErrorEmail("");}}
+            />
             <Input
               data={password}
               setData={setPassword}
-              placeholder="Придумайте пароль"
-            />
-            <Input
-              data={repeatedPassword}
-              setData={setRepeatedPassword}
-              placeholder="Повторите пароль"
+              placeholder="Пароль"
+              error={errorPassword}
+              clearError={() => {setErrorPassword("");}}
             />
           </form>
+            <input
+              type="checkbox"
+              name="policyAcception"
+              className="mr-2 ml-2"
+              checked={setPolicyBoxChecked}
+              onChange={() => setPolicyBoxChecked(!policyBoxChecked)}
+            ></input>
+            <h2 className={styles.discription}>
+              Я прочитал(а) условия <br />
+              <strong className="text-black">
+                <a className={styles.repeatLink} href="">
+                  пользовательского соглашения
+                </a>
+                и 
+                <a className={styles.repeatLink} href="">
+                  политики конфиденциальности
+                </a>
+              </strong>
+            </h2>
           <button
             className={styles.button}
-            disabled={!buttonEnabled()}
             form="sign-up"
             type="submit"
+            disabled={pending || (!policyBoxChecked)}
           >
             Продолжить
           </button>
-        </div>
-      </div>
-    </>
+        </>
+    );
+}
+
+
+function CreateAccount() {
+  return (
+    <Base header="Войдите в аккаунт" children={<Form />}/>
   );
 }
 
-export default SetupAccount;
+export default CreateAccount;

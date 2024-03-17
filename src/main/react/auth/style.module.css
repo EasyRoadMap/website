@@ -110,6 +110,13 @@
   color: black;
   font-size: 2vh;
 }
+.forgotPasswordDisabled {
+  text-align: center;
+  margin-top: 2vh;
+  text-decoration: underline;
+  color: rgba(0, 0, 0, .5);
+  font-size: 2vh;
+}
 .input {
   width: 40vw;
   height: 6vh;
@@ -194,4 +201,10 @@ input::placeholder {
 .repeatLink {
   text-decoration: underline;
   color: rgb(0, 0, 0, 0.75);
+}
+.errorText {
+  font-size: 1.5vh;
+  color: #FF4848;
+  padding-bottom: 0.5vh;
+  font-weight: normal;
 }
