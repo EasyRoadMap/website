@@ -1,55 +1,57 @@
 .input {
-    width: 25vw;
-    height: 6vh;
-    border-radius: 15px;
-    border-style: solid;
-    border-width: 1px;
-    margin-bottom: 0.5vh;
-    text-align: center;
-    background-color: white;
-    border-color: #e7e7e7;
-    display: flex;
-    flex-direction: column;
+  width: 25vw;
+  height: 6vh;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 1px;
+  margin-bottom: 0.5vh;
+  text-align: left;
+  background-color: white;
+  padding-left: 2vh;
+  padding-right: 2vh;
+  border-color: #e7e7e7;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 .input::placeholder {
-    text-align: left;
-    padding-left: 2vh;
-    font-size: 2vh;
-    color: #858585;
+  font-size: 2vh;
+  padding-left: 0;
+  color: #858585;
 }
 
 .input:active {
-    border-color: #0066FE;
+  border-color: #0066fe;
 }
 .input:active::placeholder {
-    color: #0066FE;
+  color: #0066fe;
 }
 
 .input:hover {
-    border-color: #e7e7e7;
+  border-color: #e7e7e7;
 }
 .input:hover::placeholder {
-    color: #858585;
+  color: #858585;
 }
 
 .input:disabled {
-    background-color: #E7E7E7;
-    border-color: #858585;
+  background-color: #e7e7e7;
+  border-color: #858585;
 }
 .input:disabled::placeholder {
-    color: #858585;
+  color: #858585;
 }
 
 .error {
-    border-color: #FF4848;
+  border-color: #ff4848;
 }
 .error::placeholder {
-    color: #FF4848;
+  color: #ff4848;
 }
 
 h3 {
-    font-size: 1.5vh;
-    color: #FF4848;
-    padding-bottom: 0.5vh;
-    font-weight: normal;
+  font-size: 1.5vh;
+  color: #ff4848;
+  padding-bottom: 0.5vh;
+  font-weight: normal;
 }

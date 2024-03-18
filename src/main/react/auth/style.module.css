@@ -102,6 +102,7 @@
   border-radius: 15px;
   text-align: center;
   font-size: 5vh;
+  caret-color: transparent;
 }
 .forgotPassword {
   text-align: center;
@@ -114,7 +115,7 @@
   text-align: center;
   margin-top: 2vh;
   text-decoration: underline;
-  color: rgba(0, 0, 0, .5);
+  color: rgba(0, 0, 0, 0.5);
   font-size: 2vh;
 }
 .input {
@@ -204,7 +205,7 @@ input::placeholder {
 }
 .errorText {
   font-size: 1.5vh;
-  color: #FF4848;
+  color: #ff4848;
   padding-bottom: 0.5vh;
   font-weight: normal;
 }

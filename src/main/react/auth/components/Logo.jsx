@@ -7,9 +7,11 @@ export default function Logo() {
       {/* <div className={styles.logo}></div> */}
       <LogoSVG className={styles.logo}/>
       <h1 className={styles.TitleLogo}>
-        Easy
+        EASY
         <br />
-        RoadMap
+        ROAD
+        <br/>
+        MAP
       </h1>
     </div>
   );
