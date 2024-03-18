@@ -9,6 +9,12 @@ const autoCompleteName = {
   password: "current-password",
 };
 
+const translation = {
+  name: "имя",
+  email: "email",
+  password: "пароль",
+};
+
 export default function Input({
   data,
   setData,
@@ -19,12 +25,13 @@ export default function Input({
 }) {
   const inputStyle = error ? styles.error : "";
 
+  console.log(typeOfInput);
+
   const changeValue = (e) => {
     setData(e.target.value);
     if (clearError) clearError();
   };
 
-  const [password, setPassword] = useState("");
   const [type, setType] = useState(typeOfInput);
   const [icon, setIcon] = useState(eyeOffSVG);
 
@@ -41,14 +48,18 @@ export default function Input({
   return (
     <>
       <div className={styles.inputWrapper}>
-        <input
-          type={type}
-          className={[styles.input, inputStyle].join(" ")}
-          placeholder={placeholder}
-          onChange={changeValue}
-          value={data}
-          autoComplete={autoCompleteName[typeOfInput]}
-        ></input>
+        <div className={styles.inputWithTextWrapper}>
+          <label className={styles.label}>{translation[typeOfInput]}</label>
+          <input
+            type={type}
+            className={[styles.input, inputStyle].join(" ")}
+            placeholder={placeholder}
+            onChange={changeValue}
+            value={data}
+            autoComplete={autoCompleteName[typeOfInput]}
+          ></input>
+        </div>
+
         <div>
           {typeOfInput === "password" && (
             <div onClick={handleToggle} className={styles.iconSVG}>

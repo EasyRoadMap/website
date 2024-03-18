@@ -1,9 +1,10 @@
 import * as React from "react";
 const eyeSVG = (props) => (
   <svg
-    width={40}
-    height={40}
-    viewBox="0 0 24 24"
+    style={{ width: "100%", height: "100%" }}
+    width={19}
+    height={19}
+    viewBox="0 0 19 19"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
