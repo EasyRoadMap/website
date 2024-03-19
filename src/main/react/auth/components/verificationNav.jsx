@@ -1,12 +1,8 @@
-import styles from "../style.module.css";
+import styles from "./verificationNav.module.css";
 import React, { useState, useRef } from "react";
 
-const VerificationCodeInput = ({
-  code,
-  setCode,
-  error,
-  clearError
-}) => {
+const VerificationCodeInput = ({ code, setCode, error, clearError }) => {
+  const inputStyle = error ? styles.error : "";
   const codeRefs = useRef([
     React.createRef(),
     React.createRef(),
@@ -72,7 +68,7 @@ const VerificationCodeInput = ({
           key={index}
           type="text"
           maxLength="1"
-          className={styles.verification}
+          className={[styles.verification, inputStyle].join(" ")}
           value={value}
           onChange={(event) => handleChange(index, event)}
           onKeyDown={(event) => {

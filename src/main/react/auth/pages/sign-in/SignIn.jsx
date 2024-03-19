@@ -1,4 +1,5 @@
 import styles from "../../style.module.css";
+import styleBtn from "../../pages/button.module.css";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { signIn } from "../../api/SignIn.js";
@@ -145,7 +146,7 @@ const Form = () => {
       <button
         type="submit"
         form="login"
-        className={styles.button}
+        className={styleBtn.buttonFilledAccent}
         disabled={pending}
       >
         Войти

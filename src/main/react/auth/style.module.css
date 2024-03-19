@@ -89,66 +89,35 @@
   font-size: 2vh;
   color: rgb(0, 0, 0, 0.5);
 }
-.verification {
-  width: 6.5vh;
-  height: 8vh;
-  border-style: solid;
-  border-color: #858585;
-  background-color: white;
-  margin-left: 0.5vh;
-  margin-right: 0.5vh;
-  margin-bottom: 2vh;
-  margin-top: 2vh;
-  border-radius: 15px;
-  text-align: center;
-  font-size: 5vh;
-  caret-color: transparent;
-}
 .forgotPassword {
-  text-align: center;
-  margin-top: 2vh;
+  text-align: right;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+}
+.forgotPassword:hover {
+  cursor: pointer;
   text-decoration: underline;
-  color: black;
-  font-size: 2vh;
+}
+.forgotPassword:active {
+  opacity: 75%;
+  cursor: pointer;
+  text-decoration: underline;
 }
 .forgotPasswordDisabled {
-  text-align: center;
-  margin-top: 2vh;
-  text-decoration: underline;
   color: rgba(0, 0, 0, 0.5);
-  font-size: 2vh;
 }
-.input {
-  width: 40vw;
-  height: 6vh;
-  border-radius: 15px;
-  border-style: solid;
-  border-color: #858585;
-  border-width: 1px;
-  margin-bottom: 1vh;
-  text-align: center;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  max-width: 300px;
-}
-
-input::placeholder {
-  text-align: left;
-  padding-left: 2vh;
-  font-size: 2vh;
-  color: #858585;
-}
-
 .checkbox {
-  width: 40px;
-  height: 40.93px;
+  width: 32px;
+  height: 32px;
 }
 
 .checkbox + label {
   display: inline-flex;
   align-items: center;
-  user-select: none;
+  font-size: 16px;
+  font-weight: normal;
+  border-radius: 12px;
 }
 .checkbox + label::before {
   content: "";
@@ -196,7 +165,7 @@ input::placeholder {
 }
 /* стили для чекбокса, находящегося в состоянии disabled */
 .checkbox:disabled + label::before {
-  background-color: #e9ecef;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .repeatLink {
