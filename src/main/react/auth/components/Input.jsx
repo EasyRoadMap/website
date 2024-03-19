@@ -1,6 +1,7 @@
 import styles from "./input.module.css";
 import eyeSVG from "../../assets/eye.jsx";
 import eyeOffSVG from "../../assets/eyeOff.jsx";
+import ErrorTooltip from "./ErrorTooltip.jsx";
 import { useState } from "react";
 
 const autoCompleteName = {
@@ -24,6 +25,7 @@ export default function Input({
   typeOfInput,
 }) {
   const inputStyle = error ? styles.error : "";
+  const inputWithContentStyle = data ? styles.inputWithContent : "";
 
   console.log(typeOfInput);
 
@@ -34,6 +36,7 @@ export default function Input({
 
   const [type, setType] = useState(typeOfInput);
   const [icon, setIcon] = useState(eyeOffSVG);
+  const [active, setActive] = useState(false);
 
   const handleToggle = () => {
     if (type === "password") {
@@ -52,11 +55,13 @@ export default function Input({
           <label className={styles.label}>{translation[typeOfInput]}</label>
           <input
             type={type}
-            className={[styles.input, inputStyle].join(" ")}
+            className={[styles.input, inputWithContentStyle, inputStyle].join(" ")}
             placeholder={placeholder}
             onChange={changeValue}
             value={data}
             autoComplete={autoCompleteName[typeOfInput]}
+            onFocus={() => setActive(true)}
+            onBlur={() => setActive(false)}
           ></input>
         </div>
 
@@ -68,8 +73,8 @@ export default function Input({
           )}
         </div>
       </div>
-
-      <h3 className={styles.errorText}>{error}</h3>
+      
+      <ErrorTooltip isShown={active && error} errorText={error}/>
     </>
   );
 }

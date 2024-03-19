@@ -1,3 +1,5 @@
+@import "../theme.module.css";
+
 .input {
   width: 25vw;
   height: 6vh;
@@ -25,11 +27,12 @@
   display: flex;
   align-items: center;
 }
+
 .inputWithTextWrapper label {
   position: absolute;
   top: -10px;
   left: 23px;
-  padding: 2px;
+  padding: 4px;
   z-index: 1;
   font-size: 14px;
   font-weight: 500;
@@ -45,6 +48,7 @@
   left: 0;
   bottom: 0;
   z-index: -1;
+  border-radius: 12px;
 }
 
 .input:active {
@@ -55,25 +59,31 @@
 }
 
 .input:hover {
-  border-color: #e7e7e7;
+  border-color: #0066fe;
 }
 .input:hover::placeholder {
   color: #858585;
 }
 
 .input:disabled {
-  background-color: #e7e7e7;
-  border-color: #858585;
+  .inputWrapper {
+    opacity: .3;
+  }
 }
-.input:disabled::placeholder {
-  color: #858585;
+
+.inputWithContent {
+  color:rgba(0, 0, 0, 1);
 }
 
 .error {
   border-color: #ff4848;
+  color: #ff0000;
 }
 .error::placeholder {
-  color: #ff4848;
+  color: rgba(0, 0, 0, .5);
+}
+.error:hover {
+
 }
 
 h3 {
@@ -93,4 +103,33 @@ h3 {
   align-items: center;
   justify-content: center;
   width: 30px;
+}
+.tooltip {
+  position: absolute;
+  height: 50px;
+  width: 100%;
+  z-index: 999;
+  border-radius: 12px;
+  background-image: linear-gradient(rgba(241, 64, 58, .15), rgba(241, 64, 58, .15)),
+                    linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));
+                    
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  width: 25vw;
+}
+.tooltipLogo {
+  margin-left: calc(2vh - 10px);
+  margin-right: calc(2vh - 10px);
+}
+.tooltipText {
+  font-size: 14px;
+  color: #ff0000;
+}
+.tooltipTriangle {
+  height: 7px;
+  width: 10px;
+  position: absolute;
+  top: -7px;
+  left: 2vh;
 }

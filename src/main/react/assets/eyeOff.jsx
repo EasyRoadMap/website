@@ -1,4 +1,3 @@
-import * as React from "react";
 const eyeOffSVG = (props) => (
   <svg
     style={{ width: "100%", height: "100%" }}

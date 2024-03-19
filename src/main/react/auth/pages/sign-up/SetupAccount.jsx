@@ -21,7 +21,7 @@ const validateName = (name, setErrorName) => {
   return false;
 }
 
-const tryGetCode = (email, name, password, showPopup, setters, setPending, navigate) => {
+const tryGetCode = (email, name, password, showPopup, setters, navigateLinks, setPending, navigate) => {
   setPending(true);
 
   signUpEmailCode(email, name)
@@ -32,7 +32,7 @@ const tryGetCode = (email, name, password, showPopup, setters, setPending, navig
     })
     .catch((err) => {
       const errData = err.response.data;
-      errorsHandler(errData, showPopup, setters);
+      errorsHandler(errData, showPopup, setters, navigateLinks);
     }).finally(() => {
       setPending(false);
     })
@@ -74,7 +74,8 @@ const Form = () => {
         if (!validateName(name, setErrorName)) return;
 
         const setters = {"email": setErrorEmail, "password": setErrorPassword, "name": setErrorName};
-        tryGetCode(email, name, password, showPopup, setters, setPending, navigate);
+        const navigateLinks = {"email": "/auth/sign-in"}
+        tryGetCode(email, name, password, showPopup, setters, navigateLinks, setPending, navigate);
     };
 
     return (
