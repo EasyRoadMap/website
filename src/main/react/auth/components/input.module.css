@@ -2,11 +2,10 @@
 
 .input {
   width: 25vw;
-  height: 6vh;
+  height: 43px;
   border-radius: 15px;
   border-style: solid;
   border-width: 1px;
-  margin-top: 12px;
   text-align: left;
   background-color: white;
   color: var(--text-color);
@@ -46,6 +45,7 @@
 
 .inputWithTextWrapper {
   position: relative;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
 }
@@ -54,11 +54,11 @@
   position: absolute;
   top: -10px;
   left: 23px;
-  padding: 4px;
   z-index: 1;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: normal;
   display: inline-block;
+  font-weight: normal;
 }
 .inputWithTextWrapper label:after {
   content: " ";
@@ -71,7 +71,6 @@
   z-index: -1;
   border-radius: 12px;
 }
-
 .inputWithContent {
   color: #404040;
 }
@@ -98,9 +97,10 @@ h3 {
   position: relative;
 }
 .iconSVG {
-  position: absolute; /* Абсолютное позиционирование */
-  top: 50%; /* Выравниваем по вертикали */
-  right: 10px; /* Сдвигаем вправо */
+  position: absolute;
+  display: flex;
+  top: 50%;
+  right: 10px;
   transform: translateY(-50%);
   align-items: center;
   justify-content: center;

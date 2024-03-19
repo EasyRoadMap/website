@@ -79,7 +79,7 @@ body {
   text-align: center;
   font-weight: bold;
   margin-top: 36px;
-  margin-bottom: 24px;
+  margin-bottom: 36px;
   /* color: rgb(0, 0, 0); */
   color: var(--text-color);
   transition: background-color 300ms linear;
@@ -91,7 +91,7 @@ body {
   color: rgb(0, 0, 0, 0.5);
 }
 .forgotPassword {
-  margin-top: 6px;
+  margin-top: -6px;
   text-align: right;
   font-weight: normal;
   color: rgba(0, 0, 0, 0.5);
@@ -131,7 +131,7 @@ body {
   border: 1px solid #adb5bd;
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 12px;
-  margin-right: 0.5em;
+  margin-right: 12px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50% 50%;
