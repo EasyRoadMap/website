@@ -7,28 +7,40 @@
   font-family: "Golos Text", sans-serif;
   border-radius: 0;
 }
-.background {
-  /* background: linear-gradient(white, #0066fe); */
-  background-image: var(--bg-color);
+body {
   width: 100vw;
   height: 100vh;
+}
+.background {
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
   display: flex;
+  z-index: -100;
   justify-content: center;
   align-items: center;
+}
+.backgroundSVG {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: -100;
+  left: 0;
+  top: 0;
 }
 .mainPage {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: auto;
-  /* background-color: white; */
   background-color: var(--color-form);
   transition: background-color 200ms linear;
   height: 80%;
   position: absolute;
-  padding: 17vh 50px 0 50px;
+  padding: 90px 50px 0 50px;
   /* right: 0; */
-  border-radius: 20px;
+  border-radius: 48px;
 }
 .button_theme {
   width: 4vh;
@@ -61,24 +73,13 @@
   position: absolute;
   z-index: 1;
 }
-.button {
-  width: 40vw;
-  height: 6vh;
-  border-radius: 15px;
-  border: none;
-  margin-top: 0.5vh;
-  color: white;
-  background-color: #0066fe;
-  font-size: 2vh;
-  max-width: 300px;
-}
 .title {
   width: 40vh;
-  font-size: 3vh;
+  font-size: 32px;
   text-align: center;
-  font-weight: Semibold;
-  margin-top: 3vh;
-  margin-bottom: 3vh;
+  font-weight: bold;
+  margin-top: 36px;
+  margin-bottom: 24px;
   /* color: rgb(0, 0, 0); */
   color: var(--text-color);
   transition: background-color 300ms linear;
@@ -90,6 +91,7 @@
   color: rgb(0, 0, 0, 0.5);
 }
 .forgotPassword {
+  margin-top: 6px;
   text-align: right;
   font-weight: normal;
   color: rgba(0, 0, 0, 0.5);
@@ -122,12 +124,13 @@
 .checkbox + label::before {
   content: "";
   display: inline-block;
-  width: 1.7vw;
-  height: 1.7vw;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
   flex-grow: 0;
   border: 1px solid #adb5bd;
-  border-radius: 0.25em;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
   margin-right: 0.5em;
   background-repeat: no-repeat;
   background-position: center center;

@@ -152,7 +152,7 @@ const Form = () => {
         Войти
       </button>
       <button
-        className={styles.button}
+        className={styleBtn.buttonOutlineAccent}
         onClick={() => {
           navigate("/auth/sign-up");
         }}
