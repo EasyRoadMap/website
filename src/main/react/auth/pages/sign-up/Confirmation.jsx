@@ -43,7 +43,7 @@ const tryCompleteSignUp = (
   signUp(email, password, name)
     .then((response) => {
       navigate("/auth/sign-up/complete", {
-        state: { password: password },
+        state: { password: password, haveAccess: true },
       });
     })
     .catch((err) => {

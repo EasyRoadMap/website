@@ -14,7 +14,7 @@ export const errorApplier = (error, setters) => {
     return true;
 }
 
-export const errorsHandler = (error, showPopup, setters, navigateLinks) => {
+export const errorsHandler = (error, showPopup, setters, navigateLinks, navigate) => {
     if (!error.error_code) {
         return null;
     }
@@ -24,7 +24,6 @@ export const errorsHandler = (error, showPopup, setters, navigateLinks) => {
     const {field, description} = getError(error);
 
     if (field in navigateLinks) {
-        const navigate = useNavigate();
         navigate(navigateLinks[field], {state: {error: {[field]: description}}});
         return true;
     } else if (field === "popup") {

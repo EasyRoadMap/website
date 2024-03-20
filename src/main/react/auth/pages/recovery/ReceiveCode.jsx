@@ -5,7 +5,7 @@ import { errorsHandler } from "../../utils/errorsHandler.js";
 const tryConfirmEmail = (email, code, showPopup, setters, navigateLinks, navigate) => {
   RecoveryConfirmEmail(email, code)
   .then((response) => {
-    navigate("/auth/recovery/change-password");
+    navigate("/auth/recovery/change-password", {state: {haveAccess: true}});
   })
   .catch((err) => {
     const errData = err.response.data;

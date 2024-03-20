@@ -1,12 +1,13 @@
 import styles from "../style.module.css";
 import styleBtn from "../pages/button.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { useEmail } from "../hooks/useEmail.js";
 
 import Base from "./Base.jsx";
 import VerificationCodeInput from "../components/verificationNav.jsx";
+import ErrorPopup from "../components/ErrorPopup.jsx";
 
 const validateCode = (code, setCodeError) => {
   if (getCode(code).length === 6) return true;
@@ -18,10 +19,17 @@ const getCode = (code) => {
   return code.join("");
 };
 
+const preventUnacceptableEnter = (location, navigate) => {
+  if (!location.state?.haveAccess) {
+    navigate("/auth/sign-in");
+  }
+}
+
 const Form = ({ APICallback, linksToPagesThatCanIncludeErrors }) => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [errorCode, setErrorCode] = useState("");
   const [pending, setPending] = useState(false);
+  const [popupError, setPopupError] = useState("");
 
   const { email } = useEmail();
 
@@ -30,8 +38,12 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors }) => {
   const password = location.state?.password;
   const name = location.state?.name;
 
+  useEffect(() => {
+    preventUnacceptableEnter(location, navigate);
+  }, []);
+
   const showPopup = (error) => {
-    alert(error);
+    setPopupError(error);
   };
 
   const handleSubmit = (e) => {
@@ -79,9 +91,11 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors }) => {
           error={errorCode}
           clearError={() => {
             setErrorCode("");
+            setPopupError("");
           }}
         />
       </form>
+      <ErrorPopup isShown={popupError !== ""} errorText={popupError}/>
       <button
         className={styleBtn.buttonFilledAccent}
         form="confirm"

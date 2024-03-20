@@ -1,6 +1,6 @@
 import styles from "../../style.module.css";
 import styleBtn from "../../pages/button.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { signIn } from "../../api/SignIn.js";
 
@@ -8,13 +8,16 @@ import { useEmail } from "../../hooks/useEmail.js";
 
 import Base from "../Base.jsx";
 import Input from "../../components/Input.jsx";
+import ErrorPopup from "../../components/ErrorPopup.jsx";
 import { errorsHandler, errorApplier } from "../../utils/errorsHandler.js";
 import { RecoveryEmailCode } from "../../api/RecoveryEmailCode.js";
 import ForgotPasswordButton from "../../components/ForgotPasswordButton.jsx";
 
 const validatePassword = (password, setErrorPassword) => {
   if (password.length >= 8 && password.length <= 128) return true;
-  setErrorPassword("Пароль должен быть не менее 8 и не более 128 символов");
+  if (password.length < 8) setErrorPassword("Пароль должен быть не менее 8 символов");
+  if (password.length > 128) setErrorPassword("Пароль должен быть не более 128 символов");
+
   return false;
 };
 
@@ -37,7 +40,7 @@ const tryGetRecovery = (email, showPopup, setters, navigate, setPending) => {
   setPending(true);
   RecoveryEmailCode(email)
     .then((response) => {
-      navigate("/auth/recovery/email-code");
+      navigate("/auth/recovery/email-code", {state: {haveAccess: true}});
     })
     .catch((err) => {
       const errData = err.response.data;
@@ -69,19 +72,21 @@ const Form = () => {
   const [errorEmail, setErrorEmail] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
   const [pending, setPending] = useState(false);
+  const [popupError, setPopupError] = useState("");
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  setErrorsFromOtherPages(location, {
-    email: setErrorEmail,
-    password: setErrorPassword,
-  });
+  useEffect(() => {
+    setErrorsFromOtherPages(location, {
+      email: setErrorEmail,
+      password: setErrorPassword,
+    });
+  }, []);
 
   const showPopup = (error) => {
-    alert(error);
+    setPopupError(error);
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateEmail(email, saveEmail, setErrorEmail)) return;
@@ -90,27 +95,28 @@ const Form = () => {
     const setters = { email: setErrorEmail, password: setErrorPassword };
     trySignIn(email, password, check, showPopup, setters, setPending);
   };
-
   return (
     <>
       <form id="login" onSubmit={handleSubmit}>
         <Input
           data={email}
           setData={setEmail}
-          placeholder="user@example.com"
+          placeholder="Электронная почта"
           error={errorEmail}
           clearError={() => {
             setErrorEmail("");
+            setPopupError("");
           }}
           typeOfInput="email"
         />
         <Input
           data={password}
           setData={setPassword}
-          placeholder="••••••••"
+          placeholder="Пароль"
           error={errorPassword}
           clearError={() => {
             setErrorPassword("");
+            setPopupError("");
           }}
           typeOfInput="password"
         />
@@ -143,6 +149,7 @@ const Form = () => {
           Запомни меня!
         </label>
       </form>
+      <ErrorPopup isShown={popupError !== ""} errorText={popupError}/>
       <button
         type="submit"
         form="login"

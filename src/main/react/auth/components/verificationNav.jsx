@@ -1,8 +1,10 @@
 import styles from "./verificationNav.module.css";
 import React, { useState, useRef } from "react";
+import ErrorTooltip from "./ErrorTooltip.jsx";
 
 const VerificationCodeInput = ({ code, setCode, error, clearError }) => {
   const inputStyle = error ? styles.error : "";
+  const [active, setActive] = useState(false);
   const codeRefs = useRef([
     React.createRef(),
     React.createRef(),
@@ -78,9 +80,13 @@ const VerificationCodeInput = ({ code, setCode, error, clearError }) => {
           onPaste={pasteCode}
           ref={codeRefs.current[index]}
           placeholder="_"
+          onFocus={() => setActive(true)}
+          onBlur={() => setActive(false)}
         />
       ))}
-      <h3 className={styles.errorText}>{error}</h3>
+      {/* <h3 className={styles.errorText}>{error}</h3> */}
+
+      <ErrorTooltip isShown={active && error} errorText={error}/>
     </div>
   );
 };

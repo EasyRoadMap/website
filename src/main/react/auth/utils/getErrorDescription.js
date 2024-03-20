@@ -45,7 +45,7 @@ const errorsWithoutField = {
     },
     "bad_credentials": {
         description: "Неправильный логин или пароль",
-        field: [fields.email, fields.password]
+        field: fields.popup
     },
     "provider_not_found": {
         description: "Сервис в данный момент недоуступен, попробуйте позже",

@@ -28,20 +28,28 @@
   cursor: pointer;
   border: none;
 }
-.input:active {
-  opacity: 75%;
-  background-color: rgba(0, 0, 0, 0.05);
-  border: none;
-}
 .input:focus {
   border-style: solid;
   border-color: rgb(0, 102, 254);
   background-color: rgb(0, 102, 254, 0.03);
 }
+.input:active {
+  opacity: 75%;
+  background-color: rgba(0, 0, 0, 0.05);
+  border: none;
+}
 .input:disabled {
   .inputWrapper {
     opacity: 0.3;
   }
+}
+.input[type=text] {   
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.input {
+  outline: none;
 }
 
 .inputWithTextWrapper {
@@ -60,6 +68,7 @@
   font-weight: normal;
   display: inline-block;
   font-weight: normal;
+  padding: 2px;
 }
 .inputWithTextWrapper label:after {
   content: " ";
@@ -107,11 +116,13 @@ h3 {
   justify-content: center;
   width: 19px;
   height: 19px;
+  cursor: pointer;
 }
 .tooltip {
   position: absolute;
-  height: 50px;
-  width: 100%;
+  /* min-height: 50px; */
+  /* margin-top: 5px; */
+  width: 420px;
   z-index: 999;
   border-radius: 12px;
   background-image: linear-gradient(
@@ -120,13 +131,12 @@ h3 {
     ),
     linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));
 
-  margin-top: 5px;
   display: flex;
   align-items: center;
-  width: 25vw;
+  padding: calc(2vh - 10px);
 }
 .tooltipLogo {
-  margin-left: calc(2vh - 10px);
+  height: 100%;
   margin-right: calc(2vh - 10px);
 }
 .tooltipText {
@@ -139,4 +149,28 @@ h3 {
   position: absolute;
   top: -7px;
   left: 2vh;
+}
+
+
+.popup {
+  width: 420px;
+  border-radius: 12px;
+  background-image: linear-gradient(
+      rgba(241, 64, 58, 0.15),
+      rgba(241, 64, 58, 0.15)
+    ),
+    linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));
+
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin-top: 12px;
+}
+.popupLogo {
+  height: 100%;
+  margin-right: 12px;
+}
+.popupText {
+  font-size: 16px;
+  color: #ff0000;
 }

@@ -5,7 +5,9 @@ import Triangle from "../../assets/TriangleForMessages.jsx";
 export default function ErrorTooltip({errorText, isShown}) {
   return (
     <div className={styles.tooltip} style={{display: isShown ? "flex" : "none"}}>
-        <Error className={styles.tooltipLogo}/>
+        <div className={styles.tooltipLogo}>
+          <Error />
+        </div>
         <span className={styles.tooltipText}>{errorText}</span>
         <Triangle 
             color="#FFFFFF"

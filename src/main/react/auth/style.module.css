@@ -101,6 +101,7 @@ h2 {
 .descriptionBottom {
   width: 420px;
   margin-top: 12px;
+  cursor: pointer;
 }
 .discriptionPrivacyPolicy {
   max-width: 420px;
@@ -155,40 +156,40 @@ h2 {
 .checkbox:checked + label::before {
   border-color: #0b76ef;
   background-color: #0b76ef;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAyMCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEgNS42MTUzOEw3Ljg1NzE0IDEzTDE5IDEiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=");
 }
 .checkbox {
   position: absolute;
   z-index: -1;
   opacity: 0;
+  cursor: pointer;
 }
 /* стили для активного состояния чекбокса (при нажатии на него) */
 .checkbox:not(:disabled):active + label::before {
   opacity: 75%;
   background-color: #0b76ef;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAyMCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEgNS42MTUzOEw3Ljg1NzE0IDEzTDE5IDEiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=");
 }
 /* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
-.checkbox:focus:not(:checked) + label::before {
+.checkbox:not(:checked):focus + label::before {
   opacity: 75%;
-  background-color: #0b76ef;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+  background-color: rgba(0, 0, 0, 0.15);
+  background-image: none;
 }
 /* стили для чекбокса, находящегося в фокусе */
 .checkbox:focus + label::before {
   opacity: 75%;
   background-color: #0b76ef;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
 }
 /* стили для чекбокса, находящегося в состоянии disabled */
 .checkbox:disabled + label::before {
   opacity: 30%;
   background-color: #0b76ef;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
 }
 /* стили при наведении курсора на checkbox */
-.checkbox:not(:disabled):not(:checked) + label:hover::before {
+.checkbox:not(:disabled):not(:checked):hover + label::before {
   background-color: rgba(0, 0, 0, 0.15);
+  background-image: none;
 }
 .checkbox + label::before:hover {
   background-color: rgba(0, 0, 0, 0.15);
@@ -206,6 +207,7 @@ h2 {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 50% 50%;
+  cursor: pointer;
 }
 
 .checkboxWrapper {
@@ -216,6 +218,7 @@ h2 {
   color: rgb(0, 0, 0);
   font-size: 16px;
   font-weight: normal;
+  cursor: pointer;
 }
 .repeatLinkPrivacyPolicy:hover {
   text-decoration: underline;

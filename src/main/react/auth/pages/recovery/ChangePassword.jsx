@@ -1,93 +1,78 @@
 import styles from "../../style.module.css";
 import styleBtn from "../../pages/button.module.css";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { useEmail } from "../../hooks/useEmail.js";
 
 import Base from "../Base.jsx";
 import Input from "../../components/Input.jsx";
+import ErrorPopup from "../../components/ErrorPopup.jsx";
 import { errorsHandler } from "../../utils/errorsHandler.js";
 import { RecoverySetPassword } from "../../api/RecoverySetPassword.js";
+
+const preventUnacceptableEnter = (location, navigate) => {
+  if (!location.state?.haveAccess) {
+    navigate("/auth/sign-in");
+  }
+}
 
 const validatePassword = (password, setErrorPassword) => {
   if (password.length >= 8 && password.length <= 128) return true;
   setErrorPassword("Пароль должен быть не менее 8 и не более 128 символов");
   return false;
-};
+}
 
-const validateRepeatedPassword = (
-  password,
-  repeatedPassword,
-  setErrorRepeatedPassword
-) => {
-  if (repeatedPassword === password) return true;
-  setErrorRepeatedPassword("Пароли не совпадают");
-  return false;
-};
+const validateRepeatedPassword = (password, repeatedPassword, setErrorRepeatedPassword) => {
+    if (repeatedPassword === password) return true;
+    setErrorRepeatedPassword("Пароли не совпадают");
+    return false;
+} 
 
-const trySetPassword = (
-  email,
-  password,
-  showPopup,
-  setters,
-  navigateLinks,
-  setPending,
-  navigate
-) => {
+const trySetPassword = (email, password, showPopup, setters, navigateLinks, setPending, navigate) => {
   setPending(true);
   RecoverySetPassword(email, password)
-    .then((response) => {
-      navigate("/auth/recovery/complete", { state: { password: password } });
-    })
-    .catch((err) => {
-      const errData = err.response.data;
-      errorsHandler(errData, showPopup, setters, navigateLinks);
-    })
-    .finally(() => {
-      setPending(false);
-    });
-};
+      .then((response) => {
+        navigate("/auth/recovery/complete", {state: {password: password, haveAccess: true}})
+      })
+      .catch((err) => {
+        const errData = err.response.data;
+        errorsHandler(errData, showPopup, setters, navigateLinks);
+      }).finally(() => {
+        setPending(false);
+      })
+}
 
 const Form = () => {
-  const [password, setPassword] = useState("");
-  const [repeatedPassword, setRepeatedPassword] = useState("");
-  const [errorPassword, setErrorPassword] = useState("");
-  const [errorRepeatedPassword, setErrorRepeatedPassword] = useState("");
-  const [pending, setPending] = useState(false);
-  const { email } = useEmail();
+    const [password, setPassword] = useState("");
+    const [repeatedPassword, setRepeatedPassword] = useState("");
+    const [errorPassword, setErrorPassword] = useState("");
+    const [errorRepeatedPassword, setErrorRepeatedPassword] = useState("");
+    const [pending, setPending] = useState(false);
+    const {email} = useEmail();
+    const [popupError, setPopupError] = useState("");
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-  const showPopup = (error) => {
-    alert(error);
-  };
+    useEffect(() => {
+      preventUnacceptableEnter(location, navigate);
+    }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    const showPopup = (error) => {
+        setPopupError(error);
+    }
 
-    if (!validatePassword(password, setErrorPassword)) return;
-    if (
-      !validateRepeatedPassword(
-        password,
-        repeatedPassword,
-        setErrorRepeatedPassword
-      )
-    )
-      return;
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    const setters = { password: setErrorPassword };
-    const navigateLinks = { email: "/auth/sign-in" };
-    trySetPassword(
-      email,
-      password,
-      showPopup,
-      setters,
-      navigateLinks,
-      setPending,
-      navigate
-    );
-  };
+        if (!validatePassword(password, setErrorPassword)) return;
+        if (!validateRepeatedPassword(password, repeatedPassword, setErrorRepeatedPassword)) return;
+
+        const setters = {"password": setErrorPassword};
+        const navigateLinks = {"email": "/auth/sign-in"};
+        trySetPassword(email, password, showPopup, setters, navigateLinks, setPending, navigate);
+    };
 
   return (
     <>
@@ -99,6 +84,7 @@ const Form = () => {
           error={errorPassword}
           clearError={() => {
             setErrorPassword("");
+            setPopupError("");
           }}
           typeOfInput={"password"}
         />
@@ -109,10 +95,12 @@ const Form = () => {
           error={errorRepeatedPassword}
           clearError={() => {
             setErrorRepeatedPassword("");
+            setPopupError("");
           }}
           typeOfInput={"password"}
         />
       </form>
+      <ErrorPopup isShown={popupError !== ""} errorText={popupError}/>
       <button
         type="submit"
         form="recovery"
@@ -126,7 +114,9 @@ const Form = () => {
 };
 
 function Recovery() {
-  return <Base header="Придумайте пароль" children={<Form />} />;
+  return (
+    <Base header="Придумайте пароль" children={<Form />}/>
+  );
 }
 
 export default Recovery;

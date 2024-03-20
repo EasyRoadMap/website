@@ -2,16 +2,27 @@ import styles from "../style.module.css";
 import styleBtn from "../pages/button.module.css";
 import Base from "./Base.jsx";
 import { trySignIn } from "../api/WorkspaceAddresser.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useEmail } from "../hooks/useEmail.js";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
+const preventUnacceptableEnter = (location, navigate) => {
+  if (!location.state?.haveAccess) {
+    navigate("/auth/sign-in");
+  }
+}
 
 function Form({ description, buttonText }) {
   const [check, setCheck] = useState(false);
   const [pending, setPending] = useState(false);
   const { email } = useEmail();
+  const navigate = useNavigate();
   const location = useLocation();
   const password = location.state?.password;
+
+  useEffect(() => {
+    preventUnacceptableEnter(location, navigate);
+  }, []);
 
   return (
     <>

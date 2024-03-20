@@ -1,12 +1,13 @@
 import styles from "../../style.module.css";
 import styleBtn from "../../pages/button.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { useEmail } from "../../hooks/useEmail.js";
 
 import Base from "../Base.jsx";
 import Input from "../../components/Input.jsx";
+import ErrorPopup from "../../components/ErrorPopup.jsx";
 import { errorsHandler, errorApplier } from "../../utils/errorsHandler.js";
 import { signUpEmailCode } from "../../api/SignUpEmailCode.js";
 
@@ -22,27 +23,18 @@ const validateName = (name, setErrorName) => {
   return false;
 };
 
-const tryGetCode = (
-  email,
-  name,
-  password,
-  showPopup,
-  setters,
-  navigateLinks,
-  setPending,
-  navigate
-) => {
+const tryGetCode = (email, name, password, showPopup, setters, navigateLinks, setPending, navigate) => {
   setPending(true);
 
   signUpEmailCode(email, name)
     .then((response) => {
       navigate("/auth/sign-up/email-code", {
-        state: { password: password, name: name },
+        state: { password: password, name: name, haveAccess: true },
       });
     })
     .catch((err) => {
       const errData = err.response.data;
-      errorsHandler(errData, showPopup, setters, navigateLinks);
+      errorsHandler(errData, showPopup, setters, navigateLinks, navigate);
     })
     .finally(() => {
       setPending(false);
@@ -54,57 +46,43 @@ const setErrorsFromOtherPages = (location, errorSetters) => {
 };
 
 const Form = () => {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const { email, setEmail, saveEmail } = useEmail();
-  const [errorName, setErrorName] = useState("");
-  const [errorPassword, setErrorPassword] = useState("");
-  const [errorEmail, setErrorEmail] = useState("");
-  const [pending, setPending] = useState(false);
-  const [policyBoxChecked, setPolicyBoxChecked] = useState(false);
+    const [name, setName] = useState("");
+    const [password, setPassword] = useState("");
+    const {email, setEmail, saveEmail} = useEmail();
+    const [errorName, setErrorName] = useState("");
+    const [errorPassword, setErrorPassword] = useState("");
+    const [errorEmail, setErrorEmail] = useState("");
+    const [pending, setPending] = useState(false);
+    const [policyBoxChecked, setPolicyBoxChecked] = useState(false);
+    const [popupError, setPopupError] = useState("");
 
-  const navigate = useNavigate();
-  const location = useLocation();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-  setErrorsFromOtherPages(location, {
-    email: setErrorEmail,
-    password: setErrorPassword,
-    name: setErrorName,
-  });
+    useEffect(() => {
+        setErrorsFromOtherPages(location, {"email": setErrorEmail, "password": setErrorPassword, "name": setErrorName});
+    }, []);
 
-  const showPopup = (error) => {
-    alert(error);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    try {
-      saveEmail(email);
-    } catch (err) {
-      setErrorEmail(err.message);
-      return;
+    const showPopup = (error) => {
+        setPopupError(error);
     }
 
-    if (!validatePassword(password, setErrorPassword)) return;
-    if (!validateName(name, setErrorName)) return;
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        try {
+        saveEmail(email);
+        } catch (err) {
+        setErrorEmail(err.message);
+        return;
+        }
 
-    const setters = {
-      email: setErrorEmail,
-      password: setErrorPassword,
-      name: setErrorName,
+        if (!validatePassword(password, setErrorPassword)) return;
+        if (!validateName(name, setErrorName)) return;
+
+        const setters = {"email": setErrorEmail, "password": setErrorPassword, "name": setErrorName};
+        const navigateLinks = {"email": "/auth/sign-in"}
+        tryGetCode(email, name, password, showPopup, setters, navigateLinks, setPending, navigate);
     };
-    const navigateLinks = { email: "/auth/sign-in" };
-    tryGetCode(
-      email,
-      name,
-      password,
-      showPopup,
-      setters,
-      navigateLinks,
-      setPending,
-      navigate
-    );
-  };
 
   return (
     <>
@@ -116,6 +94,7 @@ const Form = () => {
           error={errorName}
           clearError={() => {
             setErrorName("");
+            setPopupError("");
           }}
           typeOfInput="name"
         />
@@ -126,6 +105,7 @@ const Form = () => {
           error={errorEmail}
           clearError={() => {
             setErrorEmail("");
+            setPopupError("");
           }}
           typeOfInput="email"
         />
@@ -136,6 +116,7 @@ const Form = () => {
           error={errorPassword}
           clearError={() => {
             setErrorPassword("");
+            setPopupError("");
           }}
           typeOfInput="password"
         />
@@ -168,7 +149,7 @@ const Form = () => {
           </h2>
         </label>
       </div>
-
+      <ErrorPopup isShown={popupError !== ""} errorText={popupError}/>
       <button
         className={styleBtn.buttonFilledAccent}
         form="sign-up"
@@ -182,7 +163,9 @@ const Form = () => {
 };
 
 function CreateAccount() {
-  return <Base header="Войдите в аккаунт" children={<Form />} />;
+  return (
+    <Base header="Создайте аккаунт" children={<Form />}/>
+  );
 }
 
 export default CreateAccount;

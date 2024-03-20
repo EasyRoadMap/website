@@ -50,9 +50,10 @@ export default function Input({
 
   return (
     <>
-      <div className={styles.inputWrapper}>
-        <div className={styles.inputWithTextWrapper}>
-          <label className={styles.label}>{translation[typeOfInput]}</label>
+      
+      <div className={styles.inputWithTextWrapper}>
+        <label className={styles.label}>{translation[typeOfInput]}</label>
+        <div className={styles.inputWrapper}>
           <input
             type={type}
             className={[styles.input, inputWithContentStyle, inputStyle].join(" ")}
@@ -63,17 +64,15 @@ export default function Input({
             onFocus={() => setActive(true)}
             onBlur={() => setActive(false)}
           ></input>
-        </div>
-
-        <div>
-          {typeOfInput === "password" && (
-            <div onClick={handleToggle} className={styles.iconSVG}>
-              {icon}
-            </div>
-          )}
+          <div>
+            {typeOfInput === "password" && (
+              <div onClick={handleToggle} className={styles.iconSVG}>
+                {icon}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      
       <ErrorTooltip isShown={active && error} errorText={error}/>
     </>
   );
