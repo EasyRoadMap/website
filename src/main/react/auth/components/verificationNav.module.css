@@ -1,20 +1,25 @@
 @import "../theme.module.css";
 
 .verification {
-  width: 6.5vh;
-  height: 8vh;
+  width: 50px;
+  height: 65px;
   border-style: solid;
   border-color: rgba(0, 0, 0, 0.15);
   background-color: white;
   margin-left: 0.5vh;
   margin-right: 0.5vh;
-  margin-bottom: 2vh;
+  margin-top: 12px;
   margin-top: 2vh;
   border-radius: 15px;
   text-align: center;
   color: var(--text-color);
-  font-size: 5vh;
+  font-size: 32px;
   caret-color: transparent;
+}
+
+.verification::placeholder {
+  color: rgba(0, 0, 0, 0.15);
+  font-weight: medium;
 }
 
 .verification:hover {

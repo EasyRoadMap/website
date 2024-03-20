@@ -11,6 +11,16 @@ body {
   width: 100vw;
   height: 100vh;
 }
+strong {
+  font-weight: normal;
+  color: var(--text-color);
+}
+h2 {
+  text-align: center;
+  font-size: 20px;
+  font-weight: normal;
+  color: rgb(0, 0, 0, 0.5);
+}
 .background {
   width: 100vw;
   height: 100vh;
@@ -30,16 +40,18 @@ body {
   top: 0;
 }
 .mainPage {
+  width: 600px;
+  height: 800px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.15);
+  border-width: 3px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: auto;
   background-color: var(--color-form);
   transition: background-color 200ms linear;
-  height: 80%;
   position: absolute;
-  padding: 90px 50px 0 50px;
-  /* right: 0; */
+  padding: 90px 90px 90px 90px;
   border-radius: 48px;
 }
 .button_theme {
@@ -80,14 +92,21 @@ body {
   font-weight: bold;
   margin-top: 36px;
   margin-bottom: 36px;
-  /* color: rgb(0, 0, 0); */
   color: var(--text-color);
   transition: background-color 300ms linear;
 }
 .discription {
-  margin-top: 1vh;
-  text-align: center;
-  font-size: 2vh;
+  width: 420px;
+}
+.descriptionBottom {
+  width: 420px;
+  margin-top: 12px;
+}
+.discriptionPrivacyPolicy {
+  max-width: 420px;
+  text-align: left;
+  font-size: 16px;
+  font-weight: normal;
   color: rgb(0, 0, 0, 0.5);
 }
 .forgotPassword {
@@ -107,19 +126,72 @@ body {
   text-decoration: underline;
 }
 .forgotPasswordDisabled {
+  margin-top: -6px;
+  text-align: right;
+  font-weight: normal;
   color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+}
+.forgotPasswordDisabled:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.forgotPasswordDisabled:active {
+  opacity: 75%;
+  cursor: pointer;
+  text-decoration: underline;
 }
 .checkbox {
   width: 32px;
   height: 32px;
 }
-
 .checkbox + label {
   display: inline-flex;
   align-items: center;
   font-size: 16px;
   font-weight: normal;
   border-radius: 12px;
+}
+.checkbox:checked + label::before {
+  border-color: #0b76ef;
+  background-color: #0b76ef;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+}
+.checkbox {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+/* стили для активного состояния чекбокса (при нажатии на него) */
+.checkbox:not(:disabled):active + label::before {
+  opacity: 75%;
+  background-color: #0b76ef;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+}
+/* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+.checkbox:focus:not(:checked) + label::before {
+  opacity: 75%;
+  background-color: #0b76ef;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+}
+/* стили для чекбокса, находящегося в фокусе */
+.checkbox:focus + label::before {
+  opacity: 75%;
+  background-color: #0b76ef;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+}
+/* стили для чекбокса, находящегося в состоянии disabled */
+.checkbox:disabled + label::before {
+  opacity: 30%;
+  background-color: #0b76ef;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+}
+/* стили при наведении курсора на checkbox */
+.checkbox:not(:disabled):not(:checked) + label:hover::before {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+.checkbox + label::before:hover {
+  background-color: rgba(0, 0, 0, 0.15);
 }
 .checkbox + label::before {
   content: "";
@@ -128,7 +200,6 @@ body {
   height: 32px;
   flex-shrink: 0;
   flex-grow: 0;
-  border: 1px solid #adb5bd;
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 12px;
   margin-right: 12px;
@@ -137,43 +208,39 @@ body {
   background-size: 50% 50%;
 }
 
-.checkbox:checked + label::before {
-  border-color: #0b76ef;
-  background-color: #0b76ef;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+.checkboxWrapper {
+  width: 420px;
 }
 
-.checkbox {
-  position: absolute;
-  z-index: -1;
-  opacity: 0;
+.repeatLinkPrivacyPolicy {
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  font-weight: normal;
 }
-
-/* стили при наведении курсора на checkbox */
-.checkbox:not(:disabled):not(:checked) + label:hover::before {
-  border-color: #b3d7ff;
-}
-/* стили для активного состояния чекбокса (при нажатии на него) */
-.checkbox:not(:disabled):active + label::before {
-  background-color: #b3d7ff;
-  border-color: #b3d7ff;
-}
-/* стили для чекбокса, находящегося в фокусе */
-.checkbox:focus + label::before {
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-/* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
-.checkbox:focus:not(:checked) + label::before {
-  border-color: #80bdff;
-}
-/* стили для чекбокса, находящегося в состоянии disabled */
-.checkbox:disabled + label::before {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.repeatLink {
+.repeatLinkPrivacyPolicy:hover {
   text-decoration: underline;
-  color: rgb(0, 0, 0, 0.75);
+}
+.repeatLinkPrivacyPolicy:active {
+  opacity: 75%;
+  text-decoration: underline;
+}
+.repeatLinkPrivacyPolicy:disabled {
+  color: rgba(0, 0, 0, 0.5);
+}
+.repeatLink {
+  color: rgb(0, 0, 0);
+  font-size: 20px;
+  font-weight: normal;
+}
+.repeatLink:hover {
+  text-decoration: underline;
+}
+.repeatLink:active {
+  opacity: 75%;
+  text-decoration: underline;
+}
+.repeatLink:disabled {
+  color: rgba(0, 0, 0, 0.5);
 }
 .errorText {
   font-size: 1.5vh;

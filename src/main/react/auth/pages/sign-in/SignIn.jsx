@@ -97,7 +97,7 @@ const Form = () => {
         <Input
           data={email}
           setData={setEmail}
-          placeholder="Электронная почта"
+          placeholder="user@example.com"
           error={errorEmail}
           clearError={() => {
             setErrorEmail("");
@@ -107,7 +107,7 @@ const Form = () => {
         <Input
           data={password}
           setData={setPassword}
-          placeholder="Пароль"
+          placeholder="••••••••"
           error={errorPassword}
           clearError={() => {
             setErrorPassword("");

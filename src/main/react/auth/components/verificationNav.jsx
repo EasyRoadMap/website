@@ -77,6 +77,7 @@ const VerificationCodeInput = ({ code, setCode, error, clearError }) => {
           }}
           onPaste={pasteCode}
           ref={codeRefs.current[index]}
+          placeholder="_"
         />
       ))}
       <h3 className={styles.errorText}>{error}</h3>

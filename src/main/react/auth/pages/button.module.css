@@ -1,7 +1,7 @@
 .buttonFilledAccent {
   background-color: #0066fe;
   color: white;
-  width: 25vw;
+  width: 420px;
   height: 48px;
   border-radius: 12px;
   border: none;
@@ -41,7 +41,7 @@
 .buttonFilledSecondary {
   background-color: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.5);
-  width: 40vw;
+  width: 420px;
   height: 48px;
   border-radius: 12px;
   border: none;
@@ -69,7 +69,7 @@
 .buttonOutlineAccent {
   background-color: rgb(255, 255, 255);
   color: rgb(0, 102, 254);
-  width: 25vw;
+  width: 420px;
   height: 48px;
   border-style: solid;
   border-color: rgb(0, 102, 254);
@@ -100,7 +100,7 @@
 .buttonOutlineSecondary {
   background-color: rgb(255, 255, 255);
   color: rgba(0, 0, 0, 0.5);
-  width: 25vw;
+  width: 420px;
   height: 48px;
   border-style: solid;
   border-color: rgba(0, 0, 0, 0.05);
