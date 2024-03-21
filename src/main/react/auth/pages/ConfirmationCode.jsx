@@ -23,7 +23,7 @@ const preventUnacceptableEnter = (location, navigate) => {
   if (!location.state?.haveAccess) {
     navigate("/auth/sign-in");
   }
-}
+};
 
 const Form = ({ APICallback, linksToPagesThatCanIncludeErrors }) => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -95,14 +95,14 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors }) => {
           }}
         />
       </form>
-      <ErrorPopup isShown={popupError !== ""} errorText={popupError}/>
+      <ErrorPopup isShown={popupError !== ""} errorText={popupError} />
       <button
         className={styleBtn.buttonFilledAccent}
         form="confirm"
         type="submit"
         disabled={pending}
       >
-        Войти
+        Продолжить
       </button>
       <h2 className={styles.descriptionBottom}>
         Не получили письмо с кодом? <br />
@@ -112,7 +112,7 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors }) => {
         >
           Повторить отправку
         </strong>
-        &nbsp;(10 сек)
+        &nbsp;(5 мин)
       </h2>
     </>
   );

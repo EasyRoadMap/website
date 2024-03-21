@@ -10,7 +10,7 @@ const preventUnacceptableEnter = (location, navigate) => {
   if (!location.state?.haveAccess) {
     navigate("/auth/sign-in");
   }
-}
+};
 
 function Form({ description, buttonText }) {
   const [check, setCheck] = useState(false);

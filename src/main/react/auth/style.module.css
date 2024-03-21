@@ -147,6 +147,7 @@ h2 {
   height: 32px;
 }
 .checkbox + label {
+  margin-top: 12px;
   display: inline-flex;
   align-items: center;
   font-size: 16px;

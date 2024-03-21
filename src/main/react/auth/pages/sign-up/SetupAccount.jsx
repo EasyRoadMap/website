@@ -23,7 +23,16 @@ const validateName = (name, setErrorName) => {
   return false;
 };
 
-const tryGetCode = (email, name, password, showPopup, setters, navigateLinks, setPending, navigate) => {
+const tryGetCode = (
+  email,
+  name,
+  password,
+  showPopup,
+  setters,
+  navigateLinks,
+  setPending,
+  navigate
+) => {
   setPending(true);
 
   signUpEmailCode(email, name)
@@ -46,43 +55,60 @@ const setErrorsFromOtherPages = (location, errorSetters) => {
 };
 
 const Form = () => {
-    const [name, setName] = useState("");
-    const [password, setPassword] = useState("");
-    const {email, setEmail, saveEmail} = useEmail();
-    const [errorName, setErrorName] = useState("");
-    const [errorPassword, setErrorPassword] = useState("");
-    const [errorEmail, setErrorEmail] = useState("");
-    const [pending, setPending] = useState(false);
-    const [policyBoxChecked, setPolicyBoxChecked] = useState(false);
-    const [popupError, setPopupError] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const { email, setEmail, saveEmail } = useEmail();
+  const [errorName, setErrorName] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+  const [errorEmail, setErrorEmail] = useState("");
+  const [pending, setPending] = useState(false);
+  const [policyBoxChecked, setPolicyBoxChecked] = useState(false);
+  const [popupError, setPopupError] = useState("");
 
-    const navigate = useNavigate();
-    const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    useEffect(() => {
-        setErrorsFromOtherPages(location, {"email": setErrorEmail, "password": setErrorPassword, "name": setErrorName});
-    }, []);
+  useEffect(() => {
+    setErrorsFromOtherPages(location, {
+      email: setErrorEmail,
+      password: setErrorPassword,
+      name: setErrorName,
+    });
+  }, []);
 
-    const showPopup = (error) => {
-        setPopupError(error);
+  const showPopup = (error) => {
+    setPopupError(error);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      saveEmail(email);
+    } catch (err) {
+      setErrorEmail(err.message);
+      return;
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        try {
-        saveEmail(email);
-        } catch (err) {
-        setErrorEmail(err.message);
-        return;
-        }
+    if (!validatePassword(password, setErrorPassword)) return;
+    if (!validateName(name, setErrorName)) return;
 
-        if (!validatePassword(password, setErrorPassword)) return;
-        if (!validateName(name, setErrorName)) return;
-
-        const setters = {"email": setErrorEmail, "password": setErrorPassword, "name": setErrorName};
-        const navigateLinks = {"email": "/auth/sign-in"}
-        tryGetCode(email, name, password, showPopup, setters, navigateLinks, setPending, navigate);
+    const setters = {
+      email: setErrorEmail,
+      password: setErrorPassword,
+      name: setErrorName,
     };
+    const navigateLinks = { email: "/auth/sign-in" };
+    tryGetCode(
+      email,
+      name,
+      password,
+      showPopup,
+      setters,
+      navigateLinks,
+      setPending,
+      navigate
+    );
+  };
 
   return (
     <>
@@ -90,7 +116,7 @@ const Form = () => {
         <Input
           data={name}
           setData={setName}
-          placeholder="Ваше имя"
+          placeholder="Костя"
           error={errorName}
           clearError={() => {
             setErrorName("");
@@ -101,7 +127,7 @@ const Form = () => {
         <Input
           data={email}
           setData={setEmail}
-          placeholder="Электронная почта"
+          placeholder="user@example.com"
           error={errorEmail}
           clearError={() => {
             setErrorEmail("");
@@ -112,7 +138,7 @@ const Form = () => {
         <Input
           data={password}
           setData={setPassword}
-          placeholder="Пароль"
+          placeholder="••••••••"
           error={errorPassword}
           clearError={() => {
             setErrorPassword("");
@@ -149,7 +175,7 @@ const Form = () => {
           </h2>
         </label>
       </div>
-      <ErrorPopup isShown={popupError !== ""} errorText={popupError}/>
+      <ErrorPopup isShown={popupError !== ""} errorText={popupError} />
       <button
         className={styleBtn.buttonFilledAccent}
         form="sign-up"
@@ -163,9 +189,7 @@ const Form = () => {
 };
 
 function CreateAccount() {
-  return (
-    <Base header="Создайте аккаунт" children={<Form />}/>
-  );
+  return <Base header="Создайте аккаунт" children={<Form />} />;
 }
 
 export default CreateAccount;

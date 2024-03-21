@@ -11,9 +11,10 @@ const autoCompleteName = {
 };
 
 const translation = {
-  name: "имя",
-  email: "email",
-  password: "пароль",
+  name: "Ваше имя",
+  email: "Электронная почта",
+  password: "Пароль",
+  repeatPassword: "Повторите пароль",
 };
 
 export default function Input({
@@ -50,13 +51,14 @@ export default function Input({
 
   return (
     <>
-      
       <div className={styles.inputWithTextWrapper}>
         <label className={styles.label}>{translation[typeOfInput]}</label>
         <div className={styles.inputWrapper}>
           <input
             type={type}
-            className={[styles.input, inputWithContentStyle, inputStyle].join(" ")}
+            className={[styles.input, inputWithContentStyle, inputStyle].join(
+              " "
+            )}
             placeholder={placeholder}
             onChange={changeValue}
             value={data}
@@ -73,7 +75,7 @@ export default function Input({
           </div>
         </div>
       </div>
-      <ErrorTooltip isShown={active && error} errorText={error}/>
+      <ErrorTooltip isShown={active && error} errorText={error} />
     </>
   );
 }

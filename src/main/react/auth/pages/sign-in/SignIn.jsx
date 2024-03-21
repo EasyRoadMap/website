@@ -15,8 +15,10 @@ import ForgotPasswordButton from "../../components/ForgotPasswordButton.jsx";
 
 const validatePassword = (password, setErrorPassword) => {
   if (password.length >= 8 && password.length <= 128) return true;
-  if (password.length < 8) setErrorPassword("Пароль должен быть не менее 8 символов");
-  if (password.length > 128) setErrorPassword("Пароль должен быть не более 128 символов");
+  if (password.length < 8)
+    setErrorPassword("Пароль должен быть не менее 8 символов");
+  if (password.length > 128)
+    setErrorPassword("Пароль должен быть не более 128 символов");
 
   return false;
 };
@@ -40,7 +42,7 @@ const tryGetRecovery = (email, showPopup, setters, navigate, setPending) => {
   setPending(true);
   RecoveryEmailCode(email)
     .then((response) => {
-      navigate("/auth/recovery/email-code", {state: {haveAccess: true}});
+      navigate("/auth/recovery/email-code", { state: { haveAccess: true } });
     })
     .catch((err) => {
       const errData = err.response.data;
@@ -101,7 +103,7 @@ const Form = () => {
         <Input
           data={email}
           setData={setEmail}
-          placeholder="Электронная почта"
+          placeholder="user@example.com"
           error={errorEmail}
           clearError={() => {
             setErrorEmail("");
@@ -112,7 +114,7 @@ const Form = () => {
         <Input
           data={password}
           setData={setPassword}
-          placeholder="Пароль"
+          placeholder="••••••••"
           error={errorPassword}
           clearError={() => {
             setErrorPassword("");
@@ -149,7 +151,7 @@ const Form = () => {
           Запомни меня!
         </label>
       </form>
-      <ErrorPopup isShown={popupError !== ""} errorText={popupError}/>
+      <ErrorPopup isShown={popupError !== ""} errorText={popupError} />
       <button
         type="submit"
         form="login"

@@ -15,64 +15,94 @@ const preventUnacceptableEnter = (location, navigate) => {
   if (!location.state?.haveAccess) {
     navigate("/auth/sign-in");
   }
-}
+};
 
 const validatePassword = (password, setErrorPassword) => {
   if (password.length >= 8 && password.length <= 128) return true;
   setErrorPassword("Пароль должен быть не менее 8 и не более 128 символов");
   return false;
-}
+};
 
-const validateRepeatedPassword = (password, repeatedPassword, setErrorRepeatedPassword) => {
-    if (repeatedPassword === password) return true;
-    setErrorRepeatedPassword("Пароли не совпадают");
-    return false;
-} 
+const validateRepeatedPassword = (
+  password,
+  repeatedPassword,
+  setErrorRepeatedPassword
+) => {
+  if (repeatedPassword === password) return true;
+  setErrorRepeatedPassword("Пароли не совпадают");
+  return false;
+};
 
-const trySetPassword = (email, password, showPopup, setters, navigateLinks, setPending, navigate) => {
+const trySetPassword = (
+  email,
+  password,
+  showPopup,
+  setters,
+  navigateLinks,
+  setPending,
+  navigate
+) => {
   setPending(true);
   RecoverySetPassword(email, password)
-      .then((response) => {
-        navigate("/auth/recovery/complete", {state: {password: password, haveAccess: true}})
-      })
-      .catch((err) => {
-        const errData = err.response.data;
-        errorsHandler(errData, showPopup, setters, navigateLinks);
-      }).finally(() => {
-        setPending(false);
-      })
-}
+    .then((response) => {
+      navigate("/auth/recovery/complete", {
+        state: { password: password, haveAccess: true },
+      });
+    })
+    .catch((err) => {
+      const errData = err.response.data;
+      errorsHandler(errData, showPopup, setters, navigateLinks);
+    })
+    .finally(() => {
+      setPending(false);
+    });
+};
 
 const Form = () => {
-    const [password, setPassword] = useState("");
-    const [repeatedPassword, setRepeatedPassword] = useState("");
-    const [errorPassword, setErrorPassword] = useState("");
-    const [errorRepeatedPassword, setErrorRepeatedPassword] = useState("");
-    const [pending, setPending] = useState(false);
-    const {email} = useEmail();
-    const [popupError, setPopupError] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+  const [errorRepeatedPassword, setErrorRepeatedPassword] = useState("");
+  const [pending, setPending] = useState(false);
+  const { email } = useEmail();
+  const [popupError, setPopupError] = useState("");
 
-    const navigate = useNavigate();
-    const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    useEffect(() => {
-      preventUnacceptableEnter(location, navigate);
-    }, []);
+  useEffect(() => {
+    preventUnacceptableEnter(location, navigate);
+  }, []);
 
-    const showPopup = (error) => {
-        setPopupError(error);
-    }
+  const showPopup = (error) => {
+    setPopupError(error);
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-        if (!validatePassword(password, setErrorPassword)) return;
-        if (!validateRepeatedPassword(password, repeatedPassword, setErrorRepeatedPassword)) return;
+    if (!validatePassword(password, setErrorPassword)) return;
+    if (
+      !validateRepeatedPassword(
+        password,
+        repeatedPassword,
+        setErrorRepeatedPassword
+      )
+    )
+      return;
 
-        const setters = {"password": setErrorPassword};
-        const navigateLinks = {"email": "/auth/sign-in"};
-        trySetPassword(email, password, showPopup, setters, navigateLinks, setPending, navigate);
-    };
+    const setters = { password: setErrorPassword };
+    const navigateLinks = { email: "/auth/sign-in" };
+    trySetPassword(
+      email,
+      password,
+      showPopup,
+      setters,
+      navigateLinks,
+      setPending,
+      navigate
+    );
+  };
 
   return (
     <>
@@ -80,7 +110,7 @@ const Form = () => {
         <Input
           data={password}
           setData={setPassword}
-          placeholder="Пароль"
+          placeholder="••••••••"
           error={errorPassword}
           clearError={() => {
             setErrorPassword("");
@@ -91,16 +121,16 @@ const Form = () => {
         <Input
           data={repeatedPassword}
           setData={setRepeatedPassword}
-          placeholder="Повтор пароля"
+          placeholder="••••••••"
           error={errorRepeatedPassword}
           clearError={() => {
             setErrorRepeatedPassword("");
             setPopupError("");
           }}
-          typeOfInput={"password"}
+          typeOfInput={"repeatPassword"}
         />
       </form>
-      <ErrorPopup isShown={popupError !== ""} errorText={popupError}/>
+      <ErrorPopup isShown={popupError !== ""} errorText={popupError} />
       <button
         type="submit"
         form="recovery"
@@ -114,9 +144,7 @@ const Form = () => {
 };
 
 function Recovery() {
-  return (
-    <Base header="Придумайте пароль" children={<Form />}/>
-  );
+  return <Base header="Придумайте пароль" children={<Form />} />;
 }
 
 export default Recovery;
