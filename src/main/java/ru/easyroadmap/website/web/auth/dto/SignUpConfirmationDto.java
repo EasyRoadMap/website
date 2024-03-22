@@ -17,7 +17,7 @@ public final class SignUpConfirmationDto {
     private String email;
 
     @NotBlank @Size(min = 6, max = 6)
-    @Pattern(regexp = "\\d{6}", message = "code: malformed")
+    @Pattern(regexp = "\\w{6}", message = "code: malformed")
     private String code;
 
 }
