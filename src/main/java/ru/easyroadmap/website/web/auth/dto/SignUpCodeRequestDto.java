@@ -1,5 +1,6 @@
 package ru.easyroadmap.website.web.auth.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -17,5 +18,8 @@ public final class SignUpCodeRequestDto {
     @NotBlank @Size(min = 6, max = 64)
     @ValidEmailPattern
     private String email;
+
+    @Schema(description = "Optional flag 'renew' to renew an email confirmation after one minute", example = "true / false")
+    private boolean renew;
 
 }

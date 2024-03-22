@@ -5,11 +5,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +20,10 @@ import ru.easyroadmap.website.web.auth.dto.*;
 import ru.easyroadmap.website.web.auth.service.RecoveryService;
 import ru.easyroadmap.website.web.auth.service.RegistrationService;
 
+import static ru.easyroadmap.website.web.auth.service.EmailConfirmationService.ProofKeyConsumer.cookieBased;
+import static ru.easyroadmap.website.web.auth.service.EmailConfirmationService.extractProofKey;
+import static ru.easyroadmap.website.web.auth.service.EmailConfirmationService.forgetProofKey;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -29,7 +31,6 @@ public final class AuthProcessingController {
 
     private final RegistrationService registrationService;
     private final RecoveryService recoveryService;
-    private final Validator validator;
 
     @Operation(summary = "Log in account", tags = "auth")
     @ApiResponses({
@@ -81,7 +82,7 @@ public final class AuthProcessingController {
                                     ),
                                     @ExampleObject(
                                             name = "Generic error",
-                                            description = "Used codes: 'email_already_used', 'email_confirmation_pending', 'email_already_confirmed'",
+                                            description = "Used codes: 'email_already_used', 'email_already_confirmed', 'email_confirmation_unrenewable', 'email_confirmation_pending'",
                                             value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
                                     )
                             }
@@ -90,8 +91,8 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/sign-up/email-code", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processSignUpCodeRequest(@Valid SignUpCodeRequestDto dto) throws GenericErrorException {
-        registrationService.processEmailCodeRequest(dto.getEmail(), dto.getName());
+    public void processSignUpCodeRequest(@Valid SignUpCodeRequestDto dto, HttpServletResponse response) throws GenericErrorException {
+        registrationService.processConfirmationRequest(dto.getEmail(), dto.getName(), dto.isRenew(), cookieBased(response));
     }
 
     @Operation(summary = "Confirm email with code", tags = "auth")
@@ -111,7 +112,7 @@ public final class AuthProcessingController {
                                     ),
                                     @ExampleObject(
                                             name = "Generic error",
-                                            description = "Used codes: 'request_not_found', 'request_expired', 'no_more_attempts', 'wrong_code'",
+                                            description = "Used codes: 'request_not_found', 'request_expired', 'wrong_proof_key', 'no_more_attempts', 'wrong_code'",
                                             value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
                                     )
                             }
@@ -120,8 +121,8 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/sign-up/confirm-email", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processSignUpConfirmation(@Valid SignUpConfirmationDto dto) throws GenericErrorException {
-        registrationService.processEmailConfirmation(dto.getEmail(), dto.getCode());
+    public void processSignUpConfirmation(@Valid SignUpConfirmationDto dto, HttpServletRequest request) throws GenericErrorException {
+        registrationService.processEmailConfirmation(dto.getEmail(), dto.getCode(), extractProofKey(request));
     }
 
     @Operation(summary = "Register a new user", tags = "auth")
@@ -141,7 +142,7 @@ public final class AuthProcessingController {
                                     ),
                                     @ExampleObject(
                                             name = "Generic error",
-                                            description = "Used codes: 'user_already_exists', 'email_not_confirmed'",
+                                            description = "Used codes: 'user_already_exists', 'email_not_confirmed', 'wrong_proof_key'",
                                             value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
                                     )
                             }
@@ -150,8 +151,9 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/sign-up/complete", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processSignUpComplete(@Valid SignUpCompleteDto dto, HttpServletResponse response) throws GenericErrorException {
-        registrationService.registerNewUser(dto);
+    public void processSignUpComplete(@Valid SignUpCompleteDto dto, HttpServletRequest request, HttpServletResponse response) throws GenericErrorException {
+        registrationService.registerNewUser(dto.getEmail(), dto.getName(), dto.getPassword(), extractProofKey(request));
+        forgetProofKey(response);
     }
 
     @Operation(summary = "Request email confirmation code", tags = "auth")
@@ -171,7 +173,7 @@ public final class AuthProcessingController {
                                     ),
                                     @ExampleObject(
                                             name = "Generic error",
-                                            description = "Used codes: 'user_not_found', 'recovery_pending', 'recovery_already_confirmed'",
+                                            description = "Used codes: 'user_not_found', 'email_already_confirmed', 'email_confirmation_unrenewable', 'email_confirmation_pending'",
                                             value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
                                     )
                             }
@@ -181,10 +183,7 @@ public final class AuthProcessingController {
     @PostMapping(value = "/recovery/email-code", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void processRecoveryCodeRequest(@Valid RecoveryCodeRequestDto dto, HttpServletResponse response) throws GenericErrorException {
-        String proofKey = recoveryService.processRecoveryCodeRequest(dto.getEmail());
-        Cookie cookie = new Cookie(RecoveryService.PROOF_KEY_COOKIE_NAME, proofKey);
-        cookie.setMaxAge(RecoveryService.PROOF_KEY_COOKIE_MAX_AGE);
-        response.addCookie(cookie);
+        recoveryService.processConfirmationRequest(dto.getEmail(), dto.isRenew(), cookieBased(response));
     }
 
     @Operation(summary = "Confirm email with code", tags = "auth")
@@ -204,7 +203,7 @@ public final class AuthProcessingController {
                                     ),
                                     @ExampleObject(
                                             name = "Generic error",
-                                            description = "Used codes: 'user_not_found', 'request_not_found', 'wrong_proof_key', 'request_expired', 'no_more_attempts', 'wrong_code'",
+                                            description = "Used codes: 'user_not_found', 'request_not_found', 'request_expired', 'wrong_proof_key', 'no_more_attempts', 'wrong_code'",
                                             value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
                                     )
                             }
@@ -214,7 +213,7 @@ public final class AuthProcessingController {
     @PostMapping(value = "/recovery/confirm-email", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void processRecoveryConfirmation(@Valid RecoveryConfirmationDto dto, HttpServletRequest request) throws GenericErrorException {
-        recoveryService.processRecoveryConfirmation(dto.getEmail(), dto.getCode(), obtainProofKey(request));
+        recoveryService.processEmailConfirmation(dto.getEmail(), dto.getCode(), extractProofKey(request));
     }
 
     @Operation(summary = "Complete recovery process", tags = "auth")
@@ -234,7 +233,7 @@ public final class AuthProcessingController {
                                     ),
                                     @ExampleObject(
                                             name = "Generic error",
-                                            description = "Used codes: 'user_not_found', 'request_not_confirmed', 'wrong_proof_key'",
+                                            description = "Used codes: 'user_not_found', 'email_not_confirmed', 'wrong_proof_key'",
                                             value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
                                     )
                             }
@@ -244,11 +243,8 @@ public final class AuthProcessingController {
     @PostMapping(value = "/recovery/change-password", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void processRecoveryChangePassword(@Valid RecoveryChangePasswordDto dto, HttpServletRequest request, HttpServletResponse response) throws GenericErrorException {
-        recoveryService.performRecovery(dto.getEmail(), dto.getPassword(), obtainProofKey(request));
-
-        Cookie cookie = new Cookie(RecoveryService.PROOF_KEY_COOKIE_NAME, "");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
+        recoveryService.performRecovery(dto.getEmail(), dto.getPassword(), extractProofKey(request));
+        forgetProofKey(response);
     }
 
     @Operation(summary = "Log out", tags = "auth")
@@ -261,18 +257,5 @@ public final class AuthProcessingController {
     @PostMapping(value = "/logout")
     @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
     public void processLogout() {}
-
-    private String obtainProofKey(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (RecoveryService.PROOF_KEY_COOKIE_NAME.equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-
-        return null;
-    }
 
 }

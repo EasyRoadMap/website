@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 public final class EmailConfirmation {
 
     private static final int DEFAULT_CONFIRM_ATTEMPTS = 5;
+    private static final long REQUEST_WILL_BE_EXPIRED_IN = 5L;
+    private static final long REQUEST_CAN_BE_RENEWED_IN = 1L;
 
     @Id
     @Column(name = "email", nullable = false)
@@ -20,15 +22,18 @@ public final class EmailConfirmation {
     @Column(name = "code", nullable = false)
     private String code;
 
+    @Column(name = "proof_key", nullable = false)
+    private String proofKey;
+
     @Column(name = "attempts_left", nullable = false)
     private int attemptsLeft;
 
     @Column(name = "is_confirmed", nullable = false)
     private boolean confirmed;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "requested_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createdAt;
+    private LocalDateTime requestedAt;
 
     @Column(name = "updated_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -38,9 +43,16 @@ public final class EmailConfirmation {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime expiresAt;
 
-    public EmailConfirmation(String email, String code) {
+    public EmailConfirmation(String email) {
         this.email = email;
-        renew(code);
+    }
+
+    public LocalDateTime getCanBeRenewedAt() {
+        return requestedAt.plusMinutes(REQUEST_CAN_BE_RENEWED_IN);
+    }
+
+    public boolean canBeRenewed() {
+        return isExpired() || getCanBeRenewedAt().isBefore(LocalDateTime.now());
     }
 
     public boolean hasNoMoreAttempts() {
@@ -56,12 +68,13 @@ public final class EmailConfirmation {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public void renew(String code) {
+    public void renew(String code, String proofKey) {
         this.code = code;
+        this.proofKey = proofKey;
         this.attemptsLeft = DEFAULT_CONFIRM_ATTEMPTS;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = createdAt;
-        this.expiresAt = createdAt.plusMinutes(5L);
+        this.requestedAt = LocalDateTime.now();
+        this.updatedAt = requestedAt;
+        this.expiresAt = requestedAt.plusMinutes(REQUEST_WILL_BE_EXPIRED_IN);
     }
 
     public void setConfirmed(boolean confirmed) {
