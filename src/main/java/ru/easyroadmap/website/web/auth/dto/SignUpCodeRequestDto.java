@@ -20,6 +20,10 @@ public final class SignUpCodeRequestDto {
     private String email;
 
     @Schema(description = "Optional flag 'renew' to renew an email confirmation after one minute", example = "true / false")
-    private boolean renew;
+    private String renew;
+
+    public boolean isRenew() {
+        return "true".equalsIgnoreCase(renew);
+    }
 
 }
