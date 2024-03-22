@@ -105,9 +105,10 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors }) => {
         Продолжить
       </button>
       <h2 className={styles.descriptionBottom}>
-        Не получили письмо с кодом? <br />
+        Не пришло письмо с кодом восстановления?
+        <br />
         <strong
-          className={styles.repeatLink}
+          className={styles.repeatLinkPrivacyPolicy}
           onClick={pending ? () => {} : handleSubmit}
         >
           Повторить отправку

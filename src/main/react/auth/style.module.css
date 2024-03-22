@@ -97,11 +97,14 @@ h2 {
 }
 .discription {
   width: 420px;
+  cursor: pointer;
+  font-size: 20px;
 }
 .descriptionBottom {
   width: 420px;
   margin-top: 12px;
   cursor: pointer;
+  font-size: 16px;
 }
 .discriptionPrivacyPolicy {
   max-width: 420px;
@@ -112,6 +115,7 @@ h2 {
 }
 .forgotPassword {
   margin-top: -6px;
+  margin-bottom: -24px;
   text-align: right;
   font-weight: normal;
   color: rgba(0, 0, 0, 0.5);
@@ -147,7 +151,7 @@ h2 {
   height: 32px;
 }
 .checkbox + label {
-  margin-top: 12px;
+  margin-top: 24px;
   display: inline-flex;
   align-items: center;
   font-size: 16px;
@@ -220,6 +224,7 @@ h2 {
   font-size: 16px;
   font-weight: normal;
   cursor: pointer;
+  text-decoration: none;
 }
 .repeatLinkPrivacyPolicy:hover {
   text-decoration: underline;

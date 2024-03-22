@@ -86,7 +86,7 @@ const VerificationCodeInput = ({ code, setCode, error, clearError }) => {
       ))}
       {/* <h3 className={styles.errorText}>{error}</h3> */}
 
-      <ErrorTooltip isShown={active && error} errorText={error}/>
+      <ErrorTooltip isShown={active && error} errorText={error} />
     </div>
   );
 };
