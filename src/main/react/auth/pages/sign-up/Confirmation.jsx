@@ -2,6 +2,7 @@ import ConfirmationCode from "../ConfirmationCode.jsx";
 import { signUpConfirmEmail } from "../../api/SignUpConfirmEmail.js";
 import { signUp } from "../../api/SignUp.js";
 import { errorsHandler } from "../../utils/errorsHandler.js";
+import { signUpEmailCode } from "../../api/SignUpEmailCode.js";
 
 const tryConfirmEmail = (
   email,
@@ -28,6 +29,31 @@ const tryConfirmEmail = (
     .catch((err) => {
       const errData = err.response.data;
       errorsHandler(errData, showPopup, setters, navigateLinks);
+    });
+};
+
+const tryGetCode = (
+  email, 
+  name,
+  showPopup,
+  callback,
+  setters,
+  navigateLinks,
+  setPending,
+  navigate
+) => {
+  setPending(true);
+
+  signUpEmailCode(email, name, true)
+    .then((response) => {
+      callback();
+    })
+    .catch((err) => {
+      const errData = err.response.data;
+      errorsHandler(errData, showPopup, setters, navigateLinks, navigate);
+    })
+    .finally(() => {
+      setPending(false);
     });
 };
 
@@ -61,6 +87,7 @@ const SignUpCode = () => {
         email: "/auth/sign-in",
         password: "/auth/sign-in",
       }}
+      retryCallback={tryGetCode}
     />
   );
 };

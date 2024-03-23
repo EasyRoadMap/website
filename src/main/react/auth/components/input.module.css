@@ -21,8 +21,16 @@
   font-size: 16px;
   padding-left: 0;
   color: rgba(0, 0, 0, 0.5);
+  -webkit-user-select: none;
+  user-select: none;
 }
-
+/* we can do this like: */
+/* .inputWrapper:hover {
+  .input {
+    background-color: rgba(0, 0, 0, 0.05);
+    border: none;
+  }
+} */
 .input:hover {
   background-color: rgba(0, 0, 0, 0.05);
   border-width: 1px;
@@ -47,6 +55,8 @@
 .input:disabled {
   .inputWrapper {
     opacity: 0.3;
+    -webkit-user-select: none;
+    user-select: none;
   }
 }
 .input[type="text"] {
@@ -97,6 +107,8 @@
 }
 .error::placeholder {
   color: rgba(0, 0, 0, 0.5);
+  -webkit-user-select: none;
+  user-select: none;
 }
 .error:hover {
   border-color: #ff4848;
@@ -128,7 +140,7 @@ h3 {
   position: absolute;
   /* min-height: 50px; */
   /* margin-top: 5px; */
-  width: 420px;
+  /* width: 420px; */
   z-index: 999;
   border-radius: 12px;
   background-image: linear-gradient(
@@ -139,11 +151,11 @@ h3 {
 
   display: flex;
   align-items: center;
-  padding: calc(2vh - 10px);
+  padding: 10px
 }
 .tooltipLogo {
-  height: 100%;
-  margin-right: calc(2vh - 10px);
+  height: 30px;
+  margin-right: 7px
 }
 .tooltipText {
   font-size: 14px;
@@ -154,7 +166,7 @@ h3 {
   width: 10px;
   position: absolute;
   top: -7px;
-  left: 2vh;
+  left: 20px;
 }
 
 .popup {

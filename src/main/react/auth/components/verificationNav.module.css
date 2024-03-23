@@ -6,10 +6,9 @@
   border-style: solid;
   border-color: rgba(0, 0, 0, 0.15);
   background-color: white;
-  margin-left: 0.5vh;
-  margin-right: 0.5vh;
+  margin-left: 3px;
+  margin-right: 3px;
   margin-top: 12px;
-  margin-top: 2vh;
   border-radius: 15px;
   text-align: center;
   color: var(--text-color);
@@ -39,4 +38,13 @@
   background-color: rgba(0, 0, 0, 0.05);
   cursor: pointer;
   border: none;
+}
+.verification {
+  outline: none;
+}
+
+.error {
+  background-color: rgba(241, 64, 58, .15);
+  border-style: solid;
+  border-color: rgba(241, 64, 58, .5);
 }

@@ -97,13 +97,11 @@ h2 {
 }
 .discription {
   width: 420px;
-  cursor: pointer;
   font-size: 20px;
 }
 .descriptionBottom {
   width: 420px;
   margin-top: 12px;
-  cursor: pointer;
   font-size: 16px;
 }
 .discriptionPrivacyPolicy {
@@ -237,8 +235,14 @@ h2 {
   opacity: 75%;
   text-decoration: underline;
 }
-.repeatLinkPrivacyPolicy:disabled {
+.disabledRepeatLinkPrivacyPolicy {
+  font-size: 16px;
+  font-weight: normal;
+  cursor: not-allowed;
+  text-decoration: none;
   color: rgba(0, 0, 0, 0.5);
+  -webkit-user-select: none;
+  user-select: none;
 }
 .repeatLink {
   color: rgb(0, 0, 0);
@@ -254,6 +258,8 @@ h2 {
 }
 .repeatLink:disabled {
   color: rgba(0, 0, 0, 0.5);
+  -webkit-user-select: none;
+  user-select: none;
 }
 .errorText {
   font-size: 1.5vh;

@@ -8,13 +8,14 @@ const autoCompleteName = {
   name: "name",
   email: "email",
   password: "current-password",
+  repeatedPassword: "off",
 };
 
 const translation = {
   name: "Ваше имя",
   email: "Электронная почта",
   password: "Пароль",
-  repeatPassword: "Повторите пароль",
+  repeatedPassword: "Повторите пароль",
 };
 
 export default function Input({
@@ -23,12 +24,10 @@ export default function Input({
   placeholder,
   error,
   clearError,
-  typeOfInput,
+  typeOfInput
 }) {
   const inputStyle = error ? styles.error : "";
   const inputWithContentStyle = data ? styles.inputWithContent : "";
-
-  console.log(typeOfInput);
 
   const changeValue = (e) => {
     setData(e.target.value);
@@ -48,14 +47,13 @@ export default function Input({
       setType("password");
     }
   };
-
   return (
     <>
       <div className={styles.inputWithTextWrapper}>
         <label className={styles.label}>{translation[typeOfInput]}</label>
         <div className={styles.inputWrapper}>
           <input
-            type={type}
+            type={type === "repeatedPassword" ? "password" : type}
             className={[styles.input, inputWithContentStyle, inputStyle].join(
               " "
             )}
@@ -63,19 +61,17 @@ export default function Input({
             onChange={changeValue}
             value={data}
             autoComplete={autoCompleteName[typeOfInput]}
-            onFocus={() => setActive(true)}
-            onBlur={() => setActive(false)}
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
           ></input>
-          <div>
-            {typeOfInput === "password" && (
-              <div onClick={handleToggle} className={styles.iconSVG}>
-                {icon}
-              </div>
-            )}
-          </div>
+          {typeOfInput === "password" && (
+            <div onClick={handleToggle} className={styles.iconSVG}>
+              {icon}
+            </div>
+          )}
         </div>
       </div>
-      <ErrorTooltip isShown={active && error} errorText={error} />
+      <ErrorTooltip isShown={active && error} errorText={error} stylesFromOutside={{width: "420px"}}/>
     </>
   );
 }

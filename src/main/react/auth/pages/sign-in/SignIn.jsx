@@ -141,14 +141,14 @@ const Form = () => {
           type="checkbox"
           className={styles.checkbox}
           disabled={pending}
-        ></input>
-        <label
-          for="check"
           onChange={() => {
             setCheck(!check);
           }}
+        ></input>
+        <label
+          for="check"
         >
-          Запомни меня!
+          Запомнить меня
         </label>
       </form>
       <ErrorPopup isShown={popupError !== ""} errorText={popupError} />

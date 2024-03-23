@@ -3,12 +3,16 @@
   height: 13vh;
   border-radius: 15px;
   border: none;
+  cursor: default;
 }
 .TitleLogo {
   font-size: 4vh;
   color: #0066fe;
   margin-left: 1vh;
   line-height: 95%;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .LogoWrapper {
   display: flex;

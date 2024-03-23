@@ -66,6 +66,7 @@ const Form = () => {
   const [pending, setPending] = useState(false);
   const { email } = useEmail();
   const [popupError, setPopupError] = useState("");
+  const [passwordsShown, setPasswordsShown] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -117,6 +118,7 @@ const Form = () => {
             setPopupError("");
           }}
           typeOfInput={"password"}
+          setShown={setPasswordsShown}
         />
         <Input
           data={repeatedPassword}
@@ -127,7 +129,8 @@ const Form = () => {
             setErrorRepeatedPassword("");
             setPopupError("");
           }}
-          typeOfInput={"repeatPassword"}
+          typeOfInput={"repeatedPassword"}
+          isShown={passwordsShown}
         />
       </form>
       <ErrorPopup isShown={popupError !== ""} errorText={popupError} />

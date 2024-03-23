@@ -2,6 +2,7 @@ import styles from "../style.module.css";
 import styleBtn from "../pages/button.module.css";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { timer } from "../utils/timerForRenewCode.js";
 
 import { useEmail } from "../hooks/useEmail.js";
 
@@ -25,11 +26,13 @@ const preventUnacceptableEnter = (location, navigate) => {
   }
 };
 
-const Form = ({ APICallback, linksToPagesThatCanIncludeErrors }) => {
+const Form = ({ APICallback, linksToPagesThatCanIncludeErrors, retryCallback }) => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [errorCode, setErrorCode] = useState("");
   const [pending, setPending] = useState(false);
   const [popupError, setPopupError] = useState("");
+  const [time, setTime] = useState(60);
+  const [enabledRepeat, setEnabledRepeat] = useState(false);
 
   const { email } = useEmail();
 
@@ -39,12 +42,32 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors }) => {
   const name = location.state?.name;
 
   useEffect(() => {
+    console.log("ee");
     preventUnacceptableEnter(location, navigate);
+    timer(enableRepeat, setTime);
   }, []);
 
   const showPopup = (error) => {
     setPopupError(error);
   };
+
+  const enableRepeat = () => {
+    console.log("helo");
+    setEnabledRepeat(true);
+  }
+
+  const repeatTry = () => {
+    const navigateLinks = linksToPagesThatCanIncludeErrors;
+    const setters = {setErrorCode};
+
+    const callback = () => {
+      setEnabledRepeat(false);
+      setTime(60);
+      timer(enableRepeat, setTime);
+    } 
+
+    retryCallback(email, name, showPopup, callback, setters, navigateLinks, setPending, navigate);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -108,12 +131,13 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors }) => {
         Не пришло письмо с кодом восстановления?
         <br />
         <strong
-          className={styles.repeatLinkPrivacyPolicy}
-          onClick={pending ? () => {} : handleSubmit}
+          className={enabledRepeat ? styles.repeatLinkPrivacyPolicy : styles.disabledRepeatLinkPrivacyPolicy}
+          onClick={(pending || (!enabledRepeat)) ? () => {} : repeatTry}
         >
           Повторить отправку
         </strong>
-        &nbsp;(5 мин)
+        &nbsp;
+        {(time !== 0) ? "(" + time + " сек)" : ""}
       </h2>
     </>
   );
@@ -123,6 +147,7 @@ function ConfirmationCode({
   header,
   APICallback,
   linksToPagesThatCanIncludeErrors,
+  retryCallback
 }) {
   return (
     <Base
@@ -131,7 +156,7 @@ function ConfirmationCode({
         <Form
           APICallback={APICallback}
           linksToPagesThatCanIncludeErrors={linksToPagesThatCanIncludeErrors}
-          location={location}
+          retryCallback={retryCallback}
         />
       }
     />

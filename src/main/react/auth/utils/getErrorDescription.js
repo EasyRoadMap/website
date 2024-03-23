@@ -67,18 +67,10 @@ const errorsWithoutField = {
         description: "Сервис в данный момент недоуступен, попробуйте позже",
         field: fields.popup
     },
-    "recovery_pending": {
-        description: "Код восстановления отправлен",
+    "email_confirmation_unrenewable": {
+        description: "Подтверждение почты пока нельзя запросить повторно",
         field: fields.popup
-    },
-    "recovery_confirmed": {
-        description: "Email уже подтверждён",
-        field: fields.popup
-    },
-    "recovery_already_confirmed": {
-        description: "Email уже подтверждён",
-        field: fields.popup
-    },
+    }
 }
 
 const fieldsDescription = {
@@ -96,6 +88,7 @@ export const getErrorDescription = (errorCode, fieldName) => {
     } else if (errorCode in errorsWithoutField) {
         return errorsWithoutField[errorCode]
     } else {
+        console.log("interesting)");
         return {
             description: "Сервис в данный момент недоуступен, попробуйте позже",
             field: "popup"
