@@ -9,7 +9,7 @@
   text-align: left;
   background-color: white;
   color: var(--text-color);
-  padding-left: 2vh;
+  padding-left: 20px;
   padding-right: 30px;
   border-color: #e7e7e7;
   display: flex;
@@ -27,19 +27,19 @@
   background-color: rgba(0, 0, 0, 0.05);
   border-width: 1px;
   border-color: transparent;
-  padding-left: 2vh;
+  padding-left: 20px;
   cursor: pointer;
 }
 .input:focus {
   border-style: solid;
   border-color: rgb(0, 102, 254);
   border-width: 1px;
-  padding-left: 2vh;
+  padding-left: 20px;
   background-color: rgb(0, 102, 254, 0.03);
 }
 .input:active {
   opacity: 75%;
-  padding-left: 2vh;
+  padding-left: 20px;
   border-width: 1px;
   border-color: transparent;
   background-color: rgba(0, 0, 0, 0.05);

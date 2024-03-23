@@ -147,7 +147,7 @@ const Form = () => {
           typeOfInput="password"
         />
       </form>
-      <div className={styles.checkboxWrapper}>
+      <div className={styles.checkboxWrapperPrivatePolicy}>
         <input
           id="check"
           type="checkbox"
