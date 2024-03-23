@@ -1,10 +1,17 @@
 import styles from "./input.module.css";
 import Error from "../../assets/Error.jsx";
 import Triangle from "../../assets/TriangleForMessages.jsx";
+import { useState } from "react";
 
 export default function ErrorTooltip({errorText, isShown, stylesFromOutside}) {
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <div className={styles.tooltip} style={{display: isShown ? "flex" : "none", ...stylesFromOutside}}>
+    <div className={styles.tooltip} 
+         onMouseEnter={() => setHovered(true)} 
+         onMouseLeave={() => setHovered(false)}
+         style={{display: (isShown || hovered) ? "flex" : "none", ...stylesFromOutside}
+    }>
         <div className={styles.tooltipLogo}>
           <Error />
         </div>

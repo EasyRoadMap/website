@@ -152,6 +152,14 @@ h3 {
   align-items: center;
   padding: 10px
 }
+.tooltip::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 0;
+  height: 12px;
+  width: 100%;
+}
 .tooltipLogo {
   height: 30px;
   margin-right: 7px
