@@ -17,13 +17,8 @@ const VerificationCodeInput = ({ code, setCode, error, clearError }) => {
   const getFirstEmptyCell = () => {
     let cellIndex = 0;
     let cellFound = false;
-    console.log("code");
-    console.log(code);
-
     for (const cell of code) {
       if (cell === "") {
-        console.log("cell index");
-        console.log(cellIndex);
         cellFound = true;
         break;
       }
@@ -34,7 +29,7 @@ const VerificationCodeInput = ({ code, setCode, error, clearError }) => {
 
   const handleChange = (index, event) => {
     if (event.target.value === "") {
-      event.target.value = event.data;
+      event.target.value = event.data.toUpperCase();
       const newCode = [...code];
       newCode[index] = event.target.value;
       setCode(newCode);
@@ -53,23 +48,13 @@ const VerificationCodeInput = ({ code, setCode, error, clearError }) => {
         return;
       }
 
-      newCode[jumpToPos] = event.data;
+      newCode[jumpToPos] = event.data.toUpperCase();
       setCode(newCode);
 
       if (event.data !== "") {
         codeRefs.current[jumpToPos].current.focus();
       }
     }
-    // const newCode = [...code];
-    // newCode[index] = event.target.value;
-    // setCode(newCode);
-
-    // if (event.target.value !== "") {
-    //   if (index < code.length - 1) {
-    //     codeRefs.current[index + 1].current.focus();
-    //   }
-    // }
-
     clearError();
   };
 
@@ -142,7 +127,6 @@ const VerificationCodeInput = ({ code, setCode, error, clearError }) => {
           onMouseLeave={() => setActive(false)}
         />
       ))}
-      {/* <h3 className={styles.errorText}>{error}</h3> */}
 
       <ErrorTooltip isShown={active && error} errorText={error} stylesFromOutside={{width: "330px", marginLeft: "3px", marginTop: "10px"}}/>
     </div>
