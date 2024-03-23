@@ -188,7 +188,6 @@ h2 {
 /* стили для чекбокса, находящегося в состоянии disabled */
 .checkbox:disabled + label::before {
   opacity: 30%;
-  background-color: #0b76ef;
 }
 /* стили при наведении курсора на checkbox */
 .checkbox:not(:disabled):not(:checked):hover + label::before {
@@ -257,9 +256,10 @@ h2 {
   text-decoration: underline;
 }
 .repeatLink:disabled {
-  color: rgba(0, 0, 0, 0.5);
+  opacity: 0.3;
   -webkit-user-select: none;
   user-select: none;
+  cursor: not-allowed;
 }
 .errorText {
   font-size: 1.5vh;

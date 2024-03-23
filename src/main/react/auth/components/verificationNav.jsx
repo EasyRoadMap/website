@@ -130,7 +130,6 @@ const VerificationCodeInput = ({ code, setCode, error, clearError }) => {
           maxLength="1"
           className={[styles.verification, inputStyle].join(" ")}
           value={value}
-          // onChange={(event) => handleChange(index, event)}
           onBeforeInput={(event) => handleChange(index, event)}
           onKeyDown={(event) => {
             handleBackspace(index, event);

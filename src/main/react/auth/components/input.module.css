@@ -25,19 +25,21 @@
   user-select: none;
 }
 /* we can do this like: */
-/* .inputWrapper:hover {
+.inputWrapper:hover {
   .input {
     background-color: rgba(0, 0, 0, 0.05);
-    border: none;
+    border-width: 1px;
+    border-color: transparent;
+    padding-left: 20px;
   }
-} */
-.input:hover {
+}
+/* .input:hover {
   background-color: rgba(0, 0, 0, 0.05);
   border-width: 1px;
   border-color: transparent;
   padding-left: 20px;
   cursor: pointer;
-}
+} */
 .input:focus {
   border-style: solid;
   border-color: rgb(0, 102, 254);
@@ -138,9 +140,6 @@ h3 {
 }
 .tooltip {
   position: absolute;
-  /* min-height: 50px; */
-  /* margin-top: 5px; */
-  /* width: 420px; */
   z-index: 999;
   border-radius: 12px;
   background-image: linear-gradient(
