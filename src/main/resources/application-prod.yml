@@ -1,7 +1,9 @@
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:./test
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1/${PG_DATABASE}
+    username: ${PG_USERNAME}
+    password: ${PG_PASSWORD}
 
   jpa:
     hibernate:
@@ -10,14 +12,13 @@ spring:
     open-in-view: false
 
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: easyroadmap.agent
-    password: ${GMAIL_APP_PASSWORD}
+    host: 127.0.0.1
+    port: 25
+    username: no-reply
+    password: no-reply
     properties:
       mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
-      mail.smtp.ssl.trust: smtp.gmail.com
+      mail.smtp.starttls.enable: false
     test-connection: true
 
   sql:
@@ -29,8 +30,14 @@ logging:
     root: INFO
     '[org.springframework.web]': DEBUG
     '[org.springframework.security]': DEBUG
+  file:
+    name: 'logs/easyroadmap.log'
+  logback:
+    rollingpolicy:
+      max-history: 50
   pattern:
     console: '%clr([){faint}%clr(%d{dd.MM.yy}){faint} %clr(%d{HH:mm:ss}){magenta}%clr(]){faint} %clr(%5p) %clr(:){faint} %clr(%-40.40logger{0}){cyan} %clr(:){faint} %m%n%wEx'
+    file: '[%d{dd.MM.yy / HH:mm:ss.SSS}] %5p ${PID:-} --- [%t] %-40.40logger{39} : %m%n%wEx'
 
 server:
   servlet:
@@ -39,21 +46,21 @@ server:
         same-site: lax
 
   auth:
-    default-redirect-url: http://localhost:8080/workspace
+    default-redirect-url: https://easyroadmap.ru/workspace
 
   cors:
-    allowed-origin: "http://localhost:8080"
+    allowed-origin: "https://easyroadmap.ru"
 
   error:
     whitelabel:
       enabled: false
     path: /error
 
-  host: http://localhost:8080
+  host: https://easyroadmap.ru
 
   mail:
     name: EasyRoadMap
-    address: easyroadmap.agent@gmail.com
+    address: no-reply@easyroadmap.ru
 
   storage:
     data-directory: 'data'
