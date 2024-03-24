@@ -17,6 +17,7 @@ const VerificationCodeInput = ({ code, setCode, error, clearError }) => {
   const getFirstEmptyCell = () => {
     let cellIndex = 0;
     let cellFound = false;
+
     for (const cell of code) {
       if (cell === "") {
         cellFound = true;

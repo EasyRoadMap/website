@@ -24,7 +24,7 @@ export default function Input({
   placeholder,
   error,
   clearError,
-  typeOfInput
+  typeOfInput,
 }) {
   const inputStyle = error ? styles.error : "";
   const inputWithContentStyle = data ? styles.inputWithContent : "";
@@ -71,7 +71,11 @@ export default function Input({
           )}
         </div>
       </div>
-      <ErrorTooltip isShown={active && error} errorText={error} stylesFromOutside={{width: "420px"}}/>
+      <ErrorTooltip
+        isShown={active && error}
+        errorText={error}
+        stylesFromOutside={{ width: "420px" }}
+      />
     </>
   );
 }
