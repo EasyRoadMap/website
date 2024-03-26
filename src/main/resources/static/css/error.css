@@ -14,7 +14,6 @@ body {
 }
 
 main {
-  width: 600px;
   height: 800px;
   border: none;
   display: flex;
@@ -22,7 +21,7 @@ main {
   align-items: center;
   background-color: white;
   position: absolute;
-  padding: 90px 90px 90px 90px;
+  padding: 90px 24px 90px 24px;
   border-radius: 48px;
 }
 .logo {
@@ -33,31 +32,32 @@ main {
   cursor: default;
 }
 h1 {
-  font-size: 96px;
+  font-weight: 900;
   color: #0066fe;
-  margin-left: 20px;
-  line-height: 40%;
+  margin-left: 24px;
   cursor: default;
   -webkit-user-select: none;
   user-select: none;
-  height: 120px;
-  padding-top: 16px;
 }
-span {
-  font-size: 32px;
-  color: #0066fe;
-  font-weight: 900;
+span.code {
+  font-size: 96px;
+  line-height: 75px;
+}
+span.message {
+  font-size: 24px;
 }
 .title {
   font-size: 32px;
   color: black;
   font-weight: bold;
+  text-align: center;
 }
 .discription {
   font-size: 20px;
   color: rgba(0, 0, 0, 0.5);
   margin-top: 18px;
   font-weight: normal;
+  text-align: center;
 }
 .content {
   width: 412px;
