@@ -102,7 +102,7 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors, retryCallback }) 
   return (
     <>
       <h2 className={styles.discription}>
-        Письмо с кодом восстановления было отправлено на почту&nbsp;
+        Письмо с кодом восстановления было отправлено на почту&#32;
         <strong className="text-black">{email}</strong>.
         <br />
         Проверьте почту и введите код ниже.
