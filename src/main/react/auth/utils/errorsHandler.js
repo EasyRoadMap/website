@@ -5,9 +5,21 @@ export const getError = (error) => {
     return getErrorDescription(error.error_code, error.field_name ? error.field_name : null);
 }
 
+const clearErrors = (setters) => {
+    if (!setters) return;
+    if (!Object.keys(setters)) return false;
+    Object.keys(setters).forEach((setter) => {
+        console.log(setter);
+        setters[setter]("");
+    })
+}
+
 export const errorApplier = (error, setters) => {
     if (!error) return false;
     if (!Object.keys(error)) return false;
+
+    clearErrors(setters);
+
     Object.keys(error).forEach(element => {
         setters[element](error[element]); 
     });
@@ -22,6 +34,8 @@ export const errorsHandler = (error, showPopup, setters, navigateLinks, navigate
     navigateLinks = navigateLinks ? navigateLinks : {};
 
     const {field, description} = getError(error);
+
+    clearErrors(setters);
 
     if (field in navigateLinks) {
         navigate(navigateLinks[field], {state: {error: {[field]: description}}});
