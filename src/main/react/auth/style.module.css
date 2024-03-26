@@ -150,6 +150,7 @@ h2 {
   height: 32px;
 }
 .checkbox + label {
+  cursor: pointer;
   margin-top: 24px;
   display: inline-flex;
   align-items: center;

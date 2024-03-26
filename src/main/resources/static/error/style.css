@@ -1,0 +1,114 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Golos Text", sans-serif;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  width: 600px;
+  height: 800px;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  position: absolute;
+  padding: 90px 90px 90px 90px;
+  border-radius: 48px;
+}
+.logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 15px;
+  border: none;
+  cursor: default;
+}
+h1 {
+  font-size: 96px;
+  color: #0066fe;
+  margin-left: 20px;
+  line-height: 40%;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+  height: 120px;
+  padding-top: 16px;
+}
+span {
+  font-size: 32px;
+  color: #0066fe;
+  font-weight: 900;
+}
+.title {
+  font-size: 32px;
+  color: black;
+  font-weight: bold;
+}
+.discription {
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: 18px;
+  font-weight: normal;
+}
+.content {
+  width: 412px;
+  height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+}
+.LogoWrapper {
+  display: flex;
+  align-items: center;
+}
+.buttonFilledAccent {
+  background-color: #0066fe;
+  color: white;
+  width: 412px;
+  height: 48px;
+  border-radius: 12px;
+  border: none;
+  margin-top: 48px;
+  font-size: 2vh;
+  cursor: pointer;
+}
+.buttonFilledAccent:hover {
+  background-color: rgba(255, 255, 255, 0.1), rgba(0, 102, 254, 1);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1)
+    ),
+    linear-gradient(rgb(0, 102, 254, 1), rgb(0, 102, 254, 1));
+  color: white;
+}
+.buttonFilledAccent:active {
+  opacity: 75%;
+  background-color: rgba(255, 255, 255, 0.1), rgba(0, 102, 254, 1);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1)
+    ),
+    linear-gradient(rgb(0, 102, 254, 1), rgb(0, 102, 254, 1));
+  color: white;
+}
+.buttonFilledAccent:disabled {
+  opacity: 30%;
+  background-color: rgba(255, 255, 255, 0.1), rgba(0, 102, 254, 1);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1)
+    ),
+    linear-gradient(rgb(0, 102, 254, 1), rgb(0, 102, 254, 1));
+  color: white;
+  cursor: not-allowed;
+}
