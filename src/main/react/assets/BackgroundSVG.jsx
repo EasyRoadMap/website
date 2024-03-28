@@ -1,4 +1,30 @@
-const BackgroundSVG = (props) => (
+import { useEffect, useState } from "react";
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
+
+const BackgroundSVG = (props) => {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    console.log(windowDimensions);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return (
+  <>
+  {(windowDimensions.width < 800 || windowDimensions.height < 820) ? <></> : 
   <svg
     width={2560}
     height={1600}
@@ -42,5 +68,8 @@ const BackgroundSVG = (props) => (
       </clipPath>
     </defs>
   </svg>
-);
+  }
+  </>
+  
+)};
 export default BackgroundSVG;

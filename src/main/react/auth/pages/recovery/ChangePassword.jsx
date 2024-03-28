@@ -107,7 +107,7 @@ const Form = () => {
 
   return (
     <>
-      <form id="recovery" onSubmit={handleSubmit}>
+      <form id="recovery" onSubmit={handleSubmit} className={styles.form}>
         <Input
           data={password}
           setData={setPassword}
@@ -137,7 +137,7 @@ const Form = () => {
       <button
         type="submit"
         form="recovery"
-        className={styleBtn.buttonFilledAccent}
+        className={[styleBtn.btn, styleBtn.buttonFilledAccent].join(" ")}
         disabled={pending}
       >
         Изменить пароль

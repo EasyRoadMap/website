@@ -45,7 +45,7 @@ function Form({ description, buttonText }) {
       </div>
 
       <button
-        className={styleBtn.buttonFilledAccent}
+        className={[styleBtn.btn, styleBtn.buttonFilledAccent].join(" ")}
         disabled={pending}
         onClick={() => {
           trySignIn(email, password, check, setPending);

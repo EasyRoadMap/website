@@ -1,14 +1,14 @@
 .logo {
-  width: 13vh;
-  height: 13vh;
+  width: 120px;
+  height: 120px;
   border-radius: 15px;
   border: none;
   cursor: default;
 }
 .TitleLogo {
-  font-size: 4vh;
+  font-size: 32px;
   color: #0066fe;
-  margin-left: 1vh;
+  margin-left: 10px;
   line-height: 95%;
   cursor: default;
   -webkit-user-select: none;
@@ -17,4 +17,13 @@
 .LogoWrapper {
   display: flex;
   align-items: center;
+}
+@media screen and ((max-width: 520px) or (max-height: 680px)) {
+  .logo {
+    width: 100px;
+    height: 100px;
+  }
+  .TitleLogo {
+    font-size: 28px;
+  }
 }

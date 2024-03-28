@@ -99,7 +99,7 @@ const Form = () => {
   };
   return (
     <>
-      <form id="login" onSubmit={handleSubmit}>
+      <form id="login" onSubmit={handleSubmit} className={styles.form}>
         <Input
           data={email}
           setData={setEmail}
@@ -155,13 +155,13 @@ const Form = () => {
       <button
         type="submit"
         form="login"
-        className={styleBtn.buttonFilledAccent}
+        className={[styleBtn.btn, styleBtn.buttonFilledAccent].join(" ")}
         disabled={pending}
       >
         Войти
       </button>
       <button
-        className={styleBtn.buttonOutlineAccent}
+        className={[styleBtn.btn, styleBtn.buttonOutlineAccent].join(" ")}
         onClick={() => {
           navigate("/auth/sign-up");
         }}

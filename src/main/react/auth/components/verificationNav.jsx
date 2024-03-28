@@ -108,29 +108,31 @@ const VerificationCodeInput = ({ code, setCode, error, clearError }) => {
   };
 
   return (
-    <div>
-      {code.map((value, index) => (
-        <input
-          key={index}
-          type="text"
-          maxLength="1"
-          className={[styles.verification, inputStyle].join(" ")}
-          value={value}
-          onBeforeInput={(event) => handleChange(index, event)}
-          onKeyDown={(event) => {
-            handleBackspace(index, event);
-            handleArrow(index, event);
-          }}
-          onPaste={pasteCode}
-          ref={codeRefs.current[index]}
-          placeholder="_"
-          onMouseEnter={() => setActive(true)}
-          onMouseLeave={() => setActive(false)}
-        />
-      ))}
-
-      <ErrorTooltip isShown={active && error} errorText={error} stylesFromOutside={{width: "330px", marginLeft: "3px", marginTop: "10px"}}/>
+    <div className={styles.inputWithTextWrapper}>
+      <div className={styles.inputWrapper}>
+        {code.map((value, index) => (
+          <input
+            key={index}
+            type="text"
+            maxLength="1"
+            className={[styles.verification, inputStyle].join(" ")}
+            value={value}
+            onBeforeInput={(event) => handleChange(index, event)}
+            onKeyDown={(event) => {
+              handleBackspace(index, event);
+              handleArrow(index, event);
+            }}
+            onPaste={pasteCode}
+            ref={codeRefs.current[index]}
+            placeholder="_"
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
+          />
+        ))}
+        <ErrorTooltip isShown={active && error} errorText={error} stylesFromOutside={{marginLeft: "3px", marginTop: "10px"}}/>
+      </div>
     </div>
+    
   );
 };
 

@@ -102,12 +102,12 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors, retryCallback }) 
   return (
     <>
       <h2 className={styles.discription}>
-        Письмо с кодом восстановления было отправлено на почту&#32;
+        Письмо с кодом восстановления было отправлено на почту{" "}
         <strong className="text-black">{email}</strong>.
         <br />
         Проверьте почту и введите код ниже.
       </h2>
-      <form id="confirm" onSubmit={handleSubmit}>
+      <form id="confirm" onSubmit={handleSubmit} className={styles.form}>
         <VerificationCodeInput
           code={code}
           setCode={setCode}
@@ -120,7 +120,7 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors, retryCallback }) 
       </form>
       <ErrorPopup isShown={popupError !== ""} errorText={popupError} />
       <button
-        className={styleBtn.buttonFilledAccent}
+        className={[styleBtn.btn, styleBtn.buttonFilledAccent].join(" ")}
         form="confirm"
         type="submit"
         disabled={pending}
@@ -136,7 +136,7 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors, retryCallback }) 
         >
           Повторить отправку
         </strong>
-        &nbsp;
+        {" "}
         {(time !== 0) ? "(" + time + " сек)" : ""}
       </h2>
     </>

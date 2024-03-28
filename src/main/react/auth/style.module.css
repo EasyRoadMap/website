@@ -54,39 +54,7 @@ h2 {
   padding: 90px 90px 90px 90px;
   border-radius: 48px;
 }
-.button_theme {
-  width: 4vh;
-  height: 4vh;
-  border-radius: 10px;
-  border-color: #0066fe;
-  border-style: solid;
-  border-width: 1px;
-  background-color: white;
-  font-size: 2vh;
-  text-align: center;
-  z-index: 1;
-  margin: 0.5vh;
-  justify-content: center;
-  align-items: center;
-}
-.button_theme:hover {
-  background-color: #0066fe;
-  transition: 200ms linear;
-}
-.theme {
-  top: 2vh;
-  right: 2vh;
-  display: flex;
-  border-radius: 15px;
-  width: 7vw;
-  height: 6vh;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  z-index: 1;
-}
 .title {
-  width: 40vh;
   font-size: 32px;
   text-align: center;
   font-weight: bold;
@@ -94,6 +62,9 @@ h2 {
   margin-bottom: 36px;
   color: var(--text-color);
   transition: background-color 300ms linear;
+}
+.form {
+  width: 420px;
 }
 .discription {
   width: 420px;
@@ -105,7 +76,6 @@ h2 {
   font-size: 16px;
 }
 .discriptionPrivacyPolicy {
-  max-width: 420px;
   text-align: left;
   font-size: 16px;
   font-weight: normal;
@@ -150,8 +120,9 @@ h2 {
   height: 32px;
 }
 .checkbox + label {
+  width: calc(100vw - 40px);
+  max-width: 420px;
   cursor: pointer;
-  margin-top: 24px;
   display: inline-flex;
   align-items: center;
   font-size: 16px;
@@ -215,16 +186,19 @@ h2 {
   cursor: pointer;
 }
 .checkboxWrapper {
-  width: 420px;
+  width: calc(100vw - 40px);
+  max-width: 420px;
 }
 
 .checkboxWrapperPrivatePolicy {
-  width: 420px;
-  margin-top: -12px;
+  width: calc(100vw - 40px);
+  max-width: 420px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
 }
 .repeatLinkPrivacyPolicy {
   color: rgb(0, 0, 0);
-  font-size: 16px;
   font-weight: normal;
   cursor: pointer;
   text-decoration: none;
@@ -237,7 +211,6 @@ h2 {
   text-decoration: underline;
 }
 .disabledRepeatLinkPrivacyPolicy {
-  font-size: 16px;
   font-weight: normal;
   cursor: not-allowed;
   text-decoration: none;
@@ -268,4 +241,58 @@ h2 {
   color: #ff4848;
   padding-bottom: 0.5vh;
   font-weight: normal;
+}
+
+@media screen and ((max-width: 800px) or (max-height: 820px)) {
+  .mainPage {
+    border-color: transparent;
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .mainPage {
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .mainPage {
+    width: auto;
+    padding: 0;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .form {
+    width: calc(100vw - 40px);
+  }
+  .discription {
+    width: calc(100vw - 40px);
+    font-size: 18px;
+  }
+  .descriptionBottom {
+    width: calc(100vw - 40px);
+    font-size: 14px;
+  }
+  .discriptionPrivacyPolicy {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 316px) {
+  .discription {
+    font-size: 16px;
+  }
+  .descriptionBottom {
+    font-size: 12px;
+  }
+}
+
+@media screen and ((max-width: 520px) or (max-height: 680px)) {
+  .title {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    font-size: 24px;
+  }
 }

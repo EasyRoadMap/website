@@ -112,7 +112,7 @@ const Form = () => {
 
   return (
     <>
-      <form id="sign-up" onSubmit={handleSubmit}>
+      <form id="sign-up" onSubmit={handleSubmit} className={styles.form}>
         <Input
           data={name}
           setData={setName}
@@ -162,12 +162,12 @@ const Form = () => {
           }}
         >
           <h2 className={styles.discriptionPrivacyPolicy}>
-            Я прочитал(а) условия&nbsp;
+            Я прочитал(а) условия{" "}
             <strong className="text-black">
               <a className={styles.repeatLinkPrivacyPolicy} href="">
-                пользовательского <br /> соглашения&nbsp;
+                пользовательского <br /> соглашения{" "}
               </a>
-              и&nbsp;
+              и{" "}
               <a className={styles.repeatLinkPrivacyPolicy} href="">
                 политики конфиденциальности
               </a>
@@ -177,7 +177,7 @@ const Form = () => {
       </div>
       <ErrorPopup isShown={popupError !== ""} errorText={popupError} />
       <button
-        className={styleBtn.buttonFilledAccent}
+        className={[styleBtn.btn, styleBtn.buttonFilledAccent].join(" ")}
         form="sign-up"
         type="submit"
         disabled={pending || !policyBoxChecked}

@@ -74,7 +74,6 @@ export default function Input({
       <ErrorTooltip
         isShown={active && error}
         errorText={error}
-        stylesFromOutside={{ width: "420px" }}
       />
     </>
   );
