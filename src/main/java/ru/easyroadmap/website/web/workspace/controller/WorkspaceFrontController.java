@@ -22,9 +22,9 @@ public class WorkspaceFrontController {
             model.addAttribute("username", userDetails.getUsername());
 
             if (authentication instanceof RememberMeAuthenticationToken cast) {
-                model.addAttribute("remember_me", "with remember-me token");
+                model.addAttribute("remember_me", "через токен 'запомнить меня'");
             } else {
-                model.addAttribute("remember_me", "with username/password token");
+                model.addAttribute("remember_me", "через логин и пароль");
             }
         }
 
