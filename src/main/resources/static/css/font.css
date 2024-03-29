@@ -1,7 +1,7 @@
 @font-face {
-    font-family: "Golos Text";
-    src: url("../font/golos-text-vf.ttf") format("truetype");
+  font-family: "Golos Text";
+  src: url("/erm-web/font/golos-text-vf.ttf") format("truetype");
 }
 * {
-    font-family: "Golos Text", sans-serif;
+  font-family: "Golos Text", sans-serif;
 }
