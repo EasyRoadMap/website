@@ -118,6 +118,8 @@ h2 {
 }
 .rememberMe {
   margin-top: 24px;
+  width: calc(100vw - 40px);
+  max-width: 420px;
 }
 
 .checkbox {
@@ -126,8 +128,6 @@ h2 {
 }
 
 .checkbox + label {
-  width: calc(100vw - 40px);
-  max-width: 420px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -176,6 +176,7 @@ h2 {
 .checkbox + label::before:hover {
   background-color: rgba(0, 0, 0, 0.15);
 }
+
 .checkbox + label::before {
   content: "";
   display: inline-block;
