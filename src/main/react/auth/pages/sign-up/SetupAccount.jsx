@@ -167,7 +167,9 @@ const Form = () => {
               <a className={styles.repeatLinkPrivacyPolicy} href="">
                 пользовательского <br /> соглашения{" "}
               </a>
-              и{" "}
+            </strong>
+            и{" "}
+            <strong className="text-black">
               <a className={styles.repeatLinkPrivacyPolicy} href="">
                 политики конфиденциальности
               </a>
