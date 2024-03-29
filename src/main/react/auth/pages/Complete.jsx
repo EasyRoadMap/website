@@ -38,7 +38,7 @@ function Form({ description, buttonText }) {
               setCheck(!check);
             }}
           ></input>
-          <label for="check">Запомни меня!</label>
+          <label for="check">Запомнить меня</label>
         </div>
       </div>
 

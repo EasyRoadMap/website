@@ -4,7 +4,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Golos Text", sans-serif;
   border-radius: 0;
   -webkit-tap-highlight-color: transparent;
 }
@@ -82,9 +81,14 @@ h2 {
   font-weight: normal;
   color: rgb(0, 0, 0, 0.5);
 }
+.forgotPasswordWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  margin-bottom: -24px;
+}
 .forgotPassword {
   margin-top: -6px;
-  margin-bottom: -24px;
   text-align: right;
   font-weight: normal;
   color: rgba(0, 0, 0, 0.5);
