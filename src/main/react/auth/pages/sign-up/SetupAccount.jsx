@@ -116,7 +116,7 @@ const Form = () => {
         <Input
           data={name}
           setData={setName}
-          placeholder="Костя"
+          placeholder="Введите его здесь"
           error={errorName}
           clearError={() => {
             setErrorName("");
