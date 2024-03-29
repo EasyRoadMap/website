@@ -115,10 +115,15 @@ h2 {
   cursor: pointer;
   text-decoration: underline;
 }
+.rememberMe {
+  margin-top: 24px;
+}
+
 .checkbox {
   width: 32px;
   height: 32px;
 }
+
 .checkbox + label {
   width: calc(100vw - 40px);
   max-width: 420px;

@@ -28,20 +28,18 @@ function Form({ description, buttonText }) {
     <>
       <h2 className={styles.discription}>{description}</h2>
       <div className={styles.checkboxWrapper}>
-        <input
-          id="check"
-          type="checkbox"
-          className={styles.checkbox}
-          disabled={pending}
-          onChange={() => {
-            setCheck(!check);
-          }}
-        ></input>
-        <label
-          for="check"
-        >
-          Запомни меня!
-        </label>
+        <div className={styles.rememberMe}>
+          <input
+            id="check"
+            type="checkbox"
+            className={styles.checkbox}
+            disabled={pending}
+            onChange={() => {
+              setCheck(!check);
+            }}
+          ></input>
+          <label for="check">Запомни меня!</label>
+        </div>
       </div>
 
       <button

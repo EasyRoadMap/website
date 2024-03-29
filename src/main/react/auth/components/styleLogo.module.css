@@ -6,6 +6,7 @@
   cursor: default;
 }
 .TitleLogo {
+  font-weight: bold;
   font-size: 32px;
   color: #0066fe;
   margin-left: 10px;
@@ -25,5 +26,6 @@
   }
   .TitleLogo {
     font-size: 28px;
+    font-weight: bold;
   }
 }

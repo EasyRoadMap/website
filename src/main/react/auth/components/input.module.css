@@ -107,6 +107,14 @@
   border-color: #ff4848;
   color: #ff0000;
 }
+.error:focus {
+  border-color: #ff4848;
+  color: #ff0000;
+}
+.error:active {
+  border-color: #ff4848;
+  color: #ff0000;
+}
 
 h3 {
   font-size: 1.5vh;

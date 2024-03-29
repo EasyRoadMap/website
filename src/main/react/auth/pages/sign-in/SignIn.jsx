@@ -136,20 +136,18 @@ const Form = () => {
           }}
           active={!pending}
         />
-        <input
-          id="check"
-          type="checkbox"
-          className={styles.checkbox}
-          disabled={pending}
-          onChange={() => {
-            setCheck(!check);
-          }}
-        ></input>
-        <label
-          for="check"
-        >
-          Запомнить меня
-        </label>
+        <div className={styles.rememberMe}>
+          <input
+            id="check"
+            type="checkbox"
+            className={styles.checkbox}
+            disabled={pending}
+            onChange={() => {
+              setCheck(!check);
+            }}
+          ></input>
+          <label for="check">Запомнить меня</label>
+        </div>
       </form>
       <ErrorPopup isShown={popupError !== ""} errorText={popupError} />
       <button
