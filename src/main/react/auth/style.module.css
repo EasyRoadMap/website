@@ -6,6 +6,7 @@
   box-sizing: border-box;
   font-family: "Golos Text", sans-serif;
   border-radius: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 body {
   width: 100vw;

@@ -142,7 +142,7 @@ const Form = () => {
             type="checkbox"
             className={styles.checkbox}
             disabled={pending}
-            onChange={() => {
+            onChange={(e) => {
               setCheck(!check);
             }}
           ></input>
