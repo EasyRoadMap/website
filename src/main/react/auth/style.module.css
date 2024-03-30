@@ -67,8 +67,10 @@ h2 {
   width: 420px;
 }
 .discription {
-  width: 420px;
+  width: 460px;
   font-size: 20px;
+  margin-left: -20px;
+  margin-right: -20px;
 }
 .descriptionBottom {
   width: 420px;
