@@ -26,7 +26,12 @@ const preventUnacceptableEnter = (location, navigate) => {
   }
 };
 
-const Form = ({ APICallback, linksToPagesThatCanIncludeErrors, retryCallback }) => {
+const Form = ({
+  APICallback,
+  linksToPagesThatCanIncludeErrors,
+  retryCallback,
+  description,
+}) => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [errorCode, setErrorCode] = useState("");
   const [pending, setPending] = useState(false);
@@ -41,6 +46,11 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors, retryCallback }) 
   const password = location.state?.password;
   const name = location.state?.name;
 
+  const typeOfConfermation = {
+    recovery: " востановления ",
+    email_confirmation: " подтверждения ",
+  };
+
   useEffect(() => {
     console.log("ee");
     preventUnacceptableEnter(location, navigate);
@@ -54,20 +64,29 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors, retryCallback }) 
   const enableRepeat = () => {
     console.log("helo");
     setEnabledRepeat(true);
-  }
+  };
 
   const repeatTry = () => {
     const navigateLinks = linksToPagesThatCanIncludeErrors;
-    const setters = {setErrorCode};
+    const setters = { setErrorCode };
 
     const callback = () => {
       setEnabledRepeat(false);
       setTime(60);
       timer(enableRepeat, setTime);
-    } 
+    };
 
-    retryCallback(email, name, showPopup, callback, setters, navigateLinks, setPending, navigate);
-  }
+    retryCallback(
+      email,
+      name,
+      showPopup,
+      callback,
+      setters,
+      navigateLinks,
+      setPending,
+      navigate
+    );
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -102,8 +121,8 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors, retryCallback }) 
   return (
     <>
       <h2 className={styles.discription}>
-        Письмо с кодом восстановления было отправлено на почту{" "}
-        <strong className="text-black">{email}</strong>.
+        Письмо с кодом {typeOfConfermation[description]} было отправлено на
+        почту <strong className="text-black">{email}</strong>.
         <br />
         Проверьте почту и введите код ниже.
       </h2>
@@ -128,16 +147,19 @@ const Form = ({ APICallback, linksToPagesThatCanIncludeErrors, retryCallback }) 
         Продолжить
       </button>
       <h2 className={styles.descriptionBottom}>
-        Не пришло письмо с кодом восстановления?
+        Не пришло письмо с кодом {typeOfConfermation[description]}?
         <br />
         <strong
-          className={enabledRepeat ? styles.repeatLinkPrivacyPolicy : styles.disabledRepeatLinkPrivacyPolicy}
-          onClick={(pending || (!enabledRepeat)) ? () => {} : repeatTry}
+          className={
+            enabledRepeat
+              ? styles.repeatLinkPrivacyPolicy
+              : styles.disabledRepeatLinkPrivacyPolicy
+          }
+          onClick={pending || !enabledRepeat ? () => {} : repeatTry}
         >
           Повторить отправку
-        </strong>
-        {" "}
-        {(time !== 0) ? "(" + time + " сек)" : ""}
+        </strong>{" "}
+        {time !== 0 ? "(" + time + " сек)" : ""}
       </h2>
     </>
   );
@@ -147,13 +169,15 @@ function ConfirmationCode({
   header,
   APICallback,
   linksToPagesThatCanIncludeErrors,
-  retryCallback
+  retryCallback,
+  description,
 }) {
   return (
     <Base
       header={header}
       children={
         <Form
+          description={description}
           APICallback={APICallback}
           linksToPagesThatCanIncludeErrors={linksToPagesThatCanIncludeErrors}
           retryCallback={retryCallback}

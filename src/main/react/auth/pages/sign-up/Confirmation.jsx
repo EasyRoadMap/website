@@ -33,7 +33,7 @@ const tryConfirmEmail = (
 };
 
 const tryGetCode = (
-  email, 
+  email,
   name,
   showPopup,
   callback,
@@ -83,6 +83,7 @@ const SignUpCode = () => {
     <ConfirmationCode
       header={"Подтвердите почту"}
       APICallback={tryConfirmEmail}
+      description={"email_confirmation"}
       linksToPagesThatCanIncludeErrors={{
         email: "/auth/sign-in",
         password: "/auth/sign-in",
