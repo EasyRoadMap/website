@@ -1,0 +1,41 @@
+.section {
+    background-color: #fff;
+    padding: 24px;
+}
+.title {
+    margin-bottom: 12px;
+}
+.participantsList {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.participantWrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 6px 0;
+}
+.avatar {
+    height: 64px;
+    width: 64px;
+    aspect-ratio: 1;
+}
+.infoWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.addButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 6px 0;
+}
+.addLogo {
+    height: 64px;
+    width: 64px;
+    aspect-ratio: 1;
+    margin-right: 12px;
+}

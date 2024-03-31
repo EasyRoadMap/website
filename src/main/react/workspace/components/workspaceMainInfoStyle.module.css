@@ -1,0 +1,13 @@
+.section {
+    width: 696px;
+    height: fit-content;
+    padding: 24px;
+    background-color: #fff;
+    display: flex;
+    gap: 24px;
+}
+.logo {
+    height: 120px;
+    width: auto;
+    aspect-ratio: 1;
+}

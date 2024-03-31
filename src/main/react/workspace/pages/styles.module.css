@@ -1,0 +1,17 @@
+.main {
+    background-image: linear-gradient(rgba(0, 0, 0, .05), rgba(0, 0, 0, .05)),
+                      linear-gradient(rgba(0, 102, 254, .05), rgba(0, 102, 254, .05));
+}
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 24px;
+}
+.centeredContent {
+    width: 696px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
