@@ -5,18 +5,18 @@ import Participants from "../components/participants/Participants.jsx";
 import styles from "./styles.module.css";
 
 const Main = () => {
-    return (
-        <main className={styles.main}>
-            <Header />
-            <section className={styles.content}>
-                <Sidebar />
-                <section className={styles.centeredContent}>
-                    <WorkspaceMainInfo />
-                    <Participants />    
-                </section>
-            </section>
-        </main>
-    );
-}
+  return (
+    <main className={styles.main}>
+      <Header />
+      <section className={styles.content}>
+        <Sidebar />
+        <section className={styles.centeredContent}>
+          <WorkspaceMainInfo />
+          <Participants />
+        </section>
+      </section>
+    </main>
+  );
+};
 
 export default Main;

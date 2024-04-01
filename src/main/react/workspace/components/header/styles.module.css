@@ -1,34 +1,46 @@
 .header {
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 calc((100vw - 1060px) / 2);
-    user-select: none;
-    background-color: #fff;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc((100vw - 1060px) / 2);
+  user-select: none;
+  background-color: #fff;
 }
 .logoWrapper {
-    height: 100%;
-    width: auto;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
+  height: 100%;
+  width: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.title {
+  font-size: 32px;
+  font-weight: bold;
+}
+.subTitle {
+  font-size: 20px;
+  font-weight: 600;
+}
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
 }
 .logo {
-    height: 64px;
-    width: auto;
+  height: 64px;
+  width: auto;
 }
 .userButton {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
 }
 .avatarCircle {
-    height: 48px;
-    width: auto;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, .1);
+  height: 48px;
+  width: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }

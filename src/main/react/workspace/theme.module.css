@@ -1,0 +1,14 @@
+:root {
+  --bg-color: #e6ebf2;
+  --text-color: #000000;
+}
+[data-theme="light"] {
+  --bg-color: #e6ebf2;
+  --text-color: #000000;
+  --foreground-color50: rgb(255, 255, 255, 0.5);
+}
+[data-theme="dark"] {
+  --bg-color: #191c20;
+  --text-color: #ffffff;
+  --foreground-color50: rgb(0, 0, 0, 0.5);
+}

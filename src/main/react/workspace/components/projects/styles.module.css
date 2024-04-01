@@ -1,41 +1,49 @@
 .projectsList {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    padding: 24px;
-    background-color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 24px;
+  background-color: #fff;
+}
+.name {
+  font-size: 24px;
+  font-weight: 500;
 }
 .project {
-    height: 339px;
-    flex-basis: calc(50% - 12px);
-    background-color: rgba(0, 102, 254, .05);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
+  height: 339px;
+  flex-basis: calc(50% - 12px);
+  background-color: rgba(0, 102, 254, 0.05);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-radius: 15px;
 }
 .avatar {
-    height: 120px;
-    width: 120px;
-    aspect-ratio: 1;
-    border-radius: 50%;
+  height: 120px;
+  width: 120px;
+  aspect-ratio: 1;
+  border-radius: 50%;
 }
 .addLogo {
-    height: 120px;
-    width: 120px;
-    aspect-ratio: 1;
-    border-radius: 50%;
+  height: 120px;
+  width: 120px;
+  aspect-ratio: 1;
+  border-radius: 50%;
 }
 .addProject {
-    height: 339px;
-    flex-basis: calc(50% - 12px);
-    background-color: rgba(0, 102, 254, .05);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
+  height: 339px;
+  flex-basis: calc(50% - 12px);
+  background-color: rgba(0, 102, 254, 0.05);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.buttonChapter {
+  margin-bottom: 12px;
 }

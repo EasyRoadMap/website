@@ -1,6 +1,26 @@
 .aside {
-    height: fit-content;
-    width: 340px;
-    background-color: #fff;
-    padding: 12px;
+  height: fit-content;
+  width: 340px;
+  background-color: #fff;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+}
+.project {
+  margin-left: 44px;
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+}
+.projectButton {
+  cursor: pointer;
+  width: 272px;
+  height: 44px;
+  color: var(--foreground-color50);
+}
+.buttonChapter {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
