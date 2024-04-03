@@ -1,11 +1,15 @@
+import styles from "./styles.module.css";
+
 const DropdownWorkspaceButton = ({
-    name,
-    avatar
+    workspace
 }) => {
     return (
-        <>
-            {/* name, avatar */}
-        </>
+        <div className={styles.dropdownWorkspaceButton}>
+            <img src={workspace.avatar} alt="" className={styles.workspaceAvatar} />
+            <div>
+                {workspace.name}
+            </div>
+        </div>
     );
 }
 

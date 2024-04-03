@@ -1,5 +1,12 @@
 import styles from "./button.module.css";
 
+const types = {
+    filledAccent: styles.buttonFilledAccent,
+    filledSecondary: styles.buttonFilledSecondary,
+    outlineAccent: styles.buttonOutlineAccent,
+    outlineSecondary: styles.buttonOutlineSecondary
+}
+
 const Button = ({
     text,
     type, // filled, outline etc
@@ -8,7 +15,7 @@ const Button = ({
 }) => {
     return (
         <button
-            className={[styles.btn, styles.buttonFilledAccent].join(" ")}
+            className={[styles.btn, types[type]].join(" ")}
         >
             {text}
         </button>

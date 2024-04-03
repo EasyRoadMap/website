@@ -36,6 +36,7 @@
   align-items: center;
   gap: 10px;
   cursor: pointer;
+  position: relative;
 }
 .avatarCircle {
   height: 48px;

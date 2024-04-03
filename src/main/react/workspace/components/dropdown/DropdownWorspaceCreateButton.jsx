@@ -1,8 +1,13 @@
+import styles from "./styles.module.css";
+
 const DropdownWorkspaceCreateButton = () => {
     return (
-        <>
-            {/* static */}
-        </>
+        <div className={styles.addSection}>
+            {/* логотип */}
+            <div className={styles.addSectionText}>
+                Новая рабочая область
+            </div>
+        </div>
     );
 }
 

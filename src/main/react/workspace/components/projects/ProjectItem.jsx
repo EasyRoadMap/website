@@ -10,7 +10,7 @@ const ProjectItem = ({
             <img src={project.avatar} alt="" className={styles.avatar}/>
             <h1 className={styles.name}>{project.name}</h1>
             <AvatarsList participants={project.participants}/>
-            <Button text="Перейти" />
+            <Button text="Перейти" type="filledAccent"/>
         </div>
     );
 }

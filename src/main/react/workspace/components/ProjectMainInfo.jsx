@@ -1,12 +1,14 @@
 import TextField from "./UI/TextField.jsx";
+import styles from "./workspaceMainInfoStyle.module.css"
 
 const ProjectMainInfo = ({
     logo,
-    workspaceInfo // name, description, links
+    projectInfo // name, description, links
 }) => {
     return (
         <section className={styles.section}>
-            <img src={logo} alt="" />
+        <img src={logo} alt="" className={styles.logo} />
+        <div className={styles.info}>
             <h1>
                 Основная информация
             </h1>
@@ -15,7 +17,8 @@ const ProjectMainInfo = ({
             <TextField title="Ссылки" placeholder="Ссылка 1"/>
             <TextField placeholder="Ссылка 2"/>
             <TextField placeholder="Ссылка 3"/>
-        </section>
+        </div>
+    </section>
     );
 }
 

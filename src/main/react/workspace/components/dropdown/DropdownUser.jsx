@@ -1,11 +1,18 @@
-import Button from "./Button.jsx";
+import Button from "../UI/Button.jsx";
+import styles from "./styles.module.css";
 
-const DropdownUser = () => {
-    // gets avatar, name, email
+const DropdownUser = ({
+    user
+}) => {
     return (
-        <>
-        {/* avatar, name, email, button */}
-        </>
+        <div className={styles.userDropdown}>
+            <img src={user.avatar} alt="" className={styles.avatar}/>
+            <div className={styles.userInfoWrapper}>
+                <h1 className={styles.userName}>{user.name}</h1>
+                <div className={styles.userEmail}>{user.email}</div>
+                <Button text="Мой профиль" type="outlineAccent"/>
+            </div>
+        </div>
     );
 }
 

@@ -1,11 +1,22 @@
-import DropdownWorkspaceButton from "./DropdownWorkspaceButton";
+import DropdownWorkspaceButton from "./DropdownWorkspaceButton.jsx";
+import DropdownWorkspaceCreateButton from "./DropdownWorspaceCreateButton.jsx";
+import styles from "./styles.module.css";
 
-const DropdownWorkspaces = () => {
-    // gets workspaces
+const DropdownWorkspaces = ({
+    workspaces
+}) => {
     return (
-        <>
-        {/* avatar, name, email, button */}
-        </>
+        <div className={styles.dropdownWorkspaces}>
+            <h1>
+                Рабочие области
+            </h1>
+            {workspaces.map((workspace, i) => {
+                return (
+                    <DropdownWorkspaceButton workspace={workspace} key={i}/>
+                );
+            })}
+            <DropdownWorkspaceCreateButton />
+        </div>
     );
 }
 

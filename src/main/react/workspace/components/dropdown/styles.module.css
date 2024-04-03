@@ -1,0 +1,25 @@
+.dropdown {
+    position: fixed;
+    width: 361px;
+    padding: 24px 16px;
+    align-self: left;
+    background-color: #F9FAFC;
+    z-index: 99999;
+    cursor: default;
+}
+.avatar {
+    width: 80px;
+    height: 80px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+.userDropdown {
+    display: flex;
+    flex-direction: row;
+    gap: 43px;
+}
+.userInfoWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
