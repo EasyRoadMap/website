@@ -1,26 +1,28 @@
+@import url("../../theme.module.css");
 .aside {
   height: fit-content;
   width: 340px;
-  background-color: #fff;
+  background-color: var(--bg-color-sidebar-and-dropdown);
   padding: 12px;
   display: flex;
   gap: 12px;
   flex-direction: column;
+  border-radius: 24px;
 }
 .project {
   margin-left: 44px;
   display: flex;
   gap: 12px;
   flex-direction: column;
+  color: var(--text-color);
 }
 .projectButton {
   cursor: pointer;
   width: 272px;
   height: 44px;
-  color: var(--foreground-color50);
+  display: flex;
+  align-items: center;
 }
 .buttonChapter {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  color: var(--text-color);
 }

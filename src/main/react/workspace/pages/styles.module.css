@@ -1,6 +1,5 @@
 .main {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)),
-    linear-gradient(rgba(0, 102, 254, 0.05), rgba(0, 102, 254, 0.05));
+  background-color: var(--bg-color-and-popup);
   min-height: 100vh;
 }
 .content {

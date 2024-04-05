@@ -5,11 +5,14 @@ const defaultTheme = isDarkTheme ? "dark" : "light";
 
 export const useTheme = () => {
   const [theme, setTheme] = useState(
-    localStorage.getItem("app-theme") || defaultTheme
+    localStorage.getItem("app-theme") || "default"
   );
 
   useLayoutEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute(
+      "data-theme",
+      theme === "default" ? defaultTheme : theme
+    );
     localStorage.setItem("app-theme", theme);
   }, [theme]);
 

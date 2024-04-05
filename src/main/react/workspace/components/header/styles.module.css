@@ -5,7 +5,7 @@
   justify-content: space-between;
   padding: 0 calc((100vw - 1060px) / 2);
   user-select: none;
-  background-color: #fff;
+  background-color: var(--bg-color-header-and-dropdown-user);
 }
 .logoWrapper {
   height: 100%;
@@ -18,10 +18,12 @@
 .title {
   font-size: 32px;
   font-weight: bold;
+  color: var(--text-color);
 }
 .subTitle {
   font-size: 20px;
   font-weight: 600;
+  color: var(--text-color);
 }
 .titleWrapper {
   display: flex;
@@ -44,4 +46,9 @@
   aspect-ratio: 1;
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.username {
+  color: var(--text-color);
+  font-size: 24px;
+  font-weight: medium;
 }

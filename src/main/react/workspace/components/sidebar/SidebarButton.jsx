@@ -21,7 +21,7 @@ const SidebarButton = ({
 }) => {
   const data = types[type];
   return (
-    <div onClick={callback}>
+    <div onClick={callback} className={styles.buttonChapter}>
       <img src={data.icon} alt="" />
       <span>{data.name}</span>
     </div>
