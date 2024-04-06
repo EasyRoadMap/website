@@ -6,6 +6,35 @@
   background-color: var(--bg-color-header-and-dropdown-user);
   z-index: 99999;
   cursor: default;
+  border-radius: 0px 0px 15px 15px;
+  margin-top: 6px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(0, 0, 0, 0.1);
+}
+.dropdownSettings {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 4px;
+  height: 20px;
+  width: 329px;
+}
+.dropdownButtons {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dropdownTitleButton {
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: normal;
+  cursor: pointer;
+  background-color: transparent;
+  border-color: transparent;
+  border-style: solid;
 }
 .avatar {
   width: 80px;

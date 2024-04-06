@@ -12,7 +12,7 @@ color-4 - для бокового меню */
   /*color 3*/
   --bg-color-header-and-dropdown-user: #f9fafc;
   --text-color: #000000;
-  --foreground-color50: rgb(255, 255, 255, 0.5);
+  --foreground-color50: rgb(0, 0, 0, 0.5);
   --accent-color: #0066fe;
   --title-input-color: #000000;
 }

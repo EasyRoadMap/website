@@ -5,6 +5,7 @@
   background-color: var(--bg-color-project);
   display: flex;
   gap: 24px;
+  border-radius: 24px;
 }
 .logo {
   height: 120px;
@@ -15,5 +16,5 @@
 .title {
   color: var(--text-color);
   font-size: 24px;
-  font-weight: medium;
+  font-weight: 500;
 }
