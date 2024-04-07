@@ -11,6 +11,9 @@
   border-style: solid;
   border-width: 1px;
   border-color: rgb(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 .dropdownSettings {
   display: flex;
@@ -21,8 +24,16 @@
   height: 20px;
   width: 329px;
 }
+.dropdownSettings:hover {
+  opacity: 0.75;
+}
+.dropdownSettings:active {
+  opacity: 0.5;
+}
+.dropdownSettings:disabled {
+  opacity: 0.3;
+}
 .dropdownButtons {
-  margin-top: 12px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -36,11 +47,142 @@
   border-color: transparent;
   border-style: solid;
 }
+
+.dropdownWorkspacesTitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+.dropdownWorkspaces {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dropdownWorkspaceButton:hover {
+  .workspaceAvatar {
+    opacity: 0.8;
+  }
+  .workspaceName {
+    opacity: 0.8;
+  }
+  background-color: var(--bg-workspace-button);
+}
+.dropdownWorkspaceButton:active {
+  background-color: var(--bg-workspace-button-active);
+  .workspaceAvatar {
+    opacity: 1;
+  }
+  .workspaceName {
+    opacity: 1;
+  }
+}
+.dropdownWorkspaceButton:focus {
+  background-color: var(--bg-workspace-button-focus);
+  .workspaceAvatar {
+    opacity: 1;
+  }
+  .workspaceName {
+    opacity: 1;
+  }
+}
+.dropdownWorkspaceButton:disabled {
+  opacity: 0.3;
+  .workspaceAvatar {
+    opacity: 1;
+  }
+  .workspaceName {
+    opacity: 1;
+  }
+}
+
+.dropdownWorkspaceButton {
+  width: 329px;
+  height: 44px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 15px;
+}
+.workspaceAvatar {
+  width: 32px;
+  height: 32px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0.5;
+  background-color: aqua;
+}
+.workspaceName {
+  opacity: 0.5;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.addSection {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  border-width: 1.5px;
+  border-style: solid;
+  border-color: var(--accent-color);
+  border-radius: 15px;
+  height: 49px;
+  width: 329px;
+  padding: 6px;
+  cursor: pointer;
+}
+.addSection:hover {
+  .addSectionText {
+    color: #1a75fe;
+  }
+  .AddWorkspaceSVG {
+    circle {
+      fill: #1a75fe;
+      stroke: var(--accent-color);
+    }
+  }
+}
+.addSection:active {
+  .addSectionText {
+    opacity: 0.75;
+    color: #1a75fe;
+  }
+  .AddWorkspaceSVG {
+    circle {
+      fill: #1a75fe;
+      stroke: var(--accent-color);
+    }
+  }
+  opacity: 0.75;
+}
+.addSection:disabled {
+  .addSectionText {
+    color: #1a75fe;
+  }
+  .AddWorkspaceSVG {
+    circle {
+      fill: #1a75fe;
+      stroke: var(--accent-color);
+    }
+  }
+  opacity: 0.75;
+}
+
+.addSectionText {
+  color: var(--accent-color);
+  font-size: 16px;
+  font-weight: 500;
+}
 .avatar {
   width: 80px;
   height: 80px;
   aspect-ratio: 1;
   border-radius: 50%;
+  margin-right: 43px;
 }
 .userDropdown {
   display: flex;

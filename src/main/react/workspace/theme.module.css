@@ -15,6 +15,9 @@ color-4 - для бокового меню */
   --foreground-color50: rgb(0, 0, 0, 0.5);
   --accent-color: #0066fe;
   --title-input-color: #000000;
+  --bg-workspace-button: rgba(0, 0, 0, 0.08);
+  --bg-workspace-button-focus: rgba(0, 0, 0, 0.5);
+  --bg-workspace-button-active: rgba(0, 0, 0, 0.12);
 }
 [data-theme="light"] {
   /*color 1*/
@@ -28,6 +31,9 @@ color-4 - для бокового меню */
   --text-color: #000000;
   --foreground-color50: rgb(0, 0, 0, 0.5);
   --title-input-color: #000000;
+  --bg-workspace-button: rgba(0, 0, 0, 0.08);
+  --bg-workspace-button-focus: rgba(0, 0, 0, 0.5);
+  --bg-workspace-button-active: rgba(0, 0, 0, 0.12);
 }
 [data-theme="dark"] {
   /*color 1*/
@@ -41,4 +47,7 @@ color-4 - для бокового меню */
   --text-color: #ffffff;
   --foreground-color50: rgb(255, 255, 255, 0.5);
   --title-input-color: rgb(255, 255, 255, 0.75);
+  --bg-workspace-button: rgba(255, 255, 255, 0.08);
+  --bg-workspace-button-focus: rgba(255, 255, 255, 0.12);
+  --bg-workspace-button-active: rgba(255, 255, 255, 0.05);
 }

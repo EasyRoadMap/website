@@ -1,4 +1,4 @@
-import { useTheme } from "../../hooks/useTheme.js";
+import { useTheme } from "../../hooks/theme.js";
 import { useState } from "react";
 import { useEffect } from "react";
 import darkThemeSVG from "../../../assets/darkTheme.jsx";
@@ -41,29 +41,38 @@ export default function ThemeButton() {
   }, [theme]);
 
   return (
-    <OutsideAlerter callback={() => setShowed(false)} style={{width: "fit-content"}}>
+    <OutsideAlerter
+      callback={() => setShowed(false)}
+      style={{ width: "fit-content" }}
+    >
       <div className={styles.dropdownTheme}>
         <div className={styles.logoAndButtonwrapper}>
           {theme === "light" ? <div>{icon}</div> : <div>{icon}</div>}
           <div className={styles.wholeText}>
-            <span className={styles.unclickableText}>
-              Тема:&nbsp;
-            </span>
-            <span onClick={() => setShowed(prev => !prev)}
-                  className={styles.chosenThemeButton}
+            <span className={styles.unclickableText}>Тема:&nbsp;</span>
+            <span
+              onClick={() => setShowed((prev) => !prev)}
+              className={styles.chosenThemeButton}
             >
               {themeTitle[theme]}
             </span>
           </div>
         </div>
-        
-        <div className={styles.dropdownThemeContent} 
-             style={{display: showed ? "block" : "none"}}
+
+        <div
+          className={styles.dropdownThemeContent}
+          style={{ display: showed ? "block" : "none" }}
         >
-          <button onClick={() => handleThemeButtonClick("light")} className={styles.buttonTheme}>
+          <button
+            onClick={() => handleThemeButtonClick("light")}
+            className={styles.buttonTheme}
+          >
             Светлая
           </button>
-          <button onClick={() => handleThemeButtonClick("dark")} className={styles.buttonTheme}>
+          <button
+            onClick={() => handleThemeButtonClick("dark")}
+            className={styles.buttonTheme}
+          >
             Темная
           </button>
           <button

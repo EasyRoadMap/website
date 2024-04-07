@@ -7,6 +7,7 @@ import { PlaceFixedBlockToAnother } from "../../hooks/usePlaceFixedBlockToAnothe
 import { useRef } from "react";
 import SettingsSvg from "../../../assets/settingsIconSVG.jsx";
 import ExitSVG from "../../../assets/exitIconSVG.jsx";
+import ThemeButton from "../UI/ThemeButton.jsx";
 
 const user = {
   avatar: "",
@@ -46,6 +47,7 @@ const Dropdown = ({ visible, hide, showButtonRef }) => {
             <DropdownUser user={user} />
             <DropdownWorkspaces workspaces={workspaces} />
             <div className={styles.dropdownButtons}>
+              <ThemeButton />
               <DropdownSettingsButton type={typeButton.settings} />
               <DropdownSettingsButton type={typeButton.exit} />
             </div>

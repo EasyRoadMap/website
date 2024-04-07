@@ -1,4 +1,3 @@
-import * as React from "react";
 const ExitSVG = (props) => (
   <svg
     width={21}
