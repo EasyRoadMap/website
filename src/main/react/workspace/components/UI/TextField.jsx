@@ -2,7 +2,7 @@ import styles from "./styleUI.module.css";
 
 const TextField = ({ data, setData, title, placeholder }) => {
   return (
-    <form>
+    <form className={styles.form}>
       <label className={styles.titleInput}> {title} </label>
       <input className={styles.input} type="text" placeholder={placeholder} />
     </form>

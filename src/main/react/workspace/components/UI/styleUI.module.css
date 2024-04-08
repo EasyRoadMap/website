@@ -31,9 +31,21 @@
 }
 .input {
   background-color: transparent;
-  border-width: 1px;
+  border-width: 1.5px;
   border-style: solid;
-  border-color: rgba(0, 0, 0, 0.15);
+  border-color: var(--border-input);
   font-size: 16px;
   font-weight: 500;
+  border-radius: 12px;
+  padding-left: 18px;
+  padding-right: 18px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  width: 504px;
+  height: 43px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }

@@ -7,14 +7,16 @@ const ProjectMainInfo = ({
 }) => {
   return (
     <section className={styles.section}>
-      <img src={logo} alt="" className={styles.logo} />
+      <span className={styles.title}>Основная информация</span>
       <div className={styles.info}>
-        <span className={styles.title}>Основная информация</span>
-        <TextField title="Название проекта" placeholder="Название проекта" />
-        <TextField title="Описание проекта" placeholder="Описание проекта" />
-        <TextField title="Ссылки" placeholder="Ссылка 1" />
-        <TextField placeholder="Ссылка 2" />
-        <TextField placeholder="Ссылка 3" />
+        <img src={logo} alt="" className={styles.logo} />
+        <div className={styles.sectionUrl}>
+          <TextField title="Название проекта" placeholder="Название проекта" />
+          <TextField title="Описание проекта" placeholder="Описание проекта" />
+          <TextField title="Ссылки" placeholder="Ссылка 1" />
+          <TextField placeholder="Ссылка 2" />
+          <TextField placeholder="Ссылка 3" />
+        </div>
       </div>
     </section>
   );

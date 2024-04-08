@@ -7,9 +7,9 @@ const WorkspaceMainInfo = ({
 }) => {
   return (
     <section className={styles.section}>
-      <img src={logo} alt="" className={styles.logo} />
+      <span className={styles.title}>Основная информация</span>
       <div className={styles.info}>
-        <span className={styles.title}>Основная информация</span>
+        <img src={logo} alt="" className={styles.logo} />
         <TextField title="Название" placeholder="Название рабочей области" />
         <TextField title="Описание" placeholder="Описание рабочей области" />
       </div>

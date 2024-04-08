@@ -14,7 +14,21 @@
   display: flex;
   gap: 12px;
   flex-direction: column;
+  user-select: none;
   color: var(--text-color);
+}
+.projectdiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: aqua;
 }
 .projectButton {
   cursor: pointer;
@@ -22,7 +36,77 @@
   height: 44px;
   display: flex;
   align-items: center;
+  padding-left: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 12px;
 }
+
 .buttonChapter {
+  padding-left: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 12px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  cursor: pointer;
+  border: none;
+  user-select: none;
+  background-color: transparent;
+}
+.buttonChapterName {
+  opacity: 0.5;
   color: var(--text-color);
+  font-size: 22px;
+  font-weight: normal;
+}
+.buttonChapterIcon {
+  path {
+    fill: var(--bg-icon-sidebar);
+    opacity: 0.5;
+  }
+}
+
+.buttonChapter:hover {
+  background-color: var(--bg-workspace-button);
+  .buttonChapterIcon {
+    path {
+      opacity: 0.8;
+    }
+  }
+  .buttonChapterName {
+    opacity: 0.8;
+  }
+}
+
+.buttonChapter:focus {
+  background-color: var(--bg-workspace-button-focus);
+  .buttonChapterIcon {
+    path {
+      opacity: 1;
+    }
+  }
+  .buttonChapterName {
+    opacity: 1;
+  }
+}
+
+.buttonChapter:active {
+  background-color: var(--bg-workspace-button-active);
+  .buttonChapterIcon {
+    path {
+      opacity: 1;
+    }
+  }
+  .buttonChapterName {
+    opacity: 1;
+  }
+}
+
+.buttonChapter:disabled {
+  opacity: 0.3;
 }

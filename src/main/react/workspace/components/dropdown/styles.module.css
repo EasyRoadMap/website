@@ -67,8 +67,9 @@
   }
   background-color: var(--bg-workspace-button);
 }
-.dropdownWorkspaceButton:active {
-  background-color: var(--bg-workspace-button-active);
+
+.dropdownWorkspaceButton:focus {
+  background-color: var(--bg-workspace-button-focus);
   .workspaceAvatar {
     opacity: 1;
   }
@@ -76,8 +77,9 @@
     opacity: 1;
   }
 }
-.dropdownWorkspaceButton:focus {
-  background-color: var(--bg-workspace-button-focus);
+
+.dropdownWorkspaceButton:active {
+  background-color: var(--bg-workspace-button-active);
   .workspaceAvatar {
     opacity: 1;
   }
@@ -105,6 +107,8 @@
   padding: 6px;
   cursor: pointer;
   border-radius: 15px;
+  border: none;
+  background-color: transparent;
 }
 .workspaceAvatar {
   width: 32px;
@@ -182,7 +186,7 @@
   height: 80px;
   aspect-ratio: 1;
   border-radius: 50%;
-  margin-right: 43px;
+  background-color: aqua;
 }
 .userDropdown {
   display: flex;
@@ -192,5 +196,10 @@
 .userInfoWrapper {
   display: flex;
   flex-direction: column;
-  width: 100%;
+}
+.userName {
+  color: var(--text-color);
+}
+.userEmail {
+  color: var(--foreground-color50);
 }
