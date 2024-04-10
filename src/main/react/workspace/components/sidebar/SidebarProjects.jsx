@@ -6,9 +6,9 @@ const SidebarProjects = ({ projects, places }) => {
     <div className={styles.project}>
       {projects.map((project, i) => {
         return (
-          <div key={i} className={styles.projectButton}>
+          <button key={i} className={styles.projectButton}>
             <SidebarProjectButton project={project} places={places} />
-          </div>
+          </button>
         );
       })}
     </div>
