@@ -1,3 +1,12 @@
+.dropdownWorkspaceButtonActive {
+  background-color: var(--bg-workspace-button-focus);
+  .workspaceAvatar {
+    opacity: 1;
+  }
+  .workspaceName {
+    opacity: 1;
+  }
+}
 .dropdown {
   position: fixed;
   width: 361px;
@@ -66,16 +75,6 @@
     opacity: 0.8;
   }
   background-color: var(--bg-workspace-button);
-}
-
-.dropdownWorkspaceButton:focus {
-  background-color: var(--bg-workspace-button-focus);
-  .workspaceAvatar {
-    opacity: 1;
-  }
-  .workspaceName {
-    opacity: 1;
-  }
 }
 
 .dropdownWorkspaceButton:active {

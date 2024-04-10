@@ -1,4 +1,13 @@
 @import url("../../theme.module.css");
+.buttonActive {
+  background-color: var(--bg-workspace-button-focus);
+  .avatar {
+    opacity: 1;
+  }
+  .name {
+    opacity: 1;
+  }
+}
 .aside {
   height: fit-content;
   width: 340px;
@@ -71,15 +80,6 @@
     opacity: 1;
   }
 }
-.projectButton:focus {
-  background-color: var(--bg-workspace-button-focus);
-  .avatar {
-    opacity: 1;
-  }
-  .name {
-    opacity: 1;
-  }
-}
 .projectButton:disabled {
   opacity: 0.3;
 }
@@ -121,18 +121,6 @@
   }
   .buttonChapterName {
     opacity: 0.8;
-  }
-}
-
-.buttonChapter:focus {
-  background-color: var(--bg-workspace-button-focus);
-  .buttonChapterIcon {
-    path {
-      opacity: 1;
-    }
-  }
-  .buttonChapterName {
-    opacity: 1;
   }
 }
 
