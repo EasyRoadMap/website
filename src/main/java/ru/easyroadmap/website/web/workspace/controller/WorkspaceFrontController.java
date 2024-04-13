@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WorkspaceFrontController {
 
     @GetMapping(value = {
-            ""
+            "/**"
     })
     public String handleDefaultRequest(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
