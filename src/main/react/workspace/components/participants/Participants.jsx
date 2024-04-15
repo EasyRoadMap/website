@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 
 const Participants = () => {
     return (
-        <section className={styles.section}>
+        <section className={styles.section} id="participants">
             <h1 className={styles.title}>
                 Участники
             </h1>

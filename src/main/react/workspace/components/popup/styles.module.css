@@ -1,0 +1,20 @@
+@import "../../theme.module.css";
+
+.blurredScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.popup {
+    background-color: var(--bg-color-and-popup);
+    padding: 24px;
+    width: 448px;
+    border-radius: 15px;
+}

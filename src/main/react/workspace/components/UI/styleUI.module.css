@@ -44,6 +44,10 @@
   width: 504px;
   height: 43px;
 }
+.textarea {
+  height: 91px;
+  resize: none;
+}
 .form {
   display: flex;
   flex-direction: column;

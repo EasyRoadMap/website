@@ -4,16 +4,17 @@ import Projects from './pages/Projects.jsx';
 import Project from './pages/Project.jsx';
 import './global.css';
 import { StrictMode } from 'react';
+import { PopupProvider } from "react-popup-manager";
 
 function App() {
   return (
-    <StrictMode>
+    <PopupProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/workspace" element={<Project />} />
         </Routes>
       </BrowserRouter>
-    </StrictMode>
+    </PopupProvider>
   )
 }
 

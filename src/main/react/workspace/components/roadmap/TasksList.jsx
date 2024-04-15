@@ -6,7 +6,7 @@ const TasksList = ({
 }) => {
     return (
         <section className={styles.tasksList}>
-            <h1 className={styles.titleTasksList}>
+            <h1 className={styles.title}>
                 Список задач
             </h1>
             {tasks.map((task, i) => {

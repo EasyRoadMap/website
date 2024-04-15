@@ -1,3 +1,5 @@
+@import "../../theme.module.css";
+
 .section {
   background-color: var(--bg-color-project);
   padding: 24px;
@@ -5,6 +7,9 @@
 }
 .title {
   margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-color);
 }
 .info {
   color: var(--text-color);
