@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import ru.easyroadmap.website.storage.local.FileSystemStorage;
 
 @OpenAPIDefinition(
         info = @Info(title = "EasyRoadMap API"),
@@ -14,6 +16,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 )
 @SpringBootApplication
 public class EasyRoadMapApplication {
+
+    @Bean
+    public FileSystemStorage fileSystemStorage() {
+        FileSystemStorage fileSystemStorage = new FileSystemStorage();
+        fileSystemStorage.initialize();
+        return fileSystemStorage;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(EasyRoadMapApplication.class, args);

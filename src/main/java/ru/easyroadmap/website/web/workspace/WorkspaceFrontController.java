@@ -1,4 +1,4 @@
-package ru.easyroadmap.website.web.workspace.controller;
+package ru.easyroadmap.website.web.workspace;
 
 import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.core.Authentication;

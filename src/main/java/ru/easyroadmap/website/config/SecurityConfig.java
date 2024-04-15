@@ -9,18 +9,25 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import ru.easyroadmap.website.storage.repository.UserRepository;
 import ru.easyroadmap.website.web.auth.ERMAuthenticationHandler;
 import ru.easyroadmap.website.web.auth.service.UserStorageService;
 
 import javax.sql.DataSource;
+import java.util.LinkedHashMap;
+
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -39,6 +46,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, PersistentTokenRepository tokenRepository) throws Exception {
+        LinkedHashMap<RequestMatcher, AuthenticationEntryPoint> entryPoints = new LinkedHashMap<>();
+        entryPoints.put(antMatcher("/api/**"), new Http403ForbiddenEntryPoint());
+
+        DelegatingAuthenticationEntryPoint authenticationEntryPoint = new DelegatingAuthenticationEntryPoint(entryPoints);
+        authenticationEntryPoint.setDefaultEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth/sign-in"));
+
         return http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/", "/error", "/erm-web/**", "/favicon.ico").permitAll()
@@ -46,13 +59,14 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/workspace/**").permitAll()
                         .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/photo/**").permitAll()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(new HttpSessionCsrfTokenRepository()))
                 .sessionManagement(sessionManagement -> sessionManagement
                         .maximumSessions(1))
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth/sign-in")))
+                        .authenticationEntryPoint(authenticationEntryPoint))
                 .formLogin(formLogin -> formLogin
                         .loginPage("/auth/sign-in")
                         .loginProcessingUrl("/auth/sign-in")
