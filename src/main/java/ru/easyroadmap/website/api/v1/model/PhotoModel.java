@@ -12,7 +12,7 @@ public record PhotoModel(
 ) {
 
     public static PhotoModel fromPhoto(String urlBase, Photo photo) {
-        String url = "%s/erm-web/p/%s".formatted(urlBase, photo.getId().toString().replace("-", ""));
+        String url = "%s/erm-web/p/%s".formatted(urlBase, photo.getId());
         return new PhotoModel(photo.getX(), photo.getY(), photo.getWidth(), photo.getHeight(), url);
     }
 

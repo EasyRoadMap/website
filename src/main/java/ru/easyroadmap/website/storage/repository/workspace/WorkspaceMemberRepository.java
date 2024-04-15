@@ -4,9 +4,21 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ru.easyroadmap.website.storage.model.workspace.WorkspaceMember;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface WorkspaceMemberRepository extends JpaRepository<WorkspaceMember, Long> {
 
-    List<WorkspaceMember> findAllByWorkspaceIdEquals(String workspaceId);
+    int countAllByUserEmailEquals(String userEmail);
+
+    int countAllByWorkspaceIdEquals(UUID workspaceId);
+
+    boolean existsByUserEmailEqualsAndWorkspaceIdEquals(String userEmail, UUID workspaceId);
+
+    List<WorkspaceMember> findAllByUserEmailEquals(String userEmail);
+
+    List<WorkspaceMember> findAllByWorkspaceIdEquals(UUID workspaceId);
+
+    Optional<WorkspaceMember> findByUserEmailEqualsAndWorkspaceIdEquals(String userEmail, UUID workspaceId);
 
 }

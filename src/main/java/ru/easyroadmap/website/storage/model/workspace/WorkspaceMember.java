@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -16,14 +17,13 @@ public final class WorkspaceMember {
     private long id;
 
     @Column(name = "workspace_id", nullable = false)
-    private String workspaceId;
+    private UUID workspaceId;
 
     @Column(name = "user_email", nullable = false)
     private String userEmail;
 
-    @Column(name = "role", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @Column(name = "role")
+    private String role;
 
     @Column(name = "created_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -33,7 +33,7 @@ public final class WorkspaceMember {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
-    public WorkspaceMember(String workspaceId, String userEmail, Role role) {
+    public WorkspaceMember(UUID workspaceId, String userEmail, String role) {
         this.workspaceId = workspaceId;
         this.userEmail = userEmail;
         this.role = role;
@@ -41,13 +41,9 @@ public final class WorkspaceMember {
         this.updatedAt = createdAt;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public enum Role {
-        ADMIN, MEMBER
     }
 
 }

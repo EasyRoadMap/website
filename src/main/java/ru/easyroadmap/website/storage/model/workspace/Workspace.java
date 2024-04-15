@@ -1,10 +1,14 @@
 package ru.easyroadmap.website.storage.model.workspace;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -13,15 +17,18 @@ public final class Workspace {
 
     public static final int DEFAULT_ACCENT_COLOR = -16751105; // 'blue' accent color
 
-    @Id
+    @Id @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     @Column(name = "id", nullable = false)
-    private String workspaceId;
+    private UUID id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "admin_id", nullable = false)
+    private String adminId;
 
     @Column(name = "theme", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -38,10 +45,10 @@ public final class Workspace {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
-    public Workspace(String workspaceId, String name, String description, Theme theme, int accentColor) {
-        this.workspaceId = workspaceId;
+    public Workspace(String name, String description, String adminId, Theme theme, int accentColor) {
         this.name = name;
         this.description = description;
+        this.adminId = adminId;
         this.theme = theme;
         this.accentColor = accentColor;
         this.createdAt = LocalDateTime.now();
@@ -58,6 +65,11 @@ public final class Workspace {
         this.updatedAt = LocalDateTime.now();
     }
 
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+        this.updatedAt = LocalDateTime.now();
+    }
+
     public void setTheme(Theme theme) {
         this.theme = theme;
         this.updatedAt = LocalDateTime.now();
@@ -68,8 +80,17 @@ public final class Workspace {
         this.updatedAt = LocalDateTime.now();
     }
 
+    @Getter
+    @AllArgsConstructor
     public enum Theme {
-        LIGHT, DARK
+
+        LIGHT("light"),
+        DARK("dark"),
+        ;
+
+        @JsonValue
+        private final String key;
+
     }
 
 }

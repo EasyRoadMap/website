@@ -20,6 +20,11 @@ spring:
       mail.smtp.ssl.trust: smtp.gmail.com
     test-connection: true
 
+  servlet:
+    multipart:
+      max-file-size: 4MB
+      max-request-size: 4MB
+
   sql:
     init:
       mode: always

@@ -12,7 +12,9 @@ import ru.easyroadmap.website.storage.local.FileSystemStorage;
 @OpenAPIDefinition(
         info = @Info(title = "EasyRoadMap API"),
         tags = {
-                @Tag(name = "auth", description = "Authentication Service API")
+                @Tag(name = "auth", description = "Authentication Service API"),
+                @Tag(name = "workspace-api", description = "Workspaces RESTful API"),
+                @Tag(name = "user-api", description = "Users RESTful API")
         }
 )
 @SpringBootApplication

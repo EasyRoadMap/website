@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class UserDeleteDto {
+public final class DeleteWorkspaceDto {
 
     @NotBlank @Size(min = 8, max = 128)
     private String password;

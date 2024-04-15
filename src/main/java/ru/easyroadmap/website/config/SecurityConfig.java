@@ -62,7 +62,8 @@ public class SecurityConfig {
                         .requestMatchers("/photo/**").permitAll()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
-                        .csrfTokenRepository(new HttpSessionCsrfTokenRepository()))
+                        .csrfTokenRepository(new HttpSessionCsrfTokenRepository())
+                        .ignoringRequestMatchers(antMatcher("/api/v1/**")))
                 .sessionManagement(sessionManagement -> sessionManagement
                         .maximumSessions(1))
                 .exceptionHandling(exceptionHandling -> exceptionHandling
