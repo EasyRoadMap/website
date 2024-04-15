@@ -14,13 +14,10 @@ import java.nio.file.Paths;
 @Slf4j
 public final class FileSystemStorage {
 
-    @Value("${server.storage.data-directory}")
-    private String dataDirectoryPath;
-
-    private Path dataDirectory;
+    private final Path dataDirectory;
 
     @SneakyThrows
-    public void initialize() {
+    public FileSystemStorage(String dataDirectoryPath) {
         this.dataDirectory = Paths.get(dataDirectoryPath.replace('/', File.separatorChar));
 
         if (!Files.isDirectory(dataDirectory)) {

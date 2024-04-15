@@ -3,6 +3,7 @@ package ru.easyroadmap.website;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,11 +18,12 @@ import ru.easyroadmap.website.storage.local.FileSystemStorage;
 @SpringBootApplication
 public class EasyRoadMapApplication {
 
+    @Value("${server.storage.data-directory}")
+    private String dataDirectoryPath;
+
     @Bean
     public FileSystemStorage fileSystemStorage() {
-        FileSystemStorage fileSystemStorage = new FileSystemStorage();
-        fileSystemStorage.initialize();
-        return fileSystemStorage;
+        return new FileSystemStorage(dataDirectoryPath);
     }
 
     public static void main(String[] args) {
