@@ -1,10 +1,11 @@
 import RoadmapGraph from "./RoadmapGraph.jsx";
 import TasksList from "./TasksList.jsx";
+import AddingChangesForm from "../last-changes-list/AddingChangesForm.jsx";
 import styles from "./styles.module.css";
 
 const Roadmap = () => {
     return (
-        <section className={styles.section}>
+        <section className={styles.section} id="roadmap">
             <h1 className={styles.title}>
                 Дорожная карта
             </h1>
@@ -18,6 +19,7 @@ const Roadmap = () => {
                     {name: "Название задачи", id: 3},
                 ]}/>
             </div>
+            <AddingChangesForm />
             <div className={styles.showMoreButton}>
                 Показать ещё
             </div>

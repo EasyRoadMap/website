@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 
 const useOutsideAlerter = (ref, excludeFieldRef, callback) => {
     useEffect(() => {
-        console.log();
         function handleClickOutside(event) {
             if (ref.current && 
                 !ref.current.contains(event.target) && 
@@ -18,9 +17,9 @@ const useOutsideAlerter = (ref, excludeFieldRef, callback) => {
     }, [ref, excludeFieldRef, callback]);
 }
 
-export const OutsideAlerter = ({callback, excludeFieldRef, ...props}) => {
+export const OutsideAlerter = ({callback, ...props}) => {
     const wrapperRef = useRef(null);
-    useOutsideAlerter(wrapperRef, excludeFieldRef, callback);
+    useOutsideAlerter(wrapperRef, props?.excludeFieldRef, callback);
 
     return <div ref={wrapperRef} style={props.style}>{props.children}</div>;
 }

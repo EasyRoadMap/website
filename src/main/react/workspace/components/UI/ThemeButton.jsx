@@ -1,4 +1,4 @@
-import { useTheme } from "../../hooks/theme.js";
+import { useTheme } from "../../hooks/useTheme.js";
 import { useState } from "react";
 import { useEffect } from "react";
 import darkThemeSVG from "../../../assets/darkTheme.jsx";

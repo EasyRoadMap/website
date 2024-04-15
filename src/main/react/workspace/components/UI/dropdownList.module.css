@@ -1,0 +1,10 @@
+@import "../../theme.module.css";
+
+.dropdownList {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 6px;
+    background-color: var(--bg-color-sidebar-and-dropdown);
+}

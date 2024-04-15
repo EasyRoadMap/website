@@ -1,4 +1,5 @@
 import styles from "./styles.module.css";
+import ParticipantActionsButton from "./ParticipantActionsButton.jsx";
 
 const ParticipantItem = ({ participant }) => {
   return (
@@ -9,10 +10,7 @@ const ParticipantItem = ({ participant }) => {
           <div>{participant.name}</div>
           <div className={styles.position}>{participant.position}</div>
         </div>
-        <div>
-          точки
-          {/* Кнопка действий с участником */}
-        </div>
+        <ParticipantActionsButton />
       </div>
     </div>
   );

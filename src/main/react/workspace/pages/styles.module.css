@@ -1,15 +1,22 @@
 .main {
   background-color: var(--bg-color-and-popup);
-  min-height: 100vh;
+  min-height: calc(100vh - 100px);
+  padding-top: 24px;
+  top: 100px;
+  position: relative;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 .content {
+  width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 24px;
-  margin-top: 24px;
 }
 .centeredContent {
+  position: absolute;
+  left: calc((100vw - 1060px) / 2 + 340px + 24px);
   width: 696px;
   display: flex;
   flex-direction: column;

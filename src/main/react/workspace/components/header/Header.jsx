@@ -6,7 +6,7 @@ const Header = () => {
     return (
         <header className={styles.header}>
             <HeaderLogo />
-            <UserHeaderButton name="Пользователь"/>
+            <UserHeaderButton name="Пользователь" workspaceName="Ваша рабочая область"/>
         </header>
     );
 }

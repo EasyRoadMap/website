@@ -3,7 +3,8 @@ import Dropdown from "../dropdown/Dropdown.jsx";
 import { useState, useRef } from "react";
 
 const UserHeaderButton = ({
-    name
+    name,
+    workspaceName
 }) => {
     const [dropdownShowed, setDropdownShowed] = useState(false);
     const showButton = useRef(null);
@@ -19,10 +20,14 @@ const UserHeaderButton = ({
                 ref={showButton}
             >
                 <div className={styles.avatarCircle}></div>
-                <div className={styles.username}>
-                    {name}
+                <div className={styles.logoTextWrapper}>
+                    <div className={styles.username}>
+                        {name}
+                    </div>
+                    <div className={styles.workspaceName}>
+                        {workspaceName}
+                    </div>
                 </div>
-                
             </div>
             <Dropdown visible={dropdownShowed} 
                     hide={() => setDropdownShowed(false)}

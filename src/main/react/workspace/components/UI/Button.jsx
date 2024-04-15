@@ -16,6 +16,7 @@ const Button = ({
     return (
         <button
             className={[styles.btn, types[type]].join(" ")}
+            onClick={callback}
         >
             {text}
         </button>
