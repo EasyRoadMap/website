@@ -32,7 +32,7 @@ const SidebarProjectButton = ({ project, places }) => {
 
   return (
     <div className={styles.projectButtonWrapper}>
-      <button onClick={project.toProjects} className={styles.projectdiv}>
+      <button onClick={project.toProject} className={styles.projectdiv}>
         <img src={project.avatar} alt="" className={styles.avatar} />
         <span className={styles.name}>{project.name}</span>
       </button>

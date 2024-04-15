@@ -1,7 +1,7 @@
 import SidebarButton from "./SidebarButton.jsx";
 import SidebarProjects from "./SidebarProjects.jsx";
 import { getProjectsList } from "../../utils/getProjectsList.js";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { observeBlocks } from "../../utils/updateVisibleBlock.js";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 const pagesPaths = {
     main: "/workspace",
     projects: "/workspace/projects",
+    project: "/workspace/project",
     settings: "/workspace/settings"
 }
 
@@ -61,12 +62,13 @@ const getProject = (location, refs) => {
 
 const Sidebar = () => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const page = getPage(location);
     const [projectField, setProjectField] = useState(null);
 
     useEffect(() => {
-        if (page === "main") { // in the future will be project(s)
+        if (page === "project") {
             const projectFields = getProjectsFieldsRefs();
             setProjectField(getProject(location, projectFields));
             const onScroll = window.addEventListener('scroll', () => setProjectField(getProject(location, projectFields)), true);
@@ -77,17 +79,17 @@ const Sidebar = () => {
     return (
         <aside className={styles.aside}>
             {/* pages + their props */}
-            <SidebarButton type="main" active={page === "main"}/>
-            <SidebarButton type="projects" active={page === "projects"}/>
+            <SidebarButton type="main" active={page === "main"} callback={() => navigate("/workspace")}/>
+            <SidebarButton type="projects" active={page === "projects"} callback={() => navigate("/workspace/projects")}/>
             <SidebarProjects projects={[
-                {avatar: "", name: "Проект 1", toProject: () => {}, blocks: getProjectsFieldsRefs(), chosen: projectField, placeInProject: null, toPlace: () => {}},
+                {avatar: "", name: "Проект 1", toProject: () => {navigate("/workspace/project")}, blocks: getProjectsFieldsRefs(), chosen: projectField, placeInProject: null, toPlace: () => {}},
                 // {avatar: "", name: "Проект 2", toProject: () => {}, chosen: false, placeInProject: null, toPlace: () => {}},
                 // {avatar: "", name: "Проект 3", toProject: () => {}, chosen: false, placeInProject: null, toPlace: () => {}},
                 // {avatar: "", name: "Проект 4", toProject: () => {}, chosen: false, placeInProject: null, toPlace: () => {}}
             ]}
             places={placesInProjects}
             />
-            <SidebarButton type="settings" active={page === "settings"}/>
+            <SidebarButton type="settings" active={page === "settings"} callback={() => navigate("/workspace/settings")}/>
         </aside>
     );
 }

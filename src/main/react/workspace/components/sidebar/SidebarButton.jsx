@@ -19,14 +19,13 @@ const types = {
 };
 
 const SidebarButton = ({
-  type, // По type задаются текст кнопки и иконка
+  type,
   callback,
-  chosen, // находится ли пользователь на этой странице
   active
 }) => {
   const data = types[type];
   const IconComponent = data.icon;
-  
+
   const buttonClass = active ? [styles.buttonChapter, styles.buttonActive].join(" ") : styles.buttonChapter;
 
   return (
