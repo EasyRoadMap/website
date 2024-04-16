@@ -1,4 +1,4 @@
-import styles from "./styles.module.css";
+import styles from "../styles.module.css";
 import { useRef, useState } from "react";
 
 // drag drop file component
