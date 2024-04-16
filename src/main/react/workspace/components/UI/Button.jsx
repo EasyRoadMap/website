@@ -4,7 +4,8 @@ const types = {
     filledAccent: styles.buttonFilledAccent,
     filledSecondary: styles.buttonFilledSecondary,
     outlineAccent: styles.buttonOutlineAccent,
-    outlineSecondary: styles.buttonOutlineSecondary
+    outlineSecondary: styles.buttonOutlineSecondary,
+    outlineError: styles.buttonOutlineError, // TODO
 }
 
 const Button = ({

@@ -1,0 +1,203 @@
+@import "../theme.module.css";
+
+.input {
+  width: 100%;
+  height: 43px;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 1px;
+  text-align: left;
+  background-color: white;
+  color: var(--text-color);
+  padding-left: 16px;
+  padding-right: 30px;
+  border-color: #e7e7e7;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-size: 16px;
+}
+.input::placeholder {
+  font-size: 16px;
+  padding-left: 0;
+  color: rgba(0, 0, 0, 0.5);
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* we can do this like: */
+.input:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-width: 1px;
+  border-color: transparent;
+  padding-left: 16px;
+}
+.input:focus {
+  border-style: solid;
+  border-color: rgb(0, 102, 254);
+  border-width: 1px;
+  padding-left: 16px;
+  background-color: rgb(0, 102, 254, 0.03);
+}
+.input:active {
+  opacity: 75%;
+  padding-left: 16px;
+  border-width: 1px;
+  border-color: transparent;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.input:disabled {
+  .inputWrapper {
+    opacity: 0.3;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
+.input[type="text"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.input {
+  outline: none;
+}
+
+.inputWithTextWrapper {
+  position: relative;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.inputWithTextWrapper label {
+  position: absolute;
+  top: -9px;
+  left: 12px;
+  z-index: 1;
+  font-size: 14px;
+  font-weight: normal;
+  display: inline-block;
+  font-weight: normal;
+  padding: 0 6px;
+}
+.inputWithTextWrapper label:after {
+  content: " ";
+  background-color: #fff;
+  width: 100%;
+  height: 17px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  border-radius: 12px;
+}
+.inputWithContent {
+  color: #404040;
+}
+
+.error {
+  border-color: #ff4848;
+  color: #ff0000;
+}
+.error::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+  -webkit-user-select: none;
+  user-select: none;
+}
+.error:hover {
+  border-color: #ff4848;
+  color: #ff0000;
+}
+.error:focus {
+  border-color: #ff4848;
+  color: #ff0000;
+}
+.error:active {
+  border-color: #ff4848;
+  color: #ff0000;
+}
+
+h3 {
+  font-size: 1.5vh;
+  color: #ff4848;
+  padding-bottom: 0.5vh;
+  font-weight: normal;
+}
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+.iconSVG {
+  position: absolute;
+  display: flex;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  align-items: center;
+  justify-content: center;
+  width: 19px;
+  height: 19px;
+  cursor: pointer;
+}
+.tooltip {
+  width: 100%;
+  max-width: 420px;
+  position: absolute;
+  z-index: 999;
+  border-radius: 12px;
+  background-image: linear-gradient(
+      rgba(241, 64, 58, 0.15),
+      rgba(241, 64, 58, 0.15)
+    ),
+    linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));
+
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+.tooltip::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 0;
+  height: 12px;
+  width: 100%;
+}
+.tooltipLogo {
+  height: 30px;
+  margin-right: 7px;
+}
+.tooltipText {
+  font-size: 14px;
+  color: #ff0000;
+}
+.tooltipTriangle {
+  height: 7px;
+  width: 10px;
+  position: absolute;
+  top: -7px;
+  left: 20px;
+}
+
+.popup {
+  width: calc(100vw - 40px);
+  max-width: 420px;
+  border-radius: 12px;
+  background-image: linear-gradient(
+      rgba(241, 64, 58, 0.15),
+      rgba(241, 64, 58, 0.15)
+    ),
+    linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));
+
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  margin-top: 12px;
+}
+.popupLogo {
+  height: 100%;
+  margin-right: 12px;
+}
+.popupText {
+  font-size: 16px;
+  color: #ff0000;
+}

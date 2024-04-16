@@ -1,13 +1,13 @@
 import ProjectItem from "./ProjectItem.jsx";
 import ProjectAddButton from "./ProjectAddButton.jsx";
 import styles from "./styles.module.css";
+import { useNavigate } from "react-router-dom";
 
 const ProjectsList = () => {
+    const navigate = useNavigate();
+
     const projects = [
-        {avatar: "", name: "Проект 1", participants: [], callback: () => {}},
-        {avatar: "", name: "Проект 2", participants: [], callback: () => {}},
-        {avatar: "", name: "Проект 3", participants: [], callback: () => {}},
-        {avatar: "", name: "Проект 4", participants: [], callback: () => {}},
+        {avatar: "", name: "Проект 1", participants: [], callback: () => {navigate("/workspace/project")}},
     ];
 
     return (

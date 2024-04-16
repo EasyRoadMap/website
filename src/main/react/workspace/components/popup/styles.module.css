@@ -15,6 +15,29 @@
 .popup {
     background-color: var(--bg-color-and-popup);
     padding: 24px;
-    width: 448px;
+    min-width: 448px;
     border-radius: 15px;
+}
+
+.addPhotoFieldWrapper {
+    width: 647px;
+}
+.photosList {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.photo {
+    width: 200px;
+    height: 140px;
+    border-radius: 8px;
+}
+.addPhotoField {
+    width: 100%;
+    height: 250px;
+    border: 1.5px dashed var(--foreground-color50);
+}
+.fileInput {
+    width: 100%;
+    height: 100%;
 }
