@@ -19,6 +19,11 @@ public final class UserService {
         return userRepository.findById(email);
     }
 
+    public void updateUserName(User user, String name) {
+        user.setName(name);
+        userRepository.save(user);
+    }
+
     public void deleteUser(User user) {
         userRepository.delete(user);
     }

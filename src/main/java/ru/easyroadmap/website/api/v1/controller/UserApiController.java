@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.easyroadmap.website.api.v1.dto.DeleteUserDto;
+import ru.easyroadmap.website.api.v1.dto.PutUserProfileDto;
 import ru.easyroadmap.website.api.v1.dto.UploadPhotoDto;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
 import ru.easyroadmap.website.api.v1.model.UserModel;
@@ -44,6 +45,14 @@ public class UserApiController extends ApiControllerBase {
         User user = getCurrentUser(userService);
         PhotoModel photoModel = photoService.getPhotoModel(generateUserPhotoID(user.getEmail())).orElse(null);
         return UserModel.fromUser(user, photoModel, true);
+    }
+
+    @Operation(summary = "Update an user profile", tags = "user-api")
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public void updateUser(PutUserProfileDto dto) throws ApiException {
+        User user = getCurrentUser(userService);
+        userService.updateUserName(user, dto.getName());
     }
 
     @Operation(summary = "Get a list of joined workspaces", tags = "user-api")
