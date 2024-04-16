@@ -1,4 +1,4 @@
-package ru.easyroadmap.website.api.v1.dto;
+package ru.easyroadmap.website.api.v1.dto.workspace;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -8,9 +8,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class DeleteUserDto {
+public class CreateWorkspaceDto {
 
-    @NotBlank @Size(min = 8, max = 128)
-    private String password;
+    @NotBlank @Size(min = 2, max = 64)
+    private String name;
+
+    @Size(min = 2, max = 320)
+    private String description;
 
 }

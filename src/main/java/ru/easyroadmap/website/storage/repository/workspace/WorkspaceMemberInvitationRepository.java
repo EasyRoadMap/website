@@ -8,8 +8,10 @@ import java.util.UUID;
 
 public interface WorkspaceMemberInvitationRepository extends JpaRepository<WorkspaceMemberInvitation, UUID> {
 
-    List<WorkspaceMemberInvitation> findAllByWorkspaceIdEquals(UUID workspaceId);
-
     int countAllByWorkspaceIdEquals(UUID workspaceId);
+
+    void deleteAllByWorkspaceIdEquals(UUID workspaceId);
+
+    List<WorkspaceMemberInvitation> findAllByWorkspaceIdEquals(UUID workspaceId);
 
 }

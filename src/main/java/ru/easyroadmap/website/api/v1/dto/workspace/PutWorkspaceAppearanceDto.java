@@ -1,4 +1,4 @@
-package ru.easyroadmap.website.api.v1.dto;
+package ru.easyroadmap.website.api.v1.dto.workspace;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

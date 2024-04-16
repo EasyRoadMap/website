@@ -74,6 +74,6 @@ springdoc:
   api-docs:
     path: /docs/openapi
   swagger-ui:
-    operations-sorter: method
+    operations-sorter: alpha
     path: /docs/swagger
     url: /docs/openapi

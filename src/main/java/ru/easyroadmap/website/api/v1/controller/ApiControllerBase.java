@@ -19,11 +19,19 @@ public abstract class ApiControllerBase {
 
     protected final User getCurrentUser(UserService userService) throws ApiException {
         String email = getCurrentUsername();
-        return userService.findByEmail(email)
-                .orElseThrow(() -> new ApiException(
-                        "user_not_found",
-                        "The user was not found for the current authentication"
-                ));
+        return userService.findByEmail(email).orElseThrow(() -> new ApiException(
+                "user_not_found",
+                "The user was not found for the current authentication"
+        ));
+    }
+
+    protected final String requireUserExistance(UserService userService) throws ApiException {
+        String email = getCurrentUsername();
+
+        if (!userService.isUserExist(email))
+            throw new ApiException("user_not_found", "The user was not found for the current authentication");
+
+        return email;
     }
 
 }

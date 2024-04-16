@@ -13,9 +13,9 @@ public interface WorkspaceMemberRepository extends JpaRepository<WorkspaceMember
 
     int countAllByWorkspaceIdEquals(UUID workspaceId);
 
-    boolean existsByUserEmailEqualsAndWorkspaceIdEquals(String userEmail, UUID workspaceId);
+    void deleteAllByWorkspaceIdEquals(UUID workspaceId);
 
-    List<WorkspaceMember> findAllByUserEmailEquals(String userEmail);
+    boolean existsByUserEmailEqualsAndWorkspaceIdEquals(String userEmail, UUID workspaceId);
 
     List<WorkspaceMember> findAllByWorkspaceIdEquals(UUID workspaceId);
 

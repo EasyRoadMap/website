@@ -3,15 +3,16 @@ package ru.easyroadmap.website.api.v1.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.easyroadmap.website.exception.ApiException;
-import ru.easyroadmap.website.storage.model.User;
 import ru.easyroadmap.website.storage.model.workspace.Workspace;
 import ru.easyroadmap.website.storage.model.workspace.Workspace.Theme;
 import ru.easyroadmap.website.storage.model.workspace.WorkspaceMember;
+import ru.easyroadmap.website.storage.repository.project.ProjectLinkRepository;
+import ru.easyroadmap.website.storage.repository.project.ProjectMemberRepository;
+import ru.easyroadmap.website.storage.repository.project.ProjectRepository;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceMemberInvitationRepository;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceMemberRepository;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceRepository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,85 +22,102 @@ import java.util.UUID;
 public final class WorkspaceService {
 
     private static final int MAX_JOINED_WORKSPACES = 5;
-    private static final int MAX_MEMBERS_PER_PROJECT = 10;
+    private static final int MAX_MEMBERS_PER_WORKSPACE = 10;
 
     private final WorkspaceRepository workspaceRepository;
     private final WorkspaceMemberRepository memberRepository;
     private final WorkspaceMemberInvitationRepository invitationRepository;
 
-    public Workspace createWorkspace(User user, String name, String description) throws ApiException {
-        int joinedWorkspaces = memberRepository.countAllByUserEmailEquals(user.getEmail());
+    private final ProjectRepository projectRepository;
+    private final ProjectMemberRepository projectMemberRepository;
+    private final ProjectLinkRepository projectLinkRepository;
+
+    public Workspace createWorkspace(String userEmail, String name, String description) throws ApiException {
+        int joinedWorkspaces = memberRepository.countAllByUserEmailEquals(userEmail);
         if (joinedWorkspaces >= MAX_JOINED_WORKSPACES)
             throw new ApiException("too_many_joined_workspaces", "You cannot be a member of more than 5 workspaces");
 
-        Workspace workspace = new Workspace(name, description, user.getEmail(), Theme.LIGHT, Workspace.DEFAULT_ACCENT_COLOR);
+        Workspace workspace = new Workspace(name, description, userEmail, Theme.LIGHT, Workspace.DEFAULT_ACCENT_COLOR);
         workspaceRepository.save(workspace);
         return workspace;
     }
 
-    public List<Workspace> getJoinedWorkspaces(User user) {
-        List<WorkspaceMember> members = memberRepository.findAllByUserEmailEquals(user.getEmail());
-        if (members == null || members.isEmpty())
-            return Collections.emptyList();
-
-        return members.stream()
-                .map(WorkspaceMember::getWorkspaceId)
-                .map(workspaceRepository::findById)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .toList();
+    public List<Workspace> getJoinedWorkspaces(String userEmail) {
+        return workspaceRepository.getJoinedWorkspaces(userEmail);
     }
 
-    public List<WorkspaceMember> getWorkspaceMembers(User user, UUID workspaceId) throws ApiException {
-        if (!memberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(user.getEmail(), workspaceId))
-            throw new ApiException("not_a_member", "You're not a member of this workspace");
-
+    public List<WorkspaceMember> getWorkspaceMembers(UUID workspaceId) {
         return memberRepository.findAllByWorkspaceIdEquals(workspaceId);
     }
 
-    public void deleteWorkspace(Workspace workspace) {
-        workspaceRepository.delete(workspace);
+    public void deleteWorkspace(UUID workspaceId) {
+        List<UUID> projectIds = projectRepository.getAllProjectIdsInWorkspace(workspaceId);
+        projectLinkRepository.deleteAllByProjectIdIn(projectIds);
+        projectMemberRepository.deleteAllByProjectIdIn(projectIds);
+        projectRepository.deleteAllByWorkspaceIdEquals(workspaceId);
+        memberRepository.deleteAllByWorkspaceIdEquals(workspaceId);
+        workspaceRepository.deleteById(workspaceId);
     }
 
-    public WorkspaceMember joinToWorkspace(User user, UUID workspaceId, String role, boolean ignoreLimits) throws ApiException {
+    public WorkspaceMember addToWorkspace(UUID workspaceId, String otherUserEmail, String role, boolean ignoreLimits) throws ApiException {
         if (!ignoreLimits) {
-            int joinedWorkspaces = memberRepository.countAllByUserEmailEquals(user.getEmail());
+            int joinedWorkspaces = memberRepository.countAllByUserEmailEquals(otherUserEmail);
             if (joinedWorkspaces >= MAX_JOINED_WORKSPACES)
-                throw new ApiException("too_many_joined_workspaces", "You cannot be a member of more than 5 workspaces");
+                throw new ApiException("too_many_joined_workspaces", "Requested user cannot be a member of more than 5 workspaces");
 
             int membersCount = memberRepository.countAllByWorkspaceIdEquals(workspaceId);
-            if (membersCount >= MAX_MEMBERS_PER_PROJECT)
+            if (membersCount >= MAX_MEMBERS_PER_WORKSPACE)
                 throw new ApiException("workspace_members_limit_exceeded", "No more than 10 users can be in the workspace");
         }
 
-        if (memberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(user.getEmail(), workspaceId))
-            throw new ApiException("already_joined", "You're already joined to this workspace");
+        if (memberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId))
+            throw new ApiException("already_joined", "Requested user is already joined to this workspace");
 
-        WorkspaceMember member = new WorkspaceMember(workspaceId, user.getEmail(), role);
+        WorkspaceMember member = new WorkspaceMember(workspaceId, otherUserEmail, role);
         memberRepository.save(member);
         return member;
     }
 
-    public WorkspaceMember leaveFromWorkspace(User user, UUID workspaceId) throws ApiException {
-        WorkspaceMember member = memberRepository.findByUserEmailEqualsAndWorkspaceIdEquals(user.getEmail(), workspaceId)
+    public WorkspaceMember kickFromWorkspace(UUID workspaceId, String otherUserEmail) throws ApiException {
+        WorkspaceMember member = memberRepository.findByUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId)
+                .orElseThrow(() -> new ApiException(
+                        "not_a_member",
+                        "Requested user isn't a member of this workspace"
+                ));
+
+        projectMemberRepository.deleteAllByUserEmailEquals(otherUserEmail);
+        memberRepository.delete(member);
+        return member;
+    }
+
+    public WorkspaceMember joinToWorkspace(String userEmail, UUID workspaceId) throws ApiException {
+        if (memberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(userEmail, workspaceId))
+            throw new ApiException("already_joined", "You're already joined to this workspace");
+
+        WorkspaceMember member = new WorkspaceMember(workspaceId, userEmail, null);
+        memberRepository.save(member);
+        return member;
+    }
+
+    public WorkspaceMember leaveFromWorkspace(String userEmail, UUID workspaceId) throws ApiException {
+        WorkspaceMember member = memberRepository.findByUserEmailEqualsAndWorkspaceIdEquals(userEmail, workspaceId)
                 .orElseThrow(() -> new ApiException(
                         "not_a_member",
                         "You're not a member of this workspace"
                 ));
 
+        projectMemberRepository.deleteAllByUserEmailEquals(userEmail);
         memberRepository.delete(member);
         return member;
     }
 
-    public Workspace updateWorkspaceInfo(User user, UUID workspaceId, String name, String description) throws ApiException {
-        Workspace workspace = requireWorkspaceAdminRights(user, workspaceId);
+    public Workspace updateWorkspaceInfo(Workspace workspace, String name, String description) {
         workspace.setName(name);
         workspace.setDescription(description);
         return workspace;
     }
 
-    public Workspace updateWorkspaceAppearance(User user, UUID workspaceId, Theme theme, Integer accentColor) throws ApiException {
-        Workspace workspace = requireWorkspaceAdminRights(user, workspaceId);
+    public Workspace updateWorkspaceAppearance(Workspace workspace, Theme theme, Integer accentColor) {
         workspace.setTheme(theme);
         workspace.setAccentColor(accentColor);
         return workspace;
@@ -113,30 +131,39 @@ public final class WorkspaceService {
                 ));
     }
 
-    public Workspace requireWorkspaceAdminRights(User user, UUID workspaceId) throws ApiException {
-        Workspace workspace = getWorkspace(workspaceId);
-
-        if (!user.getEmail().equals(workspace.getAdminId()))
-            throw new ApiException("not_enough_rights", "This action isn't available to you");
-
-        return workspace;
+    public boolean isWorkspaceExist(UUID workspaceId) {
+        return workspaceRepository.existsById(workspaceId);
     }
 
-    public Workspace requireWorkspaceMembership(User user, UUID workspaceId) throws ApiException {
-        Workspace workspace = getWorkspace(workspaceId);
-
-        if (!memberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(user.getEmail(), workspaceId))
-            throw new ApiException("not_a_member", "You're not a member of this workspace");
-
-        return workspace;
+    public void requireWorkspaceExistance(UUID workspaceId) throws ApiException {
+        if (!isWorkspaceExist(workspaceId)) {
+            throw new ApiException("workspace_not_exists", "There is no workspace with this ID");
+        }
     }
 
-    public boolean isMember(User user, UUID workspaceId) {
-        return memberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(user.getEmail(), workspaceId);
+    public Workspace requireWorkspaceAdminRights(String userEmail, UUID workspaceId) throws ApiException {
+        requireWorkspaceExistance(workspaceId);
+        return workspaceRepository.getWorkspaceAsAdmin(workspaceId, userEmail).orElseThrow(() -> new ApiException(
+                "not_enough_rights",
+                "This action isn't available to you"
+        ));
     }
 
-    public boolean isAdmin(User user, UUID workspaceId) {
-        return workspaceRepository.existsByIdEqualsAndAdminIdEquals(workspaceId, user.getEmail());
+    public Workspace requireWorkspaceMembership(String userEmail, UUID workspaceId) throws ApiException {
+        requireWorkspaceExistance(workspaceId);
+        return workspaceRepository.getWorkspaceAsMember(workspaceId, userEmail).orElseThrow(() -> new ApiException(
+                "not_a_member",
+                "You're not a member of this workspace"
+        ));
+    }
+
+    public boolean isAdmin(String userEmail, UUID workspaceId) {
+        Optional<String> adminId = workspaceRepository.getWorkspaceAdminId(workspaceId);
+        return adminId.isPresent() && adminId.get().equals(userEmail);
+    }
+
+    public boolean isMember(String userEmail, UUID workspaceId) {
+        return memberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(userEmail, workspaceId);
     }
 
 }

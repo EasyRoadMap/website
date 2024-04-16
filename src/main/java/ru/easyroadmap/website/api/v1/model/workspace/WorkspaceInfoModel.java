@@ -1,4 +1,4 @@
-package ru.easyroadmap.website.api.v1.model;
+package ru.easyroadmap.website.api.v1.model.workspace;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
