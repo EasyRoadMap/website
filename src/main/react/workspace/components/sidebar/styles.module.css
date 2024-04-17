@@ -1,14 +1,5 @@
 @import url("../../theme.module.css");
 
-.buttonActive {
-  background-color: var(--bg-workspace-button-focus) !important;
-  .avatar {
-    opacity: 1 !important;
-  }
-  .name {
-    opacity: 1 !important;
-  }
-}
 .aside {
   position: fixed;
   height: fit-content;
@@ -59,6 +50,7 @@
   height: 44px;
   background-color: transparent;
 }
+/* стили для кнопок проектов */
 .projectButton {
   cursor: pointer;
   width: 272px;
@@ -95,6 +87,15 @@
     opacity: 0.8;
   }
 }
+.buttonProjectActive {
+  background-color: var(--bg-workspace-button-focus);
+  .avatar {
+    opacity: 1;
+  }
+  .name {
+    opacity: 1;
+  }
+}
 .projectButton:active {
   background-color: var(--bg-workspace-button-active);
   .avatar {
@@ -107,6 +108,8 @@
 .projectButton:disabled {
   opacity: 0.3;
 }
+
+/* Стили терх разделов */
 .buttonChapter {
   padding-left: 12px;
   padding-top: 6px;
@@ -145,6 +148,18 @@
   }
   .buttonChapterName {
     opacity: 0.8;
+  }
+}
+
+.buttonChapterActive {
+  background-color: var(--bg-workspace-button-focus);
+  .buttonChapterIcon {
+    path {
+      opacity: 1;
+    }
+  }
+  .buttonChapterName {
+    opacity: 1;
   }
 }
 

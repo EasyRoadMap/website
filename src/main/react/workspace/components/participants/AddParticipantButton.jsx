@@ -1,12 +1,15 @@
 import styles from "./styles.module.css";
+import AddPersonSVG from "../../../assets/addPerson.jsx";
 
 const AddParticipantButton = () => {
   return (
-    <div className={styles.addButton}>
+    <button className={styles.addButton}>
       {/* add icon */}
-      <img src="" alt="" className={styles.addLogo} />
+      <div className={styles.addLogo}>
+        <AddPersonSVG />
+      </div>
       <div className={styles.addUser}>Добавить участника</div>
-    </div>
+    </button>
   );
 };
 

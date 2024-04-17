@@ -18,15 +18,13 @@ const types = {
   },
 };
 
-const SidebarButton = ({
-  type,
-  callback,
-  active
-}) => {
+const SidebarButton = ({ type, callback, active }) => {
   const data = types[type];
   const IconComponent = data.icon;
 
-  const buttonClass = active ? [styles.buttonChapter, styles.buttonActive].join(" ") : styles.buttonChapter;
+  const buttonClass = active
+    ? [styles.buttonChapter, styles.buttonChapterActive].join(" ")
+    : styles.buttonChapter;
 
   return (
     <button onClick={callback} className={buttonClass}>

@@ -53,3 +53,74 @@
   flex-direction: column;
   gap: 6px;
 }
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+.toggle {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.toggleSwitch {
+  display: inline-block;
+  background: var(--switch-color); /* заменить на переменную */
+  border-radius: 16px;
+  width: 58px;
+  height: 32px;
+  position: relative;
+  vertical-align: middle;
+  transition: 0.25s;
+}
+.toggleSwitch:before,
+.toggleSwitch:after {
+  content: "";
+}
+.toggleSwitch:before {
+  display: block;
+  background: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  transition: left 0.35s;
+}
+.toggleSwitch:hover {
+  background-color: var(--switch-hover-color); /* заменить на переменную */
+}
+.toggleSwitch:active {
+  background-color: rgba(255, 255, 255, 0.15), rgba(0, 102, 254, 1);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.15)
+    ),
+    linear-gradient(rgb(0, 102, 254, 1), rgb(0, 102, 254, 1));
+  opacity: 0.75;
+}
+.toggleCheckbox:checked + .toggleSwitch {
+  background: #0066fe;
+}
+.toggleCheckbox:checked + .toggleSwitch:hover {
+  background-color: rgba(255, 255, 255, 0.1), rgba(0, 102, 254, 1);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1)
+    ),
+    linear-gradient(rgb(0, 102, 254, 1), rgb(0, 102, 254, 1));
+}
+.toggleCheckbox:checked + .toggleSwitch:disabled {
+  opacity: 0.3;
+}
+
+.toggleCheckbox:checked + .toggleSwitch:before {
+  left: 30px;
+}
+
+.toggleCheckbox {
+  position: absolute;
+  visibility: hidden;
+}

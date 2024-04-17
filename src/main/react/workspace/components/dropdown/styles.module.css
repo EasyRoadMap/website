@@ -19,7 +19,7 @@
   margin-top: 6px;
   border-style: solid;
   border-width: 1px;
-  border-color: rgb(0, 0, 0, 0.1);
+  border-color: var(--light-stroke);
   display: flex;
   flex-direction: column;
   gap: 12px;

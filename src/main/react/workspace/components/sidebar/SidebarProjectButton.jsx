@@ -7,9 +7,9 @@ const getBlock = (blocks, toBlock) => {
       block = value;
       return block;
     }
-  })
+  });
   return block;
-}
+};
 
 const handleScrollTo = (blocks, toBlock) => {
   const block = getBlock(blocks, toBlock);
@@ -19,10 +19,10 @@ const handleScrollTo = (blocks, toBlock) => {
   main.scrollTo({
     top: block?.offsetTop,
     left: 0,
-    behavior: "smooth"
+    behavior: "smooth",
   });
   window.location.hash = "#" + toBlock;
-}
+};
 
 const SidebarProjectButton = ({ project, places }) => {
   const placesList = Object.values(places);
@@ -41,12 +41,19 @@ const SidebarProjectButton = ({ project, places }) => {
           <hr />
           <div className={styles.placesInProject}>
             {placesList.map((place, i) => {
-              const keyByValue = Object.keys(places).find(key => places[key] === place);
+              const keyByValue = Object.keys(places).find(
+                (key) => places[key] === place
+              );
               const isKeyChosen = keyByValue === project.chosen;
               const className = isKeyChosen ? styles.activePlaceButton : "";
-              return <span className={className} 
-                           onClick={() => handleScrollTo(project.blocks, keyByValue)}
-                     >{place}</span>;
+              return (
+                <span
+                  className={className}
+                  onClick={() => handleScrollTo(project.blocks, keyByValue)}
+                >
+                  {place}
+                </span>
+              );
             })}
           </div>
         </>

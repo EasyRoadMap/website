@@ -2,3 +2,50 @@
   fill: var(--bg-icon-sidebar);
   stroke: var(--bg-icon-sidebar);
 }
+.addPersonSVG {
+  path {
+    fill: var(--accent-color);
+  }
+  rect {
+    fill: transparent;
+    stroke: var(--accent-color);
+  }
+}
+.addPersonSVG:hover {
+  path {
+    fill: rgba(255, 255, 255);
+  }
+  rect {
+    fill: #1a75fe;
+    stroke: transparent;
+  }
+}
+
+.addPersonSVG:active {
+  opacity: 0.75;
+  path {
+    fill: rgba(255, 255, 255);
+  }
+  rect {
+    fill: #1a75fe;
+    stroke: transparent;
+  }
+}
+
+.addPersonSVG:disabled {
+  opacity: 0.3;
+  path {
+    fill: #1a75fe;
+  }
+  rect {
+    fill: transparent;
+    stroke: #1a75fe;
+  }
+}
+
+.buttonDotsSVG {
+  path {
+    fill: var(--text-color);
+    stroke: var(--text-color);
+  }
+}

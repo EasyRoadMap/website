@@ -1,7 +1,9 @@
-/* color-1 - используется для фона
+/* 
+color-1 - используется для фона
 color-2 - для контейнеров, т.е. блоков с информацией по центру
 color-3 - для хедера
-color-4 - для бокового меню */
+color-4 - для бокового меню 
+*/
 :root {
   /*color 1*/
   --bg-color-and-popup: #e6ebf2;
@@ -14,18 +16,21 @@ color-4 - для бокового меню */
   --text-color: #000000;
   --foreground-color50: rgb(0, 0, 0, 0.5);
   --accent-color: #0066fe;
-  --title-input-color: #000000;
+  --title-input-color: rgb(0, 0, 0, 0.75);
   --light-stroke: rgba(0, 0, 0, 0.1);
   --bg-workspace-button: rgba(0, 0, 0, 0.08);
   --bg-workspace-button-focus: rgba(0, 0, 0, 0.05);
   --bg-workspace-button-active: rgba(0, 0, 0, 0.12);
   --bg-icon-sidebar: #0066fe;
   --border-input: rgb(0, 0, 0, 0.1);
-  --light-blue-text-places: #6F7B8D;
+  --light-blue-text-places: #6f7b8d;
+  --switch-color: rgba(0, 0, 0, 0.05);
+  --switch-hover-color: rgba(0, 0, 0, 0.15);
+  --add-person-color: #5397fe;
 }
 [data-theme="light"] {
   /*color 1*/
-  --bg-color-and-popup: #e6ebf2;
+  --bg-color-and-popup: #e7ecf3;
   /*color 4*/
   --bg-color-sidebar-and-dropdown: #e9edf3;
   /*color 2*/
@@ -42,7 +47,10 @@ color-4 - для бокового меню */
   --bg-workspace-button-active: rgba(0, 0, 0, 0.12);
   --bg-icon-sidebar: #0066fe;
   --border-input: rgb(0, 0, 0, 0.1);
-  --light-blue-text-places: #6F7B8D;
+  --light-blue-text-places: #6f7b8d;
+  --switch-color: rgba(0, 0, 0, 0.05);
+  --switch-hover-color: rgba(0, 0, 0, 0.15);
+  --add-person-color: #5397fe;
 }
 [data-theme="dark"] {
   /*color 1*/
@@ -63,4 +71,7 @@ color-4 - для бокового меню */
   --bg-icon-sidebar: #ffffff;
   --border-input: rgb(255, 255, 255, 0.1);
   --light-blue-text-places: rgba(255, 255, 255, 0.5);
+  --switch-color: rgba(255, 255, 255, 0.05);
+  --switch-hover-color: rgba(255, 255, 255, 0.15);
+  --add-person-color: #1c60c6;
 }

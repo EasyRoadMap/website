@@ -51,7 +51,7 @@
   width: auto;
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--light-stroke);
 }
 .logoTextWrapper {
   display: flex;

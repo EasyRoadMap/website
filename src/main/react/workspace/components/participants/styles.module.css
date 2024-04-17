@@ -24,6 +24,8 @@
 }
 .addUser {
   color: var(--text-color);
+  font-size: 20px;
+  font-weight: 500;
 }
 .participantWrapper {
   display: flex;
@@ -47,6 +49,10 @@
   flex-direction: row;
   align-items: center;
   margin: 6px 0;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  background-color: transparent;
 }
 .addLogo {
   height: 64px;

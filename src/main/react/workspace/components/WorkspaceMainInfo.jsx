@@ -10,8 +10,10 @@ const WorkspaceMainInfo = ({
       <span className={styles.title}>Основная информация</span>
       <div className={styles.info}>
         <img src={logo} alt="" className={styles.logo} />
-        <TextField title="Название" placeholder="Название рабочей области" />
-        <TextField title="Описание" placeholder="Описание рабочей области" />
+        <div className={styles.infoDiscription}>
+          <TextField title="Название" placeholder="Название рабочей области" />
+          <TextField title="Описание" placeholder="Описание рабочей области" />
+        </div>
       </div>
     </section>
   );

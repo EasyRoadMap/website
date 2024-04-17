@@ -13,6 +13,11 @@
   flex-direction: row;
   gap: 24px;
 }
+.infoDiscription {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 .sectionUrl {
   display: flex;
   flex-direction: column;
