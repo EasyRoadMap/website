@@ -239,7 +239,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Leave from workspace", tags = "workspace-api")
-    @PostMapping(value = "/leave", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(value = "/leave")
     @ResponseStatus(HttpStatus.OK)
     public void leaveFromWorkspace(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
         String userEmail = requireUserExistance(userService);
