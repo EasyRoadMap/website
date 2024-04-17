@@ -33,6 +33,10 @@ public final class WorkspaceMemberInvitation {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
+    @Column(name = "updated_at", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime updatedAt;
+
     @Column(name = "expires_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime expiresAt;
@@ -43,7 +47,19 @@ public final class WorkspaceMemberInvitation {
         this.invitedUserEmail = invitedUserEmail;
         this.role = role;
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = createdAt;
         this.expiresAt = createdAt.plusDays(1);
+    }
+
+    public boolean isExpired() {
+        return expiresAt.isAfter(LocalDateTime.now());
+    }
+
+    public void renew(String inviterUserEmail, String role) {
+        this.inviterUserEmail = inviterUserEmail;
+        this.role = role;
+        this.updatedAt = LocalDateTime.now();
+        this.expiresAt = updatedAt.plusDays(1);
     }
 
 }

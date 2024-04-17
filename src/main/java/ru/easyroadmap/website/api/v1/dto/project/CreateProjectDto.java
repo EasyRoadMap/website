@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class CreateProjectDto {
+public final class CreateProjectDto {
 
     @NotBlank @Size(min = 2, max = 64)
     private String name;

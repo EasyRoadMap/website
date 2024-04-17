@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import ru.easyroadmap.website.exception.GenericErrorException;
+import ru.easyroadmap.website.service.MailService;
 import ru.easyroadmap.website.storage.model.auth.EmailConfirmation;
 import ru.easyroadmap.website.storage.repository.auth.EmailConfirmationRepository;
 import ru.easyroadmap.website.util.CharSequenceGenerator;

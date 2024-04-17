@@ -6,6 +6,7 @@ import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.storage.model.workspace.Workspace;
 import ru.easyroadmap.website.storage.model.workspace.Workspace.Theme;
 import ru.easyroadmap.website.storage.model.workspace.WorkspaceMember;
+import ru.easyroadmap.website.storage.model.workspace.WorkspaceMemberInvitation;
 import ru.easyroadmap.website.storage.repository.project.ProjectLinkRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectMemberRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectRepository;
@@ -78,6 +79,21 @@ public final class WorkspaceService {
         return member;
     }
 
+    public WorkspaceMemberInvitation inviteToWorkspace(String userEmail, UUID workspaceId, String otherUserEmail, String role) throws ApiException {
+        WorkspaceMemberInvitation invitation = invitationRepository.findByInvitedUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId).orElse(null);
+        if (invitation != null && !invitation.isExpired())
+            throw new ApiException("user_already_invited", "An invitation was already sent to this user");
+
+        if (invitation != null) {
+            invitation.renew(userEmail, role);
+        } else {
+            invitation = new WorkspaceMemberInvitation(workspaceId, userEmail, otherUserEmail, role);
+        }
+
+        invitationRepository.save(invitation);
+        return invitation;
+    }
+
     public WorkspaceMember kickFromWorkspace(UUID workspaceId, String otherUserEmail) throws ApiException {
         WorkspaceMember member = memberRepository.findByUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId)
                 .orElseThrow(() -> new ApiException(
@@ -90,13 +106,12 @@ public final class WorkspaceService {
         return member;
     }
 
-    public WorkspaceMember joinToWorkspace(String userEmail, UUID workspaceId) throws ApiException {
+    public void joinToWorkspace(String userEmail, UUID workspaceId) throws ApiException {
         if (memberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(userEmail, workspaceId))
             throw new ApiException("already_joined", "You're already joined to this workspace");
 
         WorkspaceMember member = new WorkspaceMember(workspaceId, userEmail, null);
         memberRepository.save(member);
-        return member;
     }
 
     public WorkspaceMember leaveFromWorkspace(String userEmail, UUID workspaceId) throws ApiException {

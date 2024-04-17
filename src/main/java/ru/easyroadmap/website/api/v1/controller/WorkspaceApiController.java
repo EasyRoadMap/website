@@ -9,10 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.easyroadmap.website.api.v1.dto.*;
-import ru.easyroadmap.website.api.v1.dto.workspace.CreateWorkspaceDto;
-import ru.easyroadmap.website.api.v1.dto.workspace.DeleteWorkspaceDto;
-import ru.easyroadmap.website.api.v1.dto.workspace.PutWorkspaceAppearanceDto;
-import ru.easyroadmap.website.api.v1.dto.workspace.PutWorkspaceInfoDto;
+import ru.easyroadmap.website.api.v1.dto.workspace.*;
 import ru.easyroadmap.website.api.v1.model.*;
 import ru.easyroadmap.website.api.v1.model.workspace.WorkspaceAppearanceModel;
 import ru.easyroadmap.website.api.v1.model.workspace.WorkspaceInfoModel;
@@ -140,6 +137,19 @@ public class WorkspaceApiController extends ApiControllerBase {
         Workspace workspace = workspaceService.requireWorkspaceAdminRights(userEmail, workspaceId);
         UUID uuid = generateWorkspacePhotoID(workspace.getId());
         return photoService.savePhoto(uuid, dto.getPhoto(), dto.getX(), dto.getY(), dto.getWidth(), dto.getHeight());
+    }
+
+    @Operation(summary = "Invite a user to workspace", tags = "workspace-api")
+    @PostMapping(value = "/members/invite", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public void inviteUserToWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid InviteMemberDto dto) throws ApiException {
+        String userEmail = requireUserExistance(userService);
+        workspaceService.requireWorkspaceAdminRights(userEmail, workspaceId);
+
+        String otherUserEmail = dto.getEmail();
+        if (!userService.isUserExist(otherUserEmail))
+            throw new ApiException("target_user_not_found", "There is no user registered with this email");
+
+        workspaceService.inviteToWorkspace(userEmail, workspaceId, dto.getEmail(), dto.getRole());
     }
 
     @Operation(summary = "Delete workspace", tags = "workspace-api")

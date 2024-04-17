@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ru.easyroadmap.website.storage.repository.UserRepository;
 
 @RequiredArgsConstructor
-public class UserStorageService implements UserDetailsService {
+public final class UserStorageService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
