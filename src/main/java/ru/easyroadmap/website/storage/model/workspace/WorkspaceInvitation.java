@@ -10,8 +10,8 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
-@Entity @Table(name = "workspace_member_invitations")
-public final class WorkspaceMemberInvitation {
+@Entity @Table(name = "workspace_invitations")
+public final class WorkspaceInvitation {
 
     @Id @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     @Column(name = "id", nullable = false)
@@ -41,7 +41,7 @@ public final class WorkspaceMemberInvitation {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime expiresAt;
 
-    public WorkspaceMemberInvitation(UUID workspaceId, String inviterUserEmail, String invitedUserEmail, String role) {
+    public WorkspaceInvitation(UUID workspaceId, String inviterUserEmail, String invitedUserEmail, String role) {
         this.workspaceId = workspaceId;
         this.inviterUserEmail = inviterUserEmail;
         this.invitedUserEmail = invitedUserEmail;

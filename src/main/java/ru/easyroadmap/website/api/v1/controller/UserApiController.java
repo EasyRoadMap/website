@@ -117,6 +117,10 @@ public class UserApiController extends ApiControllerBase {
         if (!hashedPassword.equals(user.getPassword()))
             throw new ApiException("wrong_password", "Password isn't correct");
 
+        List<Workspace> joinedWorkspaces = workspaceService.getJoinedWorkspaces(user.getEmail());
+        if (!joinedWorkspaces.isEmpty())
+            throw new ApiException("have_joined_workspace", "You still have least one joined workspace");
+
         userService.deleteUser(user);
     }
 

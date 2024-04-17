@@ -9,10 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.easyroadmap.website.api.v1.dto.UploadPhotoDto;
-import ru.easyroadmap.website.api.v1.dto.project.CreateProjectDto;
-import ru.easyroadmap.website.api.v1.dto.project.DeleteProjectDto;
-import ru.easyroadmap.website.api.v1.dto.project.PutProjectInfoDto;
-import ru.easyroadmap.website.api.v1.dto.project.PutProjectLinksDto;
+import ru.easyroadmap.website.api.v1.dto.UserIdentifierDto;
+import ru.easyroadmap.website.api.v1.dto.project.*;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
 import ru.easyroadmap.website.api.v1.model.UserModel;
 import ru.easyroadmap.website.api.v1.model.project.ProjectInfoModel;
@@ -66,8 +64,8 @@ public class ProjectApiController extends ApiControllerBase {
     public ProjectModel getProject(@RequestParam("pr_id") UUID projectId) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Project project = projectService.requireProjectMembership(userEmail, projectId);
-        List<ProjectLink> links = projectService.getProjectLinks(projectId);
         PhotoModel photoModel = photoService.getPhotoModel(generateProjectPhotoID(projectId)).orElse(null);
+        List<ProjectLink> links = projectService.getProjectLinks(projectId);
         return ProjectModel.fromProject(project, photoModel, links);
     }
 
@@ -156,9 +154,46 @@ public class ProjectApiController extends ApiControllerBase {
         return photoService.savePhoto(uuid, dto.getPhoto(), dto.getX(), dto.getY(), dto.getWidth(), dto.getHeight());
     }
 
+    @Operation(summary = "Add workspace member to project", tags = "project-api")
+    @PostMapping(value = "/members/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void addMemberToProject(@RequestParam("pr_id") UUID projectId, @Valid AddMemberDto dto) throws ApiException {
+        String userEmail = requireUserExistance(userService);
+        Project project = projectService.requireProjectWorkspaceAdminRights(userEmail, projectId);
+
+        String otherUserEmail = dto.getEmail();
+        UUID workspaceId = project.getWorkspaceId();
+
+        if (workspaceService.isAdmin(otherUserEmail, workspaceId))
+            throw new ApiException("user_is_admin", "Requested user is an admin of this workspace");
+
+        if (!workspaceService.isMember(otherUserEmail, workspaceId))
+            throw new ApiException("not_a_member", "Requested user isn't a member of this workspace");
+
+        projectService.addToProject(projectId, dto.getEmail(), dto.getRole());
+    }
+
+    @Operation(summary = "Remove workspace member from project", tags = "project-api")
+    @PostMapping(value = "/members/remove", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void removeMemberFromProject(@RequestParam("pr_id") UUID projectId, @Valid UserIdentifierDto dto) throws ApiException {
+        String userEmail = requireUserExistance(userService);
+        Project project = projectService.requireProjectWorkspaceAdminRights(userEmail, projectId);
+
+        String otherUserEmail = dto.getEmail();
+        UUID workspaceId = project.getWorkspaceId();
+
+        if (workspaceService.isAdmin(otherUserEmail, workspaceId))
+            throw new ApiException("user_is_admin", "Requested user is an admin of this workspace");
+
+        if (!workspaceService.isMember(otherUserEmail, workspaceId))
+            throw new ApiException("not_a_member", "Requested user isn't a member of this workspace");
+
+        projectService.kickFromProject(projectId, otherUserEmail);
+    }
+
     @Operation(summary = "Delete project", tags = "project-api")
     @DeleteMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ProjectModel deleteProject(@RequestParam("pr_id") UUID projectId, @Valid DeleteProjectDto dto) throws ApiException {
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteProject(@RequestParam("pr_id") UUID projectId, @Valid DeleteProjectDto dto) throws ApiException {
         User user = getCurrentUser(userService);
         Project project = projectService.requireProjectWorkspaceAdminRights(user.getEmail(), projectId);
 
@@ -168,9 +203,6 @@ public class ProjectApiController extends ApiControllerBase {
 
         List<ProjectLink> links = projectService.getProjectLinks(projectId);
         projectService.deleteProject(projectId);
-
-        PhotoModel photoModel = photoService.getPhotoModel(generateProjectPhotoID(projectId)).orElse(null);
-        return ProjectModel.fromProject(project, photoModel, links);
     }
 
 }

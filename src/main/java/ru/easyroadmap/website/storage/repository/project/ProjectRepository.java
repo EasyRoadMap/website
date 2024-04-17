@@ -21,6 +21,9 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
     @Query("select p from ProjectMember m inner join Project p on m.projectId = p.id where m.userEmail = ?1 and p.workspaceId = ?2")
     List<Project> getJoinedProjects(String userEmail, UUID workspaceId);
 
+    @Query("select p.id from ProjectMember m inner join Project p on m.projectId = p.id where m.userEmail = ?1 and p.workspaceId = ?2")
+    List<UUID> getJoinedProjectsIds(String userEmail, UUID workspaceId);
+
     @Query("select w from Project p inner join Workspace w on p.workspaceId = w.id where p.id = ?1")
     Optional<Workspace> getProjectWorkspace(UUID projectId);
 

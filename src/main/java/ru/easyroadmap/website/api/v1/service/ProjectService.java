@@ -22,11 +22,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public final class ProjectService {
 
-    private static final int MAX_PROJECTS_PER_WORKSPACE = 5;
+    public static final int MAX_PROJECTS_PER_WORKSPACE = 5;
 
     private final ProjectRepository projectRepository;
-    private final ProjectMemberRepository memberRepository;
-    private final ProjectLinkRepository linkRepository;
+    private final ProjectMemberRepository projectMemberRepository;
+    private final ProjectLinkRepository projectLinkRepository;
 
     public Project createProject(UUID workspaceId, String name, String description, LocalDate deadlineAt) throws ApiException {
         int projectsCount = projectRepository.countAllByWorkspaceIdEquals(workspaceId);
@@ -43,61 +43,44 @@ public final class ProjectService {
     }
 
     public List<ProjectMember> getProjectMembers(UUID projectId) {
-        return memberRepository.findAllByProjectIdEquals(projectId);
+        return projectMemberRepository.findAllByProjectIdEquals(projectId);
     }
 
     public void deleteProject(UUID projectId) {
-        linkRepository.deleteAllByProjectIdEquals(projectId);
-        memberRepository.deleteAllByProjectIdEquals(projectId);
+        projectLinkRepository.deleteAllByProjectIdEquals(projectId);
+        projectMemberRepository.deleteAllByProjectIdEquals(projectId);
         projectRepository.deleteById(projectId);
     }
 
-    public ProjectMember addToProject(UUID projectId, String otherUserEmail, String role) throws ApiException {
-        if (memberRepository.existsByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId))
+    public void addToProject(UUID projectId, String otherUserEmail, String role) throws ApiException {
+        if (projectMemberRepository.existsByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId))
             throw new ApiException("already_joined", "Requested user is already joined to this project");
 
         ProjectMember member = new ProjectMember(projectId, otherUserEmail, role);
-        memberRepository.save(member);
-        return member;
+        projectMemberRepository.save(member);
     }
 
-    public ProjectMember kickFromProject(UUID projectId, String otherUserEmail) throws ApiException {
-        ProjectMember member = memberRepository.findByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId)
-                .orElseThrow(() -> new ApiException(
-                        "not_a_member",
-                        "Requested user isn't a member of this project"
-                ));
+    public void kickFromProject(UUID projectId, String otherUserEmail) throws ApiException {
+        if (!projectMemberRepository.existsByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId))
+            throw new ApiException("not_a_member", "Requested user isn't a member of this project");
 
-        memberRepository.delete(member);
-        return member;
+        projectMemberRepository.deleteAllByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId);
     }
 
-    public ProjectMember joinToProject(String userEmail, UUID projectId) throws ApiException {
-        if (memberRepository.existsByUserEmailEqualsAndProjectIdEquals(userEmail, projectId))
+    public void joinToProject(String userEmail, UUID projectId) throws ApiException {
+        if (projectMemberRepository.existsByUserEmailEqualsAndProjectIdEquals(userEmail, projectId))
             throw new ApiException("already_joined", "You're already joined to this project");
 
         ProjectMember member = new ProjectMember(projectId, userEmail, null);
-        memberRepository.save(member);
-        return member;
-    }
-
-    public ProjectMember leaveFromProject(String userEmail, UUID projectId) throws ApiException {
-        ProjectMember member = memberRepository.findByUserEmailEqualsAndProjectIdEquals(userEmail, projectId)
-                .orElseThrow(() -> new ApiException(
-                        "not_a_member",
-                        "You're not a member of this project"
-                ));
-
-        memberRepository.delete(member);
-        return member;
+        projectMemberRepository.save(member);
     }
 
     public List<ProjectLink> getProjectLinks(UUID projectId) {
-        return linkRepository.findAllByProjectIdEquals(projectId);
+        return projectLinkRepository.findAllByProjectIdEquals(projectId);
     }
 
     public void updateProjectLinks(UUID projectId, List<LinkFacade> facades) {
-        List<ProjectLink> links = linkRepository.findAllByProjectIdEquals(projectId);
+        List<ProjectLink> links = projectLinkRepository.findAllByProjectIdEquals(projectId);
 
         int count = facades != null ? facades.size() : 0;
         if (links.size() < count) {
@@ -112,7 +95,7 @@ public final class ProjectService {
                     .map(ProjectLink::getId)
                     .toList();
 
-            linkRepository.deleteAllByIdIn(idsToRemove);
+            projectLinkRepository.deleteAllByIdIn(idsToRemove);
             links = links.subList(0, count);
         }
 
@@ -122,7 +105,7 @@ public final class ProjectService {
         }
 
         if (!links.isEmpty()) {
-            linkRepository.saveAll(links);
+            projectLinkRepository.saveAll(links);
         }
     }
 
@@ -183,7 +166,7 @@ public final class ProjectService {
     }
 
     public boolean isMember(String userEmail, UUID projectId) {
-        return memberRepository.existsByUserEmailEqualsAndProjectIdEquals(userEmail, projectId);
+        return projectMemberRepository.existsByUserEmailEqualsAndProjectIdEquals(userEmail, projectId);
     }
 
 }

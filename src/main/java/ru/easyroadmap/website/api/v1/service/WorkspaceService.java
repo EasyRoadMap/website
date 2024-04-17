@@ -3,14 +3,14 @@ package ru.easyroadmap.website.api.v1.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.easyroadmap.website.exception.ApiException;
+import ru.easyroadmap.website.storage.model.project.ProjectMember;
 import ru.easyroadmap.website.storage.model.workspace.Workspace;
 import ru.easyroadmap.website.storage.model.workspace.Workspace.Theme;
 import ru.easyroadmap.website.storage.model.workspace.WorkspaceMember;
-import ru.easyroadmap.website.storage.model.workspace.WorkspaceMemberInvitation;
 import ru.easyroadmap.website.storage.repository.project.ProjectLinkRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectMemberRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectRepository;
-import ru.easyroadmap.website.storage.repository.workspace.WorkspaceMemberInvitationRepository;
+import ru.easyroadmap.website.storage.repository.workspace.WorkspaceInvitationRepository;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceMemberRepository;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceRepository;
 
@@ -22,19 +22,19 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public final class WorkspaceService {
 
-    private static final int MAX_JOINED_WORKSPACES = 5;
-    private static final int MAX_MEMBERS_PER_WORKSPACE = 10;
+    public static final int MAX_JOINED_WORKSPACES = 5;
+    public static final int MAX_MEMBERS_PER_WORKSPACE = 10;
 
     private final WorkspaceRepository workspaceRepository;
-    private final WorkspaceMemberRepository memberRepository;
-    private final WorkspaceMemberInvitationRepository invitationRepository;
+    private final WorkspaceMemberRepository workspaceMemberRepository;
+    private final WorkspaceInvitationRepository workspaceInvitationRepository;
 
     private final ProjectRepository projectRepository;
     private final ProjectMemberRepository projectMemberRepository;
     private final ProjectLinkRepository projectLinkRepository;
 
     public Workspace createWorkspace(String userEmail, String name, String description) throws ApiException {
-        int joinedWorkspaces = memberRepository.countAllByUserEmailEquals(userEmail);
+        int joinedWorkspaces = workspaceMemberRepository.countAllByUserEmailEquals(userEmail);
         if (joinedWorkspaces >= MAX_JOINED_WORKSPACES)
             throw new ApiException("too_many_joined_workspaces", "You cannot be a member of more than 5 workspaces");
 
@@ -48,7 +48,7 @@ public final class WorkspaceService {
     }
 
     public List<WorkspaceMember> getWorkspaceMembers(UUID workspaceId) {
-        return memberRepository.findAllByWorkspaceIdEquals(workspaceId);
+        return workspaceMemberRepository.findAllByWorkspaceIdEquals(workspaceId);
     }
 
     public void deleteWorkspace(UUID workspaceId) {
@@ -56,74 +56,86 @@ public final class WorkspaceService {
         projectLinkRepository.deleteAllByProjectIdIn(projectIds);
         projectMemberRepository.deleteAllByProjectIdIn(projectIds);
         projectRepository.deleteAllByWorkspaceIdEquals(workspaceId);
-        memberRepository.deleteAllByWorkspaceIdEquals(workspaceId);
+
+        workspaceInvitationRepository.deleteAllByWorkspaceIdEquals(workspaceId);
+        workspaceMemberRepository.deleteAllByWorkspaceIdEquals(workspaceId);
         workspaceRepository.deleteById(workspaceId);
     }
 
     public WorkspaceMember addToWorkspace(UUID workspaceId, String otherUserEmail, String role, boolean ignoreLimits) throws ApiException {
         if (!ignoreLimits) {
-            int joinedWorkspaces = memberRepository.countAllByUserEmailEquals(otherUserEmail);
+            int joinedWorkspaces = workspaceMemberRepository.countAllByUserEmailEquals(otherUserEmail);
             if (joinedWorkspaces >= MAX_JOINED_WORKSPACES)
                 throw new ApiException("too_many_joined_workspaces", "Requested user cannot be a member of more than 5 workspaces");
 
-            int membersCount = memberRepository.countAllByWorkspaceIdEquals(workspaceId);
+            int membersCount = workspaceMemberRepository.countAllByWorkspaceIdEquals(workspaceId);
             if (membersCount >= MAX_MEMBERS_PER_WORKSPACE)
                 throw new ApiException("workspace_members_limit_exceeded", "No more than 10 users can be in the workspace");
         }
 
-        if (memberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId))
+        if (workspaceMemberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId))
             throw new ApiException("already_joined", "Requested user is already joined to this workspace");
 
         WorkspaceMember member = new WorkspaceMember(workspaceId, otherUserEmail, role);
-        memberRepository.save(member);
+        workspaceMemberRepository.save(member);
         return member;
     }
 
-    public WorkspaceMemberInvitation inviteToWorkspace(String userEmail, UUID workspaceId, String otherUserEmail, String role) throws ApiException {
-        WorkspaceMemberInvitation invitation = invitationRepository.findByInvitedUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId).orElse(null);
-        if (invitation != null && !invitation.isExpired())
-            throw new ApiException("user_already_invited", "An invitation was already sent to this user");
+    public void kickFromWorkspace(UUID workspaceId, String otherUserEmail) throws ApiException {
+        if (isAdmin(otherUserEmail, workspaceId))
+            throw new ApiException("user_is_admin", "Requested user is an admin of this workspace");
 
-        if (invitation != null) {
-            invitation.renew(userEmail, role);
-        } else {
-            invitation = new WorkspaceMemberInvitation(workspaceId, userEmail, otherUserEmail, role);
-        }
+        if (!isMember(otherUserEmail, workspaceId))
+            throw new ApiException("not_a_member", "Requested user isn't a member of this workspace");
 
-        invitationRepository.save(invitation);
-        return invitation;
-    }
+        List<UUID> joinedProjectsIds = projectRepository.getJoinedProjectsIds(otherUserEmail, workspaceId);
+        if (!joinedProjectsIds.isEmpty())
+            projectMemberRepository.deleteAllByUserEmailEqualsAndProjectIdIn(otherUserEmail, joinedProjectsIds);
 
-    public WorkspaceMember kickFromWorkspace(UUID workspaceId, String otherUserEmail) throws ApiException {
-        WorkspaceMember member = memberRepository.findByUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId)
-                .orElseThrow(() -> new ApiException(
-                        "not_a_member",
-                        "Requested user isn't a member of this workspace"
-                ));
-
-        projectMemberRepository.deleteAllByUserEmailEquals(otherUserEmail);
-        memberRepository.delete(member);
-        return member;
+        workspaceMemberRepository.deleteAllByUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId);
     }
 
     public void joinToWorkspace(String userEmail, UUID workspaceId) throws ApiException {
-        if (memberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(userEmail, workspaceId))
+        if (workspaceMemberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(userEmail, workspaceId))
             throw new ApiException("already_joined", "You're already joined to this workspace");
 
         WorkspaceMember member = new WorkspaceMember(workspaceId, userEmail, null);
-        memberRepository.save(member);
+        workspaceMemberRepository.save(member);
     }
 
-    public WorkspaceMember leaveFromWorkspace(String userEmail, UUID workspaceId) throws ApiException {
-        WorkspaceMember member = memberRepository.findByUserEmailEqualsAndWorkspaceIdEquals(userEmail, workspaceId)
-                .orElseThrow(() -> new ApiException(
-                        "not_a_member",
-                        "You're not a member of this workspace"
-                ));
+    public void leaveFromWorkspace(String userEmail, UUID workspaceId) throws ApiException {
+        if (isAdmin(userEmail, workspaceId))
+            throw new ApiException("user_is_admin", "You're an admin of this workspace");
 
-        projectMemberRepository.deleteAllByUserEmailEquals(userEmail);
-        memberRepository.delete(member);
-        return member;
+        if (!isMember(userEmail, workspaceId))
+            throw new ApiException("not_a_member", "You're not a member of this workspace");
+
+        List<UUID> joinedProjectsIds = projectRepository.getJoinedProjectsIds(userEmail, workspaceId);
+        if (!joinedProjectsIds.isEmpty())
+            projectMemberRepository.deleteAllByUserEmailEqualsAndProjectIdIn(userEmail, joinedProjectsIds);
+
+        workspaceMemberRepository.deleteAllByUserEmailEqualsAndWorkspaceIdEquals(userEmail, workspaceId);
+    }
+
+    public void transferOwnership(Workspace workspace, String otherUserEmail) throws ApiException {
+        if (!isMember(otherUserEmail, workspace.getId()))
+            throw new ApiException("not_a_member", "Requested user isn't a member of this workspace");
+
+        workspace.setAdminId(otherUserEmail);
+        workspaceRepository.save(workspace);
+
+        workspaceInvitationRepository.deleteAllByWorkspaceIdEquals(workspace.getId());
+
+        List<UUID> projectIds = projectRepository.getAllProjectIdsInWorkspace(workspace.getId());
+        List<UUID> joinedProjectsIds = projectRepository.getJoinedProjectsIds(otherUserEmail, workspace.getId());
+
+        for (UUID projectId : projectIds) {
+            if (joinedProjectsIds.contains(projectId))
+                continue;
+
+            ProjectMember member = new ProjectMember(projectId, otherUserEmail, null);
+            projectMemberRepository.save(member);
+        }
     }
 
     public Workspace updateWorkspaceInfo(Workspace workspace, String name, String description) {
@@ -178,7 +190,7 @@ public final class WorkspaceService {
     }
 
     public boolean isMember(String userEmail, UUID workspaceId) {
-        return memberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(userEmail, workspaceId);
+        return workspaceMemberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(userEmail, workspaceId);
     }
 
 }

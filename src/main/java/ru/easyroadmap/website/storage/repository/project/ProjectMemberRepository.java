@@ -19,6 +19,10 @@ public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Lo
 
     void deleteAllByUserEmailEquals(String userEmail);
 
+    void deleteAllByUserEmailEqualsAndProjectIdIn(String userEmail, List<UUID> projectIds);
+
+    void deleteAllByUserEmailEqualsAndProjectIdEquals(String userEmail, UUID projectId);
+
     boolean existsByUserEmailEqualsAndProjectIdEquals(String userEmail, UUID projectId);
 
     List<ProjectMember> findAllByUserEmailEquals(String userEmail);
