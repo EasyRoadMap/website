@@ -1,6 +1,7 @@
 package ru.easyroadmap.website.storage.repository.project;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import ru.easyroadmap.website.storage.model.project.ProjectMember;
 
 import java.util.List;
@@ -30,5 +31,8 @@ public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Lo
     List<ProjectMember> findAllByProjectIdEquals(UUID projectId);
 
     Optional<ProjectMember> findByUserEmailEqualsAndProjectIdEquals(String userEmail, UUID projectId);
+
+    @Query("select m.userEmail from ProjectMember m where m.projectId = ?1")
+    List<String> getProjectMemberEmails(UUID projectId);
 
 }

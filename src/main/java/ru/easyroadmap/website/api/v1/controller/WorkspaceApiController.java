@@ -8,28 +8,29 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import ru.easyroadmap.website.api.v1.dto.*;
-import ru.easyroadmap.website.api.v1.dto.workspace.*;
-import ru.easyroadmap.website.api.v1.model.*;
+import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
+import ru.easyroadmap.website.api.v1.dto.UploadPhotoDto;
+import ru.easyroadmap.website.api.v1.dto.UserAddMemberDto;
+import ru.easyroadmap.website.api.v1.dto.UserIdentifierDto;
+import ru.easyroadmap.website.api.v1.dto.workspace.CreateWorkspaceDto;
+import ru.easyroadmap.website.api.v1.dto.workspace.PutWorkspaceAppearanceDto;
+import ru.easyroadmap.website.api.v1.dto.workspace.PutWorkspaceInfoDto;
+import ru.easyroadmap.website.api.v1.model.PhotoModel;
+import ru.easyroadmap.website.api.v1.model.UserModel;
+import ru.easyroadmap.website.api.v1.model.project.ProjectShortcutModel;
 import ru.easyroadmap.website.api.v1.model.workspace.*;
-import ru.easyroadmap.website.api.v1.service.InvitationService;
-import ru.easyroadmap.website.api.v1.service.PhotoService;
-import ru.easyroadmap.website.api.v1.service.UserService;
-import ru.easyroadmap.website.api.v1.service.WorkspaceService;
+import ru.easyroadmap.website.api.v1.service.*;
 import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.storage.model.User;
+import ru.easyroadmap.website.storage.model.project.Project;
 import ru.easyroadmap.website.storage.model.workspace.Workspace;
 import ru.easyroadmap.website.storage.model.workspace.Workspace.Theme;
 import ru.easyroadmap.website.storage.model.workspace.WorkspaceInvitation;
 import ru.easyroadmap.website.storage.model.workspace.WorkspaceMember;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-import static ru.easyroadmap.website.api.v1.service.PhotoService.generateUserPhotoID;
-import static ru.easyroadmap.website.api.v1.service.PhotoService.generateWorkspacePhotoID;
+import static ru.easyroadmap.website.api.v1.service.PhotoService.*;
 
 @RestController
 @RequestMapping("/api/v1/workspace")
@@ -42,6 +43,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     private final PhotoService photoService;
 
     private final PasswordEncoder passwordEncoder;
+    private final ProjectService projectService;
 
     @Operation(summary = "Create a new workspace", tags = "workspace-api")
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -59,6 +61,40 @@ public class WorkspaceApiController extends ApiControllerBase {
         Workspace workspace = workspaceService.requireWorkspaceMembership(userEmail, workspaceId);
         PhotoModel photoModel = photoService.getPhotoModel(generateWorkspacePhotoID(workspaceId)).orElse(null);
         return WorkspaceModel.fromWorkspace(workspace, photoModel, userEmail.equals(workspace.getAdminId()), true);
+    }
+
+    @Operation(summary = "Get a list of joined workspace projects", tags = "workspace-api")
+    @GetMapping("/projects")
+    public ResponseEntity<List<ProjectShortcutModel>> getWorkspaceProjects(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
+        String userEmail = requireUserExistance(userService);
+        workspaceService.requireWorkspaceMembership(userEmail, workspaceId);
+
+        List<Project> joinedProjects = projectService.getJoinedProjects(userEmail, workspaceId);
+        List<ProjectShortcutModel> result = new ArrayList<>();
+
+        for (Project project : joinedProjects) {
+            UUID projectId = project.getId();
+            PhotoModel projectPhoto = photoService.getPhotoModel(generateProjectPhotoID(projectId)).orElse(null);
+
+            List<String> memberEmails = projectService.getProjectMemberEmails(projectId);
+            List<UUID> memberPhotoIds = memberEmails.stream().map(PhotoService::generateUserPhotoID).toList();
+            List<PhotoModel> memberPhotos = memberPhotoIds.stream()
+                    .map(photoService::getPhotoModel)
+                    .map(opt -> opt.orElse(null))
+                    .filter(Objects::nonNull)
+                    .limit(3L)
+                    .toList();
+
+            result.add(ProjectShortcutModel.fromProject(
+                    project,
+                    projectPhoto,
+                    memberEmails.size(),
+                    memberPhotoIds,
+                    memberPhotos
+            ));
+        }
+
+        return result.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(result);
     }
 
     @Operation(summary = "Get a list of workspace members", tags = "workspace-api")

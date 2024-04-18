@@ -46,6 +46,10 @@ public final class ProjectService {
         return projectMemberRepository.findAllByProjectIdEquals(projectId);
     }
 
+    public List<String> getProjectMemberEmails(UUID projectId) {
+        return projectMemberRepository.getProjectMemberEmails(projectId);
+    }
+
     public void deleteProject(UUID projectId) {
         projectLinkRepository.deleteAllByProjectIdEquals(projectId);
         projectMemberRepository.deleteAllByProjectIdEquals(projectId);
@@ -109,11 +113,11 @@ public final class ProjectService {
         }
     }
 
-    public Project updateProjectInfo(Project project, String name, String description, LocalDate deadlineAt) {
+    public void updateProjectInfo(Project project, String name, String description, LocalDate deadlineAt) {
         project.setName(name);
         project.setDescription(description);
         project.setDeadlineAt(deadlineAt);
-        return project;
+        projectRepository.save(project);
     }
 
     public Project getProject(UUID projectId) throws ApiException {

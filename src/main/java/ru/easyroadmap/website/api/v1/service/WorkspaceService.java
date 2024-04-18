@@ -138,16 +138,16 @@ public final class WorkspaceService {
         }
     }
 
-    public Workspace updateWorkspaceInfo(Workspace workspace, String name, String description) {
+    public void updateWorkspaceInfo(Workspace workspace, String name, String description) {
         workspace.setName(name);
         workspace.setDescription(description);
-        return workspace;
+        workspaceRepository.save(workspace);
     }
 
-    public Workspace updateWorkspaceAppearance(Workspace workspace, Theme theme, Integer accentColor) {
+    public void updateWorkspaceAppearance(Workspace workspace, Theme theme, Integer accentColor) {
         workspace.setTheme(theme);
         workspace.setAccentColor(accentColor);
-        return workspace;
+        workspaceRepository.save(workspace);
     }
 
     public Workspace getWorkspace(UUID workspaceId) throws ApiException {
