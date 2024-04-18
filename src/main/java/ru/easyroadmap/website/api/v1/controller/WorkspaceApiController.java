@@ -192,7 +192,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     @Operation(summary = "Invite a user to workspace", tags = "workspace-api")
     @PostMapping(value = "/invite", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void inviteUserToWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid InviteMemberDto dto) throws ApiException {
+    public void inviteUserToWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid UserAddMemberDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         workspaceService.requireWorkspaceAdminRights(userEmail, workspaceId);
 
@@ -249,7 +249,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     @Operation(summary = "Delete workspace", tags = "workspace-api")
     @DeleteMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void deleteWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid DeleteWorkspaceDto dto) throws ApiException {
+    public void deleteWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid ConfirmByPasswordDto dto) throws ApiException {
         User user = getCurrentUser(userService);
         Workspace workspace = workspaceService.requireWorkspaceAdminRights(user.getEmail(), workspaceId);
 

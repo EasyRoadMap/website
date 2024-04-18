@@ -1,4 +1,4 @@
-package ru.easyroadmap.website.api.v1.dto.workspace;
+package ru.easyroadmap.website.api.v1.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -9,7 +9,7 @@ import ru.easyroadmap.website.validation.ValidEmailPattern;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class InviteMemberDto {
+public final class UserAddMemberDto {
 
     @NotBlank @Size(min = 6, max = 64)
     @ValidEmailPattern

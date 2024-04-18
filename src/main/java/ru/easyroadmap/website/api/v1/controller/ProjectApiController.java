@@ -8,7 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
 import ru.easyroadmap.website.api.v1.dto.UploadPhotoDto;
+import ru.easyroadmap.website.api.v1.dto.UserAddMemberDto;
 import ru.easyroadmap.website.api.v1.dto.UserIdentifierDto;
 import ru.easyroadmap.website.api.v1.dto.project.*;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
@@ -156,7 +158,7 @@ public class ProjectApiController extends ApiControllerBase {
 
     @Operation(summary = "Add workspace member to project", tags = "project-api")
     @PostMapping(value = "/members/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void addMemberToProject(@RequestParam("pr_id") UUID projectId, @Valid AddMemberDto dto) throws ApiException {
+    public void addMemberToProject(@RequestParam("pr_id") UUID projectId, @Valid UserAddMemberDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Project project = projectService.requireProjectWorkspaceAdminRights(userEmail, projectId);
 
@@ -193,7 +195,7 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Delete project", tags = "project-api")
     @DeleteMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void deleteProject(@RequestParam("pr_id") UUID projectId, @Valid DeleteProjectDto dto) throws ApiException {
+    public void deleteProject(@RequestParam("pr_id") UUID projectId, @Valid ConfirmByPasswordDto dto) throws ApiException {
         User user = getCurrentUser(userService);
         Project project = projectService.requireProjectWorkspaceAdminRights(user.getEmail(), projectId);
 

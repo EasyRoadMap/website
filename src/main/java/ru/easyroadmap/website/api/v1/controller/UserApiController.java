@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import ru.easyroadmap.website.api.v1.dto.user.DeleteUserDto;
+import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
 import ru.easyroadmap.website.api.v1.dto.user.PutUserProfileDto;
 import ru.easyroadmap.website.api.v1.dto.UploadPhotoDto;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
@@ -110,7 +110,7 @@ public class UserApiController extends ApiControllerBase {
     @Operation(summary = "Delete current user", tags = "user-api")
     @DeleteMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void deleteUser(@Valid DeleteUserDto dto) throws ApiException {
+    public void deleteUser(@Valid ConfirmByPasswordDto dto) throws ApiException {
         User user = getCurrentUser(userService);
         String hashedPassword = passwordEncoder.encode(dto.getPassword());
 
