@@ -21,14 +21,18 @@ public final class MailService {
     @Value("${server.mail.address}")
     private String senderAddress;
 
-    public void sendMail(String receiverAddress, String subject, String content) throws MessagingException, UnsupportedEncodingException {
+    public void sendMail(String receiverAddress, String subject, String plainText, String html) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         helper.setFrom(senderAddress, senderName);
         helper.setTo(receiverAddress);
         helper.setSubject(subject);
-        helper.setText(content, true);
+
+        if (html != null)
+            helper.setText(plainText, html);
+        else
+            helper.setText(plainText);
 
         mailSender.send(message);
     }

@@ -1,6 +1,5 @@
 package ru.easyroadmap.website.web.auth.service;
 
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,7 +12,6 @@ import ru.easyroadmap.website.storage.model.auth.EmailConfirmation;
 import ru.easyroadmap.website.storage.repository.auth.EmailConfirmationRepository;
 import ru.easyroadmap.website.util.CharSequenceGenerator;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -64,7 +62,15 @@ public final class EmailConfirmationService {
         }
 
         String code = CharSequenceGenerator.generateRandomAlphanumericString(6, false);
-        sendCodeViaEmail(email, mailTitle, mailContentFormatter.formatContent(code.toUpperCase()));
+
+//        InputStream resource = getClass().getResourceAsStream("/templates/mail/confirmation.html");
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8));
+//        String html = reader.lines().collect(Collectors.joining("\n"));
+//        closeQuietly(reader);
+//
+//        sendCodeViaEmail(email, mailTitle, mailContentFormatter.formatContent(code.toUpperCase()), html);
+
+        sendCodeViaEmail(email, mailTitle, mailContentFormatter.formatContent(code.toUpperCase()), null);
 
         String proofKey = CharSequenceGenerator.generateProofKey();
         EmailConfirmation confirmation = existing.orElseGet(() -> new EmailConfirmation(email));
@@ -149,13 +155,13 @@ public final class EmailConfirmationService {
         emailConfirmationRepository.deleteById(email);
     }
 
-    private void sendCodeViaEmail(String email, String title, String content) {
+    private void sendCodeViaEmail(String email, String title, String plainText, String html) {
         MAIL_SENDING_TASKS_POOL.submit(() -> {
             try {
                 log.debug("Sending code to '{}' via email...", email);
-                mailService.sendMail(email, title, content);
+                mailService.sendMail(email, title, plainText, html);
                 log.info("An email confirmation code has been sent to '{}'.", email);
-            } catch (MessagingException | UnsupportedEncodingException ex) {
+            } catch (Throwable ex) {
                 log.error("Unable to send a code via email!", ex);
             }
         });
