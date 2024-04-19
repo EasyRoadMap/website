@@ -51,7 +51,7 @@ public final class RoadMapService {
 
     public Page<RoadMapTask> getTasksPage(long stageId, int page) {
         PageRequest pageRequest = PageRequest.of(page, TASKS_PAGE_SIZE, Sort.by("status", "deadline_at", "name"));
-        return taskRepository.findAllByStageIdEquals(stageId, pageRequest, pageRequest.getSort());
+        return taskRepository.findAllByStageIdEquals(stageId, pageRequest);
     }
 
     public RoadMapStage getState(long stageId) throws ApiException {
