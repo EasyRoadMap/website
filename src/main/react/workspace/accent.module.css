@@ -1,0 +1,35 @@
+:root {
+  --accent-color: #0066fe;
+}
+
+[data-accent="red"] {
+  --accent-color: #ff4848;
+}
+
+[data-accent="orange"] {
+  --accent-color: #ff6f4e;
+}
+
+[data-accent="yellow"] {
+  --accent-color: #facf36;
+}
+
+[data-accent="green"] {
+  --accent-color: #0fffa9;
+}
+
+[data-accent="blue"] {
+  --accent-color: #3686f7;
+}
+
+[data-accent="navy-blue"] {
+  --accent-color: #0066fe;
+}
+
+[data-accent="pink"] {
+  --accent-color: ;
+}
+
+[data-accent="purple"] {
+  --accent-color: ;
+}

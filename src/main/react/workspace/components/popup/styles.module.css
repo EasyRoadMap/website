@@ -1,43 +1,121 @@
 @import "../../theme.module.css";
 
 .blurredScreen {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999999;
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .popup {
-    background-color: var(--bg-color-and-popup);
-    padding: 24px;
-    min-width: 448px;
-    border-radius: 15px;
+  background-color: var(--bg-color-and-popup);
+  padding: 18px;
+  min-width: 448px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+}
+
+.closeButton {
+  cursor: pointer;
+  position: absolute;
+  right: 18px;
+}
+.title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+.containerWithGaps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.description {
+  text-align: center;
+  color: var(--foreground-color50);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.buttonsWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
 }
 
 .addPhotoFieldWrapper {
-    width: 647px;
+  width: 647px;
 }
 .photosList {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .photo {
-    width: 200px;
-    height: 140px;
-    border-radius: 8px;
+  width: 200px;
+  height: 140px;
+  border-radius: 8px;
 }
 .addPhotoField {
-    width: 100%;
-    height: 250px;
-    border: 1.5px dashed var(--foreground-color50);
+  width: 650px;
+  height: 250px;
+  position: relative;
+  cursor: pointer;
+}
+.addPhotoFieldForm {
+  position: absolute;
+  top: 50%;
+  width: 650px;
+  height: 250px;
+  opacity: 0;
+  cursor: pointer;
+  margin-top: 45px;
 }
 .fileInput {
-    width: 100%;
-    height: 100%;
+  width: 650px;
+  height: 250px;
+  cursor: pointer;
+}
+.dragActive {
+  width: 650px;
+  height: 260px;
+}
+
+.completedTask {
+  background-color: rgba(153, 229, 80, 0.2);
+}
+.inProgressTask {
+  background-color: rgb(244, 228, 86, 0.2);
+}
+.plannedTask {
+  background-color: rgb(169, 173, 179, 0.2);
+}
+
+.statusCheckboxItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 12px;
+  border-radius: 20px;
+  width: 196px;
+  height: 36px;
+  gap: 12px;
+}
+.statusCheckbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

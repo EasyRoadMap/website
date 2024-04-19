@@ -63,7 +63,6 @@
   cursor: pointer;
   display: inline-block;
 }
-
 .toggleSwitch {
   display: inline-block;
   background: var(--switch-color); /* заменить на переменную */
@@ -123,4 +122,66 @@
 .toggleCheckbox {
   position: absolute;
   visibility: hidden;
+}
+
+.accentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  background-color: var(--bg-color-project);
+  border-radius: 24px;
+  width: 696px;
+  height: 180px;
+}
+
+.title {
+  color: var(--text-color);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.description {
+  color: var(--foreground-color50);
+  font-size: 20px;
+  font-weight: normal;
+}
+
+.themeWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  background-color: var(--bg-color-project);
+  border-radius: 24px;
+  width: 696px;
+  height: 398px;
+}
+
+.themeChangeBlock {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.switchBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.systemThemeTitle {
+  font-size: 20px;
+  font-weight: normal;
+  color: var(--text-color);
+}
+
+.themeButtonActive {
+  border-style: solid;
+  border-color: var(--accent-color);
+  border-width: 2px;
+  border-radius: 24px;
+  height: 204px;
+  width: 316;
 }

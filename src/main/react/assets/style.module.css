@@ -49,3 +49,28 @@
     stroke: var(--text-color);
   }
 }
+.closepopupsvg {
+  path {
+    fill: var(--text-color);
+    stroke: var(--text-color);
+  }
+}
+
+.addPhotoFieldBorder {
+  stroke: var(--foreground-color50);
+}
+.addphotofieldsvg {
+  stroke: var(--title-input-color);
+}
+.addPhotoFieldText {
+  fill: var(--title-input-color);
+}
+.addPhotoFieldOr {
+  fill: var(--foreground-color50);
+}
+.addPhotoFieldLine {
+  stroke: var(--text-color);
+}
+.addPhotoFieldTextButton {
+  fill: var(--text-color);
+}
