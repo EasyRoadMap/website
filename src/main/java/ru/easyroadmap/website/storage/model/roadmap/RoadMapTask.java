@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -44,9 +43,9 @@ public final class RoadMapTask {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
-    public RoadMapTask(long stageId, byte status, String name, String description, LocalDate deadlineAt) {
+    public RoadMapTask(long stageId, Status status, String name, String description, LocalDate deadlineAt) {
         this.stageId = stageId;
-        this.status = status;
+        this.status = status.getId();
         this.name = name;
         this.description = description;
         this.deadlineAt = deadlineAt;
@@ -86,9 +85,9 @@ public final class RoadMapTask {
     @AllArgsConstructor
     public enum Status {
 
-        DONE        ((byte) 0, "done"),
-        IN_PROGRESS ((byte) 1, "in_progress"),
-        PLANNED     ((byte) 2, "planned"),
+        IN_PROGRESS ((byte) 0, "in_progress"),
+        PLANNED     ((byte) 1, "planned"),
+        DONE        ((byte) 2, "done"),
         ;
 
         private final byte id;

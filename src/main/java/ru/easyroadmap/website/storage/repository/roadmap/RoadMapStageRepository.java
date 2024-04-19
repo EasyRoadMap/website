@@ -1,15 +1,17 @@
 package ru.easyroadmap.website.storage.repository.roadmap;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import ru.easyroadmap.website.storage.model.roadmap.RoadMapStage;
 
-import java.util.List;
 import java.util.UUID;
 
-public interface RoadMapStageRepository extends PagingAndSortingRepository<RoadMapStage, Long> {
+public interface RoadMapStageRepository extends PagingAndSortingRepository<RoadMapStage, Long>, JpaRepository<RoadMapStage, Long> {
 
-    List<RoadMapStage> findAllByProjectIdEquals(UUID projectId, Pageable pageable, Sort sort);
+    int countAllByProjectIdEquals(UUID projectId);
+
+    Page<RoadMapStage> findAllByProjectIdEquals(UUID projectId, Pageable pageable);
 
 }
