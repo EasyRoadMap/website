@@ -2,6 +2,7 @@ package ru.easyroadmap.website.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -107,6 +108,11 @@ public class SecurityConfig {
     @Bean
     public SecurityContextRepository securityContextRepository() {
         return new HttpSessionSecurityContextRepository();
+    }
+
+    @Bean
+    public TomcatConnectorCustomizer tomcatConnectorCustomizer() {
+        return connector -> connector.setParseBodyMethods("POST,PUT,DELETE");
     }
 
 }
