@@ -52,9 +52,9 @@ public class UserApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Update an user profile", tags = "user-api")
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PutMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateUser(PutUserProfileDto dto) throws ApiException {
+    public void putUserProfile(@Valid PutUserProfileDto dto) throws ApiException {
         User user = getCurrentUser(userService);
         userService.updateUserName(user, dto.getName());
     }

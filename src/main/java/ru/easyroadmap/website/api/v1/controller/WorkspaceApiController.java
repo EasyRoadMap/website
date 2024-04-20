@@ -144,7 +144,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Set a workspace info", tags = "workspace-api")
-    @PostMapping(value = "/info", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PutMapping(value = "/info", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void putWorkspaceInfo(@RequestParam("ws_id") UUID workspaceId, @Valid PutWorkspaceInfoDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -161,7 +161,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Set a workspace appearance", tags = "workspace-api")
-    @PostMapping(value = "/appearance", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PutMapping(value = "/appearance", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void putWorkspaceAppearance(@RequestParam("ws_id") UUID workspaceId, @Valid PutWorkspaceAppearanceDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);

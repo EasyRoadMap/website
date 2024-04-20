@@ -105,7 +105,7 @@ public class ProjectApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Set a project info", tags = "project-api")
-    @PostMapping(value = "/info", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PutMapping(value = "/info", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void putProjectInfo(@RequestParam("pr_id") UUID projectId, @Valid PutProjectInfoDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -126,7 +126,7 @@ public class ProjectApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Set project links", tags = "project-api")
-    @PostMapping(value = "/links", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PutMapping(value = "/links", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void putProjectLinks(@RequestParam("pr_id") UUID projectId, @Valid PutProjectLinksDto dto) throws GenericErrorException {
         String userEmail = requireUserExistance(userService);
