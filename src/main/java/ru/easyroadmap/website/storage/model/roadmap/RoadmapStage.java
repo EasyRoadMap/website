@@ -10,7 +10,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @Entity @Table(name = "roadmap_stages")
-public final class RoadMapStage {
+public final class RoadmapStage {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -33,7 +33,7 @@ public final class RoadMapStage {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
-    public RoadMapStage(UUID projectId, byte position, String name) {
+    public RoadmapStage(UUID projectId, byte position, String name) {
         this.projectId = projectId;
         this.position = position;
         this.name = name;

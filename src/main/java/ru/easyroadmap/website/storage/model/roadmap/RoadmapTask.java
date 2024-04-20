@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "roadmap_tasks")
-public final class RoadMapTask {
+public final class RoadmapTask {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +43,7 @@ public final class RoadMapTask {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
-    public RoadMapTask(long stageId, Status status, String name, String description, LocalDate deadlineAt) {
+    public RoadmapTask(long stageId, Status status, String name, String description, LocalDate deadlineAt) {
         this.stageId = stageId;
         this.status = status.getId();
         this.name = name;
