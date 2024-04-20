@@ -14,6 +14,7 @@ import ru.easyroadmap.website.storage.local.FileSystemStorage;
         tags = {
                 @Tag(name = "auth", description = "Authentication Service API"),
                 @Tag(name = "project-api", description = "Projects RESTful API"),
+                @Tag(name = "roadmap-api", description = "Roadmaps RESTful API"),
                 @Tag(name = "workspace-api", description = "Workspaces RESTful API"),
                 @Tag(name = "user-api", description = "Users RESTful API")
         }

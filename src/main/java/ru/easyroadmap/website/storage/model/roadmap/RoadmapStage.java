@@ -22,8 +22,11 @@ public final class RoadmapStage {
     @Column(name = "position", nullable = false)
     private byte position;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "progress", nullable = false)
+    private float progress;
 
     @Column(name = "created_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -37,6 +40,7 @@ public final class RoadmapStage {
         this.projectId = projectId;
         this.position = position;
         this.name = name;
+        this.progress = 0F;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = createdAt;
     }
@@ -48,6 +52,11 @@ public final class RoadmapStage {
 
     public void setName(String name) {
         this.name = name;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void setProgress(float progress) {
+        this.progress = progress;
         this.updatedAt = LocalDateTime.now();
     }
 
