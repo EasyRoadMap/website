@@ -197,13 +197,10 @@ public class ProjectApiController extends ApiControllerBase {
     @ResponseStatus(HttpStatus.OK)
     public void deleteProject(@RequestParam("pr_id") UUID projectId, @Valid ConfirmByPasswordDto dto) throws ApiException {
         User user = getCurrentUser(userService);
-        Project project = projectService.requireProjectWorkspaceAdminRights(user.getEmail(), projectId);
-
-        String hashedPassword = passwordEncoder.encode(dto.getPassword());
-        if (!hashedPassword.equals(user.getPassword()))
+        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword()))
             throw new ApiException("wrong_password", "Password isn't correct");
 
-        List<ProjectLink> links = projectService.getProjectLinks(projectId);
+        projectService.requireProjectWorkspaceAdminRights(user.getEmail(), projectId);
         projectService.deleteProject(projectId);
     }
 

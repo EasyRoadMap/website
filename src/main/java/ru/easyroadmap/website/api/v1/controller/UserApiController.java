@@ -112,9 +112,7 @@ public class UserApiController extends ApiControllerBase {
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@Valid ConfirmByPasswordDto dto) throws ApiException {
         User user = getCurrentUser(userService);
-        String hashedPassword = passwordEncoder.encode(dto.getPassword());
-
-        if (!hashedPassword.equals(user.getPassword()))
+        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword()))
             throw new ApiException("wrong_password", "Password isn't correct");
 
         List<Workspace> joinedWorkspaces = workspaceService.getJoinedWorkspaces(user.getEmail());

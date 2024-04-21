@@ -287,12 +287,10 @@ public class WorkspaceApiController extends ApiControllerBase {
     @ResponseStatus(HttpStatus.OK)
     public void deleteWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid ConfirmByPasswordDto dto) throws ApiException {
         User user = getCurrentUser(userService);
-        Workspace workspace = workspaceService.requireWorkspaceAdminRights(user.getEmail(), workspaceId);
-
-        String hashedPassword = passwordEncoder.encode(dto.getPassword());
-        if (!hashedPassword.equals(user.getPassword()))
+        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword()))
             throw new ApiException("wrong_password", "Password isn't correct");
 
+        workspaceService.requireWorkspaceAdminRights(user.getEmail(), workspaceId);
         workspaceService.deleteWorkspace(workspaceId);
     }
 
