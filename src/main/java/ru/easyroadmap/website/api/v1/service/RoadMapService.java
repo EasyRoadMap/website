@@ -65,7 +65,7 @@ public final class RoadmapService {
     }
 
     public Page<RoadmapStage> getStagesPage(UUID projectId, int page) {
-        PageRequest pageRequest = PageRequest.of(page, STAGES_PAGE_SIZE);
+        PageRequest pageRequest = PageRequest.of(page, STAGES_PAGE_SIZE, Sort.by("position"));
         return stageRepository.findAllByProjectIdEquals(projectId, pageRequest);
     }
 
