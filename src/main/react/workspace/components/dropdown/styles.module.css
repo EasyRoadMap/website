@@ -131,52 +131,56 @@
   align-items: center;
   border-width: 1.5px;
   border-style: solid;
-  border-color: var(--accent-color);
-  border-radius: 15px;
+  border-color: var(--light-stroke);
+  border-radius: 24px;
   height: 49px;
   width: 329px;
   padding: 6px;
   cursor: pointer;
 }
 .addSection:hover {
+  border-color: var(--add-workspace-button-border);
   .addSectionText {
-    color: #1a75fe;
+    color: var(--add-workspace-button-hover-text);
   }
   .AddWorkspaceSVG {
     circle {
-      fill: #1a75fe;
-      stroke: var(--accent-color);
+      fill: var(--add-workspace-button-hover);
     }
   }
 }
 .addSection:active {
+  opacity: 0.75;
+  border-color: var(--add-workspace-button-border);
   .addSectionText {
-    opacity: 0.75;
-    color: #1a75fe;
+    color: var(--add-workspace-button-hover-text);
   }
   .AddWorkspaceSVG {
     circle {
-      fill: #1a75fe;
-      stroke: var(--accent-color);
+      fill: var(--add-workspace-button-hover);
     }
   }
-  opacity: 0.75;
 }
 .addSection:disabled {
+  opacity: 0.3;
   .addSectionText {
-    color: #1a75fe;
+    color: var(--foreground-color50);
   }
   .AddWorkspaceSVG {
     circle {
-      fill: #1a75fe;
-      stroke: var(--accent-color);
+      fill: var(--add-workspace-button);
     }
   }
-  opacity: 0.75;
+}
+
+.AddWorkspaceSVG {
+  circle {
+    fill: var(--add-workspace-button);
+  }
 }
 
 .addSectionText {
-  color: var(--accent-color);
+  color: var(--foreground-color50);
   font-size: 16px;
   font-weight: 500;
 }

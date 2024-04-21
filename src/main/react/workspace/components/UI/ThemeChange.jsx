@@ -2,6 +2,7 @@ import styles from "./styleUI.module.css";
 import Switch from "./switch.jsx";
 import DarkThemeLayoutSVG from "../../../assets/darkThemelayoutSVG.jsx";
 import LightThemeLayoutSVG from "../../../assets/lightThemeLayoutSVG.jsx";
+import CheckSettingsThemeSVG from "../../../assets/checkSettingsThemeSVG.jsx";
 
 export default function ThemeChange() {
   return (
@@ -11,12 +12,14 @@ export default function ThemeChange() {
         Выберите тему сайта либо оставьте по умолчанию.
       </span>
       <div className={styles.themeChangeBlock}>
-        <div className={styles.lightButton}>
+        <button className={styles.lightButton}>
+          <CheckSettingsThemeSVG className={styles.checkSettingsThemeSVG} />
           <LightThemeLayoutSVG />
-        </div>
-        <div className={styles.darkButton}>
+        </button>
+        <button className={styles.lightButton}>
+          <CheckSettingsThemeSVG className={styles.checkSettingsThemeSVG} />
           <DarkThemeLayoutSVG />
-        </div>
+        </button>
       </div>
       <div className={styles.switchBlock}>
         <Switch />

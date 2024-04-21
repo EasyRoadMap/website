@@ -1,5 +1,7 @@
 import TextField from "./UI/TextField.jsx";
 import styles from "./workspaceMainInfoStyle.module.css";
+import TextFieldDate from "./UI/TextFieldDate.jsx";
+import TextFieldLink from "./UI/TextFieldLink.jsx";
 
 const ProjectMainInfo = ({
   logo,
@@ -12,10 +14,17 @@ const ProjectMainInfo = ({
         <img src={logo} alt="" className={styles.logo} />
         <div className={styles.sectionUrl}>
           <TextField title="Название проекта" placeholder="Название проекта" />
-          <TextField title="Описание проекта" placeholder="Описание проекта" type="textarea"/>
-          <TextField title="Ссылки" placeholder="Ссылка 1" />
-          <TextField placeholder="Ссылка 2" />
-          <TextField placeholder="Ссылка 3" />
+          <TextField
+            title="Описание проекта"
+            placeholder="Описание проекта"
+            type="textarea"
+          />
+          <label className={styles.titleInput}>Ссылки</label>
+          <TextFieldLink />
+          <TextFieldLink />
+          <TextFieldLink />
+          <label className={styles.titleInput}>Дата дедлайна</label>
+          <TextFieldDate />
         </div>
       </div>
     </section>

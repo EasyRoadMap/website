@@ -10,7 +10,7 @@ const DropdownUser = ({ user }) => {
         <div className={styles.userEmail}>{user.email}</div>
         <Button
           text="Мой профиль"
-          type="outlineAccent"
+          type="outlineSecondary"
           className={styles.userButton}
         />
       </div>

@@ -7,7 +7,7 @@ const AddWorkspaceSVG = (props) => (
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <circle cx={19.5} cy={19.5} r={19} fill="#0066FE" stroke="#0066FE" />
+    <circle cx={19.5} cy={19.5} r={19} fill="#0066FE" />
     <path d="M19.5 12V27V12ZM12 19.5H27H12Z" fill="black" />
     <path
       d="M19.5 12V27M12 19.5H27"

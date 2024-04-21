@@ -18,14 +18,22 @@ color-4 - для бокового меню
   --accent-color: #0066fe;
   --title-input-color: rgb(0, 0, 0, 0.75);
   --light-stroke: rgba(0, 0, 0, 0.1);
+  /* кнопки сайдбара проекты  */
   --bg-workspace-button: rgba(0, 0, 0, 0.08);
   --bg-workspace-button-focus: rgba(0, 0, 0, 0.05);
   --bg-workspace-button-active: rgba(0, 0, 0, 0.12);
   --bg-icon-sidebar: #0066fe;
   --border-input: rgb(0, 0, 0, 0.1);
   --light-blue-text-places: #6f7b8d;
+  /* свич */
   --switch-color: rgba(0, 0, 0, 0.05);
   --switch-hover-color: rgba(0, 0, 0, 0.15);
+  /* иконка кнопки добавить рабочую облачть */
+  /* пусть пока будут */
+  --add-workspace-button-border: #c5c5c5;
+  --add-workspace-button: rgba(0, 0, 0, 0.25);
+  --add-workspace-button-hover: #8c8c8c;
+  --add-workspace-button-hover-text: #545454;
 }
 [data-theme="light"] {
   /*color 1*/
@@ -41,14 +49,22 @@ color-4 - для бокового меню
   --title-input-color: #000000;
   --light-stroke: rgba(0, 0, 0, 0.1);
   --title-input-color: rgb(0, 0, 0, 0.75);
+  /* кнопки сайдбара проекты  */
   --bg-workspace-button: rgba(0, 0, 0, 0.08);
   --bg-workspace-button-focus: rgba(0, 0, 0, 0.05);
   --bg-workspace-button-active: rgba(0, 0, 0, 0.12);
   --bg-icon-sidebar: #0066fe;
   --border-input: rgb(0, 0, 0, 0.1);
   --light-blue-text-places: #6f7b8d;
+  /* свич */
   --switch-color: rgba(0, 0, 0, 0.05);
   --switch-hover-color: rgba(0, 0, 0, 0.15);
+  /* иконка кнопки добавить рабочую облачть */
+  /* пусть пока будут */
+  --add-workspace-button-border: #c5c5c5;
+  --add-workspace-button: rgba(0, 0, 0, 0.25);
+  --add-workspace-button-hover: #8c8c8c;
+  --add-workspace-button-hover-text: #545454;
 }
 [data-theme="dark"] {
   /*color 1*/
@@ -63,12 +79,20 @@ color-4 - для бокового меню
   --foreground-color50: rgb(255, 255, 255, 0.5);
   --title-input-color: rgb(255, 255, 255, 0.75);
   --light-stroke: rgba(255, 255, 255, 0.1);
+  /* кнопки сайдбара проекты  */
   --bg-workspace-button: rgba(255, 255, 255, 0.08);
-  --bg-workspace-button-focus: rgba(255, 255, 255, 0.12);
-  --bg-workspace-button-active: rgba(255, 255, 255, 0.05);
+  --bg-workspace-button-focus: rgba(255, 255, 255, 0.05);
+  --bg-workspace-button-active: rgba(255, 255, 255, 0.12);
   --bg-icon-sidebar: #ffffff;
   --border-input: rgb(255, 255, 255, 0.1);
   --light-blue-text-places: rgba(255, 255, 255, 0.5);
+  /* свич */
   --switch-color: rgba(255, 255, 255, 0.05);
   --switch-hover-color: rgba(255, 255, 255, 0.15);
+  /* иконка кнопки добавить рабочую облачть */
+  /* пусть пока будут */
+  --add-workspace-button-border: #676767;
+  --add-workspace-button: rgba(255, 255, 255, 0.25);
+  --add-workspace-button-hover: #9a9a9a;
+  --add-workspace-button-hover-text: #cccccc;
 }

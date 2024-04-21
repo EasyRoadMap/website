@@ -26,6 +26,7 @@
 }
 .input::placeholder {
   color: var(--foreground-color50);
+  padding-left: 0;
   font-size: 16px;
   font-weight: 500;
 }
@@ -33,7 +34,8 @@
   background-color: transparent;
   border-width: 1.5px;
   border-style: solid;
-  border-color: var(--border-input);
+  border-color: var(--switch-hover-color);
+  color: var(--text-color);
   font-size: 16px;
   font-weight: 500;
   border-radius: 12px;
@@ -43,6 +45,32 @@
   padding-bottom: 12px;
   width: 504px;
   height: 43px;
+  outline: none;
+}
+.input:hover {
+  background-color: var(--bg-workspace-button-focus);
+  border-width: 1.5px;
+  border-color: transparent;
+  padding-left: 18px;
+}
+.input:focus {
+  border-style: solid;
+  border-color: rgb(0, 102, 254);
+  border-width: 1.5px;
+  padding-left: 18px;
+  background-color: rgb(0, 102, 254, 0.03);
+}
+.input:active {
+  opacity: 75%;
+  padding-left: 18px;
+  border-width: 1.5px;
+  border-color: transparent;
+  background-color: var(--bg-workspace-button-focus);
+}
+.input:disabled {
+  .form {
+    opacity: 0.3;
+  }
 }
 .textarea {
   height: 91px;
@@ -52,6 +80,55 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.inputDate {
+  padding-left: 62px;
+  background-color: transparent;
+  border-width: 1.5px;
+  border-style: solid;
+  border-color: var(--border-input);
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 12px;
+  padding-right: 18px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  width: 504px;
+  height: 56px;
+  outline: none;
+}
+.inputDate::placeholder {
+  color: var(--foreground-color50);
+  padding-left: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+.inputDate:hover {
+  background-color: var(--bg-workspace-button-focus);
+  border-width: 1.5px;
+  border-color: transparent;
+  padding-left: 62px;
+}
+.inputDate:focus {
+  border-style: solid;
+  border-color: rgb(0, 102, 254);
+  border-width: 1.5px;
+  padding-left: 62px;
+  background-color: rgb(0, 102, 254, 0.03);
+}
+.inputDate:active {
+  opacity: 75%;
+  padding-left: 62px;
+  border-width: 1.5px;
+  border-color: transparent;
+  background-color: var(--bg-workspace-button-focus);
+}
+.inputDate:disabled {
+  .textFielddate {
+    opacity: 0.3;
+  }
 }
 
 *,
@@ -163,6 +240,19 @@
   flex-direction: row;
   gap: 24px;
 }
+.lightButton {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  border: none;
+  background-color: transparent;
+}
+.checkSettingsThemeSVG {
+  padding: 0px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 
 .switchBlock {
   display: flex;
@@ -184,4 +274,103 @@
   border-radius: 24px;
   height: 204px;
   width: 316;
+}
+
+.textFielddate {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+.calendarSVG {
+  position: absolute;
+  left: 18px;
+}
+
+.textFieldLink {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+}
+.inputLink {
+  background-color: transparent;
+  border-width: 1.5px;
+  border-style: solid;
+  border-color: var(--switch-hover-color);
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 12px;
+  padding-left: 18px;
+  padding-right: 18px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  width: 298px;
+  height: 43px;
+  outline: none;
+}
+.inputLink:hover {
+  background-color: var(--bg-workspace-button-focus);
+  border-width: 1.5px;
+  border-color: transparent;
+  padding-left: 18px;
+}
+.inputLink:focus {
+  border-style: solid;
+  border-color: rgb(0, 102, 254);
+  border-width: 1.5px;
+  padding-left: 18px;
+  background-color: rgb(0, 102, 254, 0.03);
+}
+.inputLink:active {
+  opacity: 75%;
+  padding-left: 18px;
+  border-width: 1.5px;
+  border-color: transparent;
+  background-color: var(--bg-workspace-button-focus);
+}
+.inputLink:disabled {
+  .textFieldLinkForm {
+    opacity: 0.3;
+  }
+}
+.inputLinkTitle {
+  background-color: transparent;
+  border-width: 1.5px;
+  border-style: solid;
+  border-color: var(--switch-hover-color);
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 12px;
+  padding-left: 18px;
+  padding-right: 18px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  width: 200px;
+  height: 43px;
+  outline: none;
+}
+.inputLinkTitle:hover {
+  background-color: var(--bg-workspace-button-focus);
+  border-width: 1.5px;
+  border-color: transparent;
+  padding-left: 18px;
+}
+.inputLinkTitle:focus {
+  border-style: solid;
+  border-color: rgb(0, 102, 254);
+  border-width: 1.5px;
+  padding-left: 18px;
+  background-color: rgb(0, 102, 254, 0.03);
+}
+.inputLinkTitle:active {
+  opacity: 75%;
+  padding-left: 18px;
+  border-width: 1.5px;
+  border-color: transparent;
+  background-color: var(--bg-workspace-button-focus);
+}
+.inputLinkTitle:disabled {
+  .textFieldLinkTitleForm {
+    opacity: 0.3;
+  }
 }

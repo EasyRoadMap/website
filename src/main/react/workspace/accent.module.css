@@ -1,35 +1,35 @@
 :root {
-  --accent-color: #0066fe;
+  --accent-color: rgba(0, 102, 254, 1);
 }
 
 [data-accent="red"] {
-  --accent-color: #ff4848;
+  --accent-color: rgba(255, 72, 72, 1);
 }
 
 [data-accent="orange"] {
-  --accent-color: #ff6f4e;
+  --accent-color: rgba(255, 111, 78, 1);
 }
 
 [data-accent="yellow"] {
-  --accent-color: #facf36;
+  --accent-color: rgba(250, 207, 54, 1);
 }
 
 [data-accent="green"] {
-  --accent-color: #0fffa9;
+  --accent-color: rgba(15, 255, 169, 1);
 }
 
 [data-accent="blue"] {
-  --accent-color: #3686f7;
+  --accent-color: rgba(54, 134, 247, 1);
 }
 
 [data-accent="navy-blue"] {
-  --accent-color: #0066fe;
+  --accent-color: rgba(0, 102, 254, 1);
 }
 
 [data-accent="pink"] {
-  --accent-color: ;
+  --accent-color: rgba(237, 64, 240, 1);
 }
 
 [data-accent="purple"] {
-  --accent-color: ;
+  --accent-color: rgba(128, 25, 245, 1);
 }

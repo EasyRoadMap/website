@@ -74,3 +74,6 @@
 .addPhotoFieldTextButton {
   fill: var(--text-color);
 }
+.calendarSVG {
+  stroke: var(--foreground-color50);
+}
