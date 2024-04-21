@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class PutUserProfileDto {
+public final class SetUserNameDto {
 
     @NotBlank @Size(min = 1, max = 64)
     private String name;

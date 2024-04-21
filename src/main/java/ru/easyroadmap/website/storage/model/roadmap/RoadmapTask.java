@@ -1,5 +1,6 @@
 package ru.easyroadmap.website.storage.model.roadmap;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,8 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-@Entity
-@Table(name = "roadmap_tasks")
+@Entity @Table(name = "roadmap_tasks")
 public final class RoadmapTask {
 
     @Id
@@ -28,7 +28,7 @@ public final class RoadmapTask {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "deadline_at")
@@ -43,9 +43,9 @@ public final class RoadmapTask {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
-    public RoadmapTask(long stageId, Status status, String name, String description, LocalDate deadlineAt) {
+    public RoadmapTask(long stageId, byte status, String name, String description, LocalDate deadlineAt) {
         this.stageId = stageId;
-        this.status = status.getId();
+        this.status = status;
         this.name = name;
         this.description = description;
         this.deadlineAt = deadlineAt;
@@ -61,8 +61,8 @@ public final class RoadmapTask {
         throw new IllegalStateException("There is no Status enum constant with ID #%d!".formatted(status));
     }
 
-    public void setStatus(Status status) {
-        this.status = status.getId();
+    public void setStatus(byte status) {
+        this.status = status;
         this.updatedAt = LocalDateTime.now();
     }
 
@@ -91,6 +91,7 @@ public final class RoadmapTask {
         ;
 
         private final byte id;
+        @JsonValue
         private final String key;
 
     }

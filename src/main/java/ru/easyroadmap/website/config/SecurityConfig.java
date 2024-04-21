@@ -112,7 +112,7 @@ public class SecurityConfig {
 
     @Bean
     public TomcatConnectorCustomizer tomcatConnectorCustomizer() {
-        return connector -> connector.setParseBodyMethods("POST,PUT,DELETE");
+        return connector -> connector.setParseBodyMethods("POST,PATCH,PUT,DELETE");
     }
 
 }
