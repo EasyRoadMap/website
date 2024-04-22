@@ -50,6 +50,7 @@ public class RoadmapService {
 
         RoadmapTask task = new RoadmapTask(stageId, status, name, description, deadlineAt);
         taskRepository.save(task);
+        updateStageProgress(stageId);
         return task;
     }
 
@@ -71,6 +72,12 @@ public class RoadmapService {
         }
 
         stage.setPosition(position);
+        stageRepository.save(stage);
+    }
+
+    public void updateStageProgress(long stageId) throws ApiException {
+        RoadmapStage stage = getStage(stageId);
+        stage.setProgress(computeStageProgress(stageId));
         stageRepository.save(stage);
     }
 
@@ -110,20 +117,22 @@ public class RoadmapService {
         stageRepository.save(stage);
     }
 
-    public void updateTaskData(RoadmapTask task, byte status, String name, String description, LocalDate deadlineAt) {
+    public void updateTaskData(RoadmapTask task, byte status, String name, String description, LocalDate deadlineAt) throws ApiException {
         task.setStatus(status);
         task.setName(name);
         task.setDescription(description);
         task.setDeadlineAt(deadlineAt);
         taskRepository.save(task);
+        updateStageProgress(task.getStageId());
     }
 
     public void deleteStage(long stageId) {
         stageRepository.deleteById(stageId);
     }
 
-    public void deleteTask(long taskId) {
-        taskRepository.deleteById(taskId);
+    public void deleteTask(RoadmapTask task) throws ApiException {
+        taskRepository.delete(task);
+        updateStageProgress(task.getStageId());
     }
 
     public RoadmapStage getStage(long stageId) throws ApiException {

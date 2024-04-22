@@ -135,8 +135,9 @@ public class RoadmapApiController extends ApiControllerBase {
     @ResponseStatus(HttpStatus.OK)
     public void deleteTask(@RequestParam("rmt_id") long taskId) throws ApiException {
         String userEmail = requireUserExistance(userService);
-        roadmapService.requireTaskProjectMembership(userEmail, taskId);
-        roadmapService.deleteTask(taskId);
+        RoadmapTask task = roadmapService.getTask(taskId);
+        roadmapService.requireStageProjectMembership(userEmail, task.getStageId());
+        roadmapService.deleteTask(task);
     }
 
 }
