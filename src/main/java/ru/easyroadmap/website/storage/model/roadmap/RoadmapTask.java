@@ -14,8 +14,7 @@ import java.time.LocalDateTime;
 @Entity @Table(name = "roadmap_tasks")
 public final class RoadmapTask {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private long id;
 
