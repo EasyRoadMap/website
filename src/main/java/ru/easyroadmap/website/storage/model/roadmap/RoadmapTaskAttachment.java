@@ -58,7 +58,6 @@ public class RoadmapTaskAttachment {
         DEFAULT ((byte) 0, "default"),
         ARCHIVE ((byte) 1, "archive"),
         IMAGE   ((byte) 2, "image"),
-        VIDEO   ((byte) 3, "video"),
         ;
 
         private final byte id;

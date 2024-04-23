@@ -214,15 +214,11 @@ public class WorkspaceApiController extends ApiControllerBase {
                 "There is no user registered who sent an invitation to you"
         ));
 
-        PhotoModel userPhoto = photoService.getPhotoModel(generateUserPhotoID(inviterUserEmail)).orElse(null);
-        UserModel inviterModel = UserModel.fromUser(inviter, userPhoto, false);
-
         UUID workspaceId = invitation.getWorkspaceId();
         Workspace workspace = workspaceService.getWorkspace(workspaceId);
         PhotoModel workspacePhoto = photoService.getPhotoModel(generateWorkspacePhotoID(workspaceId)).orElse(null);
-        WorkspaceModel workspaceModel = WorkspaceModel.fromWorkspace(workspace, workspacePhoto, false, false);
 
-        return WorkspaceInvitationModel.fromInvitation(invitation, inviterModel, workspaceModel);
+        return WorkspaceInvitationModel.fromInvitation(invitation, inviter.getName(), workspace, workspacePhoto, 0, null);
     }
 
     @Operation(summary = "Invite a user to workspace", tags = "workspace-api")
