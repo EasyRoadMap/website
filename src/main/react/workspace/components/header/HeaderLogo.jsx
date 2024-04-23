@@ -7,7 +7,7 @@ const HeaderLogo = () => {
       <Logo className={styles.logo} />
       <div className={styles.titleWrapper}>
         <div className={styles.title}>EASYROADMAP</div>
-        <div className={styles.subTitle}>личный кабинет</div>
+        <div className={styles.subTitle}>Личный кабинет</div>
       </div>
     </div>
   );

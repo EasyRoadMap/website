@@ -1,10 +1,40 @@
 @import "../../theme.module.css";
 
 .dropdownList {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 6px;
-    background-color: var(--bg-color-sidebar-and-dropdown);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 6px;
+  background-color: var(--bg-color-sidebar-and-dropdown);
+  border-radius: 8px;
+  border-style: solid;
+  border-color: var(--light-stroke);
+  border-width: 1px;
+}
+
+.elem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 266px;
+  height: 32px;
+  padding: 6px;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+}
+.elem:hover {
+  background-color: var(--bg-workspace-button);
+}
+.elem:active {
+  background-color: var(--bg-workspace-button-active);
+}
+.elem:disabled {
+  opacity: 0.3;
+}
+.elemText {
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: normal;
 }

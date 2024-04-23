@@ -1,207 +1,221 @@
+import styles from "./style.module.css";
 const darkThemelayoutSVG = (props) => (
   <svg
-    width={314}
-    height={202}
-    viewBox="0 0 314 202"
+    width={316}
+    height={204}
+    viewBox="0 0 316 204"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <rect x={1} y={1} width={312} height={200} rx={24} fill="#191C20" />
+    <g clipPath="url(#clip0_191_134)">
+      <rect x={2} y={2} width={312} height={200} rx={24} fill="#191C20" />
+      <path
+        d="M2 24C2 11.8497 11.8497 2 24 2H292C304.15 2 314 11.8497 314 24V24H2V24Z"
+        fill="#1E2227"
+      />
+      <path
+        d="M1 24C1 11.2975 11.2975 1 24 1H292C304.703 1 315 11.2975 315 24H313C313 12.402 303.598 3 292 3H24C12.402 3 3 12.402 3 24H1ZM314 24H2H314ZM1 24C1 11.2975 11.2975 1 24 1V3C12.402 3 3 12.402 3 24H1ZM292 1C304.703 1 315 11.2975 315 24H313C313 12.402 303.598 3 292 3V1Z"
+        fill="black"
+        className={styles.darkThemelayoutBorderFill}
+      />
+      <rect
+        x={70}
+        y={10}
+        width={52}
+        height={7}
+        rx={3.5}
+        fill="white"
+        fillOpacity={0.05}
+      />
+      <rect x={69.5} y={30} width={52} height={22} rx={6} fill="#1B1E23" />
+      <rect
+        x={69.75}
+        y={30.25}
+        width={51.5}
+        height={21.5}
+        rx={5.75}
+        stroke="white"
+        strokeOpacity={0.1}
+        strokeWidth={0.5}
+      />
+      <rect
+        x={73.5}
+        y={34}
+        width={35}
+        height={6}
+        rx={3}
+        fill="white"
+        fillOpacity={0.05}
+      />
+      <rect
+        x={73.5}
+        y={42}
+        width={29}
+        height={6}
+        rx={3}
+        fill="white"
+        fillOpacity={0.03}
+      />
+      <rect x={129.5} y={30} width={117} height={39} rx={12} fill="#15171B" />
+      <rect
+        x={136}
+        y={36}
+        width={24}
+        height={24}
+        rx={6}
+        fill="white"
+        fillOpacity={0.05}
+      />
+      <rect
+        x={163}
+        y={36}
+        width={46}
+        height={4}
+        rx={2}
+        fill="white"
+        fillOpacity={0.1}
+      />
+      <rect
+        x={163}
+        y={42}
+        width={75}
+        height={21}
+        rx={4}
+        fill="white"
+        fillOpacity={0.03}
+      />
+      <rect x={129.5} y={75} width={117} height={95} rx={12} fill="#15171B" />
+      <rect
+        x={135.5}
+        y={81}
+        width={105}
+        height={28}
+        rx={6}
+        fill="white"
+        fillOpacity={0.03}
+      />
+      <rect
+        x={138.5}
+        y={84}
+        width={12}
+        height={12}
+        rx={3}
+        fill="white"
+        fillOpacity={0.05}
+      />
+      <rect
+        x={153}
+        y={84}
+        width={32}
+        height={3}
+        rx={1.5}
+        fill="white"
+        fillOpacity={0.1}
+      />
+      <rect
+        x={153}
+        y={89}
+        width={76}
+        height={9}
+        rx={3}
+        fill="white"
+        fillOpacity={0.03}
+      />
+      <rect x={138.5} y={101} width={99} height={6} rx={2} fill="#0066FE" />
+      <rect x={175} y={103} width={26} height={2} rx={1} fill="white" />
+      <rect
+        x={135.5}
+        y={111}
+        width={105}
+        height={25}
+        rx={6}
+        fill="white"
+        fillOpacity={0.03}
+      />
+      <rect
+        x={138.5}
+        y={114}
+        width={12}
+        height={12}
+        rx={3}
+        fill="white"
+        fillOpacity={0.05}
+      />
+      <rect
+        x={153}
+        y={114}
+        width={32}
+        height={3}
+        rx={1.5}
+        fill="white"
+        fillOpacity={0.1}
+      />
+      <rect
+        x={153}
+        y={119}
+        width={78}
+        height={6}
+        rx={3}
+        fill="white"
+        fillOpacity={0.03}
+      />
+      <rect x={138.5} y={128} width={99} height={6} rx={2} fill="#0066FE" />
+      <rect x={175} y={130} width={26} height={2} rx={1} fill="white" />
+      <rect
+        x={135.5}
+        y={138}
+        width={105}
+        height={26}
+        rx={6}
+        fill="white"
+        fillOpacity={0.03}
+      />
+      <rect
+        x={138.5}
+        y={141}
+        width={12}
+        height={12}
+        rx={3}
+        fill="white"
+        fillOpacity={0.05}
+      />
+      <rect
+        x={153}
+        y={141}
+        width={32}
+        height={3}
+        rx={1.5}
+        fill="white"
+        fillOpacity={0.1}
+      />
+      <rect
+        x={153}
+        y={146}
+        width={47}
+        height={4}
+        rx={2}
+        fill="white"
+        fillOpacity={0.03}
+      />
+      <rect x={138.5} y={155} width={99} height={6} rx={2} fill="#0066FE" />
+      <rect x={175} y={157} width={26} height={2} rx={1} fill="white" />
+    </g>
     <rect
-      x={0.5}
-      y={0.5}
-      width={313}
-      height={201}
-      rx={24.5}
+      x={1}
+      y={1}
+      width={314}
+      height={202}
+      rx={25}
       stroke="black"
-      strokeOpacity={0.1}
+      strokeWidth={2}
+      className={styles.darkThemelayoutBorder}
     />
-    <path
-      d="M1 23C1 10.8497 10.8497 1 23 1H291C303.15 1 313 10.8497 313 23V23H1V23Z"
-      fill="#1E2227"
-    />
-    <rect
-      x={69}
-      y={9}
-      width={52}
-      height={7}
-      rx={3.5}
-      fill="white"
-      fillOpacity={0.05}
-    />
-    <rect x={68.5} y={29} width={52} height={22} rx={6} fill="#1B1E23" />
-    <rect
-      x={68.75}
-      y={29.25}
-      width={51.5}
-      height={21.5}
-      rx={5.75}
-      stroke="white"
-      strokeOpacity={0.1}
-      strokeWidth={0.5}
-    />
-    <rect
-      x={72.5}
-      y={33}
-      width={35}
-      height={6}
-      rx={3}
-      fill="white"
-      fillOpacity={0.05}
-    />
-    <rect
-      x={72.5}
-      y={41}
-      width={29}
-      height={6}
-      rx={3}
-      fill="white"
-      fillOpacity={0.03}
-    />
-    <rect x={128.5} y={29} width={117} height={39} rx={12} fill="#15171B" />
-    <rect
-      x={135}
-      y={35}
-      width={24}
-      height={24}
-      rx={6}
-      fill="white"
-      fillOpacity={0.05}
-    />
-    <rect
-      x={162}
-      y={35}
-      width={46}
-      height={4}
-      rx={2}
-      fill="white"
-      fillOpacity={0.1}
-    />
-    <rect
-      x={162}
-      y={41}
-      width={75}
-      height={21}
-      rx={4}
-      fill="white"
-      fillOpacity={0.03}
-    />
-    <rect x={128.5} y={74} width={117} height={95} rx={12} fill="#15171B" />
-    <rect
-      x={134.5}
-      y={80}
-      width={105}
-      height={28}
-      rx={6}
-      fill="white"
-      fillOpacity={0.03}
-    />
-    <rect
-      x={137.5}
-      y={83}
-      width={12}
-      height={12}
-      rx={3}
-      fill="white"
-      fillOpacity={0.05}
-    />
-    <rect
-      x={152}
-      y={83}
-      width={32}
-      height={3}
-      rx={1.5}
-      fill="white"
-      fillOpacity={0.1}
-    />
-    <rect
-      x={152}
-      y={88}
-      width={76}
-      height={9}
-      rx={3}
-      fill="white"
-      fillOpacity={0.03}
-    />
-    <rect x={137.5} y={100} width={99} height={6} rx={2} fill="#0066FE" />
-    <rect x={174} y={102} width={26} height={2} rx={1} fill="white" />
-    <rect
-      x={134.5}
-      y={110}
-      width={105}
-      height={25}
-      rx={6}
-      fill="white"
-      fillOpacity={0.03}
-    />
-    <rect
-      x={137.5}
-      y={113}
-      width={12}
-      height={12}
-      rx={3}
-      fill="white"
-      fillOpacity={0.05}
-    />
-    <rect
-      x={152}
-      y={113}
-      width={32}
-      height={3}
-      rx={1.5}
-      fill="white"
-      fillOpacity={0.1}
-    />
-    <rect
-      x={152}
-      y={118}
-      width={78}
-      height={6}
-      rx={3}
-      fill="white"
-      fillOpacity={0.03}
-    />
-    <rect x={137.5} y={127} width={99} height={6} rx={2} fill="#0066FE" />
-    <rect x={174} y={129} width={26} height={2} rx={1} fill="white" />
-    <rect
-      x={134.5}
-      y={137}
-      width={105}
-      height={26}
-      rx={6}
-      fill="white"
-      fillOpacity={0.03}
-    />
-    <rect
-      x={137.5}
-      y={140}
-      width={12}
-      height={12}
-      rx={3}
-      fill="white"
-      fillOpacity={0.05}
-    />
-    <rect
-      x={152}
-      y={140}
-      width={32}
-      height={3}
-      rx={1.5}
-      fill="white"
-      fillOpacity={0.1}
-    />
-    <rect
-      x={152}
-      y={145}
-      width={47}
-      height={4}
-      rx={2}
-      fill="white"
-      fillOpacity={0.03}
-    />
-    <rect x={137.5} y={154} width={99} height={6} rx={2} fill="#0066FE" />
-    <rect x={174} y={156} width={26} height={2} rx={1} fill="white" />
+    <defs>
+      <clipPath id="clip0_191_134">
+        <rect x={2} y={2} width={312} height={200} rx={24} fill="white" />
+      </clipPath>
+    </defs>
   </svg>
 );
 export default darkThemelayoutSVG;

@@ -6,6 +6,9 @@ import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
 import AlertPopup from "../popup/AlertPopup.jsx";
 import ButtonDotsSVG from "../../../assets/buttonDots.jsx";
+import TransferSVG from "../../../assets/transferSVG.jsx";
+import EditSVG from "../../../assets/editSVG.jsx";
+import DeleteSVG from "../../../assets/deleteSVG.jsx";
 import {
   transferControlProps,
   removeParticipantProps,
@@ -41,17 +44,17 @@ const ParticipantActionsButton = () => {
 
   const buttons = [
     {
-      icon: "",
+      icon: TransferSVG,
       text: "Передать управление",
       callback: () => openTransferControlPopup(),
     },
     {
-      icon: "",
+      icon: EditSVG,
       text: "Изменить должность",
       callback: () => console.log("hehe"),
     },
     {
-      icon: "",
+      icon: DeleteSVG,
       text: "Исключить",
       callback: () => openRemoveParticipantPopup(),
     },

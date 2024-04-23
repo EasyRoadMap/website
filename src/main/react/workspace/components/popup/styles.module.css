@@ -119,3 +119,29 @@
   flex-direction: row;
   justify-content: space-between;
 }
+.logoWrapper {
+  position: absolute;
+}
+.info {
+  margin-left: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.titlePopup {
+  text-align: left;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.descriptionPopup {
+  text-align: left;
+  color: var(--foreground-color50);
+  font-size: 14px;
+  font-weight: 500;
+}
+.buttons {
+  display: flex;
+  gap: 6px;
+}

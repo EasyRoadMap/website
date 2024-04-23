@@ -5,6 +5,7 @@ import darkThemeSVG from "../../../assets/darkTheme.jsx";
 import lightThemeSVG from "../../../assets/lightTheme.jsx";
 import styles from "./themeButton.module.css";
 import { OutsideAlerter } from "../../hooks/useOutsideAlerter.jsx";
+import CheckThemeDropdownSVG from "../../../assets/checkThemeDropdownSVG.jsx";
 
 const themeTitle = {
   light: "Светлая",
@@ -63,24 +64,31 @@ export default function ThemeButton() {
           className={styles.dropdownThemeContent}
           style={{ display: showed ? "block" : "none" }}
         >
-          <button
-            onClick={() => handleThemeButtonClick("light")}
-            className={styles.buttonTheme}
-          >
-            Светлая
-          </button>
-          <button
-            onClick={() => handleThemeButtonClick("dark")}
-            className={styles.buttonTheme}
-          >
-            Темная
-          </button>
-          <button
-            onClick={() => handleThemeButtonClick("default")}
-            className={styles.buttonTheme}
-          >
-            Системная
-          </button>
+          <div className={styles.dropdownThemeButtons}>
+            <button
+              className={styles.ChangeThemeDropdown}
+              onClick={() => handleThemeButtonClick("light")}
+            >
+              <span className={styles.buttonTheme}>Светлая</span>
+              <CheckThemeDropdownSVG className={styles.checkThemeDropdownSVG} />
+            </button>
+
+            <button
+              className={styles.ChangeThemeDropdown}
+              onClick={() => handleThemeButtonClick("dark")}
+            >
+              <span className={styles.buttonTheme}>Темная</span>
+              <CheckThemeDropdownSVG className={styles.checkThemeDropdownSVG} />
+            </button>
+
+            <button
+              className={styles.ChangeThemeDropdown}
+              onClick={() => handleThemeButtonClick("default")}
+            >
+              <span className={styles.buttonTheme}> Системная</span>
+              <CheckThemeDropdownSVG className={styles.checkThemeDropdownSVG} />
+            </button>
+          </div>
         </div>
       </div>
     </OutsideAlerter>

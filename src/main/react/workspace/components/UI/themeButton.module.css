@@ -27,7 +27,7 @@
 .dropdownThemeContent {
   display: none;
   position: absolute;
-  width: 100%;
+  border-radius: 12px;
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 }
@@ -35,9 +35,68 @@
   display: block;
 }
 
-.dropdown-content .buttonTheme {
+/* .dropdown-content .buttonTheme {
   display: block;
   color: #000000;
   padding: 5px;
   text-decoration: none;
+} */
+
+.ChangeThemeDropdown {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: none;
+  background-color: transparent;
+  border-radius: 8px;
+  width: 186px;
+  height: 32px;
+  font-size: 16px;
+  font-weight: normal;
+}
+.checkThemeDropdownSVG {
+  position: absolute;
+  right: 6px;
+  opacity: 0;
+}
+.dropdownThemeButtons {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color-sidebar-and-dropdown);
+  border-radius: 12px;
+  padding: 6px;
+  width: 198px;
+  height: 118px;
+  gap: 6px;
+}
+
+.buttonTheme {
+  text-align: left;
+  cursor: pointer;
+  padding: 6px;
+  color: var(--text-color);
+  position: relative;
+}
+.ChangeThemeDropdown:hover {
+  background-color: var(--bg-workspace-button);
+}
+.ChangeThemeDropdown:active {
+  background-color: var(--bg-workspace-button);
+  opacity: 0.75;
+}
+.ChangeThemeDropdown:disabled {
+  opacity: 0.3;
+}
+
+.ChangeThemeDropdownActive {
+  background-color: transparent;
+  .checkThemeDropdownSVG {
+    opacity: 1;
+  }
+}
+.ChangeThemeDropdownActive:hover {
+  background-color: var(--bg-workspace-button);
+}
+.ChangeThemeDropdownActive:active {
+  background-color: var(--bg-workspace-button);
 }

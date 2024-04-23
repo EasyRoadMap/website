@@ -47,7 +47,7 @@
   position: relative;
 }
 .avatarCircle {
-  height: 48px;
+  height: 64px;
   width: auto;
   aspect-ratio: 1;
   border-radius: 50%;
