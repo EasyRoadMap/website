@@ -2,21 +2,34 @@ package ru.easyroadmap.website.api.v1.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+import org.springframework.web.multipart.MultipartFile;
 import ru.easyroadmap.website.exception.ApiException;
+import ru.easyroadmap.website.storage.local.FileSystemStorage;
 import ru.easyroadmap.website.storage.model.roadmap.RoadmapStage;
 import ru.easyroadmap.website.storage.model.roadmap.RoadmapTask;
+import ru.easyroadmap.website.storage.model.roadmap.RoadmapTaskAttachment;
+import ru.easyroadmap.website.storage.model.roadmap.RoadmapTaskAttachment.Type;
 import ru.easyroadmap.website.storage.repository.project.ProjectMemberRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectRepository;
 import ru.easyroadmap.website.storage.repository.roadmap.RoadmapStageRepository;
+import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskAttachmentRepository;
 import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskRepository;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -30,8 +43,12 @@ public class RoadmapService {
 
     private final ProjectRepository projectRepository;
     private final ProjectMemberRepository projectMemberRepository;
+
     private final RoadmapStageRepository stageRepository;
     private final RoadmapTaskRepository taskRepository;
+    private final RoadmapTaskAttachmentRepository taskAttachmentRepository;
+
+    private final FileSystemStorage fileSystemStorage;
 
     public RoadmapStage createStage(UUID projectId, String name) throws ApiException {
         int position = stageRepository.countAllByProjectIdEquals(projectId);
@@ -52,6 +69,32 @@ public class RoadmapService {
         taskRepository.save(task);
         updateStageProgress(stageId);
         return task;
+    }
+
+    public RoadmapTaskAttachment createTaskAttachment(long taskId, MultipartFile file) throws ApiException {
+        String mimeType = file.getContentType();
+        if (mimeType == null || mimeType.isBlank())
+            throw new ApiException("undefined_content_type", "Content type must be defined");
+
+        try (InputStream inputStream = file.getInputStream()) {
+            String md5 = DigestUtils.md5DigestAsHex(inputStream);
+            long size = file.getSize();
+
+            Type attachmentType = Type.fromMimeType(mimeType);
+            RoadmapTaskAttachment attachment = new RoadmapTaskAttachment(taskId, attachmentType.getId(), mimeType, md5, size);
+            taskAttachmentRepository.save(attachment);
+
+            Path filePath = getTaskAttachmentFilePath(attachment.getId());
+
+            if (!Files.isDirectory(filePath.getParent()))
+                Files.createDirectories(filePath.getParent());
+
+            file.transferTo(filePath);
+            return attachment;
+        } catch (IOException ex) {
+            log.warn("Unable to serve uploaded attachment: {}", ex.toString());
+            throw new ApiException("bad_attachment", "The attachment cannot be served");
+        }
     }
 
     public void moveStage(RoadmapStage stage, byte position) throws ApiException {
@@ -112,17 +155,39 @@ public class RoadmapService {
         return taskRepository.findAllByStageIdEquals(stageId, pageRequest);
     }
 
+    public List<RoadmapTaskAttachment> getTaskAttachments(long taskId) {
+        return taskAttachmentRepository.findAllByTaskIdEquals(taskId);
+    }
+
     public void updateStageName(RoadmapStage stage, String name) {
         stage.setName(name);
         stageRepository.save(stage);
     }
 
-    public void updateTaskData(RoadmapTask task, byte status, String name, String description, LocalDate deadlineAt) throws ApiException {
+    public void updateTaskData(RoadmapTask task, byte status, String name, String description, LocalDate deadlineAt, UUID[] attachmentIds) throws ApiException {
+        if (attachmentIds == null || attachmentIds.length == 0) {
+            List<UUID> ids = taskAttachmentRepository.findAllAttachmentIds(task.getId());
+            deleteUnusedAttachmentFiles(ids);
+            taskAttachmentRepository.deleteAllById(ids);
+        } else {
+            for (UUID attachmentId : attachmentIds)
+                if (!isTaskAttachmentExist(attachmentId))
+                    throw new ApiException(
+                            "roadmap_task_attachment_not_found",
+                            "Roadmap task attachment with ID '%s' wasn't uploaded".formatted(attachmentId)
+                    );
+
+            List<UUID> ids = taskAttachmentRepository.findUnusedAttachmentIds(task.getId(), attachmentIds);
+            deleteUnusedAttachmentFiles(ids);
+            taskAttachmentRepository.deleteAllById(ids);
+        }
+
         task.setStatus(status);
         task.setName(name);
         task.setDescription(description);
         task.setDeadlineAt(deadlineAt);
         taskRepository.save(task);
+
         updateStageProgress(task.getStageId());
     }
 
@@ -149,12 +214,23 @@ public class RoadmapService {
         ));
     }
 
+    public RoadmapTaskAttachment getTaskAttachment(UUID attachmentId) throws ApiException {
+        return taskAttachmentRepository.findById(attachmentId).orElseThrow(() -> new ApiException(
+                "roadmap_task_attachment_not_found",
+                "Roadmap task attachment with this ID isn't exist"
+        ));
+    }
+
     public boolean isStageExist(long stageId) {
         return stageRepository.existsById(stageId);
     }
 
     public boolean isTaskExist(long taskId) {
         return taskRepository.existsById(taskId);
+    }
+
+    public boolean isTaskAttachmentExist(UUID attachmentId) {
+        return taskAttachmentRepository.existsById(attachmentId);
     }
 
     public void requireStageExistance(long stageId) throws ApiException {
@@ -202,6 +278,23 @@ public class RoadmapService {
     public void requireProjectExistance(UUID projectId) throws ApiException {
         if (!isProjectExist(projectId)) {
             throw new ApiException("project_not_exists", "There is no project with this ID");
+        }
+    }
+
+    public Path getTaskAttachmentFilePath(UUID id) {
+        String name = id.toString();
+        return fileSystemStorage.getPath("task-attachments").resolve(name.substring(0, 2)).resolve(name);
+    }
+
+    private void deleteUnusedAttachmentFiles(Iterable<UUID> ids) {
+        for (UUID id : ids) {
+            Path filePath = getTaskAttachmentFilePath(id);
+
+            try {
+                fileSystemStorage.delete(filePath);
+            } catch (IOException ex) {
+                log.warn("Unable to delete unused attachment file '{}': {}", filePath, ex.toString());
+            }
         }
     }
 

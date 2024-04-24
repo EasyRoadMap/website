@@ -55,7 +55,7 @@ public final class PhotoService {
 
     public Path getPhotoPath(UUID uuid) {
         String name = uuid.toString();
-        return fileSystemStorage.getPath(name.substring(0, 2)).resolve(name);
+        return fileSystemStorage.getPath("photos").resolve(name.substring(0, 2)).resolve(name);
     }
 
     public PhotoModel savePhoto(UUID uuid, MultipartFile content) throws ApiException {
@@ -81,7 +81,7 @@ public final class PhotoService {
                 Files.write(photoPath, content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
             } catch (IOException ex) {
                 log.warn("Unable to write uploaded image: {}", ex.toString());
-                throw new ApiException("bad_image", "The image cannot be read");
+                throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "bad_image", "The image cannot be written");
             }
 
             Photo photo = new Photo(uuid, width, height);
@@ -89,7 +89,7 @@ public final class PhotoService {
             return PhotoModel.fromPhoto(serverHost, photo);
         } catch (IOException ex) {
             log.warn("Unable to read uploaded image: {}", ex.toString());
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "bad_image", "The image cannot be written");
+            throw new ApiException("bad_image", "The image cannot be read");
         }
     }
 

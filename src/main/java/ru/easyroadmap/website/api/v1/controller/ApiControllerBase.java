@@ -9,12 +9,12 @@ import ru.easyroadmap.website.storage.model.User;
 
 public abstract class ApiControllerBase {
 
-    protected final String getCurrentUsername() {
+    protected final String getCurrentUsername() throws ApiException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails)
             return userDetails.getUsername();
 
-        throw new IllegalStateException("Unable to resolve current authentication as one of expected!");
+        throw new ApiException("user_not_found", "The user was not found for the current authentication");
     }
 
     protected final User getCurrentUser(UserService userService) throws ApiException {
