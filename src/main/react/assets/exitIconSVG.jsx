@@ -8,22 +8,22 @@ const ExitSVG = (props) => (
     {...props}
   >
     <path
-      d="M14.6747 14.254L18.2501 10.8248L14.6747 7.39551"
-      stroke="#0066FE"
+      d="M14.6748 13.4309L18.2502 10.0016L14.6748 6.57239"
+      stroke="#FF0000"
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
-      d="M18.2499 10.8248H7.17297"
-      stroke="#0066FE"
+      d="M18.2498 10.0017H7.17285"
+      stroke="#FF0000"
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
-      d="M14.5577 2.82312L4.71154 2.82569C3.35234 2.82668 2.25069 3.85013 2.25 5.1125V16.5369C2.25 17.7996 3.35207 18.8231 4.71154 18.8231H14.6752"
-      stroke="#0066FE"
+      d="M14.5577 2L4.71154 2.00257C3.35234 2.00356 2.25069 3.02701 2.25 4.28938V15.7138C2.25 16.9764 3.35207 18 4.71154 18H14.6752"
+      stroke="#FF0000"
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"

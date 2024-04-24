@@ -3,7 +3,7 @@
 .logoAndButtonwrapper {
   display: flex;
   gap: 12px;
-  padding: 4px;
+  padding-left: 4px;
 }
 .unclickableText {
   cursor: default;

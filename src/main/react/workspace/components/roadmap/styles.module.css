@@ -58,3 +58,7 @@
   width: 4px;
   background: rgba(0, 0, 0, 0.1);
 }
+.tasksListTitleWrapper {
+  display: flex;
+  align-items: center;
+}

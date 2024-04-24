@@ -11,6 +11,7 @@
   border-style: solid;
   border-color: var(--light-stroke);
   border-width: 1px;
+  right: 10px;
 }
 
 .elem {

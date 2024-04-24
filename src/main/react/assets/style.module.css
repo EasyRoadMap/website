@@ -78,16 +78,32 @@
   stroke: var(--foreground-color50);
 }
 
-.lightThemelayoutBorder {
-  stroke: none;
-}
-.lightThemelayoutBorderFill {
-  fill: none;
-}
-
 .darkThemelayoutBorder {
   stroke: none;
 }
 .darkThemelayoutBorderFill {
   fill: none;
+}
+
+.ThemeLayoutSVG {
+  .ThemeLayoutSVGCheck {
+    opacity: 0;
+  }
+  .ThemeLayoutSVGBorder {
+    stroke: none;
+  }
+  .ThemeLayoutSVGBorderfill {
+    fill: none;
+  }
+}
+.themeButtonActive {
+  .ThemeLayoutSVGCheck {
+    opacity: 1;
+  }
+  .ThemeLayoutSVGBorder {
+    stroke: var(--accent-color);
+  }
+  .ThemeLayoutSVGBorderfill {
+    fill: var(--accent-color);
+  }
 }

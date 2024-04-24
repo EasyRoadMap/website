@@ -8,7 +8,6 @@
   padding-bottom: 12px;
   padding-left: 24px;
   padding-right: 24px;
-  margin-top: 12px;
   font-size: 20px;
   border-radius: 12px;
   cursor: pointer;
@@ -130,5 +129,41 @@
   border-color: var(--bg-workspace-button-focus);
   background-color: transparent;
   color: var(--foreground-color50);
+  cursor: not-allowed;
+}
+
+.buttonOutlineError {
+  background-color: transparent;
+  color: var(--bg-error-button);
+  border-style: solid;
+  border-color: var(--bg-error-button);
+}
+.buttonOutlineError:hover {
+  background-color: rgba(255, 255, 255, 0.15), var(--bg-error-button);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.15)
+    ),
+    linear-gradient(var(--bg-error-button), var(--bg-error-button));
+  color: rgb(255, 255, 255);
+}
+
+.buttonOutlineError:active {
+  opacity: 75%;
+  background-color: rgba(255, 255, 255, 0.15), var(--bg-error-button);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.15)
+    ),
+    linear-gradient(var(--bg-error-button), var(--bg-error-button));
+  color: rgb(255, 255, 255);
+}
+
+.buttonOutlineError:disabled {
+  opacity: 30%;
+  border-style: solid;
+  border-color: var(--bg-error-button);
+  background-color: transparent;
+  color: var(--bg-error-button);
   cursor: not-allowed;
 }

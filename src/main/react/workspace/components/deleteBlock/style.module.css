@@ -1,0 +1,28 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+}
+.wrapper {
+  padding: 24px;
+  background-color: var(--bg-color-project);
+  border-radius: 15px;
+}
+.title {
+  color: var(--text-color);
+  font-size: 24px;
+  font-weight: 500;
+}
+.description {
+  color: var(--foreground-color50);
+  font-size: 16px;
+  font-weight: normal;
+}
+.buttons {
+  width: 100%;
+  height: 40px;
+}

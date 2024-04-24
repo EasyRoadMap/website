@@ -1,7 +1,4 @@
 import styles from "./dropdownList.module.css";
-import TransferSVG from "../../../assets/transferSVG.jsx";
-import EditSVG from "../../../assets/editSVG.jsx";
-import DeleteSVG from "../../../assets/deleteSVG.jsx";
 
 const DropdownActionsList = ({ buttons, ...props }) => {
   const listOfElems = buttons.map((button, i) => {

@@ -3,6 +3,7 @@ import Button from "../UI/Button.jsx";
 import StatusCheckbox from "./StatusCheckbox.jsx";
 import AddFilesField from "./AddFilesField.jsx";
 import Input from "../UI/Input.jsx";
+import InputDate from "../UI/InputDate.jsx";
 
 const CreateTaskPopup = ({ close }) => {
   const handleClick = (nameButtonClicked) => {
@@ -30,7 +31,7 @@ const CreateTaskPopup = ({ close }) => {
         <div className={styles.description}>
           По желанию можете указать дату создания задачи.
         </div>
-        <input type="text" />
+        <InputDate />
       </div>
       <div className={styles.containerWithGaps}>
         <div className={styles.description}>

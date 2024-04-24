@@ -286,6 +286,7 @@
 .calendarSVG {
   position: absolute;
   left: 18px;
+  cursor: pointer;
 }
 
 .textFieldLink {

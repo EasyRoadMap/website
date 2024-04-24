@@ -6,9 +6,13 @@ const darkThemelayoutSVG = (props) => (
     viewBox="0 0 316 204"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className={[
+      styles.ThemeLayoutSVG,
+      props.active ? styles.themeButtonActive : "",
+    ].join(" ")}
     {...props}
   >
-    <g clipPath="url(#clip0_191_134)">
+    <g clipPath="url(#clip0_204_135)">
       <rect x={2} y={2} width={312} height={200} rx={24} fill="#191C20" />
       <path
         d="M2 24C2 11.8497 11.8497 2 24 2H292C304.15 2 314 11.8497 314 24V24H2V24Z"
@@ -17,7 +21,7 @@ const darkThemelayoutSVG = (props) => (
       <path
         d="M1 24C1 11.2975 11.2975 1 24 1H292C304.703 1 315 11.2975 315 24H313C313 12.402 303.598 3 292 3H24C12.402 3 3 12.402 3 24H1ZM314 24H2H314ZM1 24C1 11.2975 11.2975 1 24 1V3C12.402 3 3 12.402 3 24H1ZM292 1C304.703 1 315 11.2975 315 24H313C313 12.402 303.598 3 292 3V1Z"
         fill="black"
-        className={styles.darkThemelayoutBorderFill}
+        fillOpacity={0.1}
       />
       <rect
         x={70}
@@ -200,6 +204,21 @@ const darkThemelayoutSVG = (props) => (
       />
       <rect x={138.5} y={155} width={99} height={6} rx={2} fill="#0066FE" />
       <rect x={175} y={157} width={26} height={2} rx={1} fill="white" />
+      <g clipPath="url(#clip1_204_135)" className={styles.ThemeLayoutSVGCheck}>
+        <path
+          d="M287 10C280.383 10 275 15.3832 275 22C275 28.6168 280.383 34 287 34C293.617 34 299 28.6168 299 22C299 15.3832 293.617 10 287 10Z"
+          fill="#0066FE"
+        />
+        <path
+          d="M287 10C280.383 10 275 15.3832 275 22C275 28.6168 280.383 34 287 34C293.617 34 299 28.6168 299 22C299 15.3832 293.617 10 287 10Z"
+          fill="black"
+          fillOpacity={0.1}
+        />
+        <path
+          d="M291.344 18.0717L285.156 24.2592L282.655 21.7584C282.348 21.4514 281.85 21.4512 281.542 21.7586C281.235 22.0661 281.235 22.5641 281.542 22.8715L284.6 25.9288C284.754 26.0823 284.955 26.1591 285.156 26.1591C285.358 26.1591 285.56 26.0823 285.713 25.9285C285.714 25.9279 285.714 25.9272 285.715 25.9264L292.457 19.1844C292.764 18.8772 292.764 18.3788 292.457 18.0716C292.15 17.7642 291.651 17.7642 291.344 18.0717Z"
+          fill="white"
+        />
+      </g>
     </g>
     <rect
       x={1}
@@ -207,13 +226,21 @@ const darkThemelayoutSVG = (props) => (
       width={314}
       height={202}
       rx={25}
-      stroke="black"
+      stroke="#0066FE"
       strokeWidth={2}
-      className={styles.darkThemelayoutBorder}
+      className={styles.ThemeLayoutSVGBorder}
     />
     <defs>
-      <clipPath id="clip0_191_134">
+      <clipPath id="clip0_204_135">
         <rect x={2} y={2} width={312} height={200} rx={24} fill="white" />
+      </clipPath>
+      <clipPath id="clip1_204_135">
+        <rect
+          width={24}
+          height={24}
+          fill="white"
+          transform="translate(275 10)"
+        />
       </clipPath>
     </defs>
   </svg>

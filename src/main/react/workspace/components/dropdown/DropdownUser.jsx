@@ -6,8 +6,10 @@ const DropdownUser = ({ user }) => {
     <div className={styles.userDropdown}>
       <img src={user.avatar} alt="" className={styles.avatar} />
       <div className={styles.userInfoWrapper}>
-        <h1 className={styles.userName}>{user.name}</h1>
-        <div className={styles.userEmail}>{user.email}</div>
+        <div>
+          <h1 className={styles.userName}>{user.name}</h1>
+          <div className={styles.userEmail}>{user.email}</div>
+        </div>
         <Button
           text="Мой профиль"
           type="outlineSecondary"

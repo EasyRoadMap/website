@@ -18,6 +18,8 @@ color-4 - для бокового меню
   --accent-color: #0066fe;
   --title-input-color: rgb(0, 0, 0, 0.75);
   --light-stroke: rgba(0, 0, 0, 0.1);
+  /*Кнопки*/
+  --bg-error-button: #f1403a;
   /* кнопки сайдбара проекты  */
   --bg-workspace-button: rgba(0, 0, 0, 0.08);
   --bg-workspace-button-focus: rgba(0, 0, 0, 0.05);
@@ -25,6 +27,7 @@ color-4 - для бокового меню
   --bg-icon-sidebar: #0066fe;
   --border-input: rgb(0, 0, 0, 0.1);
   --light-blue-text-places: #6f7b8d;
+  --bg-exit-icon: #ff0000;
   /* свич */
   --switch-color: rgba(0, 0, 0, 0.05);
   --switch-hover-color: rgba(0, 0, 0, 0.15);
@@ -49,6 +52,8 @@ color-4 - для бокового меню
   --title-input-color: #000000;
   --light-stroke: rgba(0, 0, 0, 0.1);
   --title-input-color: rgb(0, 0, 0, 0.75);
+  /*Кнопки*/
+  --bg-error-button: #f1403a;
   /* кнопки сайдбара проекты  */
   --bg-workspace-button: rgba(0, 0, 0, 0.08);
   --bg-workspace-button-focus: rgba(0, 0, 0, 0.05);
@@ -56,6 +61,7 @@ color-4 - для бокового меню
   --bg-icon-sidebar: #0066fe;
   --border-input: rgb(0, 0, 0, 0.1);
   --light-blue-text-places: #6f7b8d;
+  --bg-exit-icon: #ff0000;
   /* свич */
   --switch-color: rgba(0, 0, 0, 0.05);
   --switch-hover-color: rgba(0, 0, 0, 0.15);
@@ -79,6 +85,8 @@ color-4 - для бокового меню
   --foreground-color50: rgb(255, 255, 255, 0.5);
   --title-input-color: rgb(255, 255, 255, 0.75);
   --light-stroke: rgba(255, 255, 255, 0.1);
+  /*Кнопки*/
+  --bg-error-button: #f1403a;
   /* кнопки сайдбара проекты  */
   --bg-workspace-button: rgba(255, 255, 255, 0.08);
   --bg-workspace-button-focus: rgba(255, 255, 255, 0.05);
@@ -86,6 +94,7 @@ color-4 - для бокового меню
   --bg-icon-sidebar: #ffffff;
   --border-input: rgb(255, 255, 255, 0.1);
   --light-blue-text-places: rgba(255, 255, 255, 0.5);
+  --bg-exit-icon: #fff;
   /* свич */
   --switch-color: rgba(255, 255, 255, 0.05);
   --switch-hover-color: rgba(255, 255, 255, 0.15);

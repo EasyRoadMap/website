@@ -2,9 +2,12 @@ import styles from "./styleUI.module.css";
 import Switch from "./switch.jsx";
 import DarkThemeLayoutSVG from "../../../assets/darkThemelayoutSVG.jsx";
 import LightThemeLayoutSVG from "../../../assets/lightThemeLayoutSVG.jsx";
-import CheckSettingsThemeSVG from "../../../assets/checkSettingsThemeSVG.jsx";
+import { useEffect } from "react";
+import { useTheme } from "../../hooks/useTheme.js";
 
 export default function ThemeChange() {
+  const { theme, setTheme } = useTheme();
+
   return (
     <div className={styles.themeWrapper}>
       <span className={styles.title}>Тема</span>
@@ -12,14 +15,14 @@ export default function ThemeChange() {
         Выберите тему сайта либо оставьте по умолчанию.
       </span>
       <div className={styles.themeChangeBlock}>
-        <button className={styles.lightButton}>
-          <CheckSettingsThemeSVG className={styles.checkSettingsThemeSVG} />
-          <LightThemeLayoutSVG />
-        </button>
-        <button className={styles.lightButton}>
-          <CheckSettingsThemeSVG className={styles.checkSettingsThemeSVG} />
-          <DarkThemeLayoutSVG />
-        </button>
+        <LightThemeLayoutSVG
+          onClick={() => setTheme("light")}
+          active={theme === "light"}
+        />
+        <DarkThemeLayoutSVG
+          onClick={() => setTheme("dark")}
+          active={theme === "dark"}
+        />
       </div>
       <div className={styles.switchBlock}>
         <Switch />

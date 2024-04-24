@@ -44,7 +44,7 @@ export default function ThemeButton() {
   return (
     <OutsideAlerter
       callback={() => setShowed(false)}
-      style={{ width: "fit-content" }}
+      style={{ width: "fit-content", height: "20px" }}
     >
       <div className={styles.dropdownTheme}>
         <div className={styles.logoAndButtonwrapper}>
