@@ -17,12 +17,6 @@ public final class Photo {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "x", nullable = false)
-    private int x;
-
-    @Column(name = "y", nullable = false)
-    private int y;
-
     @Column(name = "width", nullable = false)
     private int width;
 
@@ -37,10 +31,8 @@ public final class Photo {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
-    public Photo(UUID id, int x, int y, int width, int height) {
+    public Photo(UUID id, int width, int height) {
         this.id = id;
-        this.x = x;
-        this.y = y;
         this.width = width;
         this.height = height;
         this.createdAt = LocalDateTime.now();

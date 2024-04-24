@@ -8,9 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
 import ru.easyroadmap.website.api.v1.dto.user.SetUserNameDto;
-import ru.easyroadmap.website.api.v1.dto.UploadPhotoDto;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
 import ru.easyroadmap.website.api.v1.model.UserModel;
 import ru.easyroadmap.website.api.v1.model.project.ProjectModel;
@@ -47,7 +47,7 @@ public class UserApiController extends ApiControllerBase {
     @GetMapping
     public UserModel getUser() throws ApiException {
         User user = getCurrentUser(userService);
-        PhotoModel photoModel = photoService.getPhotoModel(generateUserPhotoID(user.getEmail())).orElse(null);
+        PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(generateUserPhotoID(user.getEmail()));
         return UserModel.fromUser(user, photoModel, true);
     }
 
@@ -67,7 +67,7 @@ public class UserApiController extends ApiControllerBase {
 
         List<WorkspaceModel> result = new ArrayList<>();
         for (Workspace workspace : joinedWorkspaces) {
-            PhotoModel photoModel = photoService.getPhotoModel(generateWorkspacePhotoID(workspace.getId())).orElse(null);
+            PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(generateWorkspacePhotoID(workspace.getId()));
             boolean isAdmin = userEmail.equals(workspace.getAdminId());
             result.add(WorkspaceModel.fromWorkspace(workspace, photoModel, isAdmin, false));
         }
@@ -83,7 +83,7 @@ public class UserApiController extends ApiControllerBase {
 
         List<ProjectModel> result = new ArrayList<>();
         for (Project project : joinedProjects) {
-            PhotoModel photoModel = photoService.getPhotoModel(generateProjectPhotoID(project.getId())).orElse(null);
+            PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(generateProjectPhotoID(project.getId()));
             List<ProjectLink> links = projectService.getProjectLinks(project.getId());
             result.add(ProjectModel.fromProject(project, photoModel, links));
         }
@@ -93,18 +93,16 @@ public class UserApiController extends ApiControllerBase {
 
     @Operation(summary = "Get a current user photo", tags = "user-api")
     @GetMapping("/photo")
-    public ResponseEntity<PhotoModel> getUserPhoto() throws ApiException {
+    public PhotoModel getUserPhoto() throws ApiException {
         String userEmail = requireUserExistance(userService);
-        PhotoModel photoModel = photoService.getPhotoModel(generateUserPhotoID(userEmail)).orElse(null);
-        return photoModel != null ? ResponseEntity.ok(photoModel) : ResponseEntity.noContent().build();
+        return photoService.getPhotoModelOrDefaultPicture(generateUserPhotoID(userEmail));
     }
 
     @Operation(summary = "Upload a new photo for current user", tags = "user-api")
     @PostMapping(value = "/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public PhotoModel uploadUserPhoto(@Valid UploadPhotoDto dto) throws ApiException {
+    public PhotoModel uploadUserPhoto(MultipartFile photo) throws ApiException {
         String userEmail = requireUserExistance(userService);
-        UUID uuid = generateUserPhotoID(userEmail);
-        return photoService.savePhoto(uuid, dto.getPhoto(), dto.getX(), dto.getY(), dto.getWidth(), dto.getHeight());
+        return photoService.savePhoto(generateUserPhotoID(userEmail), photo);
     }
 
     @Operation(summary = "Delete current user", tags = "user-api")

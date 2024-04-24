@@ -8,17 +8,19 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
-import ru.easyroadmap.website.api.v1.dto.UploadPhotoDto;
 import ru.easyroadmap.website.api.v1.dto.UserAddMemberDto;
 import ru.easyroadmap.website.api.v1.dto.UserIdentifierDto;
 import ru.easyroadmap.website.api.v1.dto.workspace.CreateWorkspaceDto;
 import ru.easyroadmap.website.api.v1.dto.workspace.PutWorkspaceAppearanceDto;
 import ru.easyroadmap.website.api.v1.dto.workspace.PutWorkspaceInfoDto;
+import ru.easyroadmap.website.api.v1.model.DomainCardModel;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
 import ru.easyroadmap.website.api.v1.model.UserModel;
-import ru.easyroadmap.website.api.v1.model.project.ProjectShortcutModel;
 import ru.easyroadmap.website.api.v1.model.workspace.*;
+import ru.easyroadmap.website.api.v1.model.workspace.WorkspaceInvitationModel.Inviter;
+import ru.easyroadmap.website.api.v1.model.workspace.WorkspaceInvitationModel.Recipient;
 import ru.easyroadmap.website.api.v1.service.*;
 import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.storage.model.User;
@@ -28,7 +30,10 @@ import ru.easyroadmap.website.storage.model.workspace.Workspace.Theme;
 import ru.easyroadmap.website.storage.model.workspace.WorkspaceInvitation;
 import ru.easyroadmap.website.storage.model.workspace.WorkspaceMember;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static ru.easyroadmap.website.api.v1.service.PhotoService.*;
 
@@ -59,39 +64,32 @@ public class WorkspaceApiController extends ApiControllerBase {
     public WorkspaceModel getWorkspace(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Workspace workspace = workspaceService.requireWorkspaceMembership(userEmail, workspaceId);
-        PhotoModel photoModel = photoService.getPhotoModel(generateWorkspacePhotoID(workspaceId)).orElse(null);
+        PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(generateWorkspacePhotoID(workspaceId));
         return WorkspaceModel.fromWorkspace(workspace, photoModel, userEmail.equals(workspace.getAdminId()), true);
     }
 
     @Operation(summary = "Get a list of joined workspace projects", tags = "workspace-api")
     @GetMapping("/projects")
-    public ResponseEntity<List<ProjectShortcutModel>> getWorkspaceProjects(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
+    public ResponseEntity<List<DomainCardModel>> getWorkspaceProjects(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
         String userEmail = requireUserExistance(userService);
         workspaceService.requireWorkspaceMembership(userEmail, workspaceId);
 
         List<Project> joinedProjects = projectService.getJoinedProjects(userEmail, workspaceId);
-        List<ProjectShortcutModel> result = new ArrayList<>();
+        List<DomainCardModel> result = new ArrayList<>();
 
         for (Project project : joinedProjects) {
             UUID projectId = project.getId();
-            PhotoModel projectPhoto = photoService.getPhotoModel(generateProjectPhotoID(projectId)).orElse(null);
+            PhotoModel projectPhoto = photoService.getPhotoModelOrDefaultPicture(generateProjectPhotoID(projectId));
+            List<String> members = projectService.getProjectMemberEmails(projectId);
 
-            List<String> memberEmails = projectService.getProjectMemberEmails(projectId);
-            List<UUID> memberPhotoIds = memberEmails.stream().map(PhotoService::generateUserPhotoID).toList();
-            List<PhotoModel> memberPhotos = memberPhotoIds.stream()
-                    .map(photoService::getPhotoModel)
-                    .map(opt -> opt.orElse(null))
-                    .filter(Objects::nonNull)
+            int membersCount = members.size();
+            List<PhotoModel> memberPhotos = members.stream()
                     .limit(3L)
+                    .map(PhotoService::generateUserPhotoID)
+                    .map(photoService::getPhotoModelOrDefaultPicture)
                     .toList();
 
-            result.add(ProjectShortcutModel.fromProject(
-                    project,
-                    projectPhoto,
-                    memberEmails.size(),
-                    memberPhotoIds,
-                    memberPhotos
-            ));
+            result.add(new DomainCardModel(projectId, project.getName(), projectPhoto, membersCount, memberPhotos));
         }
 
         return result.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(result);
@@ -116,7 +114,7 @@ public class WorkspaceApiController extends ApiControllerBase {
             if (user.isEmpty())
                 continue;
 
-            PhotoModel photoModel = photoService.getPhotoModel(generateUserPhotoID(memberEmail)).orElse(null);
+            PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(generateUserPhotoID(memberEmail));
             UserModel userModel = UserModel.fromUser(user.get(), photoModel, isAdmin); // include email for admin's request
             result.add(WorkspaceMemberModel.fromWorkspaceMember(member, userModel, memberEmail.equals(adminId)));
         }
@@ -127,7 +125,7 @@ public class WorkspaceApiController extends ApiControllerBase {
             if (user.isEmpty())
                 continue;
 
-            PhotoModel photoModel = photoService.getPhotoModel(generateUserPhotoID(invitedUserEmail)).orElse(null);
+            PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(generateUserPhotoID(invitedUserEmail));
             UserModel userModel = UserModel.fromUser(user.get(), photoModel, isAdmin); // include email for admin's request
             result.add(WorkspaceMemberModel.fromWorkspaceInvitation(invitation, userModel));
         }
@@ -172,20 +170,18 @@ public class WorkspaceApiController extends ApiControllerBase {
 
     @Operation(summary = "Get a workspace photo", tags = "workspace-api")
     @GetMapping("/photo")
-    public ResponseEntity<PhotoModel> getWorkspacePhoto(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
+    public PhotoModel getWorkspacePhoto(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
         String userEmail = requireUserExistance(userService);
-        Workspace workspace = workspaceService.requireWorkspaceMembership(userEmail, workspaceId);
-        PhotoModel photoModel = photoService.getPhotoModel(generateWorkspacePhotoID(workspace.getId())).orElse(null);
-        return photoModel != null ? ResponseEntity.ok(photoModel) : ResponseEntity.noContent().build();
+        workspaceService.requireWorkspaceMembership(userEmail, workspaceId);
+        return photoService.getPhotoModelOrDefaultPicture(generateWorkspacePhotoID(workspaceId));
     }
 
     @Operation(summary = "Upload a new photo for workspace", tags = "workspace-api")
     @PostMapping(value = "/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public PhotoModel uploadWorkspacePhoto(@RequestParam("ws_id") UUID workspaceId, @Valid UploadPhotoDto dto) throws ApiException {
+    public PhotoModel uploadWorkspacePhoto(@RequestParam("ws_id") UUID workspaceId, MultipartFile photo) throws ApiException {
         String userEmail = requireUserExistance(userService);
-        Workspace workspace = workspaceService.requireWorkspaceAdminRights(userEmail, workspaceId);
-        UUID uuid = generateWorkspacePhotoID(workspace.getId());
-        return photoService.savePhoto(uuid, dto.getPhoto(), dto.getX(), dto.getY(), dto.getWidth(), dto.getHeight());
+        workspaceService.requireWorkspaceAdminRights(userEmail, workspaceId);
+        return photoService.savePhoto(generateWorkspacePhotoID(workspaceId), photo);
     }
 
     @Operation(summary = "Transfer ownership in workspace", tags = "workspace-api")
@@ -216,23 +212,46 @@ public class WorkspaceApiController extends ApiControllerBase {
 
         UUID workspaceId = invitation.getWorkspaceId();
         Workspace workspace = workspaceService.getWorkspace(workspaceId);
-        PhotoModel workspacePhoto = photoService.getPhotoModel(generateWorkspacePhotoID(workspaceId)).orElse(null);
+        PhotoModel workspacePhoto = photoService.getPhotoModelOrDefaultPicture(generateWorkspacePhotoID(workspaceId));
+        List<WorkspaceMember> members = workspaceService.getWorkspaceMembers(workspaceId);
 
-        return WorkspaceInvitationModel.fromInvitation(invitation, inviter.getName(), workspace, workspacePhoto, 0, null);
+        int membersCount = members.size();
+        List<PhotoModel> memberPhotos = members.stream()
+                .limit(3L)
+                .map(WorkspaceMember::getUserEmail)
+                .map(PhotoService::generateUserPhotoID)
+                .map(photoService::getPhotoModelOrDefaultPicture)
+                .toList();
+
+        return WorkspaceInvitationModel.builder()
+                .withId(invitationId)
+                .withInviter(new Inviter(inviter.getName()))
+                .withWorkspace(new DomainCardModel(workspaceId, workspace.getName(), workspacePhoto, membersCount, memberPhotos))
+                .withExpiresAt(invitation.getExpiresAt())
+                .build();
     }
 
     @Operation(summary = "Invite a user to workspace", tags = "workspace-api")
     @PostMapping(value = "/invite", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void inviteUserToWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid UserAddMemberDto dto) throws ApiException {
+    public WorkspaceInvitationModel inviteUserToWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid UserAddMemberDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         workspaceService.requireWorkspaceAdminRights(userEmail, workspaceId);
 
-        String otherUserEmail = dto.getEmail();
-        if (!userService.isUserExist(otherUserEmail))
-            throw new ApiException("target_user_not_found", "There is no user registered with this email");
+        String recipientEmail = dto.getEmail();
+        User recipient = userService.findByEmail(recipientEmail).orElseThrow(() -> new ApiException(
+                "target_user_not_found",
+                "There is no user registered with this email"
+        ));
 
-        invitationService.inviteToWorkspace(userEmail, workspaceId, dto.getEmail(), dto.getRole());
+        WorkspaceInvitation invitation = invitationService.inviteToWorkspace(userEmail, workspaceId, dto.getEmail(), dto.getRole());
+        PhotoModel recipientPhoto = photoService.getPhotoModelOrDefaultPicture(generateUserPhotoID(recipientEmail));
+
+        return WorkspaceInvitationModel.builder()
+                .withId(invitation.getId())
+                .withRecipient(new Recipient(recipientEmail, recipient.getName(), recipientPhoto))
+                .withExpiresAt(invitation.getExpiresAt())
+                .build();
     }
 
     @Operation(summary = "Abort an invitation to workspace", tags = "workspace-api")

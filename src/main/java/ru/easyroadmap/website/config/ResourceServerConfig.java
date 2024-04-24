@@ -15,6 +15,7 @@ public class ResourceServerConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/erm-web/css/**").addResourceLocations("classpath:/static/css/").setCacheControl(CacheControl.empty());
         registry.addResourceHandler("/erm-web/font/**").addResourceLocations("classpath:/static/font/").setCacheControl(CacheControl.empty());
         registry.addResourceHandler("/erm-web/image/**").addResourceLocations("classpath:/static/image/").setCacheControl(CacheControl.empty());
+        registry.addResourceHandler("/erm-web/sp/**").addResourceLocations("classpath:/static/picture/").setCacheControl(CacheControl.empty());
         registry.addResourceHandler("/erm-web/js/**").addResourceLocations("classpath:/static/built/");
     }
 

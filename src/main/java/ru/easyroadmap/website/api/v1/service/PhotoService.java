@@ -3,6 +3,7 @@ package ru.easyroadmap.website.api.v1.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
@@ -11,7 +12,10 @@ import ru.easyroadmap.website.storage.local.FileSystemStorage;
 import ru.easyroadmap.website.storage.model.Photo;
 import ru.easyroadmap.website.storage.repository.PhotoRepository;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,6 +29,11 @@ import static ru.easyroadmap.website.api.v1.model.PhotoModel.fromPhoto;
 @Service
 @RequiredArgsConstructor
 public final class PhotoService {
+
+    public static final int MIN_PHOTO_WIDTH = 200;
+    public static final int MIN_PHOTO_HEIGHT = 200;
+    public static final int MAX_PHOTO_WIDTH = 1024;
+    public static final int MAX_PHOTO_HEIGHT = 1024;
 
     private final PhotoRepository photoRepository;
     private final FileSystemStorage fileSystemStorage;
@@ -40,33 +49,48 @@ public final class PhotoService {
         return getPhoto(uuid).map(photo -> fromPhoto(serverHost, photo));
     }
 
+    public PhotoModel getPhotoModelOrDefaultPicture(UUID uuid) {
+        return getPhotoModel(uuid).orElseGet(() -> generateDefaultPhotoModel(uuid, serverHost));
+    }
+
     public Path getPhotoPath(UUID uuid) {
         String name = uuid.toString();
         return fileSystemStorage.getPath(name.substring(0, 2)).resolve(name);
     }
 
-    public PhotoModel savePhoto(UUID uuid, MultipartFile content, int x, int y, int width, int height) throws ApiException {
-        if (x > width)
-            throw new ApiException("bad_x_offset", "The X-offset for this photo is too big");
+    public PhotoModel savePhoto(UUID uuid, MultipartFile content) throws ApiException {
+        try (InputStream inputStream = content.getInputStream()) {
+            BufferedImage image = ImageIO.read(inputStream);
+            int width = image.getWidth();
+            int height = image.getHeight();
 
-        if (y > height)
-            throw new ApiException("bad_y_offset", "The Y-offset for this photo is too big");
+            if (width < MIN_PHOTO_WIDTH || height < MIN_PHOTO_HEIGHT)
+                throw new ApiException("too_small_image", "The image must not be smaller than 200x200");
 
-        try {
-            Path photoPath = getPhotoPath(uuid);
+            if (width > MAX_PHOTO_WIDTH || height > MAX_PHOTO_HEIGHT)
+                throw new ApiException("too_large_image", "The image must not be larger than 1024x1024");
 
-            if (!Files.isDirectory(photoPath.getParent()))
-                Files.createDirectories(photoPath.getParent());
+            if (width != height)
+                throw new ApiException("bad_image_ratio", "The image must be squared (w = h)");
 
-            Files.write(photoPath, content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            try {
+                Path photoPath = getPhotoPath(uuid);
+                if (!Files.isDirectory(photoPath.getParent()))
+                    Files.createDirectories(photoPath.getParent());
+
+                Files.write(photoPath, content.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            } catch (IOException ex) {
+                log.warn("Unable to write uploaded image: {}", ex.toString());
+                throw new ApiException("bad_image", "The image cannot be read");
+            }
+
+            Photo photo = new Photo(uuid, width, height);
+            photoRepository.save(photo);
+            return PhotoModel.fromPhoto(serverHost, photo);
         } catch (IOException ex) {
-            log.warn("Unable to write user image: {}", ex.toString());
-            throw new ApiException("bad_image", "The image cannot be saved");
+            log.warn("Unable to read uploaded image: {}", ex.toString());
+            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "bad_image", "The image cannot be written");
         }
-
-        Photo photo = new Photo(uuid, x, y, width, height);
-        photoRepository.save(photo);
-        return PhotoModel.fromPhoto(serverHost, photo);
     }
 
     public static UUID generateUserPhotoID(String email) {
@@ -83,6 +107,11 @@ public final class PhotoService {
 
     public static UUID generatePhotoID(String data) {
         return UUID.nameUUIDFromBytes(data.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static PhotoModel generateDefaultPhotoModel(UUID uuid, String serverHost) {
+        byte index = (byte) (Math.abs(uuid.getLeastSignificantBits()) % 8);
+        return new PhotoModel(7, 7, "%s/erm-web/sp/%d.png".formatted(serverHost, index), true);
     }
 
 }

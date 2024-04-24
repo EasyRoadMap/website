@@ -11,7 +11,7 @@ public record WorkspaceModel(
         @JsonProperty("id") UUID uuid,
         @JsonProperty("info") WorkspaceInfoModel info,
         @JsonProperty("appearance") @JsonInclude(JsonInclude.Include.NON_NULL) WorkspaceAppearanceModel appearance,
-        @JsonProperty("photo") @JsonInclude(JsonInclude.Include.NON_NULL) PhotoModel photo,
+        @JsonProperty("photo") PhotoModel photo,
         @JsonProperty("is_admin") @JsonInclude(JsonInclude.Include.NON_NULL) Boolean isAdmin
 ) {
 

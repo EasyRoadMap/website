@@ -8,8 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
-import ru.easyroadmap.website.api.v1.dto.UploadPhotoDto;
 import ru.easyroadmap.website.api.v1.dto.UserAddMemberDto;
 import ru.easyroadmap.website.api.v1.dto.UserIdentifierDto;
 import ru.easyroadmap.website.api.v1.dto.project.*;
@@ -66,7 +66,7 @@ public class ProjectApiController extends ApiControllerBase {
     public ProjectModel getProject(@RequestParam("pr_id") UUID projectId) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Project project = projectService.requireProjectMembership(userEmail, projectId);
-        PhotoModel photoModel = photoService.getPhotoModel(generateProjectPhotoID(projectId)).orElse(null);
+        PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(generateProjectPhotoID(projectId));
         List<ProjectLink> links = projectService.getProjectLinks(projectId);
         return ProjectModel.fromProject(project, photoModel, links);
     }
@@ -88,7 +88,7 @@ public class ProjectApiController extends ApiControllerBase {
             if (user.isEmpty())
                 continue;
 
-            PhotoModel photoModel = photoService.getPhotoModel(generateUserPhotoID(memberEmail)).orElse(null);
+            PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(generateUserPhotoID(memberEmail));
             UserModel userModel = UserModel.fromUser(user.get(), photoModel, isAdmin);
             result.add(ProjectMemberModel.fromProjectMember(member, userModel));
         }
@@ -138,22 +138,20 @@ public class ProjectApiController extends ApiControllerBase {
 
     @Operation(summary = "Get a project photo", tags = "project-api")
     @GetMapping("/photo")
-    public ResponseEntity<PhotoModel> getProjectPhoto(@RequestParam("pr_id") UUID projectId) throws ApiException {
+    public PhotoModel getProjectPhoto(@RequestParam("pr_id") UUID projectId) throws ApiException {
         String userEmail = requireUserExistance(userService);
         projectService.requireProjectMembership(userEmail, projectId);
-
-        PhotoModel photoModel = photoService.getPhotoModel(generateProjectPhotoID(projectId)).orElse(null);
-        return photoModel != null ? ResponseEntity.ok(photoModel) : ResponseEntity.noContent().build();
+        return photoService.getPhotoModelOrDefaultPicture(generateProjectPhotoID(projectId));
     }
 
     @Operation(summary = "Upload a new photo for project", tags = "project-api")
     @PostMapping(value = "/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public PhotoModel uploadProjectPhoto(@RequestParam("pr_id") UUID projectId, @Valid UploadPhotoDto dto) throws ApiException {
+    public PhotoModel uploadProjectPhoto(@RequestParam("pr_id") UUID projectId, MultipartFile photo) throws ApiException {
         String userEmail = requireUserExistance(userService);
         projectService.requireProjectWorkspaceAdminRights(userEmail, projectId);
 
         UUID uuid = generateProjectPhotoID(projectId);
-        return photoService.savePhoto(uuid, dto.getPhoto(), dto.getX(), dto.getY(), dto.getWidth(), dto.getHeight());
+        return photoService.savePhoto(uuid, photo);
     }
 
     @Operation(summary = "Add workspace member to project", tags = "project-api")

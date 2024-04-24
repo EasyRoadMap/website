@@ -13,7 +13,7 @@ public record ProjectModel(
         @JsonProperty("id") UUID uuid,
         @JsonProperty("workspace_id") UUID workspaceId,
         @JsonProperty("info") ProjectInfoModel info,
-        @JsonProperty("photo") @JsonInclude(JsonInclude.Include.NON_NULL) PhotoModel photo,
+        @JsonProperty("photo") PhotoModel photo,
         @JsonProperty("links") @JsonInclude(JsonInclude.Include.NON_EMPTY) List<ProjectLinkModel> links
 ) {
 

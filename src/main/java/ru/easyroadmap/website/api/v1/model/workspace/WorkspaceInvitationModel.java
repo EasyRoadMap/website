@@ -1,48 +1,32 @@
 package ru.easyroadmap.website.api.v1.model.workspace;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import ru.easyroadmap.website.api.v1.model.DomainCardModel;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
-import ru.easyroadmap.website.storage.model.workspace.Workspace;
-import ru.easyroadmap.website.storage.model.workspace.WorkspaceInvitation;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
+@Builder(setterPrefix = "with")
 public record WorkspaceInvitationModel(
         @JsonProperty("id") UUID id,
-        @JsonProperty("inviter") Inviter inviter,
-        @JsonProperty("workspace") WorkspaceCard card,
+        @JsonProperty("inviter") @JsonInclude(JsonInclude.Include.NON_NULL) Inviter inviter,
+        @JsonProperty("recipient") @JsonInclude(JsonInclude.Include.NON_NULL) Recipient recipient,
+        @JsonProperty("workspace") @JsonInclude(JsonInclude.Include.NON_NULL) DomainCardModel workspace,
         @JsonProperty("expires_at") @JsonFormat(pattern = "yyyy-MM-dd") LocalDateTime expiresAt
 ) {
-
-    public static WorkspaceInvitationModel fromInvitation(
-            WorkspaceInvitation invitation,
-            String inviterName,
-            Workspace workspace,
-            PhotoModel workspacePhoto,
-            int membersCount,
-            List<PhotoModel> memberPhotos
-    ) {
-        return new WorkspaceInvitationModel(
-                invitation.getId(),
-                new Inviter(inviterName),
-                new WorkspaceCard(workspace.getId(), workspace.getName(), workspacePhoto, membersCount, memberPhotos),
-                invitation.getExpiresAt()
-        );
-    }
 
     public record Inviter(
             @JsonProperty("name") String name
     ) { }
 
-    public record WorkspaceCard(
-            @JsonProperty("id") UUID id,
+    public record Recipient(
+            @JsonProperty("email") String email,
             @JsonProperty("name") String name,
-            @JsonProperty("photo") PhotoModel photo,
-            @JsonProperty("members_count") int membersCount,
-            @JsonProperty("member_photos") List<PhotoModel> memberPhotos
+            @JsonProperty("photo") PhotoModel photo
     ) { }
 
 }

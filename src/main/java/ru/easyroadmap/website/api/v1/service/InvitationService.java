@@ -28,7 +28,7 @@ public final class InvitationService {
         return workspaceInvitationRepository.getNotExpiredInvitations(workspaceId);
     }
 
-    public void inviteToWorkspace(String userEmail, UUID workspaceId, String otherUserEmail, String role) throws ApiException {
+    public WorkspaceInvitation inviteToWorkspace(String userEmail, UUID workspaceId, String otherUserEmail, String role) throws ApiException {
         int usedMemberSlots = workspaceMemberRepository.countAllByWorkspaceIdEquals(workspaceId);
         usedMemberSlots += workspaceInvitationRepository.countNotExpiredInvitations(workspaceId);
 
@@ -46,6 +46,7 @@ public final class InvitationService {
         }
 
         workspaceInvitationRepository.save(invitation);
+        return invitation;
     }
 
     public void abortInvitation(Workspace workspace, String otherUserEmail) throws ApiException {
