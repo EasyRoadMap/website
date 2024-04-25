@@ -4,7 +4,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.easyroadmap.website.exception.GenericErrorException;
 import ru.easyroadmap.website.service.MailService;
@@ -12,18 +12,20 @@ import ru.easyroadmap.website.storage.model.auth.EmailConfirmation;
 import ru.easyroadmap.website.storage.repository.auth.EmailConfirmationRepository;
 import ru.easyroadmap.website.util.CharSequenceGenerator;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
+import static org.apache.commons.io.IOUtils.closeQuietly;
 import static ru.easyroadmap.website.web.auth.service.EmailConfirmationService.ProofKeyConsumer.PROOF_KEY_COOKIE_NAME;
 
-@Log4j2
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public final class EmailConfirmationService {
-
-    private static final ExecutorService MAIL_SENDING_TASKS_POOL = Executors.newVirtualThreadPerTaskExecutor();
 
     private final EmailConfirmationRepository emailConfirmationRepository;
     private final MailService mailService;
@@ -32,6 +34,8 @@ public final class EmailConfirmationService {
             String email,
             boolean renew,
             String mailTitle,
+            String mailSubtitle,
+            String userName,
             MailContentFormatter mailContentFormatter,
             ProofKeyConsumer proofKeyConsumer
     ) throws GenericErrorException {
@@ -63,14 +67,16 @@ public final class EmailConfirmationService {
 
         String code = CharSequenceGenerator.generateRandomAlphanumericString(6, false);
 
-//        InputStream resource = getClass().getResourceAsStream("/templates/mail/confirmation.html");
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8));
-//        String html = reader.lines().collect(Collectors.joining("\n"));
-//        closeQuietly(reader);
-//
-//        sendCodeViaEmail(email, mailTitle, mailContentFormatter.formatContent(code.toUpperCase()), html);
+        InputStream resource = getClass().getResourceAsStream("/templates/mail/confirmation.html");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8));
+        String html = reader.lines().map(String::trim).collect(Collectors.joining("\n"));
+        closeQuietly(reader);
 
-        sendCodeViaEmail(email, mailTitle, mailContentFormatter.formatContent(code.toUpperCase()), null);
+        html = html.replace("{{code}}", code.toUpperCase())
+                .replace("{{user}}", userName)
+                .replace("{{subtitle}}", mailSubtitle);
+
+        mailService.sendMailAsync(email, mailTitle, mailContentFormatter.formatContent(code.toUpperCase()), html);
 
         String proofKey = CharSequenceGenerator.generateProofKey();
         EmailConfirmation confirmation = existing.orElseGet(() -> new EmailConfirmation(email));
@@ -153,18 +159,6 @@ public final class EmailConfirmationService {
 
     public void forgetEmailConfirmation(String email) {
         emailConfirmationRepository.deleteById(email);
-    }
-
-    private void sendCodeViaEmail(String email, String title, String plainText, String html) {
-        MAIL_SENDING_TASKS_POOL.submit(() -> {
-            try {
-                log.debug("Sending code to '{}' via email...", email);
-                mailService.sendMail(email, title, plainText, html);
-                log.info("An email confirmation code has been sent to '{}'.", email);
-            } catch (Throwable ex) {
-                log.error("Unable to send a code via email!", ex);
-            }
-        });
     }
 
     public static String extractProofKey(HttpServletRequest request) throws GenericErrorException {

@@ -1,16 +1,27 @@
 package ru.easyroadmap.website.api.v1.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.easyroadmap.website.exception.ApiException;
+import ru.easyroadmap.website.service.MailService;
+import ru.easyroadmap.website.storage.model.User;
 import ru.easyroadmap.website.storage.model.workspace.Workspace;
 import ru.easyroadmap.website.storage.model.workspace.WorkspaceInvitation;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceInvitationRepository;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceMemberRepository;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceRepository;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import static org.apache.commons.io.IOUtils.closeQuietly;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +31,11 @@ public final class InvitationService {
     private final WorkspaceMemberRepository workspaceMemberRepository;
     private final WorkspaceInvitationRepository workspaceInvitationRepository;
 
+    private final MailService mailService;
+
+    @Value("${server.host}")
+    private String serverHost;
+
     public WorkspaceInvitation getInvitation(String userEmail, UUID invitationId) throws ApiException {
         return requireValidInvitation(userEmail, invitationId);
     }
@@ -28,24 +44,47 @@ public final class InvitationService {
         return workspaceInvitationRepository.getNotExpiredInvitations(workspaceId);
     }
 
-    public WorkspaceInvitation inviteToWorkspace(String userEmail, UUID workspaceId, String otherUserEmail, String role) throws ApiException {
+    public WorkspaceInvitation inviteToWorkspace(User sender, User recipient, Workspace workspace, String role) throws ApiException {
+        UUID workspaceId = workspace.getId();
         int usedMemberSlots = workspaceMemberRepository.countAllByWorkspaceIdEquals(workspaceId);
         usedMemberSlots += workspaceInvitationRepository.countNotExpiredInvitations(workspaceId);
 
         if (usedMemberSlots >= WorkspaceService.MAX_MEMBERS_PER_WORKSPACE)
             throw new ApiException("workspace_is_full", "You cannot invite one more user to this workspace");
 
-        WorkspaceInvitation invitation = workspaceInvitationRepository.getUserInvitation(otherUserEmail, workspaceId).orElse(null);
+        WorkspaceInvitation invitation = workspaceInvitationRepository.getUserInvitation(recipient.getEmail(), workspaceId).orElse(null);
         if (invitation != null && !invitation.isExpired())
             throw new ApiException("user_already_invited", "An invitation was already sent to this user");
 
         if (invitation != null) {
-            invitation.renew(userEmail, role);
+            invitation.renew(sender.getEmail(), role);
         } else {
-            invitation = new WorkspaceInvitation(workspaceId, userEmail, otherUserEmail, role);
+            invitation = new WorkspaceInvitation(workspaceId, sender.getEmail(), recipient.getEmail(), role);
         }
 
         workspaceInvitationRepository.save(invitation);
+
+        String inviteUrl = serverHost + "/workspace/invite?invite_id=" + invitation.getId();
+
+        String plainText = MessageFormat.format("""
+                Hello, dear {0}!
+                You''ve received an invitation to the {1} from the administrator {2}.
+                Open this link to view the invitation:
+                {3}
+                """, recipient.getName(), workspace.getName(), sender.getName(), inviteUrl
+        );
+
+        InputStream resource = getClass().getResourceAsStream("/templates/mail/invitation.html");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8));
+        String html = reader.lines().map(String::trim).collect(Collectors.joining("\n"));
+        closeQuietly(reader);
+
+        html = html.replace("{{invite_url}}", inviteUrl)
+                .replace("{{user}}", recipient.getName())
+                .replace("{{workspace}}", workspace.getName())
+                .replace("{{admin}}", sender.getName());
+
+        mailService.sendMailAsync(recipient.getEmail(), "EasyRoadMap - Приглашение в рабочую область", plainText, html);
         return invitation;
     }
 

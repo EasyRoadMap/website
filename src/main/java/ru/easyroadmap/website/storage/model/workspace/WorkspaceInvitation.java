@@ -52,7 +52,7 @@ public final class WorkspaceInvitation {
     }
 
     public boolean isExpired() {
-        return expiresAt.isAfter(LocalDateTime.now());
+        return expiresAt.isBefore(LocalDateTime.now());
     }
 
     public void renew(String inviterUserEmail, String role) {

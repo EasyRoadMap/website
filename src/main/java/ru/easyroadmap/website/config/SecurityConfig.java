@@ -56,11 +56,11 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/", "/error", "/erm-web/**", "/favicon.ico").permitAll()
+                        .requestMatchers("/legal/eula", "/legal/privacy").permitAll()
                         .requestMatchers("/docs/openapi", "/docs/swagger", "/docs/swagger-ui/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/workspace/**").permitAll()
-                        .requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/photo/**").permitAll()
+                        .requestMatchers("/p/**").permitAll()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(new HttpSessionCsrfTokenRepository())

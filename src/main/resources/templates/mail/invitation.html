@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>EasyRoadMap - Подтверждение</title>
+    <title>EasyRoadMap - Приглашение</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap" rel="stylesheet">
@@ -48,6 +48,18 @@
             margin: 0;
             padding: 0;
         }
+
+        a.button {
+            background: #0066fe;
+            border: none;
+            border-radius: 12px;
+            color: white !important;
+            display: inline-block;
+            font-family: "Golos Text", sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 16px;
+        }
     </style>
 </head>
 <body style="padding:0;margin:0">
@@ -81,22 +93,27 @@
                         </tr>
                         <tr>
                             <td style="padding:0;margin:0">
-                                <p>{{subtitle}}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding:0;margin:32px 0">
-                                <h1>{{code}}</h1>
+                                <p>Вы получили приглашение в <span style="color:black">{{workspace}}</span> от администратора <span style="color:black">{{admin}}</span>.</p>
                             </td>
                         </tr>
                         <tr>
                             <td style="padding:0;margin:0">
-                                <h6>Вы ничего не запрашивали?</h6>
+                                <a class="button" href="{{invite_url}}" style="margin:32px 0">Открыть приглашение</a>
                             </td>
                         </tr>
                         <tr>
                             <td style="padding:0;margin:0">
-                                <p>Можете проигнорировать данное письмо, если подтверждение этой операции было запрошено не Вами.</p>
+                                <h6>Кнопка не работает?</h6>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0;margin:0">
+                                <p>Для просмотра приглашения в личном кабинете перейдите по этой ссылке:</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0;margin:0">
+                                <a href="{{invite_url}}" style="text-decoration:none;font-size:16px;color:#0066fe">{{invite_url}}</a>
                             </td>
                         </tr>
                     </table>

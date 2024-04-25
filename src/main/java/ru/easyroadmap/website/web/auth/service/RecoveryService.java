@@ -1,7 +1,7 @@
 package ru.easyroadmap.website.web.auth.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.easyroadmap.website.exception.GenericErrorException;
@@ -12,7 +12,7 @@ import ru.easyroadmap.website.web.auth.service.EmailConfirmationService.ProofKey
 import java.text.MessageFormat;
 import java.util.Optional;
 
-@Log4j2
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public final class RecoveryService {
@@ -48,15 +48,18 @@ public final class RecoveryService {
                     "User not found"
             );
 
+        String userName = user.get().getName();
         confirmationService.requestEmailConfirmation(
                 email,
                 renew,
-                "EasyRoadMap - Account recovery",
+                "EasyRoadMap - Восстановление аккаунта",
+                "Ваш код подтверждения для восстановления доступа к аккаунту:",
+                userName,
                 code -> MessageFormat.format("""
-                        Hello, dear {0}!<br>
-                        Here is your recovery code:<br>
-                        <h3>{1}</h3>
-                        """, user.get().getName(), code),
+                        Hello, dear {0}!
+                        Here is your recovery code:
+                        {1}
+                        """, userName, code),
                 proofKeyConsumer
         );
     }

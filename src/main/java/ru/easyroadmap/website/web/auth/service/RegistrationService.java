@@ -1,7 +1,7 @@
 package ru.easyroadmap.website.web.auth.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.easyroadmap.website.exception.GenericErrorException;
@@ -12,7 +12,7 @@ import ru.easyroadmap.website.web.auth.service.EmailConfirmationService.ProofKey
 import java.text.MessageFormat;
 import java.util.Optional;
 
-@Log4j2
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public final class RegistrationService {
@@ -50,11 +50,13 @@ public final class RegistrationService {
         confirmationService.requestEmailConfirmation(
                 email,
                 renew,
-                "EasyRoadMap - Your confirmation code",
+                "EasyRoadMap - Регистрация аккаунта",
+                "Ваш код подтверждения для завершения регистрации аккаунта:",
+                name,
                 code -> MessageFormat.format("""
-                        Hello, dear {0}!<br>
-                        Here is your confirmation code:<br>
-                        <h3>{1}</h3>
+                        Hello, dear {0}!
+                        Here is your confirmation code:
+                        {1}
                         """, name, code),
                 proofKeyConsumer
         );

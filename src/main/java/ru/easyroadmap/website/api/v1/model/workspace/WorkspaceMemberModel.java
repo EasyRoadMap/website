@@ -7,7 +7,7 @@ import ru.easyroadmap.website.storage.model.workspace.WorkspaceInvitation;
 import ru.easyroadmap.website.storage.model.workspace.WorkspaceMember;
 
 public record WorkspaceMemberModel(
-        @JsonProperty("user") UserModel user,
+        @JsonProperty("user") @JsonInclude(JsonInclude.Include.NON_NULL) UserModel user,
         @JsonProperty("role") @JsonInclude(JsonInclude.Include.NON_NULL) String role,
         @JsonProperty("is_admin") @JsonInclude(JsonInclude.Include.NON_NULL) Boolean isAdmin,
         @JsonProperty("is_invited") @JsonInclude(JsonInclude.Include.NON_NULL) Boolean isInvited

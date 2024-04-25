@@ -234,8 +234,8 @@ public class WorkspaceApiController extends ApiControllerBase {
     @PostMapping(value = "/invite", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public WorkspaceInvitationModel inviteUserToWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid UserAddMemberDto dto) throws ApiException {
-        String userEmail = requireUserExistance(userService);
-        workspaceService.requireWorkspaceAdminRights(userEmail, workspaceId);
+        User sender = getCurrentUser(userService);
+        Workspace workspace = workspaceService.requireWorkspaceAdminRights(sender.getEmail(), workspaceId);
 
         String recipientEmail = dto.getEmail();
         User recipient = userService.findByEmail(recipientEmail).orElseThrow(() -> new ApiException(
@@ -243,7 +243,7 @@ public class WorkspaceApiController extends ApiControllerBase {
                 "There is no user registered with this email"
         ));
 
-        WorkspaceInvitation invitation = invitationService.inviteToWorkspace(userEmail, workspaceId, dto.getEmail(), dto.getRole());
+        WorkspaceInvitation invitation = invitationService.inviteToWorkspace(sender, recipient, workspace, dto.getRole());
         PhotoModel recipientPhoto = photoService.getPhotoModelOrDefaultPicture(generateUserPhotoID(recipientEmail));
 
         return WorkspaceInvitationModel.builder()

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.ProviderNotFoundException;
 import org.springframework.security.core.AuthenticationException;
@@ -16,9 +16,9 @@ import ru.easyroadmap.website.model.ErrorModel;
 
 import java.io.IOException;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
-@Log4j2
 public class ERMAuthenticationHandler extends SavedRequestAwareAuthenticationSuccessHandler implements AuthenticationFailureHandler {
 
     private static final String DEFAULT_ERROR_CODE = "unexpected_error";
