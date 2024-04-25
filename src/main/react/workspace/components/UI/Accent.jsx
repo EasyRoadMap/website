@@ -16,7 +16,6 @@ import AccentLightBlueActiveSVG from "../../../assets/AccentLightBlueActiveSVG.j
 import AccentPinkActiveSVG from "../../../assets/AccentPinkActiveSVG.jsx";
 import AccentPurpleActiveSVG from "../../../assets/AccentPurpleActiveSVG.jsx";
 
-
 export default function Accent() {
   return (
     <div className={style.accentWrapper}>
@@ -25,8 +24,15 @@ export default function Accent() {
         Сайт перекрасится в выбранный Вами цвет.
       </span>
       <div className={style.accent}>
-        <div className={style.accentChoice}><AccentRedSVG /><AccentOrangeSVG /><AccentYellowSVG /><AccentGreenSVG /><AccentLightBlueSVG />
-        <AccentBlueActiveSVG /><AccentPinkSVG /><AccentPurpleSVG />
+        <div className={style.accentChoice}>
+          <AccentRedSVG />
+          <AccentOrangeSVG />
+          <AccentYellowSVG />
+          <AccentGreenSVG />
+          <AccentLightBlueSVG />
+          <AccentBlueSVG />
+          <AccentPinkSVG />
+          <AccentPurpleSVG />
         </div>
       </div>
     </div>

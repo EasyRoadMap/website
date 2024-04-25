@@ -12,6 +12,7 @@
   border-color: var(--light-stroke);
   border-width: 1px;
   right: 10px;
+  z-index: 1;
 }
 
 .elem {

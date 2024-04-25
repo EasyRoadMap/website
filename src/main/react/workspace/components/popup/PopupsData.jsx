@@ -28,6 +28,7 @@ const removeStageDecsription = (stage) => {
   return (
     <span>
       Вы уверены, что хотите удалить этап
+      <br />
       <span className={styles.descriptionBolder}>{" " + stage}?</span>
     </span>
   );
@@ -36,6 +37,7 @@ const removeTaskDecsription = (task) => {
   return (
     <span>
       Вы уверены, что хотите удалить задачу
+      <br />
       <span className={styles.descriptionBolder}>{" " + task}?</span>
     </span>
   );

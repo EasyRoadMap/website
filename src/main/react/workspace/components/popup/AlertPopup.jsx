@@ -37,12 +37,14 @@ const AlertPopup = ({ type, title, description, close }) => {
           text="Да"
           type="outlineAccent"
           callback={() => handleClick("yes")}
+          style={{ width: "122px", height: "40px" }}
         />
         <Button
           className={styles.button}
           text="Нет"
           type="filledAccent"
           callback={() => handleClick("no")}
+          style={{ width: "122px", height: "40px" }}
         />
       </div>
     </>

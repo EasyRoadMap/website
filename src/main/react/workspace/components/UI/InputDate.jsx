@@ -1,19 +1,33 @@
 import styles from "./inputDate.module.css";
 import CalendarSVG from "../../../assets/calendarSVG.jsx";
 
-export default function InputDate() {
+const TypeDateInput = {
+  endDate: {
+    lable: "Дата окончания",
+    placeholder: "Введите дату окончания проекта",
+  },
+  deadlineDate: {
+    lable: "Дата дедлайна",
+    placeholder: "Введите дату дедлайна задачи",
+  },
+};
+
+const InputDate = ({ typeDate }) => {
+  const data = TypeDateInput[typeDate];
   return (
     <>
       <div className={styles.inputWithTextWrapper}>
-        <label className={styles.label}>Дата дедлайна</label>
+        <label className={styles.label}>{data.lable}</label>
         <div className={styles.inputWrapper}>
           <CalendarSVG className={styles.calendarSVG} />
           <input
+            type="date"
             className={styles.input}
-            placeholder="Введите дату дедлайна задачи"
+            placeholder={data.placeholder}
           ></input>
         </div>
       </div>
     </>
   );
-}
+};
+export default InputDate;

@@ -44,11 +44,13 @@ const CreateTaskPopup = ({ close }) => {
           text="Отмена"
           type="outlineSecondary"
           callback={() => handleClick("cancel")}
+          style={{ width: "131px", height: "40px" }}
         />
         <Button
           text="Создать"
           type="filledAccent"
           callback={() => handleClick("create")}
+          style={{ width: "131px", height: "40px" }}
         />
       </div>
     </>

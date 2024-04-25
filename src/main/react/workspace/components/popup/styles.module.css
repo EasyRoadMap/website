@@ -21,6 +21,9 @@
   flex-direction: column;
   gap: 24px;
   position: relative;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
 }
 
 .closeButton {
@@ -44,25 +47,26 @@
   text-align: center;
   color: var(--foreground-color50);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: normal;
 }
 
 .buttonsWrapper {
   display: flex;
   flex-direction: row;
   gap: 12px;
+  justify-content: center;
 }
 
 .addPhotoFieldWrapper {
   width: 647px;
 }
 .photosList {
-    display: flex;
-    flex-direction: row;
-    justify-content: baseline;
-    gap: calc((100% - 600px) / 2);
-    flex-wrap: wrap;
-    margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: baseline;
+  gap: calc((100% - 600px) / 2);
+  flex-wrap: wrap;
+  margin-bottom: 12px;
 }
 .photo {
   width: 200px;
@@ -147,4 +151,45 @@
 .buttons {
   display: flex;
   gap: 6px;
+  justify-content: end;
+}
+.titleWrapper {
+  display: flex;
+  gap: 6px;
+}
+.titleText {
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 500;
+}
+.settingsCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: 15px;
+  background-color: var(--bg-workspace-button-focus);
+  padding: 12px;
+}
+.settingsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: var(--bg-color-and-popup);
+}
+
+.bolder {
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: normal;
+}
+.descriptionSetting {
+  color: var(--foreground-color50);
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.descriptionBolder {
+  color: var(--title-input-color);
+  font-size: 16px;
+  font-weight: normal;
 }

@@ -6,18 +6,20 @@ import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
 import AlertPopup from "../popup/AlertPopup.jsx";
 import ButtonDotsVerticalSVG from "../../../assets/buttonDotsVertical.jsx";
-import TransferSVG from "../../../assets/transferSVG.jsx";
 import EditSVG from "../../../assets/editSVG.jsx";
 import DeleteSVG from "../../../assets/deleteSVG.jsx";
+import DoneTaskIcon from "../../../assets/doneTaskIcon.jsx";
+import ProgressTaskIcon from "../../../assets/progressTaskIcon.jsx";
+import PlannedTaskIcon from "../../../assets/plannedTaskIcon.jsx";
 import {
   removeTaskProps,
   removeParticipantProps,
 } from "../popup/PopupsData.jsx";
-import ChangePositionPopup from "../popup/ChangePositionPopup.jsx"; 
+import ChangePositionPopup from "../popup/ChangePositionPopup.jsx";
 
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 
-const TaskActionsButton = ({task}) => {
+const TaskActionsButton = ({ task }) => {
   const [listShowed, setListShowed] = useState(false);
 
   const { workspaceContext } = useWorkspaceContext();
@@ -44,8 +46,8 @@ const TaskActionsButton = ({task}) => {
       popup: {
         component: ChangePositionPopup,
         props: {
-          participant: participant
-        }
+          participant: participant,
+        },
       },
       onClose: onCloseChangePositionPopup,
     });
@@ -62,19 +64,29 @@ const TaskActionsButton = ({task}) => {
 
   const buttons = [
     {
-      icon: TransferSVG,
-      text: "Передать управление",
+      icon: DoneTaskIcon,
+      text: "Отметить готовой",
       callback: () => openTransferControlPopup(),
     },
     {
+      icon: ProgressTaskIcon,
+      text: "Отметить выполняемой",
+      callback: () => openChangePositionPopup(),
+    },
+    {
+      icon: PlannedTaskIcon,
+      text: "Отметить запланированной",
+      callback: () => openChangePositionPopup(),
+    },
+    {
       icon: EditSVG,
-      text: "Изменить должность",
+      text: "Редактировать задачу",
       callback: () => openChangePositionPopup(),
     },
     {
       icon: DeleteSVG,
-      text: "Исключить",
-      callback: () => openRemoveParticipantPopup(),
+      text: "Удалить задачу",
+      callback: () => openTransferControlPopup(),
     },
   ];
 

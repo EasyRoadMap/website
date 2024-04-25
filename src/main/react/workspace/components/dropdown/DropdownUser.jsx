@@ -20,14 +20,16 @@ const DropdownUser = ({ user, currentWorkspace, updateUser }) => {
       popup: {
         component: UpdateProfilePopup,
         props: {
-          workspaceName: currentWorkspace?.info?.name
-        }
+          workspaceName: currentWorkspace?.info?.name,
+        },
       },
       onClose: onUpdateProfile,
     });
   };
 
-  const avatarClassName = user?.photo?.default ? [styles.avatar, styles.pixelAvatar].join(" ") : styles.avatar;
+  const avatarClassName = user?.photo?.default
+    ? [styles.avatar, styles.pixelAvatar].join(" ")
+    : styles.avatar;
 
   return (
     <div className={styles.userDropdown}>
@@ -42,6 +44,7 @@ const DropdownUser = ({ user, currentWorkspace, updateUser }) => {
           type="outlineSecondary"
           className={styles.userButton}
           callback={openUpdateProfilePopup}
+          style={{ width: "100%", height: "40px" }}
         />
       </div>
     </div>
