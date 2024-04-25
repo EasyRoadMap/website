@@ -57,9 +57,12 @@
   width: 647px;
 }
 .photosList {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    gap: calc((100% - 600px) / 2);
+    flex-wrap: wrap;
+    margin-bottom: 12px;
 }
 .photo {
   width: 200px;

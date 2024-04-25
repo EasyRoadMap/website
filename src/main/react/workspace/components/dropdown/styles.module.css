@@ -115,7 +115,11 @@
   aspect-ratio: 1;
   border-radius: 50%;
   opacity: 0.5;
-  background-color: aqua;
+  background-color: white;
+  border: 1px solid var(--light-stroke);
+}
+.pixelAvatar {
+  image-rendering: pixelated;
 }
 .workspaceName {
   opacity: 0.5;
@@ -189,7 +193,8 @@
   height: 80px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background-color: aqua;
+  background-color: white;
+  border: 1px solid var(--light-stroke);
 }
 .userDropdown {
   display: flex;

@@ -3,7 +3,6 @@ import PopupBase from "./PopupBase.jsx";
 const Popup = ({
     ...props
 }) => {
-
     const close = (params) => {
         props.onClose(params);
     }

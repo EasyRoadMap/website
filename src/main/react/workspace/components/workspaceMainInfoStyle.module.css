@@ -28,7 +28,10 @@
   width: 120px;
   aspect-ratio: 1;
   border-radius: 15px;
-  background-color: aqua;
+  background-color: white;
+}
+.pixelAvatar {
+  image-rendering: pixelated;
 }
 .title {
   color: var(--text-color);

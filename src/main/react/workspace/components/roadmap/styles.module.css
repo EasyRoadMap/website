@@ -60,6 +60,21 @@
   font-weight: normal;
   color: var(--foreground-color50);
 }
+.pagination {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    position: absolute;
+    bottom: 0;
+}
+.paginationCircle {
+    width: 18px;
+    height: 18px;
+    background-color: grey;
+}
+.paginationCircleActive {
+    background-color: antiquewhite;
+}
 .tasksListTitleWrapper {
   display: flex;
   align-items: center;
@@ -101,16 +116,31 @@
 }
 
 .graphRoadmap {
-  display: flex;
-  position: relative;
+    display: flex;
+    position: relative;
+    /* height: 100%; */
+}
+.moveGraphButton {
+    height: 50px;
+    width: 50px;
+    background-color: grey;
+    position: absolute;
+}
+.moveGraphButtonRight {
+    right: 20px;
+}
+.moveGraphButtonLeft {
+    left: 20px;
 }
 .graphStage {
-  height: 176px;
-  width: 131px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
+    height: 176px;
+    width: 131px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    transition: ease-in-out;
+    transition-duration: 500ms;
 }
 .graphCircle {
   height: 128px;

@@ -1,20 +1,22 @@
 import styles from "../styles.module.css";
 import AddPhotoField from "./AddPhotoField.jsx";
 import { useState } from "react";
+import PhotoCropper from "../../cropper/PhotoCropper.jsx";
 
 const AddingChangesForm = () => {
     const [files, setFiles] = useState([]);
 
-    const addPhoto = (files) => {
-        setFiles(prev => [...prev, ...files]);
+    const addPhoto = (file) => {
+        setFiles(prev => [...prev, file]);
     }
 
     return (
         <div className={styles.addPhotoFieldWrapper}>
             <div className={styles.photosList}>
+                {files[0] && <PhotoCropper photo={files[0].URL}/>}
                 {files.map((file, i) => {
                     return (
-                        <img src={URL.createObjectURL(file)} alt="" className={styles.photo}/>
+                        <img src={file.URL} alt="" className={styles.photo}/>
                     );
                 })}
             </div>

@@ -24,6 +24,7 @@
 .projectButtonWrapper {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 .projectButtonWrapper hr {
   margin: 12px 0;

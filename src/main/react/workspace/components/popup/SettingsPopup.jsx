@@ -1,12 +1,11 @@
 import styles from "./styles.module.css";
-import Button from "../UI/Button.jsx";
 import SettingsCard from "./SettingsCard.jsx";
 
 const SettingsPopup = ({
     close
 }) => {
     const handleClick = (nameButtonClicked) => {
-        if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create") return;
+        if (nameButtonClicked !== "change-password" && nameButtonClicked !== "delete-account") return;
         close(nameButtonClicked);
     }
     
@@ -24,7 +23,7 @@ const SettingsPopup = ({
                     }}
                     buttonText="Изменить пароль"
                     buttonType="outlineAccent"
-                    callback={() => {}}
+                    callback={() => {handleClick("change-password")}}
                 />
                 <SettingsCard 
                     icon=""
@@ -34,7 +33,7 @@ const SettingsPopup = ({
                     }}
                     buttonText="Удалить аккаунт"
                     buttonType="outlineError"
-                    callback={() => {}}
+                    callback={() => {handleClick("delete-account")}}
                 />
             </div>
         </div>

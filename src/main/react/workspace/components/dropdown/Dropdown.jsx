@@ -9,11 +9,15 @@ import SettingsSvg from "../../../assets/settingsIconSVG.jsx";
 import ExitSVG from "../../../assets/exitIconSVG.jsx";
 import ThemeButton from "../UI/ThemeButton.jsx";
 
-const user = {
-  avatar: "",
-  name: "Пользователь",
-  email: "user.email@domain.ru",
-};
+import { usePopupManager } from "react-popup-manager";
+import Popup from "../popup/Popup.jsx";
+import SettingsPopup from "../popup/SettingsPopup.jsx";
+import DeleteAccountPopup from "../popup/DeleteAccountPopup.jsx";
+
+import { logout } from "../../api/user-api/logout.js";
+
+import useUserContext from "../../hooks/useUserContext.js";
+
 const typeButton = {
   exit: {
     text: "Выход",
@@ -25,15 +29,51 @@ const typeButton = {
   },
 };
 
-const workspaces = [
-  { avatar: "", name: "Первая область" },
-  { avatar: "", name: "Вторая область" },
-];
+const logoutAndExit = () => {
+  logout().then((response) => {
+    window.location.replace("/auth/sign-in");
+  }).catch((e) => {
+    console.log("error happened while logout");
+  })
+}
 
-const Dropdown = ({ visible, hide, showButtonRef }) => {
+const Dropdown = ({ visible, hide, showButtonRef, user, deleteUser, updateUser, createWorkspace, currentWorkspace }) => {
   const dropdown = useRef();
+  console.log("userrrrr");
+  console.log(user);
 
-  // usePlaceFixedBlockToAnother(dropdown, showButtonRef);
+  const { userContext } = useUserContext();
+  const popupManager = usePopupManager();
+
+  const onCloseSettingsPopup = (...params) => {
+    if (params[0] === "change-password") console.log("clicked change paswword");
+    else if (params[0] === "delete-account") openAskForDeletionPopup();
+  };
+
+  const onCloseDeleteAccountPopup = (...params) => {
+    console.log("closed");
+  };
+
+  const openSettingsPopup = () => {
+    popupManager.open(Popup, {
+      popup: {
+        component: SettingsPopup
+      },
+      onClose: onCloseSettingsPopup,
+    });
+  };
+
+  const openAskForDeletionPopup = () => {
+    popupManager.open(Popup, {
+      popup: {
+        component: DeleteAccountPopup,
+        props: {
+          deleteUser: deleteUser
+        }
+      },
+      onClose: onCloseDeleteAccountPopup,
+    });
+  };
 
   if (visible)
     return (
@@ -44,12 +84,12 @@ const Dropdown = ({ visible, hide, showButtonRef }) => {
           style={{ position: "fixed" }}
         >
           <section className={styles.dropdown}>
-            <DropdownUser user={user} />
-            <DropdownWorkspaces workspaces={workspaces} />
+            <DropdownUser user={user} currentWorkspace={currentWorkspace} updateUser={updateUser} />
+            <DropdownWorkspaces workspaces={userContext.workspaces} createWorkspace={createWorkspace}/>
             <div className={styles.dropdownButtons}>
               <ThemeButton />
-              <DropdownSettingsButton type={typeButton.settings} />
-              <DropdownSettingsButton type={typeButton.exit} />
+              <DropdownSettingsButton type={typeButton.settings} callback={openSettingsPopup} />
+              <DropdownSettingsButton type={typeButton.exit} callback={logoutAndExit}/>
             </div>
           </section>
         </OutsideAlerter>

@@ -18,10 +18,10 @@ const ChangePositionPopup = ({
                 <img src="" alt="" className={styles.participantAvatar} />
                 <div className={styles.participantCardTextWrapper}>
                     <div className={styles.participantCardTitle}>
-                        {participant.name}
+                        {participant?.user?.name}
                     </div>
                     <div className={styles.participantCardPosition}>
-                        {participant.position}
+                        {participant?.role}
                     </div>
                 </div>
             </div>

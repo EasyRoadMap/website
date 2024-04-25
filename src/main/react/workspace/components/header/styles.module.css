@@ -53,6 +53,9 @@
   border-radius: 50%;
   border: 1px solid var(--light-stroke);
 }
+.pixelAvatar {
+  image-rendering: pixelated;
+}
 .logoTextWrapper {
   display: flex;
   justify-content: center;

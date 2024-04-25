@@ -5,6 +5,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { observeBlocks } from "../../utils/updateVisibleBlock.js";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
+import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
+import qs from "qs";
 
 const pagesPaths = {
   main: "/workspace",
@@ -61,6 +63,7 @@ const getProject = (location, refs) => {
 };
 
 const Sidebar = () => {
+  const { workspaceContext } = useWorkspaceContext();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -80,42 +83,48 @@ const Sidebar = () => {
     }
   }, []);
 
+  const getWS = () => {
+    const searchParam = qs.parse(location.search, { ignoreQueryPrefix: true });
+    console.log("searchParam");
+    console.log(searchParam);
+    if (Object.keys(searchParam).length > 0) return "?ws_id=" + searchParam.ws_id;
+    return "";
+  }
+
   return (
     <aside className={styles.aside}>
       {/* pages + their props */}
       <SidebarButton
         type="main"
         active={page === "main"}
-        callback={() => navigate("/workspace")}
+        callback={() => navigate("/workspace" + getWS())}
       />
       <SidebarButton
         type="projects"
         active={page === "projects"}
-        callback={() => navigate("/workspace/projects")}
+        callback={() => navigate("/workspace/projects" + getWS())}
       />
       <SidebarProjects
-        projects={[
-          {
-            avatar: "",
-            name: "Проект 1",
-            toProject: () => {
-              navigate("/workspace/project");
-            },
-            blocks: getProjectsFieldsRefs(),
-            chosen: projectField,
-            placeInProject: null,
-            toPlace: () => {},
-          },
-          // {avatar: "", name: "Проект 2", toProject: () => {}, chosen: false, placeInProject: null, toPlace: () => {}},
-          // {avatar: "", name: "Проект 3", toProject: () => {}, chosen: false, placeInProject: null, toPlace: () => {}},
-          // {avatar: "", name: "Проект 4", toProject: () => {}, chosen: false, placeInProject: null, toPlace: () => {}}
-        ]}
+      projects={workspaceContext?.projects}
+        // projects={[
+        //   {
+        //     avatar: "",
+        //     name: "Проект 1",
+        //     toProject: () => {
+        //       navigate("/workspace/project");
+        //     },
+        //     blocks: getProjectsFieldsRefs(),
+        //     chosen: projectField,
+        //     placeInProject: null,
+        //     toPlace: () => {},
+        //   },
+        // ]}
         places={placesInProjects}
       />
       <SidebarButton
         type="settings"
         active={page === "settings"}
-        callback={() => navigate("/workspace/settings")}
+        callback={() => navigate("/workspace/settings" + getWS())}
       />
       <SidebarButton type="exit" active={false} callback={() => {}} />
     </aside>

@@ -3,7 +3,7 @@ import TaskCompletedSVG from "../../../assets/taskCompleted.jsx";
 import TaskInProgressSVG from "../../../assets/taskInProgress.jsx";
 import TaskInPlannedSVG from "../../../assets/taskInPlanned.jsx";
 import CalendarSVG from "../../../assets/calendarSVG.jsx";
-import ButtonDotsVerticalSVG from "../../../assets/buttonDotsVertical.jsx";
+import TaskActionsButton from "./TaskActionsButton.jsx";
 
 const completionIcons = {
   done: TaskCompletedSVG,
@@ -54,7 +54,7 @@ const TaskItem = ({ task }) => {
         </div>
         <div className={styles.taskAsidePart}>
           <IconTaskComplete className={styles.taskCompletionIcon} />
-          <ButtonDotsVerticalSVG className={styles.dots} />
+          <TaskActionsButton />
         </div>
       </div>
     </div>

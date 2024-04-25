@@ -13,30 +13,48 @@ import {
   transferControlProps,
   removeParticipantProps,
 } from "../popup/PopupsData.jsx";
+import ChangePositionPopup from "../popup/ChangePositionPopup.jsx"; 
 
-const ParticipantActionsButton = () => {
+import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
+
+const ParticipantActionsButton = ({participant}) => {
   const [listShowed, setListShowed] = useState(false);
+
+  const { workspaceContext } = useWorkspaceContext();
 
   const onCloseTransferControlPopup = (...params) =>
     console.log("TransferControlPopup has closed with:", ...params);
   const onCloseRemoveParticipantPopup = (...params) =>
     console.log("RemoveParticipantPopup has closed with:", ...params);
+  const onCloseChangePositionPopup = (...params) =>
+    console.log("ChangePositionPopup has closed with:", ...params);
 
   const popupManager = usePopupManager();
   const openTransferControlPopup = () => {
     popupManager.open(Popup, {
       popup: {
         component: AlertPopup,
-        props: transferControlProps("Константин"),
+        props: transferControlProps(participant?.user?.name),
       },
       onClose: onCloseTransferControlPopup,
+    });
+  };
+  const openChangePositionPopup = () => {
+    popupManager.open(Popup, {
+      popup: {
+        component: ChangePositionPopup,
+        props: {
+          participant: participant
+        }
+      },
+      onClose: onCloseChangePositionPopup,
     });
   };
   const openRemoveParticipantPopup = () => {
     popupManager.open(Popup, {
       popup: {
         component: AlertPopup,
-        props: removeParticipantProps("Константин"),
+        props: removeParticipantProps(participant?.user?.name),
       },
       onClose: onCloseRemoveParticipantPopup,
     });
@@ -51,7 +69,7 @@ const ParticipantActionsButton = () => {
     {
       icon: EditSVG,
       text: "Изменить должность",
-      callback: () => console.log("hehe"),
+      callback: () => openChangePositionPopup(),
     },
     {
       icon: DeleteSVG,

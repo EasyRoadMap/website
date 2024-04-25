@@ -7,25 +7,29 @@ import { useState } from "react";
 const autoCompleteName = {
   name: "name",
   email: "email",
-  nameRegion: "nameRegion",
-  descriotionRegion: "descriotionRegion",
-  nameTask: "nameTask",
-  descriptionTask: "descriptionTask",
+  nameRegion: "off",
+  descriptionRegion: "off",
+  nameTask: "off",
+  descriptionTask: "off",
   password: "current-password",
-  newPassword: "new-password",
+  newPassword: "password",
   repeatedPassword: "off",
+  position: "off",
+  date: "off"
 };
 
 const translation = {
   name: "Имя",
   email: "Электронная почта",
   nameRegion: "Название области",
-  descriotionRegion: "Описание области",
+  descriptionRegion: "Описание области",
   nameTask: "Название задачи",
   descriptionTask: "Описание задачи",
   password: "Пароль",
   newPassword: "Новый пароль",
   repeatedPassword: "Повторите пароль",
+  position: "Должность",
+  date: "Дата окончания"
 };
 
 export default function Input({
@@ -73,6 +77,8 @@ export default function Input({
             autoComplete={autoCompleteName[typeOfInput]}
             onMouseEnter={() => setActive(true)}
             onMouseLeave={() => setActive(false)}
+            min={type === "date" ? "1990-01-01" : undefined}
+            max={type === "date" ? "2990-01-01" : undefined}
           ></input>
           {typeOfInput === "password" && (
             <div onClick={handleToggle} className={styles.iconSVG}>

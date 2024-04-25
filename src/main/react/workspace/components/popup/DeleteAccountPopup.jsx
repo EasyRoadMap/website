@@ -1,12 +1,32 @@
 import styles from "./styles.module.css";
 import Button from "../UI/Button.jsx";
+import Input from "../UI/Input.jsx";
+import { useState } from "react";
 
 const DeleteAccountPopup = ({
+    deleteUser,
     close
 }) => {
+    const [password, setPassword] = useState(null);
+    const [check, setCheck] = useState(false);
+
     const handleClick = (nameButtonClicked) => {
-        if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create") return;
-        close(nameButtonClicked);
+        if (nameButtonClicked !== "cancel" && nameButtonClicked !== "delete") return;
+        // if (nameButtonClicked === "delete") {
+        //     if (check === true) {
+        //         deleteUser(password, 
+        //             () => close({ button: nameButtonClicked }), 
+        //             () => {} // throw error
+        //         );
+        //     }
+        //     else {
+        //         console.log("can't delete user");
+        //         close({ button: nameButtonClicked });
+        //         // error
+        //     }
+        //     return;
+        // }
+        close({ button: nameButtonClicked });
     }
     return (
         <div className={styles.popup}>
@@ -16,13 +36,29 @@ const DeleteAccountPopup = ({
             <div className={styles.description}>
                 Для удаления аккаунта подтвердите личность вводом текущего пароля от него.
             </div>
-            <input type="text" />
+            <Input data={password}
+                   setData={setPassword}
+                   placeholder={"••••••••"}
+                   typeOfInput={"current-password"}
+            />
 
-            {/* checkbox */}
+            
+
+            <div className={styles.rememberMe}>
+                <input
+                    id="check"
+                    type="checkbox"
+                    className={styles.checkbox}
+                    onChange={(e) => {
+                        setCheck(!check);
+                    }}
+                ></input>
+                <label>Я понимаю, что все данные аккаунта будут удалены и не могут быть восстановлены.</label>
+            </div>
 
             <div className={styles.buttonsWrapper}>
                 <Button text="Отмена" type="outlineSecondary" callback={() => handleClick("cancel")}/>
-                <Button text="Создать" type="filledAccent" callback={() => handleClick("create")}/>
+                <Button text="Удалить аккаунт" type="filledAccent" disabled={!check} callback={() => handleClick("delete")}/>
             </div>
         </div>
     );
