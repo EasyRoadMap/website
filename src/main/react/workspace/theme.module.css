@@ -37,6 +37,10 @@ color-4 - для бокового меню
   --add-workspace-button: rgba(0, 0, 0, 0.25);
   --add-workspace-button-hover: #8c8c8c;
   --add-workspace-button-hover-text: #545454;
+  /* цвета для задач */
+  --bg-task-complete: rgba(153, 229, 80, 0.15);
+  --bg-task-in-progress: rgba(244, 228, 86, 0.15);
+  --bg-task-in-planned: rgba(169, 173, 179, 0.15);
 }
 [data-theme="light"] {
   /*color 1*/
@@ -71,6 +75,10 @@ color-4 - для бокового меню
   --add-workspace-button: rgba(0, 0, 0, 0.25);
   --add-workspace-button-hover: #8c8c8c;
   --add-workspace-button-hover-text: #545454;
+  /* цвета для задач */
+  --bg-task-complete: rgba(153, 229, 80, 0.15);
+  --bg-task-in-progress: rgba(244, 228, 86, 0.15);
+  --bg-task-in-planned: rgba(169, 173, 179, 0.15);
 }
 [data-theme="dark"] {
   /*color 1*/
@@ -104,4 +112,8 @@ color-4 - для бокового меню
   --add-workspace-button: rgba(255, 255, 255, 0.25);
   --add-workspace-button-hover: #9a9a9a;
   --add-workspace-button-hover-text: #cccccc;
+  /* цвета для задач */
+  --bg-task-complete: rgba(153, 229, 80, 0.15);
+  --bg-task-in-progress: rgba(244, 228, 86, 0.15);
+  --bg-task-in-planned: rgba(169, 173, 179, 0.15);
 }

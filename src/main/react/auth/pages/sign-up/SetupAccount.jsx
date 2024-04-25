@@ -164,13 +164,19 @@ const Form = () => {
           <h2 className={styles.discriptionPrivacyPolicy}>
             Я прочитал(а) условия{" "}
             <strong className="text-black">
-              <a className={styles.repeatLinkPrivacyPolicy} href="">
+              <a
+                className={styles.repeatLinkPrivacyPolicy}
+                href="https://easyroadmap.ru/legal/eula"
+              >
                 пользовательского <br /> соглашения{" "}
               </a>
             </strong>
             и{" "}
             <strong className="text-black">
-              <a className={styles.repeatLinkPrivacyPolicy} href="">
+              <a
+                className={styles.repeatLinkPrivacyPolicy}
+                href="https://easyroadmap.ru/legal/privacy"
+              >
                 политики конфиденциальности
               </a>
             </strong>

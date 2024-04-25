@@ -8,9 +8,66 @@
   border-radius: 24px;
   gap: 12px;
 }
+.taskField {
+  padding-left: 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 24px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
 .tasksListWrapper {
   width: 100%;
   position: relative;
+}
+.taskMainPart {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.taskName {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+.taskDate {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.taskDateText {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+}
+.taskTitleWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+.calendarSVG {
+  width: 19px;
+  height: 19px;
+}
+.dots {
+  cursor: pointer;
+}
+.taskDescription {
+  font-size: 14px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+}
+.tasksListTitleWrapper {
+  display: flex;
+  align-items: center;
+}
+.taskParticipantsAvatars {
+  max-width: 40px;
+  max-height: 40px;
+  border-radius: 8px;
 }
 .title {
   font-size: 24px;
@@ -27,6 +84,20 @@
   background-color: var(--bg-color-sidebar-and-dropdown);
   border-radius: 24px;
   padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.taskFieldsWrapper {
+  display: flex;
+  align-items: center;
+}
+.taskAsidePart {
+  display: flex;
+  gap: 12px;
+  position: absolute;
+  right: 24px;
 }
 
 .graphRoadmap {
@@ -58,7 +129,13 @@
   width: 4px;
   background: rgba(0, 0, 0, 0.1);
 }
-.tasksListTitleWrapper {
+
+.showMoreButton {
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: underline;
+  color: var(--foreground-color50);
   display: flex;
-  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
