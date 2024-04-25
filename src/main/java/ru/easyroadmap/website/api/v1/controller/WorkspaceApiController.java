@@ -12,9 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
 import ru.easyroadmap.website.api.v1.dto.UserAddMemberDto;
 import ru.easyroadmap.website.api.v1.dto.UserIdentifierDto;
-import ru.easyroadmap.website.api.v1.dto.workspace.CreateWorkspaceDto;
-import ru.easyroadmap.website.api.v1.dto.workspace.PutWorkspaceAppearanceDto;
-import ru.easyroadmap.website.api.v1.dto.workspace.PutWorkspaceInfoDto;
+import ru.easyroadmap.website.api.v1.dto.workspace.WorkspaceDataDto;
+import ru.easyroadmap.website.api.v1.dto.workspace.WorkspaceAppearanceDto;
 import ru.easyroadmap.website.api.v1.model.DomainCardModel;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
 import ru.easyroadmap.website.api.v1.model.UserModel;
@@ -52,7 +51,7 @@ public class WorkspaceApiController extends ApiControllerBase {
 
     @Operation(summary = "Create a new workspace", tags = "workspace-api")
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public WorkspaceModel createWorkspace(@Valid CreateWorkspaceDto dto) throws ApiException {
+    public WorkspaceModel createWorkspace(@Valid WorkspaceDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Workspace workspace = workspaceService.createWorkspace(userEmail, dto.getName(), dto.getDescription());
         workspaceService.joinToWorkspace(userEmail, workspace.getId());
@@ -144,7 +143,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     @Operation(summary = "Set a workspace info", tags = "workspace-api")
     @PutMapping(value = "/info", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void putWorkspaceInfo(@RequestParam("ws_id") UUID workspaceId, @Valid PutWorkspaceInfoDto dto) throws ApiException {
+    public void putWorkspaceInfo(@RequestParam("ws_id") UUID workspaceId, @Valid WorkspaceDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Workspace workspace = workspaceService.requireWorkspaceAdminRights(userEmail, workspaceId);
         workspaceService.updateWorkspaceInfo(workspace, dto.getName(), dto.getDescription());
@@ -161,7 +160,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     @Operation(summary = "Set a workspace appearance", tags = "workspace-api")
     @PutMapping(value = "/appearance", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void putWorkspaceAppearance(@RequestParam("ws_id") UUID workspaceId, @Valid PutWorkspaceAppearanceDto dto) throws ApiException {
+    public void putWorkspaceAppearance(@RequestParam("ws_id") UUID workspaceId, @Valid WorkspaceAppearanceDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Workspace workspace = workspaceService.requireWorkspaceAdminRights(userEmail, workspaceId);
         Theme theme = Theme.valueOf(dto.getTheme().toUpperCase());

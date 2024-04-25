@@ -52,7 +52,7 @@ public class ProjectApiController extends ApiControllerBase {
 
     @Operation(summary = "Create a new project", tags = "project-api")
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ProjectModel createProject(@RequestParam("ws_id") UUID workspaceId, @Valid CreateProjectDto dto) throws ApiException {
+    public ProjectModel createProject(@RequestParam("ws_id") UUID workspaceId, @Valid ProjectDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         workspaceService.requireWorkspaceAdminRights(userEmail, workspaceId);
 
@@ -107,7 +107,7 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Set a project info", tags = "project-api")
     @PutMapping(value = "/info", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void putProjectInfo(@RequestParam("pr_id") UUID projectId, @Valid PutProjectInfoDto dto) throws ApiException {
+    public void putProjectInfo(@RequestParam("pr_id") UUID projectId, @Valid ProjectDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Project project = projectService.requireProjectWorkspaceAdminRights(userEmail, projectId);
         projectService.updateProjectInfo(project, dto.getName(), dto.getDescription(), dto.getDeadlineAt());
@@ -128,9 +128,9 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Set project links", tags = "project-api")
     @PutMapping(value = "/links", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void putProjectLinks(@RequestParam("pr_id") UUID projectId, @Valid PutProjectLinksDto dto) throws GenericErrorException {
+    public void putProjectLinks(@RequestParam("pr_id") UUID projectId, @Valid ProjectLinksDto dto) throws GenericErrorException {
         String userEmail = requireUserExistance(userService);
-        List<PutProjectLinksDto.LinkFacade> links = dto.collect();
+        List<ProjectLinksDto.LinkFacade> links = dto.collect();
 
         projectService.requireProjectWorkspaceAdminRights(userEmail, projectId);
         projectService.updateProjectLinks(projectId, links);

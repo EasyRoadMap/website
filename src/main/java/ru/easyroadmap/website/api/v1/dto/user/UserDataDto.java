@@ -1,5 +1,6 @@
-package ru.easyroadmap.website.api.v1.dto.roadmap;
+package ru.easyroadmap.website.api.v1.dto.user;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,9 +8,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class CreateStageDto {
+public final class UserDataDto {
 
-    @Size(min = 2, max = 32)
+    @NotBlank @Size(min = 1, max = 64)
     private String name;
 
 }

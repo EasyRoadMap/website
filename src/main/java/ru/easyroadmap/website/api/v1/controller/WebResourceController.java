@@ -9,10 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.easyroadmap.website.api.v1.service.FileUploadService;
 import ru.easyroadmap.website.api.v1.service.PhotoService;
 import ru.easyroadmap.website.api.v1.service.RoadmapService;
 import ru.easyroadmap.website.api.v1.service.UserService;
 import ru.easyroadmap.website.exception.ApiException;
+import ru.easyroadmap.website.storage.model.FileUpload;
 import ru.easyroadmap.website.storage.model.roadmap.RoadmapTaskAttachment;
 
 import java.nio.file.Files;
@@ -26,6 +28,7 @@ public class WebResourceController extends ApiControllerBase {
 
     private final UserService userService;
     private final PhotoService photoService;
+    private final FileUploadService fileUploadService;
     private final RoadmapService roadmapService;
 
     @GetMapping(value = "/p/{uuid}", produces = "image/*")
@@ -37,18 +40,20 @@ public class WebResourceController extends ApiControllerBase {
         return ResponseEntity.ok(new PathResource(photoPath));
     }
 
-    @GetMapping("/a/{uuid}")
-    public ResponseEntity<Resource> getTaskAttachmentResource(@PathVariable UUID uuid) throws ApiException {
+    @GetMapping("/u/{uuid}")
+    public ResponseEntity<Resource> getFileUploadResource(@PathVariable UUID uuid) throws ApiException {
         String userEmail = requireUserExistance(userService);
+        FileUpload fileUpload = fileUploadService.getFileUpload(uuid);
+
         RoadmapTaskAttachment attachment = roadmapService.getTaskAttachment(uuid);
         roadmapService.requireTaskProjectMembership(userEmail, attachment.getTaskId());
 
-        Path filePath = roadmapService.getTaskAttachmentFilePath(uuid);
+        Path filePath = fileUploadService.getUploadFilePath(uuid);
         if (!Files.isRegularFile(filePath))
             return ResponseEntity.noContent().build();
 
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(attachment.getMimeType()))
+                .contentType(MediaType.parseMediaType(fileUpload.getMimeType()))
                 .body(new PathResource(filePath));
     }
 

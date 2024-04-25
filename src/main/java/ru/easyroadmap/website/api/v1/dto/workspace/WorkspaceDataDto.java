@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class CreateWorkspaceDto {
+public final class WorkspaceDataDto {
 
     @NotBlank @Size(min = 2, max = 64)
     private String name;

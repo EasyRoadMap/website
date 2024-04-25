@@ -9,7 +9,7 @@ import ru.easyroadmap.website.validation.ValidWorkspaceTheme;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class PutWorkspaceAppearanceDto {
+public final class WorkspaceAppearanceDto {
 
     @NotEmpty
     @ValidWorkspaceTheme

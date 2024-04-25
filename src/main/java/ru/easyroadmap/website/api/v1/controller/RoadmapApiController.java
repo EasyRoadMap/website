@@ -15,10 +15,12 @@ import ru.easyroadmap.website.api.v1.model.PageableCollection;
 import ru.easyroadmap.website.api.v1.model.roadmap.StageModel;
 import ru.easyroadmap.website.api.v1.model.roadmap.TaskAttachmentModel;
 import ru.easyroadmap.website.api.v1.model.roadmap.TaskModel;
+import ru.easyroadmap.website.api.v1.service.FileUploadService;
 import ru.easyroadmap.website.api.v1.service.ProjectService;
 import ru.easyroadmap.website.api.v1.service.RoadmapService;
 import ru.easyroadmap.website.api.v1.service.UserService;
 import ru.easyroadmap.website.exception.ApiException;
+import ru.easyroadmap.website.storage.model.FileUpload;
 import ru.easyroadmap.website.storage.model.roadmap.RoadmapStage;
 import ru.easyroadmap.website.storage.model.roadmap.RoadmapTask;
 import ru.easyroadmap.website.storage.model.roadmap.RoadmapTaskAttachment;
@@ -34,13 +36,14 @@ public class RoadmapApiController extends ApiControllerBase {
     private final UserService userService;
     private final ProjectService projectService;
     private final RoadmapService roadmapService;
+    private final FileUploadService fileUploadService;
 
     @Value("${server.host}")
     private String serverHost;
 
     @Operation(summary = "Create a new roadmap stage", tags = "roadmap-api")
     @PostMapping(value = "/stage/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public StageModel createStage(@RequestParam("pr_id") UUID projectId, @Valid CreateStageDto dto) throws ApiException {
+    public StageModel createStage(@RequestParam("pr_id") UUID projectId, @Valid StageDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         projectService.requireProjectMembership(userEmail, projectId);
         return StageModel.fromStage(roadmapService.createStage(projectId, dto.getName()));
@@ -81,7 +84,7 @@ public class RoadmapApiController extends ApiControllerBase {
     @Operation(summary = "Set a stage name", tags = "roadmap-api")
     @PatchMapping(value = "/stage", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void setStageName(@RequestParam("rms_id") long stageId, @Valid SetStageNameDto dto) throws ApiException {
+    public void setStageName(@RequestParam("rms_id") long stageId, @Valid StageDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         RoadmapStage stage = roadmapService.getStage(stageId);
         projectService.requireProjectMembership(userEmail, stage.getProjectId());
@@ -99,11 +102,21 @@ public class RoadmapApiController extends ApiControllerBase {
 
     @Operation(summary = "Create a new roadmap task", tags = "roadmap-api")
     @PostMapping(value = "/task/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public TaskModel createTask(@RequestParam("rms_id") long stageId, @Valid CreateTaskDto dto) throws ApiException {
+    public TaskModel createTask(@RequestParam("rms_id") long stageId, @Valid TaskDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         RoadmapStage stage = roadmapService.getStage(stageId);
         projectService.requireProjectMembership(userEmail, stage.getProjectId());
-        return TaskModel.fromTask(roadmapService.createTask(stageId, dto.getStatus(), dto.getName(), dto.getDescription(), dto.getDeadlineAt()), null);
+
+        RoadmapTask task = roadmapService.createTask(
+                stageId, dto.getStatus(), dto.getName(), dto.getDescription(), dto.getDeadlineAt(), dto.getAttachment()
+        );
+
+        List<FileUpload> attachments = fileUploadService.getTaskAttachments(task.getId());
+        if (attachments == null || attachments.isEmpty())
+            return TaskModel.fromTask(task, null);
+
+        List<TaskAttachmentModel> models = attachments.stream().map(a -> TaskAttachmentModel.fromFileUpload(serverHost, a)).toList();
+        return TaskModel.fromTask(task, models);
     }
 
     @Operation(summary = "Get a roadmap task by ID", tags = "roadmap-api")
@@ -113,11 +126,11 @@ public class RoadmapApiController extends ApiControllerBase {
         RoadmapTask task = roadmapService.getTask(taskId);
         roadmapService.requireStageProjectMembership(userEmail, task.getStageId());
 
-        List<RoadmapTaskAttachment> attachments = roadmapService.getTaskAttachments(task.getId());
+        List<FileUpload> attachments = fileUploadService.getTaskAttachments(task.getId());
         if (attachments == null || attachments.isEmpty())
             return TaskModel.fromTask(task, null);
 
-        List<TaskAttachmentModel> models = attachments.stream().map(a -> TaskAttachmentModel.fromAttachment(serverHost, a)).toList();
+        List<TaskAttachmentModel> models = attachments.stream().map(a -> TaskAttachmentModel.fromFileUpload(serverHost, a)).toList();
         return TaskModel.fromTask(task, models);
     }
 
@@ -132,11 +145,11 @@ public class RoadmapApiController extends ApiControllerBase {
             return ResponseEntity.noContent().build();
 
         return ResponseEntity.ok(PageableCollection.fromPage(rawPage, task -> {
-            List<RoadmapTaskAttachment> attachments = roadmapService.getTaskAttachments(task.getId());
+            List<FileUpload> attachments = fileUploadService.getTaskAttachments(task.getId());
             if (attachments == null || attachments.isEmpty())
                 return TaskModel.fromTask(task, null);
 
-            List<TaskAttachmentModel> models = attachments.stream().map(a -> TaskAttachmentModel.fromAttachment(serverHost, a)).toList();
+            List<TaskAttachmentModel> models = attachments.stream().map(a -> TaskAttachmentModel.fromFileUpload(serverHost, a)).toList();
             return TaskModel.fromTask(task, models);
         }));
     }
@@ -144,11 +157,15 @@ public class RoadmapApiController extends ApiControllerBase {
     @Operation(summary = "Set a task data", tags = "roadmap-api")
     @PutMapping(value = "/task", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void putTaskData(@RequestParam("rmt_id") long taskId, @Valid PutTaskDataDto dto) throws ApiException {
+    public void putTaskData(@RequestParam("rmt_id") long taskId, @Valid TaskDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         RoadmapTask task = roadmapService.getTask(taskId);
         roadmapService.requireStageProjectMembership(userEmail, task.getStageId());
-        roadmapService.updateTaskData(task, dto.getStatus(), dto.getName(), dto.getDescription(), dto.getDeadlineAt(), dto.getAttachment());
+
+        roadmapService.updateTaskData(
+                task, dto.getStatus(), dto.getName(), dto.getDescription(), dto.getDeadlineAt(), dto.getAttachment(),
+                fileUploadService::deleteUploadedFiles
+        );
     }
 
     @Operation(summary = "Delete a task", tags = "roadmap-api")
@@ -165,9 +182,12 @@ public class RoadmapApiController extends ApiControllerBase {
     @GetMapping("/task/attachment")
     public TaskAttachmentModel getTaskAttachment(@RequestParam("rmta_id") UUID attachmentId) throws ApiException {
         String userEmail = requireUserExistance(userService);
+        FileUpload fileUpload = fileUploadService.getFileUpload(attachmentId);
+
         RoadmapTaskAttachment attachment = roadmapService.getTaskAttachment(attachmentId);
         roadmapService.requireTaskProjectMembership(userEmail, attachment.getTaskId());
-        return TaskAttachmentModel.fromAttachment(serverHost, attachment);
+
+        return TaskAttachmentModel.fromFileUpload(serverHost, fileUpload);
     }
 
     @Operation(summary = "Get a list of roadmap task attachments", tags = "roadmap-api")
@@ -176,12 +196,12 @@ public class RoadmapApiController extends ApiControllerBase {
         String userEmail = requireUserExistance(userService);
         roadmapService.requireTaskProjectMembership(userEmail, taskId);
 
-        List<RoadmapTaskAttachment> attachments = roadmapService.getTaskAttachments(taskId);
+        List<FileUpload> attachments = fileUploadService.getTaskAttachments(taskId);
         if (attachments.isEmpty())
             return ResponseEntity.noContent().build();
 
         List<TaskAttachmentModel> models = attachments.stream()
-                .map(a -> TaskAttachmentModel.fromAttachment(serverHost, a))
+                .map(a -> TaskAttachmentModel.fromFileUpload(serverHost, a))
                 .toList();
 
         return ResponseEntity.ok(models);
@@ -189,12 +209,12 @@ public class RoadmapApiController extends ApiControllerBase {
 
     @Operation(summary = "Upload a task attachment", tags = "roadmap-api")
     @PostMapping(value = "/task/attachment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public TaskAttachmentModel uploadTaskAttachment(@RequestParam("rmt_id") long taskId, MultipartFile file) throws ApiException {
+    public TaskAttachmentModel uploadTaskAttachment(@RequestParam("rms_id") long stageId, MultipartFile file) throws ApiException {
         String userEmail = requireUserExistance(userService);
-        roadmapService.requireTaskProjectMembership(userEmail, taskId);
+        roadmapService.requireStageProjectMembership(userEmail, stageId);
 
-        RoadmapTaskAttachment attachment = roadmapService.createTaskAttachment(taskId, file);
-        return TaskAttachmentModel.fromAttachment(serverHost, attachment);
+        FileUpload fileUpload = fileUploadService.saveFile(file);
+        return TaskAttachmentModel.fromFileUpload(serverHost, fileUpload);
     }
 
 }

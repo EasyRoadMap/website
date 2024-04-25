@@ -57,7 +57,7 @@ public final class InvitationService {
 
         UUID workspaceId = invitation.getWorkspaceId();
         if (!workspaceRepository.existsById(workspaceId))
-            throw new ApiException("workspace_not_found", "The invitation targeted workspace isn't exist");
+            throw new ApiException("workspace_not_found", "The invitation targeted workspace doesn't exists");
 
         if (invitation.isExpired())
             throw new ApiException("invitation_expired", "The invitation is expired");
@@ -80,7 +80,7 @@ public final class InvitationService {
     private WorkspaceInvitation requireValidInvitation(String userEmail, UUID invitationId) throws ApiException {
         WorkspaceInvitation invitation = workspaceInvitationRepository.findById(invitationId).orElseThrow(() -> new ApiException(
                 "invitation_not_found",
-                "An invitation with this ID isn't exist"
+                "An invitation with this ID doesn't exists"
         ));
 
         if (!invitation.getInvitedUserEmail().equals(userEmail))
@@ -88,7 +88,7 @@ public final class InvitationService {
 
         UUID workspaceId = invitation.getWorkspaceId();
         if (!workspaceRepository.existsById(workspaceId))
-            throw new ApiException("workspace_not_found", "The invitation targeted workspace isn't exist");
+            throw new ApiException("workspace_not_found", "The invitation targeted workspace doesn't exists");
 
         if (invitation.isExpired())
             throw new ApiException("invitation_expired", "The invitation is expired");

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class PutProjectLinksDto {
+public final class ProjectLinksDto {
 
     @Size(max = 3)
     private String[] name;

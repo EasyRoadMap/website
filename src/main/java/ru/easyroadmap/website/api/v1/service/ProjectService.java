@@ -2,7 +2,7 @@ package ru.easyroadmap.website.api.v1.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.easyroadmap.website.api.v1.dto.project.PutProjectLinksDto.LinkFacade;
+import ru.easyroadmap.website.api.v1.dto.project.ProjectLinksDto.LinkFacade;
 import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.storage.model.project.Project;
 import ru.easyroadmap.website.storage.model.project.ProjectLink;

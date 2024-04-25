@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
-import ru.easyroadmap.website.api.v1.dto.user.SetUserNameDto;
+import ru.easyroadmap.website.api.v1.dto.user.UserDataDto;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
 import ru.easyroadmap.website.api.v1.model.UserModel;
 import ru.easyroadmap.website.api.v1.model.project.ProjectModel;
@@ -54,7 +54,7 @@ public class UserApiController extends ApiControllerBase {
     @Operation(summary = "Set name for current user", tags = "user-api")
     @PatchMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void setUserName(@Valid SetUserNameDto dto) throws ApiException {
+    public void setUserName(@Valid UserDataDto dto) throws ApiException {
         User user = getCurrentUser(userService);
         userService.updateUserName(user, dto.getName());
     }
