@@ -376,3 +376,7 @@
     opacity: 0.3;
   }
 }
+.accentChoice {
+    display: flex;
+    gap: 12px;
+}
