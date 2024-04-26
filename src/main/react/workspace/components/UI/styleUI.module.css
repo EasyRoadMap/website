@@ -296,6 +296,7 @@
 }
 .inputLink {
   background-color: transparent;
+  color: var(--text-color);
   border-width: 1.5px;
   border-style: solid;
   border-color: var(--switch-hover-color);
@@ -337,6 +338,7 @@
 }
 .inputLinkTitle {
   background-color: transparent;
+  color: var(--text-color);
   border-width: 1.5px;
   border-style: solid;
   border-color: var(--switch-hover-color);
@@ -377,6 +379,6 @@
   }
 }
 .accentChoice {
-    display: flex;
-    gap: 12px;
+  display: flex;
+  gap: 12px;
 }

@@ -41,6 +41,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding-left: 36px;
+  padding-right: 36px;
 }
 
 .description {
@@ -100,22 +102,73 @@
 
 .completedTask {
   background-color: rgba(153, 229, 80, 0.2);
+  color: var(--color-task-done);
+}
+.completedTask:hover {
+  background-color: var(--bg-color-task), rgba(153, 229, 80, 0.2);
+  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
+    linear-gradient(rgba(153, 229, 80, 0.2), rgba(153, 229, 80, 0.2));
+  color: var(--color-task-done);
+}
+.completedTask:active {
+  opacity: 0.75;
+  background-color: var(--bg-color-task), rgba(153, 229, 80, 0.2);
+  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
+    linear-gradient(rgba(153, 229, 80, 0.2), rgba(153, 229, 80, 0.2));
+  color: var(--color-task-done);
 }
 .inProgressTask {
   background-color: rgb(244, 228, 86, 0.2);
+  color: var(--color-task-progress);
+}
+.inProgressTask:hover {
+  background-color: var(--bg-color-task), rgb(244, 228, 86, 0.2);
+  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
+    linear-gradient(rgb(244, 228, 86, 0.2), rgb(244, 228, 86, 0.2));
+  color: var(--color-task-done);
+  color: var(--color-task-progress);
+}
+.inProgressTask:active {
+  opacity: 0.75;
+  background-color: var(--bg-color-task), rgb(244, 228, 86, 0.2);
+  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
+    linear-gradient(rgb(244, 228, 86, 0.2), rgb(244, 228, 86, 0.2));
+  color: var(--color-task-done);
+  color: var(--color-task-progress);
 }
 .plannedTask {
   background-color: rgb(169, 173, 179, 0.2);
+  color: var(--color-task-planned);
 }
+.plannedTask:hover {
+  background-color: var(--bg-color-task), rgb(169, 173, 179, 0.2);
+  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
+    linear-gradient(rrgb(169, 173, 179, 0.2), rgb(169, 173, 179, 0.2));
+  color: var(--color-task-done);
+  color: var(--color-task-planned);
+}
+.plannedTask:active {
+  opacity: 0.75;
+  background-color: var(--bg-color-task), rgb(169, 173, 179, 0.2);
+  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
+    linear-gradient(rrgb(169, 173, 179, 0.2), rgb(169, 173, 179, 0.2));
+  color: var(--color-task-done);
+  color: var(--color-task-planned);
+}
+
 .statusCheckboxItemActive {
   border: 1.5px solid var(--accent-color);
   cursor: pointer;
   .statusCheckboxCheck {
     opacity: 1;
+    width: 20px;
+    height: 20px;
   }
 }
 .statusCheckboxCheck {
   opacity: 0;
+  width: 0px;
+  height: 0px;
 }
 .statusCheckboxItem {
   display: flex;
@@ -126,8 +179,14 @@
   padding-bottom: 6px;
   padding-right: 12px;
   border-radius: 20px;
-  max-width: 232px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
+  font-size: 16px;
+  font-weight: normal;
   height: 36px;
+  max-width: 232px;
+  min-width: 196px;
   gap: 12px;
   cursor: pointer;
 }
@@ -202,4 +261,80 @@
   color: var(--title-input-color);
   font-size: 16px;
   font-weight: normal;
+}
+
+.UserAvatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
+}
+.containerInfoUser {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.descriptionUser {
+  color: var(--foreground-color50);
+  font-size: 14px;
+  font-weight: normal;
+}
+.containerWithUser {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-left: 36px;
+  padding-right: 36px;
+}
+.containerWithInputUser {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.participantAvatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
+}
+.participantCard {
+  display: flex;
+  padding-left: 36px;
+  padding-right: 36px;
+  justify-content: center;
+}
+.participantCardWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 340px;
+  background-color: var(--bg-workspace-button-focus);
+  border-radius: 15px;
+  padding: 6px;
+}
+.participantCardTextWrapper {
+  display: flex;
+  flex-direction: column;
+}
+.participantCardTitle {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+.participantCardPosition {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+}
+.containerInput {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-left: 36px;
+  padding-right: 36px;
 }

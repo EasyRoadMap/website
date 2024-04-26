@@ -68,9 +68,11 @@
 }
 .checkboxWrapperPrivatePolicy {
   width: calc(100vw - 40px);
-  max-width: 420px;
+  width: 100%;
   display: flex;
   align-items: center;
+  padding-left: 36px;
+  padding-right: 36px;
 }
 
 .label {

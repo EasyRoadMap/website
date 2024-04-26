@@ -13,8 +13,11 @@ const CreateStagePopup = ({ close }) => {
   };
   return (
     <>
-      <h1 className={styles.title}>Создать этап</h1>
-      <div className={styles.description}>Создайте новый этап</div>
+      <div className={styles.containerWithGaps}>
+        <h1 className={styles.title}>Создать этап</h1>
+        <div className={styles.description}>Создайте новый этап</div>
+      </div>
+
       <div className={styles.containerWithGaps}>
         <Input
           data={name}

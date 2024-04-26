@@ -45,6 +45,10 @@ color-4 - для бокового меню
   --bg-task-done-roadmap-active: #6ed344;
   --bg-task-progress-roadmap-active: #facf36;
   --bg-task-planned-roadmap-active: #878a8f;
+  --color-task-done: #61843f;
+  --color-task-progress: #7a722b;
+  --color-task-planned: #55575a;
+  --bg-color-task: rgba(255, 255, 255, 0.2);
   /* color-2 в виде r, g, b */
   --bg-color-project-rgb: 246, 247, 248;
 }
@@ -88,6 +92,10 @@ color-4 - для бокового меню
   --bg-task-done-roadmap-active: #6ed344;
   --bg-task-progress-roadmap-active: #facf36;
   --bg-task-planned-roadmap-active: #878a8f;
+  --color-task-done: #61843f;
+  --color-task-progress: #7a722b;
+  --color-task-planned: #55575a;
+  --bg-color-task: rgba(255, 255, 255, 0.2);
 
   /* color-2 в виде r, g, b */
   --bg-color-project-rgb: 246, 247, 248;
@@ -132,6 +140,10 @@ color-4 - для бокового меню
   --bg-task-done-roadmap-active: #6ed344;
   --bg-task-progress-roadmap-active: #facf36;
   --bg-task-planned-roadmap-active: #878a8f;
+  --color-task-done: #ccf2a7;
+  --color-task-progress: #f9f1aa;
+  --color-task-planned: #d4d6d9;
+  --bg-color-task: rgba(0, 0, 0, 0.2);
   /* color-2 в виде r, g, b */
   --bg-color-project-rgb: 21, 23, 27;
 }

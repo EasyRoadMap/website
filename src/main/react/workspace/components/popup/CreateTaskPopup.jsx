@@ -12,7 +12,6 @@ const CreateTaskPopup = ({ close }) => {
   const [status, setStatus] = useState("");
   const [deadline, setDeadline] = useState("");
 
-  
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create")
       return;
@@ -32,20 +31,30 @@ const CreateTaskPopup = ({ close }) => {
         Создайте задачу, покажите прогресс вашей работы пользователям.
       </div>
       <div className={styles.containerWithGaps}>
-        <Input placeholder="Введите название" typeOfInput="nameTask" data={name} setData={setName}/>
-        <Input placeholder="Введите описание" typeOfInput="descriptionTask" data={description} setData={setDescription}/>
+        <Input
+          placeholder="Введите название"
+          typeOfInput="nameTask"
+          data={name}
+          setData={setName}
+        />
+        <Input
+          placeholder="Введите описание"
+          typeOfInput="descriptionTask"
+          data={description}
+          setData={setDescription}
+        />
       </div>
       <div className={styles.containerWithGaps}>
         <div className={styles.description}>
           Выберите статус разработки задачи.
         </div>
-        <StatusCheckbox status={status} setStatus={setStatus}/>
+        <StatusCheckbox status={status} setStatus={setStatus} />
       </div>
       <div className={styles.containerWithGaps}>
         <div className={styles.description}>
           По желанию можете указать дату создания задачи.
         </div>
-        <InputDate typeDate={"deadlineDate"}/>
+        <InputDate typeDate={"deadlineDate"} />
       </div>
       <div className={styles.containerWithGaps}>
         <div className={styles.description}>

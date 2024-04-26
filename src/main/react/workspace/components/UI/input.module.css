@@ -91,7 +91,7 @@
   color: var(--title-input-color);
 }
 .inputWithContent {
-  color: #404040;
+  color: var(--text-color);
 }
 
 .error {

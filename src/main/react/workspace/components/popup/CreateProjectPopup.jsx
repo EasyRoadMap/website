@@ -18,7 +18,9 @@ const CreateProjectPopup = ({ close }) => {
     <>
       <div className={styles.containerWithGaps}>
         <h1 className={styles.title}>Создать проект</h1>
-        <div className={styles.description}>Создайте новый проект</div>
+        <div className={styles.description}>
+          Создайте новый проект и начинайте работу.
+        </div>
       </div>
 
       <div className={styles.containerWithGaps}>

@@ -107,6 +107,22 @@
     fill: var(--accent-color);
   }
 }
+.eyeSVG {
+  path {
+    stroke: var(--text-color);
+  }
+  .eyeSVGCircle {
+    fill: var(--text-color);
+  }
+}
+.eyeOffSVG {
+  .eyeOffSVGFill {
+    fill: var(--text-color);
+  }
+  .eyeOffSVGStroke {
+    stroke: var(--text-color);
+  }
+}
 
 /* Состояние кружков в родмапе */
 .taskRoadmapDoneSVG {
