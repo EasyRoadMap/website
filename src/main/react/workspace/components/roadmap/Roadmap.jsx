@@ -2,6 +2,11 @@ import RoadmapGraph from "./RoadmapGraph.jsx";
 import RoadmapPagination from "./RoadmapPagination.jsx";
 import TasksList from "./TasksList.jsx";
 import styles from "./styles.module.css";
+import { useEffect } from "react";
+
+import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
+import useRoadmapContext from "../../hooks/useRoadmapContext.js";
+import useProjectContext from "../../hooks/useProjectContext.js"
 
 const tasks = [
     {
@@ -38,18 +43,35 @@ const stages = [
 ]
 
 const Roadmap = () => {
+    const { getStages, getTasks } = useRoadmapInfo();
+    const { projectId } = useProjectContext();
+    const { roadmapContext, chosenStage } = useRoadmapContext();
+
+    useEffect(() => {
+        console.log("DAMN");
+        console.log(projectId);
+        if (projectId) {
+        getStages(projectId);
+        }
+    }, [projectId]);
+
+    useEffect(() => {
+        getTasks(chosenStage);
+    }, [chosenStage]);
+
     return (
         <section className={styles.section} id="roadmap">
             <h1 className={styles.title}>
                 Дорожная карта
             </h1>
             <div className={styles.graphWrapper}>
-                <RoadmapGraph stages={stages}/>
+                <RoadmapGraph stages={roadmapContext?.stages}/>
                 {/* <RoadmapPagination /> */}
             </div>
+            {chosenStage && 
             <div className={styles.tasksListWrapper}>
-                <TasksList tasks={tasks}/>
-            </div>
+                <TasksList tasks={roadmapContext?.tasks}/>
+            </div>}
         </section>
     );
 }

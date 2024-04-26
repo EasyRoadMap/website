@@ -14,6 +14,7 @@ import { usePopupManager } from "react-popup-manager";
 import Popup from "../components/popup/Popup.jsx";
 import DeleteProjectPopup from "../components/popup/DeleteProjectPopup.jsx";
 
+import { RoadmapProvider } from "../context/RoadmapContextProvider.js";
 
 const Project = () => {
   const { projectContext } = useProjectContext();
@@ -59,10 +60,12 @@ const Project = () => {
 
   return (
     <Base>
-      <ProjectMainInfo />
-      <Participants participants={projectContext?.users} type="project" />
-      <Roadmap />
-      <DeleteBlock typeButton="deleteProject" callback={openDeleteProjectPopup} />
+      <RoadmapProvider>
+        <ProjectMainInfo />
+        <Participants participants={projectContext?.users} type="project" />
+        <Roadmap />
+        <DeleteBlock typeButton="deleteProject" callback={openDeleteProjectPopup} />
+      </RoadmapProvider>
     </Base>
   );
 };

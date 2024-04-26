@@ -4,12 +4,26 @@ import StatusCheckbox from "./StatusCheckbox.jsx";
 import AddFilesField from "./AddFilesField.jsx";
 import Input from "../UI/Input.jsx";
 import InputDate from "../UI/InputDate.jsx";
+import { useState } from "react";
 
 const CreateTaskPopup = ({ close }) => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("");
+  const [deadline, setDeadline] = useState("");
+
+  
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create")
       return;
-    close(nameButtonClicked);
+    close({
+      button: nameButtonClicked,
+      name: name,
+      description: description,
+      status: status,
+      deadline: deadline,
+      attachment: null,
+    });
   };
   return (
     <>
@@ -18,20 +32,20 @@ const CreateTaskPopup = ({ close }) => {
         Создайте задачу, покажите прогресс вашей работы пользователям.
       </div>
       <div className={styles.containerWithGaps}>
-        <Input placeholder="Введите название" typeOfInput="nameTask" />
-        <Input placeholder="Введите описание" typeOfInput="descriptionTask" />
+        <Input placeholder="Введите название" typeOfInput="nameTask" data={name} setData={setName}/>
+        <Input placeholder="Введите описание" typeOfInput="descriptionTask" data={description} setData={setDescription}/>
       </div>
       <div className={styles.containerWithGaps}>
         <div className={styles.description}>
           Выберите статус разработки задачи.
         </div>
-        <StatusCheckbox />
+        <StatusCheckbox status={status} setStatus={setStatus}/>
       </div>
       <div className={styles.containerWithGaps}>
         <div className={styles.description}>
           По желанию можете указать дату создания задачи.
         </div>
-        <InputDate />
+        <InputDate typeDate={"deadlineDate"}/>
       </div>
       <div className={styles.containerWithGaps}>
         <div className={styles.description}>

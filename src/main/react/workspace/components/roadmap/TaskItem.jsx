@@ -7,26 +7,26 @@ import TaskActionsButton from "./TaskActionsButton.jsx";
 
 const completionIcons = {
   done: TaskCompletedSVG,
-  progress: TaskInProgressSVG,
+  in_progress: TaskInProgressSVG,
   planned: TaskInPlannedSVG,
 };
 
 // TODO: change colors
 const completionColors = {
   done: "var(--bg-task-complete)",
-  progress: "var(--bg-task-in-progress)",
+  in_progress: "var(--bg-task-in-progress)",
   planned: "var(--bg-task-in-planned)",
 };
 
 const TaskItem = ({ task }) => {
-  const IconTaskComplete = completionIcons[task?.completion];
+  const IconTaskComplete = completionIcons[task?.status];
   console.log("task");
   console.log(task);
 
   return (
     <div
       className={styles.taskField}
-      style={{ backgroundColor: completionColors[task?.completion] }}
+      style={{ backgroundColor: completionColors[task?.status] }}
     >
       <img src="" alt="" />
       <div className={styles.taskFieldsWrapper}>
@@ -35,12 +35,12 @@ const TaskItem = ({ task }) => {
             <div className={styles.taskName}>{task?.name}</div>
             <div className={styles.taskDate}>
               <CalendarSVG className={styles.calendarSVG} />
-              <span className={styles.taskDateText}>{task?.date}</span>
+              <span className={styles.taskDateText}>{task?.deadline_at}</span>
             </div>
           </div>
           <div className={styles.taskDescription}>{task?.description}</div>
           <div className={styles.taskParticipantsAvatars}>
-            {task?.participantsAvatars?.map((participantAvatar, i) => {
+            {task?.attachments?.map((participantAvatar, i) => {
               return (
                 <img
                   src={participantAvatar}

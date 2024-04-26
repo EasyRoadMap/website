@@ -3,11 +3,14 @@ import TaskRoadmapSVG from "../../../assets/TaskRoadmapSVG.jsx";
 import AddTaskRoadmapSVG from "../../../assets/addTaskRoadmapSVG.jsx";
 import MoveRoadMap from "../../../assets/moveRoadMap.jsx";
 
+import useProjectContext from "../../hooks/useProjectContext.js";
+import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
 import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
-import CreateTaskPopup from "../popup/CreateTaskPopup.jsx";
-import { useRef, useState, useEffect } from "react";
+import CreateStagePopup from "../popup/CreateStage.jsx";
+import { useRef, useState, useEffect, useCallback } from "react";
 import RoadmapPagination from "./RoadmapPagination.jsx";
+import useRoadmapContext from "../../hooks/useRoadmapContext.js";
 
 const pixelsToInt = (pixelValue) => {
   return parseInt(pixelValue.slice(0, pixelValue.length - 2));
@@ -23,56 +26,91 @@ const getBloksVisibility = (blocks, viewport) => {
   blocks.forEach((container) => {
     blocksVisible.push(isBlockVisible(container, viewport));
   });
-  return blocksVisible.slice(1, blocksVisible.length);
+  console.log("till the end");
+  console.log(blocksVisible);
+  return blocksVisible.slice(0, blocksVisible.length-1);
 };
 
+const getStatusByProgress = (progress) => {
+  if (progress === 0) return "planned";
+  if (progress === 1) return "done";
+  return "progress";
+} 
+
 const RoadmapGraph = ({ stages }) => {
-  const stageContainer = useRef([]);
+  // const stageContainer = useRef([]);
+  const [stageContainer, setStageContainer] = useState([]);
   const stageWrapper = useRef(null);
   const [blocksVisibility, setBlocksVisibility] = useState([]);
 
+  const { projectId } = useProjectContext();
+  const { CreateStage } = useRoadmapInfo();
+
+  const { chosenStage, setChosenStage } = useRoadmapContext();
+
   const popupManager = usePopupManager();
-  const openCreateTaskPopup = () => {
+  const openCreateStagePopup = () => {
     popupManager.open(Popup, {
-      popup: { component: CreateTaskPopup },
-      onClose: (...params) =>
-        console.log("RemoveParticipantPopup has closed with:", ...params),
+      popup: { component: CreateStagePopup },
+      onClose: (...params) => {
+        if (params?.[0].button === 'create' && params?.[0].name && projectId) {
+          CreateStage(projectId, params?.[0].name);
+        }
+      }
     });
   };
 
   useEffect(() => {
+    console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP on use effect");
     setBlocksVisibility(
-      getBloksVisibility(stageContainer.current, stageWrapper.current)
+      getBloksVisibility(stageContainer, stageWrapper.current)
     );
-    console.log("asdasd");
   }, [stageContainer, stageWrapper]);
 
+  const measuredRef = useCallback(node => {
+    if (node !== null) {
+      setStageContainer((prev) => ([node, ...prev]));
+    }
+  }, []);
+
+  const openStage = (stage_id) => {
+    setChosenStage(stage_id);
+  }
+
   const moveGraph = (direction) => {
-    if (stageContainer.current?.length < 1 || !stageWrapper.current) return;
+    console.log("WOW");
+    console.log(stageContainer);
+    if (stageContainer?.length < 1 || !stageWrapper.current) return;
 
     const sign = direction === "right" ? 1 : -1;
 
     if (
-      pixelsToInt(stageContainer.current[0].style.right) >= 40 &&
+      pixelsToInt(stageContainer[stageContainer.length-1].style.right) >= 40 &&
       direction === "right"
     ) {
-      stageContainer.current[0].style.right = "40px";
+      stageContainer[stageContainer.length-1].style.right = "40px";
       return;
     }
+
+    console.log("WELL");
+    console.log(stageContainer);
     if (
-      pixelsToInt(stageContainer.current[1].style.right) <=
+      pixelsToInt(stageContainer[0].style.right) <=
         stageWrapper.current.offsetWidth -
-          stageContainer.current[1].offsetWidth &&
+          stageContainer[0].offsetWidth &&
       direction === "left"
     ) {
       return;
     }
-    stageContainer.current.forEach((container) => {
+
+    console.log("DAMN");
+    stageContainer.forEach((container) => {
+      console.log("FOREACH");
       const right = pixelsToInt(container.style.right);
       container.style.right = right + sign * 500 + "px";
     });
     setBlocksVisibility(
-      getBloksVisibility(stageContainer.current, stageWrapper.current)
+      getBloksVisibility(stageContainer, stageWrapper.current)
     );
   };
 
@@ -85,17 +123,20 @@ const RoadmapGraph = ({ stages }) => {
           <div
             className={styles.graphStage}
             style={{ top: "180px", right: "40px" }}
-            ref={(element) => (stageContainer.current[0] = element)}
+            // ref={(element) => (stageContainer.current[0] = element)}
+            ref={measuredRef}
           >
             <div className={styles.graphBranchLine}></div>
-            <div className={styles.graphCircle} onClick={openCreateTaskPopup}>
+            <div className={styles.graphCircle} onClick={openCreateStagePopup}>
               <AddTaskRoadmapSVG />
             </div>{" "}
             {/* with some specified color by stage.status */}
           </div>
-          {stages.map((stage, i) => {
-            const position = (stages.length - i - 1) % 2;
-            const marginRight = 40 + 100 * (stages.length - i);
+          {(stages && stages?.length > 0) && stages.map((stage, i) => {
+            // const position = (stages.length - i - 1) % 2;
+            // const marginRight = 40 + 100 * (stages.length - i);
+            const position = (stage.id - 1) % 2;
+            const marginRight = 40 + 100 * (stage.id);
             return (
               <div
                 className={styles.graphStage}
@@ -103,14 +144,17 @@ const RoadmapGraph = ({ stages }) => {
                   top: 180 * position + "px",
                   right: marginRight + "px",
                 }}
+                onClick={() => openStage(stage.id)}
                 key={i}
-                ref={(element) => (stageContainer.current[i + 1] = element)}
+                // ref={(element) => (stageContainer.current[i + 1] = element)}
+                ref={measuredRef}
+
               >
                 {position === 1 && (
                   <div className={styles.graphBranchLine}></div>
                 )}
                 <div className={styles.graphCircle}>
-                  <TaskRoadmapSVG />
+                  <TaskRoadmapSVG status={getStatusByProgress(stage.progress)} isActive={chosenStage === stage.id} />
                 </div>
                 {/* with some specified color by stage.status */}
                 <input

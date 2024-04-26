@@ -8,21 +8,19 @@ import { getMembers } from "../api/project-api/getMembers.js";
 
 export const useProjectInfo = () => {
     const [project, setProject] = useState({});
-    const { projectContext, setProjectContext } = useProjectContext();
+    const { projectContext, setProjectContext, setProjectId } = useProjectContext();
 
     const { Projects } = useWorkspaceInfo();
 
     useEffect(() => {
-        console.log("KKKKKK");
-        console.log(projectContext);
-        console.log(setProjectContext);
+        if (project?.id) {
+            setProjectId(project.id);
+        }
         setProjectContext((prev) => ({...prev, ...project}));
     }, [project]);
 
     const Project = (pr_id) => {
         getProject(pr_id).then((response) => {
-            console.log("response Project");
-            console.log(response);
             setProject((prev) => ({...prev, ...response.data}));
         }).catch((e) => {
             console.log("response error");

@@ -5,9 +5,10 @@ const RoadmapContext = createContext({});
 
 export const RoadmapProvider = ({ children }) => {
     const [roadmapContext, setRoadmapContext] = useState({});
+    const [chosenStage, setChosenStage] = useState(null);
 
     return (
-        <RoadmapContext.Provider value={{ roadmapContext, setRoadmapContext }}>
+        <RoadmapContext.Provider value={{ roadmapContext, setRoadmapContext, chosenStage, setChosenStage }}>
             {children}
         </RoadmapContext.Provider>
     );

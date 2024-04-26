@@ -1,10 +1,42 @@
 import styles from "./styles.module.css";
 import TaskItem from "./TaskItem.jsx";
 import Button from "../UI/Button.jsx";
+import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
+import useRoadmapContext from "../../hooks/useRoadmapContext.js";
+
+import { usePopupManager } from "react-popup-manager";
+import Popup from "../popup/Popup.jsx";
+import CreateTaskPopup from "../popup/CreateTaskPopup.jsx";
+
+const statusToInt = {
+  "in_progress": 0,
+  "planned": 1,
+  "done": 2
+}
 
 const TasksList = ({ tasks }) => {
-  console.log("tasksList");
-  console.log(tasks);
+  const { CreateTask } = useRoadmapInfo();
+  const { chosenStage } = useRoadmapContext();
+
+  const popupManager = usePopupManager();
+
+  const onCloseCreateTaskPopup = (...params) => {
+    console.log(params?.[0]);
+    if (params?.[0]?.button === "create" && chosenStage && params?.[0]?.status && params?.[0]?.name) {
+      console.log("ok");
+      CreateTask(chosenStage, statusToInt[params?.[0]?.status], params?.[0]?.name, params?.[0]?.description, params?.[0]?.deadline, params?.[0]?.attachment)
+    }
+  }
+
+  const openCreateTaskPopup = () => {
+    popupManager.open(Popup, {
+      popup: {
+        component: CreateTaskPopup
+      },
+      onClose: onCloseCreateTaskPopup,
+    });
+  };
+
   return (
     <section className={styles.tasksList}>
       <div className={styles.tasksListTitleWrapper}>
@@ -12,7 +44,7 @@ const TasksList = ({ tasks }) => {
         <Button
           text="Добавить задачу"
           type="outlineAccent"
-          callback={() => {}}
+          callback={openCreateTaskPopup}
           style={{
             width: "142px",
             height: "30px",
@@ -22,7 +54,7 @@ const TasksList = ({ tasks }) => {
           }}
         />
       </div>
-      {tasks.map((task, i) => {
+      {tasks && tasks.map((task, i) => {
         return (
           <div className={styles.task}>
             <TaskItem task={task} key={i} />

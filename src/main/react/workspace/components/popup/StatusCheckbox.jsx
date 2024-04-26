@@ -5,31 +5,31 @@ import TaskInProgressSVG from "../../../assets/taskInProgress.jsx";
 import TaskInPlannedSVG from "../../../assets/taskInPlanned.jsx";
 
 const types = {
-  Completed: {
+  completed: {
     name: "Выполнена",
     icon: TaskCompletedSVG,
     className: "completedTask",
   },
-  Progress: {
+  progress: {
     name: "В процессе",
     icon: TaskInProgressSVG,
     className: "inProgressTask",
   },
-  Planned: {
+  planned: {
     name: "Запланировано",
     icon: TaskInPlannedSVG,
     className: "plannedTask",
   },
 };
 
-const StatusCheckboxItem = ({ type }) => {
+const StatusCheckboxItem = ({ type, isActive, onClick }) => {
   const data = types[type];
   const IconComponent = data.icon;
   const itemClassName = `${styles.statusCheckboxItem} ${
     styles[data.className]
   }`;
   return (
-    <div className={itemClassName}>
+    <div className={isActive ? [itemClassName, styles.statusCheckboxItemActive].join(" ") : itemClassName} onClick={onClick}>
       <IconComponent className={styles.statusCheckboxIcon} />
       <span className={styles.statusCheckboxText}>{data.name}</span>
       {/* if chosen add icon */}
@@ -37,12 +37,13 @@ const StatusCheckboxItem = ({ type }) => {
   );
 };
 
-const StatusCheckbox = () => {
+const StatusCheckbox = ({ status, setStatus }) => {
+  // const [chosen, setChosen] = useState(null);
   return (
     <div className={styles.statusCheckbox}>
-      <StatusCheckboxItem type="Completed" />
-      <StatusCheckboxItem type="Progress" />
-      <StatusCheckboxItem type="Planned" />
+      <StatusCheckboxItem type="completed" isActive={status === 'done'} onClick={() => setStatus("done")}/>
+      <StatusCheckboxItem type="progress" isActive={status === 'in_progress'} onClick={() => setStatus("in_progress")}/>
+      <StatusCheckboxItem type="planned" isActive={status === 'planned'} onClick={() => setStatus("planned")}/>
     </div>
   );
 };

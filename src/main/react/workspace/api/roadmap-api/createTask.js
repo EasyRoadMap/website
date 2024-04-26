@@ -1,6 +1,6 @@
 import { XWWWPostQuery } from "../XWWWPostQuery";
 
-export const taskCreate = (rms_id, status, name, description, deadlineAt, attachment) => {
+export const createTask = (rms_id, status, name, description, deadlineAt, attachment) => {
     const URL = "/api/v1/roadmap/task/create";
 
     return XWWWPostQuery(URL, {

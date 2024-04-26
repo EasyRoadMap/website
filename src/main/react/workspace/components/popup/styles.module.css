@@ -107,7 +107,9 @@
 .plannedTask {
   background-color: rgb(169, 173, 179, 0.2);
 }
-
+.statusCheckboxItemActive {
+  border: 1px solid var(--accent-color);
+}
 .statusCheckboxItem {
   display: flex;
   flex-direction: row;

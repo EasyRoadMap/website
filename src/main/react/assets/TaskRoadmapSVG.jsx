@@ -1,4 +1,17 @@
 import styles from "./style.module.css";
+
+const className = {
+  "done": styles.taskRoadmapDoneSVG,
+  "progress": styles.taskRoadmapProgressSVG,
+  "planned": styles.taskRoadmapPlannedSVG,
+}
+
+const classNameActive = {
+  "done": styles.taskRoadmapDoneSVGActive,
+  "progress": styles.taskRoadmapProgressSVGActive,
+  "planned": styles.taskRoadmapPlannedSVGActive,
+}
+
 const TaskRoadmapSVG = (props) => (
   <svg
     width={132}
@@ -6,7 +19,7 @@ const TaskRoadmapSVG = (props) => (
     viewBox="0 0 132 130"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className={styles.taskRoadmapDoneSVG}
+    className={props.isActive ? [className[props.status], classNameActive[props.status]].join(" ") : className[props.status]}
     {...props}
   >
     <path
