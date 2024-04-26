@@ -59,7 +59,7 @@ public class SecurityConfig {
                         .requestMatchers("/legal/eula", "/legal/privacy").permitAll()
                         .requestMatchers("/docs/openapi", "/docs/swagger", "/docs/swagger-ui/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/workspace/**").permitAll()
+                        .requestMatchers("/workspace/**").authenticated()
                         .requestMatchers("/p/**").permitAll()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
@@ -74,7 +74,6 @@ public class SecurityConfig {
                         .loginProcessingUrl("/auth/sign-in")
                         .successHandler(authenticationHandler)
                         .failureHandler(authenticationHandler)
-                        .defaultSuccessUrl(authDefaultRedirectUrl)
                         .usernameParameter("email")
                         .passwordParameter("password"))
                 .rememberMe(rememberMe -> rememberMe
