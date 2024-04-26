@@ -1,5 +1,16 @@
 import styles from "./styles.module.css";
 import Button from "../UI/Button.jsx";
+import DeleteSVG from "../../../assets/deleteSVG.jsx";
+import KeySVG from "../../../assets/keySVG.jsx";
+
+const IconSVGPopup = {
+  changePassword: {
+    iconSVG: KeySVG,
+  },
+  deleteAccount: {
+    iconSVG: DeleteSVG,
+  },
+};
 
 const SettingsCard = ({
   icon,
@@ -9,10 +20,12 @@ const SettingsCard = ({
   buttonType,
   callback,
 }) => {
+  const dataIcon = IconSVGPopup[icon];
+  const IconComponent = dataIcon.iconSVG;
   return (
     <div className={styles.settingsCard}>
       <div className={styles.titleWrapper}>
-        <img src={icon} alt="" className={styles.titleIcon} />
+        <IconComponent className={styles.icon} />
         <h1 className={styles.titleText}>{name}</h1>
       </div>
       {descriptionComponent}

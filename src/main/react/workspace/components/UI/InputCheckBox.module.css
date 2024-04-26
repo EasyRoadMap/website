@@ -1,0 +1,76 @@
+.checkbox {
+  width: 32px;
+  height: 32px;
+}
+
+.checkbox + label {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: normal;
+  border-radius: 12px;
+}
+.checkbox:checked + label::before {
+  border-color: #0b76ef;
+  background-color: #0b76ef;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAyMCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEgNS42MTUzOEw3Ljg1NzE0IDEzTDE5IDEiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=");
+}
+.checkbox {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  cursor: pointer;
+}
+/* стили для чекбокса, находящегося в фокусе */
+.checkbox:focus + label::before {
+  opacity: 75%;
+  background-color: #0b76ef;
+}
+/* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+.checkbox:not(:checked):focus + label::before {
+  opacity: 75%;
+  background-color: rgba(0, 0, 0, 0.15);
+  background-image: none;
+}
+/* стили для активного состояния чекбокса (при нажатии на него) */
+.checkbox:not(:disabled):active + label::before {
+  opacity: 75%;
+  background-color: #0b76ef;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAyMCAxNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEgNS42MTUzOEw3Ljg1NzE0IDEzTDE5IDEiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=");
+}
+
+/* стили для чекбокса, находящегося в состоянии disabled */
+.checkbox:disabled + label::before {
+  opacity: 30%;
+}
+/* стили при наведении курсора на checkbox */
+.checkbox:not(:disabled):not(:checked):hover + label::before {
+  background-color: rgba(0, 0, 0, 0.15);
+  background-image: none;
+}
+.checkbox + label::before:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.checkbox + label::before {
+  content: "";
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  margin-right: 12px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% 50%;
+  cursor: pointer;
+}
+.checkboxWrapperPrivatePolicy {
+  width: calc(100vw - 40px);
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+}

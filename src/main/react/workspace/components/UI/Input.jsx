@@ -15,7 +15,7 @@ const autoCompleteName = {
   newPassword: "password",
   repeatedPassword: "off",
   position: "off",
-  date: "off"
+  date: "off",
 };
 
 const translation = {
@@ -25,11 +25,11 @@ const translation = {
   descriptionRegion: "Описание области",
   nameTask: "Название задачи",
   descriptionTask: "Описание задачи",
-  password: "Пароль",
+  password: "Текущий пароль",
   newPassword: "Новый пароль",
   repeatedPassword: "Повторите пароль",
   position: "Должность",
-  date: "Дата окончания"
+  date: "Дата окончания",
 };
 
 export default function Input({

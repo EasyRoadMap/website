@@ -35,7 +35,7 @@ const DropdownUser = ({ user, currentWorkspace, updateUser }) => {
     <div className={styles.userDropdown}>
       <img src={user?.photo?.url} alt="" className={avatarClassName} />
       <div className={styles.userInfoWrapper}>
-        <div>
+        <div className={styles.userInfo}>
           <h1 className={styles.userName}>{user.name ? user.name : ""}</h1>
           <div className={styles.userEmail}>{user.email}</div>
         </div>
@@ -44,7 +44,7 @@ const DropdownUser = ({ user, currentWorkspace, updateUser }) => {
           type="outlineSecondary"
           className={styles.userButton}
           callback={openUpdateProfilePopup}
-          style={{ width: "100%", height: "40px" }}
+          style={{ width: "225px", height: "40px" }}
         />
       </div>
     </div>

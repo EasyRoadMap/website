@@ -199,7 +199,7 @@
 .userDropdown {
   display: flex;
   flex-direction: row;
-  gap: 43px;
+  justify-content: space-between;
 }
 .userInfoWrapper {
   display: flex;
@@ -210,10 +210,19 @@
   color: var(--text-color);
   font-size: 22px;
   font-weight: 500;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 }
 .userEmail {
-  width: 172px;
+  width: 100%;
   color: var(--foreground-color50);
   font-size: 16px;
   font-weight: normal;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+.userInfo {
+  width: 100%;
+  width: 225px;
 }

@@ -107,3 +107,55 @@
     fill: var(--accent-color);
   }
 }
+
+/* Состояние кружков в родмапе */
+.taskRoadmapDoneSVG {
+  .taskRoadmapSVG {
+    stroke: #99e550;
+  }
+  .taskRoadmapSVGFill {
+    fill: #99e550;
+  }
+}
+.taskRoadmapDoneSVGActive {
+  .taskRoadmapSVG {
+    stroke: var(--accent-color);
+  }
+  .taskRoadmapSVGFill {
+    fill: var(--accent-color);
+  }
+}
+
+.taskRoadmapProgressSVG {
+  .taskRoadmapSVG {
+    stroke: #f4e456;
+  }
+  .taskRoadmapSVGFill {
+    fill: #f4e456;
+  }
+}
+.taskRoadmapProgressSVGActive {
+  .taskRoadmapSVG {
+    stroke: var(--accent-color);
+  }
+  .taskRoadmapSVGFill {
+    fill: var(--accent-color);
+  }
+}
+
+.taskRoadmapPlannedSVG {
+  .taskRoadmapSVG {
+    stroke: #a9adb3;
+  }
+  .taskRoadmapSVGFill {
+    fill: #a9adb3;
+  }
+}
+.taskRoadmapPlannedSVGActive {
+  .taskRoadmapSVG {
+    stroke: var(--accent-color);
+  }
+  .taskRoadmapSVGFill {
+    fill: var(--accent-color);
+  }
+}
