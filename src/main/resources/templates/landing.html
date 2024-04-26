@@ -9,14 +9,21 @@
     <link rel="icon" type="image/png" sizes="64x64" th:href="@{/erm-web/image/favicon_64x64.png}">
     <link rel="icon" type="image/png" sizes="32x32" th:href="@{/erm-web/image/favicon_32x32.png}">
     <link rel="icon" type="image/png" sizes="16x16" th:href="@{/erm-web/image/favicon_16x16.png}">
+    <link rel="stylesheet" th:href="@{/erm-web/css/font.css}">
     <title>EasyRoadMap</title>
+
+    <style>
+        h1, p, input[type="submit"] {
+            font-family: "Golos Text", sans-serif;
+        }
+    </style>
 </head>
 <body style="display: flex; justify-content: center; margin: 0; height: 100%;">
     <div id="root" style="display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center;">
         <h1 style="margin: 0;" >Привет, мир!</h1>
-        <p style="margin: 0 0 12px; text-align: center;">Вы на лендинге, но его украли :)<br>Пока что можно только авторизоваться.</p>
-        <form th:action="@{/auth/sign-in}">
-            <input style="background: #0066FE; border: none; border-radius: 8px; color: WHITE; padding: 12px 24px; font-size: 16px; font-weight: 500;" type="submit" value="Войти в аккаунт" />
+        <p style="margin: 0 0 12px; text-align: center;">Вы на лендинге, но его украли :)<br>Давайте лучше посмотрим Личный кабинет!</p>
+        <form th:action="@{/workspace}">
+            <input style="background: #0066FE; border: none; border-radius: 8px; color: WHITE; padding: 12px 24px; font-size: 16px; font-weight: 500;" type="submit" value="Перейти в Личный кабинет" />
         </form>
     </div>
 </body>

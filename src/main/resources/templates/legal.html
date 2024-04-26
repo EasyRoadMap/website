@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" sizes="512x512" th:href="@{/erm-web/image/favicon_512x512.png}">
+    <link rel="icon" type="image/png" sizes="128x128" th:href="@{/erm-web/image/favicon_128x128.png}">
+    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/erm-web/image/favicon_64x64.png}">
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/erm-web/image/favicon_32x32.png}">
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/erm-web/image/favicon_16x16.png}">
+    <link rel="stylesheet" th:href="@{/erm-web/css/font.css}">
+    <title>EasyRoadMap - Правовая информация</title>
+
+    <style>
+        h1, p, a {
+            font-family: "Golos Text", sans-serif;
+        }
+    </style>
+</head>
+<body style="display: flex; justify-content: center; margin: 0; height: 100%;">
+    <div id="root" style="display: flex; flex-direction: column; gap: 24px; align-items: center; justify-content: center;">
+        <img class="logo" th:src="@{/erm-web/image/logo.svg}" alt="EasyRoadMap"/>
+        <div id="text" style="display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center;">
+            <h1 style="margin: 0; text-transform: uppercase;" th:text="${title}">Заголовок</h1>
+            <p style="margin: 0 0 12px; text-align: center;">
+                К сожалению, мы - всего лишь маленькая команда без юриста в составе :(<br>
+                Наверное, когда-нибудь здесь что-то будет...<br>
+                Например, что-то вот такое!
+            </p>
+            <a th:href="${easyx_url}" style="background: #0066FE; border: none; border-radius: 8px; color: WHITE; padding: 12px 24px; font-size: 16px; font-weight: 500; text-decoration: none;" th:text="${easyx_ref_name}">Button</a>
+        </div>
+    </div>
+</body>
+</html>
