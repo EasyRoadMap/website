@@ -4,6 +4,7 @@ import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 import { initProject } from "../../hooks/InitProject.js";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 import useProjectContext from "../../hooks/useProjectContext.js"; 
+import { useProjectInfo } from "../../hooks/useProject.jsx";
 
 const getBlock = (blocks, toBlock) => {
   let block = null;
@@ -29,19 +30,13 @@ const handleScrollTo = (blocks, toBlock) => {
   window.location.hash = "#" + toBlock;
 };
 
-const SidebarProjectButton = ({ project, blocks, places }) => {
+const SidebarProjectButton = ({ project, chosen, blocks, places }) => {
   const placesList = Object.values(places);
   const navigate = useNavigate();
 
   const { workspaceContext } = useWorkspaceContext();
-  const { projectContext, Project, Members } = useProjectContext();
-
-  const chosen = project?.id && (project?.id === projectContext?.id);
-
-  console.log("in button");
-  console.log(places);
-  console.log(project);
-  console.log(projectContext);
+  const { projectContext } = useProjectContext();
+  const {Project, Members} = useProjectInfo();
 
   const toProject = () => {
     if (project?.id && workspaceContext?.id) {

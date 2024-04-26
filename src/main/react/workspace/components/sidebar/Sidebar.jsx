@@ -80,7 +80,6 @@ const Sidebar = () => {
 
   const popupManager = usePopupManager();
   const onCloseExitWorkspacePopup = (...params) => {
-    console.log(params?.[0]);
     if (params?.[0] === "yes") {
       LeaveWorkspace(workspaceContext.id);
     }
@@ -111,8 +110,6 @@ const Sidebar = () => {
 
   const getWS = () => {
     const searchParam = qs.parse(location.search, { ignoreQueryPrefix: true });
-    console.log("searchParam");
-    console.log(searchParam);
     if (Object.keys(searchParam).length > 0) return "?ws_id=" + searchParam.ws_id;
     return "";
   }
@@ -132,6 +129,7 @@ const Sidebar = () => {
       />
       <SidebarProjects
       projects={workspaceContext?.projects}
+      chosen={projectField}
       blocks={getProjectsFieldsRefs()}
         // projects={[
         //   {
