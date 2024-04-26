@@ -42,6 +42,22 @@ const removeTaskDecsription = (task) => {
     </span>
   );
 };
+const askForExitFromWorkspace = (workspace) => {
+  return (
+    <span>
+      Вы уверены, что хотите выйти из рабочей области
+      <span className={styles.descriptionBolder}>{" " + workspace}?</span>
+    </span>
+  );
+}
+const askForDeleteWorkspace = (workspace) => {
+  return (
+    <span>
+      Вы уверены, что хотите удалить рабочую область
+      <span className={styles.descriptionBolder}>{" " + workspace}?</span>
+    </span>
+  );
+}
 
 export const transferControlProps = (name) => {
   return {
@@ -76,5 +92,19 @@ export const removeTaskProps = (task) => {
     type: "warn",
     title: "Удалить задачу",
     description: () => removeTaskDecsription(task),
+  };
+};
+export const askForExitFromWorkspaceProps = (workspace) => {
+  return {
+    type: "warn",
+    title: "Выйти из рабочей области",
+    description: () => askForExitFromWorkspace(workspace),
+  };
+};
+export const askForDeleteWorkspaceProps = (workspace) => {
+  return {
+    type: "warn",
+    title: "Удалить рабочую область",
+    description: () => askForDeleteWorkspace(workspace),
   };
 };

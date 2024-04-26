@@ -1,5 +1,12 @@
 import styles from "./style.module.css";
 import Button from "../UI/Button.jsx";
+import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
+import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
+
+import { usePopupManager } from "react-popup-manager";
+import Popup from "../popup/Popup.jsx";
+import DeleteWorkspacePopup from "../popup/DeleteWorkspacePopup.jsx";
+
 
 const TypeDeleleButton = {
   deleteProject: {
@@ -18,6 +25,27 @@ const TypeDeleleButton = {
 };
 
 const DeleteButton = ({ typeButton }) => {
+  const { DeleteWorkspace } = useWorkspaceInfo();
+  const { workspaceContext } = useWorkspaceContext();
+
+  const popupManager = usePopupManager();
+  const onCloseDeleteWorkspacePopup = (...params) => {
+    console.log(params?.[0]);
+    if (params?.[0]?.button === "delete") {
+      DeleteWorkspace(workspaceContext.id, params?.[0].password);
+    }
+  }
+
+  const openDeleteWorkspacePopup = () => {
+    popupManager.open(Popup, {
+      popup: {
+        component: DeleteWorkspacePopup,
+        props: workspaceContext?.info?.name,
+      },
+      onClose: onCloseDeleteWorkspacePopup,
+    });
+  };
+
   const data = TypeDeleleButton[typeButton];
   return (
     <div className={styles.wrapper}>
@@ -28,7 +56,7 @@ const DeleteButton = ({ typeButton }) => {
         </div>
 
         <div>
-          <Button text={data.title} type="outlineError" callback={() => {}} />
+          <Button text={data.title} type="outlineError" callback={openDeleteWorkspacePopup} />
         </div>
       </div>
     </div>

@@ -51,8 +51,8 @@ export const useWorkspaceInfo = () => {
         })
     }
 
-    const DeleteWorkspace = (ws_id) => {
-        deleteWorkspace(ws_id).then((response) => {
+    const DeleteWorkspace = (ws_id, password) => {
+        deleteWorkspace(ws_id, password).then((response) => {
             setWorkspace((prev) => {
                 const keyToDelete = Object.keys(prev).find(key => prev[key] === ws_id);
                 delete prev[keyToDelete];

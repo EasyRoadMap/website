@@ -29,6 +29,9 @@
   aspect-ratio: 1;
   border-radius: 50%;
 }
+.pixelAvatar {
+  image-rendering: pixelated;
+}
 .addLogo {
   height: 120px;
   width: 120px;

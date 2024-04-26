@@ -4,7 +4,7 @@ const usePlaceFixedBlockToAnother = ( fixedBlock, targetBlock ) => {
     useEffect(() => {
         if (!fixedBlock.current || !targetBlock.current) return;
 
-        const bottomSide = document.documentElement.clientHeight - (targetBlock.current.offsetTop * 2 + targetBlock.current.offsetHeight) - 10;
+        const bottomSide = document.documentElement.clientHeight - (targetBlock.current.offsetTop * 2 + targetBlock.current.offsetHeight) + 6;
     
         fixedBlock.current.style.position = "fixed";
         // fixedBlock.current.style.left = leftSide + "px";

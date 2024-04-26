@@ -41,6 +41,8 @@ color-4 - для бокового меню
   --bg-task-complete: rgba(153, 229, 80, 0.15);
   --bg-task-in-progress: rgba(244, 228, 86, 0.15);
   --bg-task-in-planned: rgba(169, 173, 179, 0.15);
+  /* color-2 в виде r, g, b */
+  --bg-color-project-rgb: 246, 247, 248;
 }
 [data-theme="light"] {
   /*color 1*/
@@ -79,6 +81,8 @@ color-4 - для бокового меню
   --bg-task-complete: rgba(153, 229, 80, 0.15);
   --bg-task-in-progress: rgba(244, 228, 86, 0.15);
   --bg-task-in-planned: rgba(169, 173, 179, 0.15);
+  /* color-2 в виде r, g, b */
+  --bg-color-project-rgb: 246, 247, 248;
 }
 [data-theme="dark"] {
   /*color 1*/
@@ -116,4 +120,6 @@ color-4 - для бокового меню
   --bg-task-complete: rgba(153, 229, 80, 0.15);
   --bg-task-in-progress: rgba(244, 228, 86, 0.15);
   --bg-task-in-planned: rgba(169, 173, 179, 0.15);
+  /* color-2 в виде r, g, b */
+  --bg-color-project-rgb: 21, 23, 27;
 }

@@ -42,7 +42,6 @@ const Base = ({children}) => {
       Workspace(ws.ws_id);
       Members(ws.ws_id);
       Projects(ws.ws_id);
-      updateURLWithNewWS(ws.ws_id);
       return;
     }
     User();
@@ -72,10 +71,11 @@ const Base = ({children}) => {
     return qs.parse(location.search, { ignoreQueryPrefix: true })
   }
 
-  const updateURLWithNewWS = (ws_id) => {
+  const updateURLWithNewWS = (ws) => {
+    const searchParam = Object.keys(ws).length === 2 ? '?ws_id='+ws.ws_id+"&pr_id="+ws.pr__id : '?ws_id='+ws.ws_id;
     navigate({
       pathname: location.pathname,
-      search: '?ws_id='+ws_id
+      search: searchParam
     })
   }
 

@@ -5,7 +5,10 @@ import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
 import UpdateProfilePopup from "../popup/UpdateProfilePopup.jsx";
 
-const DropdownUser = ({ user, currentWorkspace, updateUser }) => {
+import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
+
+const DropdownUser = ({ user, updateUser }) => {
+  const { workspaceContext } = useWorkspaceContext();
   const popupManager = usePopupManager();
 
   const onUpdateProfile = (...params) => {
@@ -15,13 +18,13 @@ const DropdownUser = ({ user, currentWorkspace, updateUser }) => {
   };
 
   const openUpdateProfilePopup = (...params) => {
-    if (!currentWorkspace?.info?.name) return;
+    if (!workspaceContext?.info?.name) return;
     popupManager.open(Popup, {
       popup: {
         component: UpdateProfilePopup,
         props: {
-          workspaceName: currentWorkspace?.info?.name,
-        },
+          workspaceName: workspaceContext?.info?.name
+        }
       },
       onClose: onUpdateProfile,
     });

@@ -29,16 +29,19 @@ const handleScrollTo = (blocks, toBlock) => {
   window.location.hash = "#" + toBlock;
 };
 
-const SidebarProjectButton = ({ project, places }) => {
+const SidebarProjectButton = ({ project, blocks, places }) => {
   const placesList = Object.values(places);
   const navigate = useNavigate();
 
   const { workspaceContext } = useWorkspaceContext();
-  const { Project, Members } = useProjectContext();
+  const { projectContext, Project, Members } = useProjectContext();
+
+  const chosen = project?.id && (project?.id === projectContext?.id);
 
   console.log("in button");
   console.log(places);
   console.log(project);
+  console.log(projectContext);
 
   const toProject = () => {
     if (project?.id && workspaceContext?.id) {
@@ -50,13 +53,15 @@ const SidebarProjectButton = ({ project, places }) => {
     }
   }
 
+  const avatarClassName = project?.photo?.default ? [styles.avatar, styles.pixelAvatar].join(" ") : styles.avatar;
+
   return (
     <div className={styles.projectButtonWrapper}>
       <button onClick={toProject} className={styles.projectdiv}>
-        <img src={project.avatar} alt="" className={styles.avatar} />
-        <span className={styles.name}>{project.name}</span>
+        <img src={project?.photo?.url} alt="" className={avatarClassName} />
+        <span className={styles.name}>{project?.name}</span>
       </button>
-      {project.chosen && (
+      {chosen && (
         <>
           <hr />
           <div className={styles.placesInProject}>
@@ -64,12 +69,12 @@ const SidebarProjectButton = ({ project, places }) => {
               const keyByValue = Object.keys(places).find(
                 (key) => places[key] === place
               );
-              const isKeyChosen = keyByValue === project.chosen;
+              const isKeyChosen = keyByValue === chosen;
               const className = isKeyChosen ? styles.activePlaceButton : "";
               return (
                 <span
                   className={className}
-                  onClick={() => handleScrollTo(project.blocks, keyByValue)}
+                  onClick={() => handleScrollTo(blocks, keyByValue)}
                 >
                   {place}
                 </span>

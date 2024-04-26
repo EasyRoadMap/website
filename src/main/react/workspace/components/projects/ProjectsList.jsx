@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 
 const ProjectsList = () => {
-    const navigate = useNavigate();
     const { workspaceContext } = useWorkspaceContext();
 
     return (

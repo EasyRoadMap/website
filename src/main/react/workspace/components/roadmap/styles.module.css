@@ -130,16 +130,18 @@
   align-items: center;
 }
 .moveGraphButton {
-  height: 50px;
-  width: 50px;
-  /* background-color: grey; */
+  position: absolute;
+  height: 453px;
+  width: calc(32px);
   position: absolute;
 }
 .moveGraphButtonRight {
-  right: 20px;
+  background: linear-gradient(90deg, rgba(var(--bg-color-project-rgb), 0), var(--bg-color-project));
+  right: 0px;
 }
 .moveGraphButtonLeft {
-  left: 20px;
+  background: linear-gradient(90deg, var(--bg-color-project), rgba(var(--bg-color-project-rgb), 0));
+  left: 0px;
 }
 .graphStage {
   height: 176px;

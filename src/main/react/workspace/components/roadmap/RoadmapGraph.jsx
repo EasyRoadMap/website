@@ -109,7 +109,6 @@ const RoadmapGraph = ({ stages }) => {
                 {position === 1 && (
                   <div className={styles.graphBranchLine}></div>
                 )}
-                className={styles.graphCircle}
                 <div className={styles.graphCircle}>
                   <TaskRoadmapSVG />
                 </div>
@@ -136,7 +135,7 @@ const RoadmapGraph = ({ stages }) => {
             ].join(" ")}
             onClick={() => moveGraph("right")}
           >
-            <MoveRoadMap />
+            <MoveRoadMap style={{ marginTop: "calc(177px - 32px)", right: "0", position: "absolute" }}/>
           </div>
           <div
             className={[
@@ -145,7 +144,7 @@ const RoadmapGraph = ({ stages }) => {
             ].join(" ")}
             onClick={() => moveGraph("left")}
           >
-            <MoveRoadMap style={{ transform: "rotate(180deg)" }} />
+            <MoveRoadMap style={{ transform: "rotate(180deg)", marginTop: "calc(177px - 32px)", left: "0" }} />
           </div>
           <RoadmapPagination blocks={blocksVisibility} />
         </div>

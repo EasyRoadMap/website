@@ -1,15 +1,17 @@
 import SidebarProjectButton from "./SidebarProjectButton.jsx";
 import styles from "./styles.module.css";
 
-const SidebarProjects = ({ projects, places }) => {
+const SidebarProjects = ({ projects, blocks, places }) => {
+  console.log("PROJECTS");
+  console.log(projects);
   return (
       <>{
-        projects &&
+        (projects) &&
         <div className={styles.project}>
           {projects.map((project, i) => {
             return (
               <button key={i} className={styles.projectButton}>
-                <SidebarProjectButton project={project} places={places} />
+                <SidebarProjectButton project={project} blocks={blocks} places={places} />
               </button>
             );
           })}

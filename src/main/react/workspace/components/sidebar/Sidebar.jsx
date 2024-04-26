@@ -6,7 +6,13 @@ import { observeBlocks } from "../../utils/updateVisibleBlock.js";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
+import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 import qs from "qs";
+
+import { usePopupManager } from "react-popup-manager";
+import Popup from "../popup/Popup.jsx";
+import AlertPopup from "../popup/AlertPopup.jsx";
+import { askForExitFromWorkspaceProps } from "../popup/PopupsData.jsx";
 
 const pagesPaths = {
   main: "/workspace",
@@ -70,6 +76,26 @@ const Sidebar = () => {
   const page = getPage(location);
   const [projectField, setProjectField] = useState(null);
 
+  const { LeaveWorkspace } = useWorkspaceInfo();
+
+  const popupManager = usePopupManager();
+  const onCloseExitWorkspacePopup = (...params) => {
+    console.log(params?.[0]);
+    if (params?.[0] === "yes") {
+      LeaveWorkspace(workspaceContext.id);
+    }
+  }
+
+  const openExitWorkspacePopup = () => {
+    popupManager.open(Popup, {
+      popup: {
+        component: AlertPopup,
+        props: askForExitFromWorkspaceProps(workspaceContext?.info?.name),
+      },
+      onClose: onCloseExitWorkspacePopup,
+    });
+  };
+
   useEffect(() => {
     if (page === "project") {
       const projectFields = getProjectsFieldsRefs();
@@ -106,6 +132,7 @@ const Sidebar = () => {
       />
       <SidebarProjects
       projects={workspaceContext?.projects}
+      blocks={getProjectsFieldsRefs()}
         // projects={[
         //   {
         //     avatar: "",
@@ -126,7 +153,7 @@ const Sidebar = () => {
         active={page === "settings"}
         callback={() => navigate("/workspace/settings" + getWS())}
       />
-      <SidebarButton type="exit" active={false} callback={() => {}} />
+      <SidebarButton type="exit" active={false} callback={openExitWorkspacePopup} />
     </aside>
   );
 };

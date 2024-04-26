@@ -1,4 +1,4 @@
 export const initProject = (Project, Members, newProject) => {
-    Project(newWS);
-    Members(newWS);
+    Project(newProject);
+    Members(newProject);
 }

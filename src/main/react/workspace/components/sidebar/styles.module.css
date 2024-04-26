@@ -70,8 +70,11 @@
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: aqua;
+  background-color: white;
   opacity: 0.5;
+}
+.pixelAvatar {
+  image-rendering: pixelated;
 }
 .name {
   font-size: 22px;
