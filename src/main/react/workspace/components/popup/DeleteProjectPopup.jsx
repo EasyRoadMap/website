@@ -3,8 +3,8 @@ import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import { useState } from "react";
 
-const DeleteWorkspacePopup = ({
-    workspace,
+const DeleteProjectPopup = ({
+    project,
     close
 }) => {
     const [password, setPassword] = useState(null);
@@ -17,10 +17,10 @@ const DeleteWorkspacePopup = ({
     return (
         <div className={styles.popup}>
             <h1 className={styles.title}>
-                Удалить рабочую область
+                Удалить проект
             </h1>
             <div className={styles.description}>
-                Для удаления рабочей области <span className={styles.descriptionBolder}>{" " + workspace + " "}</span> подтвердите личность вводом текущего пароля от него.
+                Для удаления проекта <span className={styles.descriptionBolder}>{" " + project + " "}</span> подтвердите личность вводом текущего пароля от него.
             </div>
             <Input data={password}
                    setData={setPassword}
@@ -39,15 +39,15 @@ const DeleteWorkspacePopup = ({
                         setCheck(!check);
                     }}
                 ></input>
-                <label>Я понимаю, что все данные рабочей области будут удалены и не могут быть восстановлены.</label>
+                <label>Я понимаю, что все данные проекта будут удалены и не могут быть восстановлены.</label>
             </div>
 
             <div className={styles.buttonsWrapper}>
                 <Button text="Отмена" type="outlineSecondary" callback={() => handleClick("cancel")}/>
-                <Button text="Удалить рабочую область" type="filledAccent" disabled={!check} callback={() => handleClick("delete")}/>
+                <Button text="Удалить проект" type="filledAccent" disabled={!check} callback={() => handleClick("delete")}/>
             </div>
         </div>
     );
 }
 
-export default DeleteWorkspacePopup;
+export default DeleteProjectPopup;
