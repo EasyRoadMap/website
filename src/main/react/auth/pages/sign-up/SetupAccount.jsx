@@ -167,8 +167,9 @@ const Form = () => {
               <a
                 className={styles.repeatLinkPrivacyPolicy}
                 href="https://easyroadmap.ru/legal/eula"
+                target="_blank"
               >
-                пользовательского <br /> соглашения{" "}
+                Пользовательского <br /> соглашения{" "}
               </a>
             </strong>
             и{" "}
@@ -176,8 +177,9 @@ const Form = () => {
               <a
                 className={styles.repeatLinkPrivacyPolicy}
                 href="https://easyroadmap.ru/legal/privacy"
+                target="_blank"
               >
-                политики конфиденциальности
+                Политики конфиденциальности
               </a>
             </strong>
           </h2>

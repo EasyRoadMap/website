@@ -16,8 +16,11 @@ const CreateProjectPopup = ({ close }) => {
   };
   return (
     <>
-      <h1 className={styles.title}>Создать проект</h1>
-      <div className={styles.description}>Создайте новый проект</div>
+      <div className={styles.containerWithGaps}>
+        <h1 className={styles.title}>Создать проект</h1>
+        <div className={styles.description}>Создайте новый проект</div>
+      </div>
+
       <div className={styles.containerWithGaps}>
         <Input
           data={name}

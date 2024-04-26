@@ -141,11 +141,19 @@
   position: absolute;
 }
 .moveGraphButtonRight {
-  background: linear-gradient(90deg, rgba(var(--bg-color-project-rgb), 0), var(--bg-color-project));
+  background: linear-gradient(
+    90deg,
+    rgba(var(--bg-color-project-rgb), 0),
+    var(--bg-color-project)
+  );
   right: 0px;
 }
 .moveGraphButtonLeft {
-  background: linear-gradient(90deg, var(--bg-color-project), rgba(var(--bg-color-project-rgb), 0));
+  background: linear-gradient(
+    90deg,
+    var(--bg-color-project),
+    rgba(var(--bg-color-project-rgb), 0)
+  );
   left: 0px;
 }
 .graphStage {

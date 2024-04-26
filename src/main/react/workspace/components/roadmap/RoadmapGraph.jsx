@@ -153,6 +153,7 @@ const RoadmapGraph = ({ stages }) => {
                 {position === 1 && (
                   <div className={styles.graphBranchLine}></div>
                 )}
+
                 <div className={styles.graphCircle}>
                   <TaskRoadmapSVG status={getStatusByProgress(stage.progress)} isActive={chosenStage === stage.id} />
                 </div>
@@ -162,6 +163,7 @@ const RoadmapGraph = ({ stages }) => {
                   placeholder={stage.name}
                   className={styles.stageName}
                 />
+
                 {/* can be chosen (stage.chosen) */}
                 {position === 0 && (
                   <div
@@ -179,7 +181,13 @@ const RoadmapGraph = ({ stages }) => {
             ].join(" ")}
             onClick={() => moveGraph("right")}
           >
-            <MoveRoadMap style={{ marginTop: "calc(177px - 32px)", right: "0", position: "absolute" }}/>
+            <MoveRoadMap
+              style={{
+                marginTop: "calc(177px - 32px)",
+                right: "0",
+                position: "absolute",
+              }}
+            />
           </div>
           <div
             className={[
@@ -188,7 +196,13 @@ const RoadmapGraph = ({ stages }) => {
             ].join(" ")}
             onClick={() => moveGraph("left")}
           >
-            <MoveRoadMap style={{ transform: "rotate(180deg)", marginTop: "calc(177px - 32px)", left: "0" }} />
+            <MoveRoadMap
+              style={{
+                transform: "rotate(180deg)",
+                marginTop: "calc(177px - 32px)",
+                left: "0",
+              }}
+            />
           </div>
           <RoadmapPagination blocks={blocksVisibility} />
         </div>

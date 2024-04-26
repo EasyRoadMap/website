@@ -108,7 +108,14 @@
   background-color: rgb(169, 173, 179, 0.2);
 }
 .statusCheckboxItemActive {
-  border: 1px solid var(--accent-color);
+  border: 1.5px solid var(--accent-color);
+  cursor: pointer;
+  .statusCheckboxCheck {
+    opacity: 1;
+  }
+}
+.statusCheckboxCheck {
+  opacity: 0;
 }
 .statusCheckboxItem {
   display: flex;
@@ -119,9 +126,10 @@
   padding-bottom: 6px;
   padding-right: 12px;
   border-radius: 20px;
-  width: 196px;
+  max-width: 232px;
   height: 36px;
   gap: 12px;
+  cursor: pointer;
 }
 .statusCheckbox {
   display: flex;

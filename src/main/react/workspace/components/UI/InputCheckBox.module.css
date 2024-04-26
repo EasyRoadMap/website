@@ -7,8 +7,6 @@
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  font-size: 16px;
-  font-weight: normal;
   border-radius: 12px;
 }
 .checkbox:checked + label::before {
@@ -73,4 +71,10 @@
   max-width: 420px;
   display: flex;
   align-items: center;
+}
+
+.label {
+  font-size: 14px;
+  color: var(--foreground-color50);
+  font-weight: normal;
 }

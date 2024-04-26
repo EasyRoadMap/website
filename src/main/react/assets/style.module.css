@@ -119,10 +119,10 @@
 }
 .taskRoadmapDoneSVGActive {
   .taskRoadmapSVG {
-    stroke: var(--accent-color);
+    stroke: var(--bg-task-done-roadmap-active);
   }
   .taskRoadmapSVGFill {
-    fill: var(--accent-color);
+    fill: var(--bg-task-done-roadmap-active);
   }
 }
 
@@ -136,10 +136,10 @@
 }
 .taskRoadmapProgressSVGActive {
   .taskRoadmapSVG {
-    stroke: var(--accent-color);
+    stroke: var(--bg-task-progress-roadmap-active);
   }
   .taskRoadmapSVGFill {
-    fill: var(--accent-color);
+    fill: var(--bg-task-progress-roadmap-active);
   }
 }
 
@@ -153,9 +153,47 @@
 }
 .taskRoadmapPlannedSVGActive {
   .taskRoadmapSVG {
-    stroke: var(--accent-color);
+    stroke: var(--bg-task-planned-roadmap-active);
   }
   .taskRoadmapSVGFill {
-    fill: var(--accent-color);
+    fill: var(--bg-task-planned-roadmap-active);
+  }
+}
+
+.roadMapMoveIcon {
+  g {
+    opacity: 0.5;
+  }
+  rect {
+    fill: var(--switch-hover-color);
+    fill-opacity: 0.05;
+  }
+}
+.roadMapMoveIcon:hover {
+  g {
+    opacity: 1;
+  }
+  rect {
+    fill: var(--bg-move-roadmap);
+    fill-opacity: 0.5;
+  }
+}
+.roadMapMoveIcon:active {
+  g {
+    opacity: 0.75;
+  }
+  rect {
+    fill: var(--bg-move-roadmap);
+    fill-opacity: 0.5;
+  }
+}
+
+.roadMapMoveIcon:disabled {
+  g {
+    opacity: 0.3;
+  }
+  rect {
+    fill: var(--switch-hover-color);
+    fill-opacity: 0.05;
   }
 }

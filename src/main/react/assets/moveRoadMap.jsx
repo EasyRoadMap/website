@@ -1,3 +1,4 @@
+import styles from "./style.module.css";
 const MoveRoadMap = (props) => (
   <svg
     width={64}
@@ -5,6 +6,7 @@ const MoveRoadMap = (props) => (
     viewBox="0 0 64 64"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className={styles.roadMapMoveIcon}
     {...props}
   >
     <g opacity={0.5}>

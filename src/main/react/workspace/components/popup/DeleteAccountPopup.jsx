@@ -58,7 +58,7 @@ const DeleteAccountPopup = ({ deleteUser, close }) => {
           восстановлены.
         </label>
       </div> */}
-      <InputCheckBox />
+      <InputCheckBox typeDescription="deleteAccount" />
 
       <div className={styles.buttonsWrapper}>
         <Button
