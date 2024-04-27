@@ -14,7 +14,7 @@ public interface RoadmapTaskRepository extends PagingAndSortingRepository<Roadma
 
     int countAllByStageIdEquals(long stageId);
 
-    @Query("select count(t) from RoadmapTask t where t.stageId = ?1 and t.status != 1")
+    @Query("select count(t) from RoadmapTask t where t.stageId = ?1 and t.status = 2")
     int countNotPlannedStageTasks(long stageId);
 
     @Query("select s.projectId from RoadmapTask t inner join RoadmapStage s on t.stageId = s.id where t.id = ?1")
