@@ -16,6 +16,15 @@
   font-size: 16px;
   justify-content: center;
 }
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 18px;
+  z-index: 100;
+  width: 30px;
+  height: 30px;
+  opacity: 0;
+  cursor: pointer;
+}
 .input::placeholder {
   font-size: 16px;
   padding-left: 0;
@@ -96,7 +105,7 @@
   color: #404040;
 }
 .calendarSVG {
-  z-index: 1;
+  z-index: 0;
   position: absolute;
   left: 18px;
   cursor: pointer;
@@ -105,4 +114,5 @@
   display: flex;
   align-items: center;
   width: 100%;
+  position: relative;
 }

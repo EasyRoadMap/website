@@ -30,6 +30,18 @@
   cursor: pointer;
   position: absolute;
   right: 18px;
+  top: 10px;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border-radius: 12px;
+}
+.closeButton:hover {
+  background-color: var(--bg-workspace-button);
+}
+.closeButton:active {
+  opacity: 0.75;
+  background-color: var(--bg-workspace-button);
 }
 .title {
   text-align: center;
@@ -161,14 +173,10 @@
   cursor: pointer;
   .statusCheckboxCheck {
     opacity: 1;
-    width: 20px;
-    height: 20px;
   }
 }
 .statusCheckboxCheck {
   opacity: 0;
-  width: 0px;
-  height: 0px;
 }
 .statusCheckboxItem {
   display: flex;

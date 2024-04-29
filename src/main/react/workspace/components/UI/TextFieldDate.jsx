@@ -6,6 +6,7 @@ export default function TextFieldDate() {
     <div className={styles.textFielddate}>
       <CalendarSVG className={styles.calendarSVG} />
       <input
+        type="date"
         className={styles.inputDate}
         placeholder="Введите дату дедлайна задачи"
       />

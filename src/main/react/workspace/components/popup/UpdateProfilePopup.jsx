@@ -30,8 +30,7 @@ const UpdateProfilePopup = ({ workspaceName, close }) => {
             <div className={styles.descriptionUser}>
               <span>
                 Введите имя и загрузите фото, они будут <br /> отображаться в
-                интерфейсе{" "}
-                <span className={styles.bolder}>{workspaceName}</span>
+                интерфейсе <span className={styles.bolder}>EasyRoadMap</span>
               </span>
             </div>
           </div>

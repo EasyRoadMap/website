@@ -123,6 +123,12 @@
     stroke: var(--text-color);
   }
 }
+.closePopupSVGStroke {
+  stroke: var(--text-color);
+}
+.closePopupSVGFill {
+  fill: var(--text-color);
+}
 
 /* Состояние кружков в родмапе */
 .taskRoadmapDoneSVG {
@@ -133,6 +139,7 @@
     fill: #99e550;
   }
 }
+
 .taskRoadmapDoneSVGActive {
   .taskRoadmapSVG {
     stroke: var(--bg-task-done-roadmap-active);
