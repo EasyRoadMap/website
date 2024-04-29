@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.ProviderNotFoundException;
 import org.springframework.security.core.Authentication;
@@ -33,11 +34,14 @@ public class ERMAuthenticationHandler extends SavedRequestAwareAuthenticationSuc
 
     private RequestCache requestCache = new HttpSessionRequestCache();
 
+    @Value("${server.auth.default-redirect-url}")
+    private String authDefaultRedirectUrl;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest == null) {
-            response.setStatus(HttpServletResponse.SC_OK);
+            getRedirectStrategy().sendRedirect(request, response, authDefaultRedirectUrl);
             return;
         }
 

@@ -40,8 +40,6 @@ public class SecurityConfig {
     private final UserRepository userRepository;
     private final ERMAuthenticationHandler authenticationHandler;
 
-    @Value("${server.auth.default-redirect-url}")
-    private String authDefaultRedirectUrl;
     @Value("${server.host}")
     private String serverHost;
 
