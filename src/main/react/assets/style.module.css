@@ -220,3 +220,254 @@
     fill-opacity: 0.05;
   }
 }
+
+/* Цвета акцентов */
+.red {
+  cursor: pointer;
+  .accentFillCheck {
+    opacity: 0;
+  }
+  .accentFillCheckStroke {
+    opacity: 0;
+  }
+  .accentFill {
+    fill: #ff4848;
+  }
+  .accentFillIn {
+    fill: white;
+  }
+}
+.orange {
+  cursor: pointer;
+  .accentFillCheck {
+    opacity: 0;
+  }
+  .accentFillCheckStroke {
+    opacity: 0;
+  }
+  .accentFill {
+    fill: #ff6f4e;
+  }
+  .accentFillIn {
+    fill: white;
+  }
+}
+.yellow {
+  cursor: pointer;
+  .accentFillCheck {
+    opacity: 0;
+  }
+  .accentFillCheckStroke {
+    opacity: 0;
+  }
+  .accentFill {
+    fill: #facf36;
+  }
+  .accentFillIn {
+    fill: black;
+  }
+}
+.green {
+  cursor: pointer;
+  .accentFillCheck {
+    opacity: 0;
+  }
+  .accentFillCheckStroke {
+    opacity: 0;
+  }
+  .accentFill {
+    fill: #0fffa9;
+  }
+  .accentFillIn {
+    fill: black;
+  }
+}
+.lightBlue {
+  cursor: pointer;
+  .accentFillCheck {
+    opacity: 0;
+  }
+  .accentFillCheckStroke {
+    opacity: 0;
+  }
+  .accentFill {
+    fill: #3686f7;
+  }
+  .accentFillIn {
+    fill: white;
+  }
+}
+.blue {
+  cursor: pointer;
+  .accentFillCheck {
+    opacity: 0;
+  }
+  .accentFillCheckStroke {
+    opacity: 0;
+  }
+  .accentFill {
+    fill: #0066fe;
+  }
+  .accentFillIn {
+    fill: white;
+  }
+}
+.pink {
+  cursor: pointer;
+  .accentFillCheck {
+    opacity: 0;
+  }
+  .accentFillCheckStroke {
+    opacity: 0;
+  }
+  .accentFill {
+    fill: #ed40f0;
+  }
+  .accentFillIn {
+    fill: white;
+  }
+}
+.purple {
+  cursor: pointer;
+  .accentFillCheck {
+    opacity: 0;
+  }
+  .accentFillCheckStroke {
+    opacity: 0;
+  }
+  .accentFill {
+    fill: #8019f5;
+  }
+  .accentFillIn {
+    fill: white;
+  }
+}
+/* Активные состояния акцентов*/
+.redActive {
+  .accentFillCheck {
+    opacity: 1;
+    fill: #ff4848;
+  }
+  .accentFillCheckStroke {
+    opacity: 1;
+    stroke: white;
+  }
+  .accentFill {
+    fill: #ff4848;
+  }
+  .accentFillIn {
+    fill: white;
+  }
+}
+.orangeActive {
+  .accentFillCheck {
+    opacity: 1;
+    fill: #ff6f4e;
+  }
+  .accentFillCheckStroke {
+    opacity: 1;
+    stroke: white;
+  }
+  .accentFill {
+    fill: #ff6f4e;
+  }
+  .accentFillIn {
+    fill: white;
+  }
+}
+.yellowActive {
+  .accentFillCheck {
+    opacity: 1;
+    fill: #facf36;
+  }
+  .accentFillCheckStroke {
+    opacity: 1;
+    stroke: black;
+  }
+  .accentFill {
+    fill: #facf36;
+  }
+  .accentFillIn {
+    fill: black;
+  }
+}
+.greenActive {
+  .accentFillCheck {
+    opacity: 1;
+    fill: #0fffa9;
+  }
+  .accentFillCheckStroke {
+    opacity: 1;
+    stroke: black;
+  }
+  .accentFill {
+    fill: #0fffa9;
+  }
+  .accentFillIn {
+    fill: black;
+  }
+}
+.lightBlueActive {
+  .accentFillCheck {
+    opacity: 1;
+    fill: #3686f7;
+  }
+  .accentFillCheckStroke {
+    opacity: 1;
+    stroke: white;
+  }
+  .accentFill {
+    fill: #3686f7;
+  }
+  .accentFillIn {
+    fill: white;
+  }
+}
+.blueActive {
+  .accentFillCheck {
+    opacity: 1;
+    fill: #0066fe;
+  }
+  .accentFillCheckStroke {
+    opacity: 1;
+    stroke: white;
+  }
+  .accentFill {
+    fill: #0066fe;
+  }
+  .accentFillIn {
+    fill: white;
+  }
+}
+.pinkActive {
+  .accentFillCheck {
+    opacity: 1;
+    fill: #ed40f0;
+  }
+  .accentFillCheckStroke {
+    opacity: 1;
+    stroke: white;
+  }
+  .accentFill {
+    fill: #ed40f0;
+  }
+  .accentFillIn {
+    fill: white;
+  }
+}
+.purpleActive {
+  .accentFillCheck {
+    opacity: 1;
+    fill: #8019f5;
+  }
+  .accentFillCheckStroke {
+    opacity: 1;
+    stroke: white;
+  }
+  .accentFill {
+    fill: #8019f5;
+  }
+  .accentFillIn {
+    fill: white;
+  }
+}

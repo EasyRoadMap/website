@@ -18,6 +18,9 @@
   align-items: center;
   position: relative;
 }
+.taskField:active {
+  opacity: 0.75;
+}
 .tasksListWrapper {
   width: 100%;
   position: relative;

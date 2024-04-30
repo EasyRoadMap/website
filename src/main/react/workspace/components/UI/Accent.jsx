@@ -1,22 +1,13 @@
 import style from "./styleUI.module.css";
-import AccentRedSVG from "../../../assets/AccentRedSVG.jsx";
-import AccentOrangeSVG from "../../../assets/AccentOrangeSVG.jsx";
-import AccentYellowSVG from "../../../assets/AccentYellowSVG.jsx";
-import AccentGreenSVG from "../../../assets/AccentGreenSVG.jsx";
-import AccentLightBlueSVG from "../../../assets/AccentLightBlueSVG.jsx";
-import AccentBlueActiveSVG from "../../../assets/AccentBlueActiveSVG.jsx";
-import AccentPinkSVG from "../../../assets/AccentPinkSVG.jsx";
-import AccentPurpleSVG from "../../../assets/AccentPurpleSVG.jsx";
-import AccentBlueSVG from "../../../assets/AccentBlueSVG.jsx";
-import AccentRedActiveSVG from "../../../assets/AccentRedActiveSVG.jsx";
-import AccentOrangeActiveSVG from "../../../assets/AccentOrangeActiveSVG.jsx";
-import AccentYellowActiveSVG from "../../../assets/AccentYellowActiveSVG.jsx";
-import AccentGreenActiveSVG from "../../../assets/AccentGreenActiveSVG.jsx";
-import AccentLightBlueActiveSVG from "../../../assets/AccentLightBlueActiveSVG.jsx";
-import AccentPinkActiveSVG from "../../../assets/AccentPinkActiveSVG.jsx";
-import AccentPurpleActiveSVG from "../../../assets/AccentPurpleActiveSVG.jsx";
+import AccentColor from "../../../assets/accentColorSVG.jsx";
+import { useState } from "react";
 
 export default function Accent() {
+  const [activeAccent, setActiveAccent] = useState(null);
+
+  const handleColorClick = (color) => {
+    setActiveAccent(color);
+  };
   return (
     <div className={style.accentWrapper}>
       <span className={style.title}>Цветовой акцент</span>
@@ -25,14 +16,46 @@ export default function Accent() {
       </span>
       <div className={style.accent}>
         <div className={style.accentChoice}>
-          <AccentRedSVG />
-          <AccentOrangeSVG />
-          <AccentYellowSVG />
-          <AccentGreenSVG />
-          <AccentLightBlueSVG />
-          <AccentBlueSVG />
-          <AccentPinkSVG />
-          <AccentPurpleSVG />
+          <AccentColor
+            accentColor="red"
+            isActive={activeAccent === "red"}
+            onClick={() => handleColorClick("red")}
+          />
+          <AccentColor
+            accentColor="orange"
+            isActive={activeAccent === "orange"}
+            onClick={() => handleColorClick("orange")}
+          />
+          <AccentColor
+            accentColor="yellow"
+            isActive={activeAccent === "yellow"}
+            onClick={() => handleColorClick("yellow")}
+          />
+          <AccentColor
+            accentColor="green"
+            isActive={activeAccent === "green"}
+            onClick={() => handleColorClick("green")}
+          />
+          <AccentColor
+            accentColor="lightBlue"
+            isActive={activeAccent === "lightBlue"}
+            onClick={() => handleColorClick("lightBlue")}
+          />
+          <AccentColor
+            accentColor="blue"
+            isActive={activeAccent === "blue"}
+            onClick={() => handleColorClick("blue")}
+          />
+          <AccentColor
+            accentColor="pink"
+            isActive={activeAccent === "pink"}
+            onClick={() => handleColorClick("pink")}
+          />
+          <AccentColor
+            accentColor="purple"
+            isActive={activeAccent === "purple"}
+            onClick={() => handleColorClick("purple")}
+          />
         </div>
       </div>
     </div>
