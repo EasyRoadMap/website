@@ -1,5 +1,6 @@
 package ru.easyroadmap.website.api.v1.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.easyroadmap.website.api.v1.dto.project.ProjectLinksDto.LinkFacade;
@@ -19,8 +20,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
-public final class ProjectService {
+public class ProjectService {
 
     public static final int MAX_PROJECTS_PER_WORKSPACE = 5;
 

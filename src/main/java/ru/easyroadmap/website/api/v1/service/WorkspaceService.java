@@ -1,5 +1,6 @@
 package ru.easyroadmap.website.api.v1.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.easyroadmap.website.exception.ApiException;
@@ -19,8 +20,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
-public final class WorkspaceService {
+public class WorkspaceService {
 
     public static final int MAX_JOINED_WORKSPACES = 5;
     public static final int MAX_MEMBERS_PER_WORKSPACE = 10;
