@@ -12,22 +12,27 @@ const TypeDateInput = {
   },
 };
 
-const InputDate = ({ typeDate }) => {
+const InputDate = ({ typeDate, loading }) => {
   const data = TypeDateInput[typeDate];
-  return (
-    <>
-      <div className={styles.inputWithTextWrapper}>
-        <label className={styles.label}>{data.lable}</label>
-        <div className={styles.inputWrapper}>
-          <CalendarSVG className={styles.calendarSVG} />
-          <input
-            type="date"
-            className={styles.input}
-            placeholder={data.placeholder}
-          ></input>
+
+  if (loading === null || loading === true) {
+    return (
+      <>
+        <div className={styles.inputWithTextWrapper}>
+          <label className={styles.label}>{data.lable}</label>
+          <div className={styles.inputWrapper}>
+            <CalendarSVG className={styles.calendarSVG} />
+            <input
+              type="date"
+              className={styles.input}
+              placeholder={data.placeholder}
+              min={"1990-01-01"}
+              max={"2990-01-01"}
+            ></input>
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 };
 export default InputDate;

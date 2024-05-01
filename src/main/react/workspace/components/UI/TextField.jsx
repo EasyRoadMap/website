@@ -1,6 +1,6 @@
 import styles from "./styleUI.module.css";
 
-const TextField = ({ data, setData, title, placeholder, type, disabled }) => {
+const TextField = ({ data, setData, title, placeholder, type, loading = null }) => {
   console.log("INPUT");
   console.log(data);
 
@@ -9,15 +9,17 @@ const TextField = ({ data, setData, title, placeholder, type, disabled }) => {
   };
 
   const inputField = type === "textarea" ?
-    <textarea className={[styles.input, styles.textarea].join(" ")} type="text" placeholder={placeholder} disabled={disabled}/> :
-    <input className={styles.input} type="text" placeholder={placeholder} onChange={changeValue} value={data} disabled={disabled}/>
+    <textarea className={[styles.input, styles.textarea].join(" ")} type="text" placeholder={placeholder} disabled={loading}/> :
+    <input className={styles.input} type="text" placeholder={placeholder} onChange={changeValue} value={data} disabled={loading}/>
 
-  return (
-    <form className={styles.form}>
-      <label className={styles.titleInput}> {title} </label>
-      {inputField}
-    </form>
-  );
+  if (loading === null || loading === false) {
+    return (
+      <form className={styles.form}>
+        <label className={styles.titleInput}> {title} </label>
+        {inputField}
+      </form>
+    );
+  }
 };
 
 export default TextField;

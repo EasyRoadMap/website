@@ -16,7 +16,7 @@ export const useUserInfo = () => {
 
     useEffect(() => {
         setUserContext((prev) => ({...prev, ...user}));
-    }, [user]);
+    }, [user, setUser]);
 
     useEffect(() => {
         if (currentWorkspace === null) return;
@@ -57,7 +57,8 @@ export const useUserInfo = () => {
         getUserWorkspaces().then((response) => {
             console.log("response Workspaces");
             console.log(response);
-            setUser((prev) => ({...prev, workspaces: response.data}));
+            setUser((prev) => ({...prev, workspaces: response.data, workspacesReceived: true}));
+            setUserContext((prev) => ({...prev, workspaces: response.data, workspacesReceived: true}));
             if (firstRequestCallback) firstRequestCallback(response.data?.[0]);
             if (chosenWS) {
                 const ws = Object.keys(response.data).find(key => response.data[key] === chosenWS);

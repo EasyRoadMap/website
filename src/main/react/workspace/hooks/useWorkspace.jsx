@@ -15,36 +15,59 @@ import { abortInvite } from "../api/workspace-api/abortInvite.js";
 import { leaveWorkspace } from "../api/workspace-api/leaveWorkspace.js";
 import { getWorkspaceMembers } from "../api/workspace-api/getWorkspaceMembers.js";
 import { getProjects } from "../api/workspace-api/getProjects.js";
+import { getPhoto } from "../api/workspace-api/getPhoto.js"
 
 import useWorkspaceContext from "./useWorkspaceContext.js";
 import useUserContext from "./useUserContext.js";
 
+import { useNavigate } from "react-router-dom";
+
 export const useWorkspaceInfo = () => {
-    const [workspace, setWorkspace] = useState({isLoading: true});
+    const [workspace, setWorkspace] = useState();
     const { setCurrentWorkspace, Workspaces } = useUserInfo();
-    const { setWorkspaceContext } = useWorkspaceContext();
+    const { currentWorkspace, setWorkspaceContext } = useWorkspaceContext();
     const { setUserContext } = useUserContext();
 
+    const navigate = useNavigate();
+
     useEffect(() => {
-        setWorkspaceContext((prev) => ({...prev, isLoading: false}));
+        // setWorkspaceContext((prev) => ({...prev, isLoading: false}));
         setWorkspaceContext((prev) => ({...prev, ...workspace}));
     }, [workspace])
 
     const Workspace = (ws_id) => {
         getWorkspace(ws_id).then((response) => {
+            console.log("WHAAAAAAAAAAT");
+            console.log(currentWorkspace);
             setWorkspace((prev) => ({...prev, ...response.data}));
             setUserContext((prev) => ({...prev, currentWorkspace: ws_id}));
             setCurrentWorkspace((prev) => ({...prev, currentWorkspace: ws_id}));
+            console.log({...currentWorkspace, currentWorkspace: ws_id});
         }).catch((e) => {
+            setWorkspaceContext((prev) => ({...prev, workspaceExists: false}));
             console.log("response error");
             console.log(e);
         })
     }
 
+    const checkWorkspace = (ws_id) => {
+        getWorkspace(ws_id).then((response) => {
+            setWorkspaceContext((prev) => ({...prev, workspaceExists: true}));
+        }).catch((e) => {
+            setWorkspaceContext((prev) => ({...prev, workspaceExists: false}));
+        });
+    }
+
     const CreateWorkspace = (name, description) => {
-        createWorkspace(name, description).then((response) => {
-            setWorkspace(response.data);
-            Workspaces();
+        createWorkspace(name, description).then((workspace) => {
+            getPhoto(workspace.data.id).then((photo) => {
+                setWorkspace({...workspace.data, photo: photo.data});
+                setWorkspaceContext({...workspace.data, photo: photo.data});
+                Workspaces();
+            }).catch((e) => {
+                console.log("response error");
+                console.log(e);
+            })
         }).catch((e) => {
             console.log("response error");
             console.log(e);
@@ -53,11 +76,10 @@ export const useWorkspaceInfo = () => {
 
     const DeleteWorkspace = (ws_id, password) => {
         deleteWorkspace(ws_id, password).then((response) => {
-            setWorkspace((prev) => {
-                const keyToDelete = Object.keys(prev).find(key => prev[key] === ws_id);
-                delete prev[keyToDelete];
-                return prev;
-            })
+            setWorkspace({});
+            setWorkspaceContext({})
+            Workspaces();
+            navigate("/workspace");
         }).catch((e) => {
             console.log("response error");
             console.log(e);
@@ -125,6 +147,7 @@ export const useWorkspaceInfo = () => {
 
     const AcceptInvite = (invite_id) => {
         acceptInvite(invite_id).then((response) => {
+            Workspaces();
             console.log(response);
         }).catch((e) => {
             console.log("response error");
@@ -134,6 +157,7 @@ export const useWorkspaceInfo = () => {
 
     const DeclineInvite = (invite_id) => {
         declineInvite(invite_id).then((response) => {
+            Workspaces();
             console.log(response);
         }).catch((e) => {
             console.log("response error");
@@ -168,5 +192,14 @@ export const useWorkspaceInfo = () => {
         })
     }
 
-    return { workspace, Workspace, CreateWorkspace, DeleteWorkspace, PutAppearance, GetAppearance, SendInvite, LeaveWorkspace, Members, AbortInvite, Projects };
+    const Photo = (ws_id) => {
+        getPhoto(ws_id).then((response) => {
+            setWorkspace((prev) => ({...prev, photo: response.data}))
+        }).catch((e) => {
+            console.log("response error");
+            console.log(e);
+        })
+    }
+
+    return { workspace, Workspace, checkWorkspace, CreateWorkspace, DeleteWorkspace, PutAppearance, GetAppearance, SendInvite, LeaveWorkspace, Members, AbortInvite, Projects, GetInviteInfo, AcceptInvite, DeclineInvite, Photo };
 }

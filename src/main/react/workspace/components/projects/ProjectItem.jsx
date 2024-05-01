@@ -4,6 +4,8 @@ import styles from "./styles.module.css";
 import { useNavigate } from "react-router-dom";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 import useProjectContext from "../../hooks/useProjectContext.js";
+import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
+import { useProjectInfo } from "../../hooks/useProject.jsx";
 import { initProject } from "../../hooks/InitProject.js";
 
 const ProjectItem = ({
@@ -12,7 +14,8 @@ const ProjectItem = ({
 }) => {
     const navigate = useNavigate();
     const { workspaceContext } = useWorkspaceContext();
-    const { Project, Members } = useProjectContext();
+    const { Project, Members } = useProjectInfo();
+    const { getStages } = useRoadmapInfo();
 
     const toProject = () => {
         if (project?.id && workspaceContext?.id) {
@@ -20,7 +23,7 @@ const ProjectItem = ({
             pathname: "/workspace/project",
             search: '?ws_id='+workspaceContext.id+"&pr_id="+project.id
             })
-            initProject(Project, Members, project.id);
+            // initProject(Project, Members, getStages, project.id);
         }
     }
     

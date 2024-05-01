@@ -3,6 +3,7 @@ import TaskItem from "./TaskItem.jsx";
 import Button from "../UI/Button.jsx";
 import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
 import useRoadmapContext from "../../hooks/useRoadmapContext.js";
+import useProjectContext from "../../hooks/useProjectContext.js";
 
 import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
@@ -17,14 +18,15 @@ const statusToInt = {
 const TasksList = ({ tasks }) => {
   const { CreateTask } = useRoadmapInfo();
   const { chosenStage } = useRoadmapContext();
+  const { projectContext } = useProjectContext();
 
   const popupManager = usePopupManager();
 
   const onCloseCreateTaskPopup = (...params) => {
     console.log(params?.[0]);
-    if (params?.[0]?.button === "create" && chosenStage && params?.[0]?.status && params?.[0]?.name) {
+    if (params?.[0]?.button === "create" && chosenStage && params?.[0]?.status && params?.[0]?.name && projectContext?.id) {
       console.log("ok");
-      CreateTask(chosenStage, statusToInt[params?.[0]?.status], params?.[0]?.name, params?.[0]?.description, params?.[0]?.deadline, params?.[0]?.attachment)
+      CreateTask(projectContext?.id, chosenStage, statusToInt[params?.[0]?.status], params?.[0]?.name, params?.[0]?.description, params?.[0]?.deadline, params?.[0]?.attachment)
     }
   }
 

@@ -26,8 +26,6 @@ const getBloksVisibility = (blocks, viewport) => {
   blocks.forEach((container) => {
     blocksVisible.push(isBlockVisible(container, viewport));
   });
-  console.log("till the end");
-  console.log(blocksVisible);
   return blocksVisible.slice(0, blocksVisible.length-1);
 };
 
@@ -38,7 +36,8 @@ const getStatusByProgress = (progress) => {
 } 
 
 const RoadmapGraph = ({ stages }) => {
-  // const stageContainer = useRef([]);
+  const [moveDiff, setMoveDiff] = useState(0);
+
   const [stageContainer, setStageContainer] = useState([]);
   const stageWrapper = useRef(null);
   const [blocksVisibility, setBlocksVisibility] = useState([]);
@@ -54,16 +53,21 @@ const RoadmapGraph = ({ stages }) => {
       popup: { component: CreateStagePopup },
       onClose: (...params) => {
         if (params?.[0].button === 'create' && params?.[0].name && projectId) {
-          CreateStage(projectId, params?.[0].name);
+          CreateStage(projectId, params?.[0].name, () => {setMoveDiff((prev) => prev + 100)});
         }
       }
     });
   };
 
   useEffect(() => {
-    console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP on use effect");
     setBlocksVisibility(
-      getBloksVisibility(stageContainer, stageWrapper.current)
+      getBloksVisibility(stageContainer, stageWrapper.current).reverse()
+    );
+  }, [moveDiff]);
+
+  useEffect(() => {
+    setBlocksVisibility(
+      getBloksVisibility(stageContainer, stageWrapper.current).reverse()
     );
   }, [stageContainer, stageWrapper]);
 
@@ -78,94 +82,189 @@ const RoadmapGraph = ({ stages }) => {
   }
 
   const moveGraph = (direction) => {
-    console.log("WOW");
-    console.log(stageContainer);
     if (stageContainer?.length < 1 || !stageWrapper.current) return;
 
     const sign = direction === "right" ? 1 : -1;
 
     if (
-      pixelsToInt(stageContainer[stageContainer.length-1].style.right) >= 40 &&
+      pixelsToInt(stageContainer[stageContainer.length - 1].style.right) >=
+        stageWrapper.current.offsetWidth - stageContainer[stageContainer.length - 1].offsetWidth &&
       direction === "right"
     ) {
-      stageContainer[stageContainer.length-1].style.right = "40px";
       return;
     }
 
-    console.log("WELL");
-    console.log(stageContainer);
     if (
-      pixelsToInt(stageContainer[0].style.right) <=
+      pixelsToInt(stageContainer[stageContainer.length - 2].style.right) <=
         stageWrapper.current.offsetWidth -
-          stageContainer[0].offsetWidth &&
+          stageContainer[stageContainer.length - 2].offsetWidth &&
       direction === "left"
     ) {
       return;
     }
-
-    console.log("DAMN");
-    stageContainer.forEach((container) => {
-      console.log("FOREACH");
-      const right = pixelsToInt(container.style.right);
-      container.style.right = right + sign * 500 + "px";
-    });
+    setMoveDiff((prev) => prev + sign * 500);
     setBlocksVisibility(
-      getBloksVisibility(stageContainer, stageWrapper.current)
+      getBloksVisibility(stageContainer, stageWrapper.current).reverse()
     );
   };
+
+  const pickInitialCenteredStage = () => {
+    let chosenStage = null;
+
+    stages.forEach((stage) => {
+      if (stage.progress > 0 && stage.progress < 1) {
+        chosenStage = stage;
+        return stage;
+      }
+      else if (stage.progress === 0 && chosenStage === null) chosenStage = stage;
+    });
+
+    if (chosenStage) return chosenStage;
+    return stages[stages.length - 1];
+  }
+
+  const getPositionDifferenceOfCenterBlock = (blockRef) => {
+    const centerOfWrapper = stageWrapper.offsetWidth / 2;
+    const widthOfBlock = blockRef.offsetWidth;
+    const moveToX = centerOfWrapper + (widthOfBlock / 2);
+    const moveBlocksDifference = moveToX - blockRef.style.right;
+  }
+
+  const initStagesBlocksPosition = () => {
+    if (!stageContainer.length > 1 || !stages) return;
+    
+    stageContainer.forEach((stageBlock, i) => {
+      if (i === stageContainer.length - 1) return;
+      const stage = stages[stageContainer.length - i - 2]; 
+      const position = (stages.length - stage.position - 1) % 2;
+      const marginRight = 40 + 100 * (stages.length - stage.position);
+      const offsetY = (getTopCenterPosition() + 2) + "px";
+      const styleOfStage = position === 0 ? 
+        { top: offsetY } : { bottom: offsetY }
+      styleOfStage.right = marginRight + "px"
+      stageBlock.style.top = offsetY;
+      stageBlock.style.right = marginRight + "px";
+    })
+  }
+
+  const getInitialAddButtonPosition = () => {
+    if (!stageWrapper.current || stageContainer.length === 0) return {
+      left: 0,
+      top: 0
+    };
+
+    const addStageButtonBlock = stageContainer[0]
+    const centerOfCanvas = {
+      x: stageWrapper.current.offsetWidth / 2,
+      y: stageWrapper.current.offsetHeight / 2
+    }
+    const stageBlockSizes = {
+      width: addStageButtonBlock.offsetWidth,
+      height: addStageButtonBlock.offsetHeight
+    }
+    return {
+      left: centerOfCanvas.x - (stageBlockSizes.width / 2),
+      top: centerOfCanvas.y - (stageBlockSizes.height / 2)
+    }
+  }
+
+  const getTopCenterPosition = () => {
+    if (!stageWrapper.current) return {
+      top: 0
+    };
+    return stageWrapper.current.offsetHeight / 2;
+  }
+
+  const getMostLeftStagePosition = () => {
+    if (stageContainer.length < 2) return 0;
+
+    const stageBlock = stageContainer[1];
+
+    const mostLeftStageRightPosition = pixelsToInt(stageBlock.style.right);
+    const mostLeftStageWidth = stageBlock.offsetWidth;
+
+    return mostLeftStageRightPosition - (mostLeftStageWidth / 2)
+  }
+
+  const getDiff = (stage) => {
+    const centerOfWrapper = 648 / 2;
+    const blockWidth = 131;
+    const marginRight = 40 + 100 * (stages.length - stage.position);
+    return centerOfWrapper - marginRight - (blockWidth / 2);
+  }
+
+  let diff = 0;
+  if (stages.length > 0) diff = getDiff(pickInitialCenteredStage());
+
+  const getAddStageCircleStyles = () => {
+    if (stageContainer.length > 1) {
+      const offsetY = getTopCenterPosition() + 2 + "px";
+      const style = stageContainer.length % 2 === 1 ?
+        { top: offsetY } : { bottom: offsetY }
+      style.right = (40 + diff + moveDiff) + "px";
+      return style;
+    } else {
+      return { top: getInitialAddButtonPosition().top, left: getInitialAddButtonPosition().left }
+    }
+  }
 
   return (
     <>
       <div className={styles.graph}>
-        <div className={styles.graphLine}></div>
+        {
+          stageContainer.length > 1 &&
+          <div className={styles.graphLine}
+             style={{ top: "calc(50% - 2px)",
+                      right: (40 + diff + moveDiff + stageContainer[0].offsetWidth / 2 - 2) + "px",
+                      width: ((stageContainer.length - 1) * 100 + 4) + "px"
+            }}
+          ></div>
+        }
 
         <div className={styles.graphRoadmap} ref={stageWrapper}>
           <div
             className={styles.graphStage}
-            style={{ top: "180px", right: "40px" }}
-            // ref={(element) => (stageContainer.current[0] = element)}
+            style={getAddStageCircleStyles()}
             ref={measuredRef}
           >
-            <div className={styles.graphBranchLine}></div>
+            {(stageContainer.length > 1 && stageContainer.length % 2 === 1) && <div className={styles.graphBranchLine}></div>}
             <div className={styles.graphCircle} onClick={openCreateStagePopup}>
               <AddTaskRoadmapSVG />
-            </div>{" "}
-            {/* with some specified color by stage.status */}
+            </div>
+            {(stageContainer.length > 1 && stageContainer.length % 2 === 0) && <div className={styles.graphBranchLine}></div>}
           </div>
           {(stages && stages?.length > 0) && stages.map((stage, i) => {
-            // const position = (stages.length - i - 1) % 2;
-            // const marginRight = 40 + 100 * (stages.length - i);
-            const position = (stage.id - 1) % 2;
-            const marginRight = 40 + 100 * (stage.id);
+            let styleOfStage = null;
+            let position = null;
+            position = (stage.position) % 2;
+            const marginRight = 40 + 100 * (stages.length - stage.position);
+            const offsetY = (getTopCenterPosition() + 2) + "px";
+            styleOfStage = position === 0 ? 
+              { top: offsetY } : { bottom: offsetY }
+            styleOfStage.right = (marginRight + diff + moveDiff) + "px"
             return (
               <div
                 className={styles.graphStage}
-                style={{
-                  top: 180 * position + "px",
-                  right: marginRight + "px",
-                }}
+                style={styleOfStage}
                 onClick={() => openStage(stage.id)}
                 key={i}
-                // ref={(element) => (stageContainer.current[i + 1] = element)}
                 ref={measuredRef}
 
               >
-                {position === 1 && (
+                {position === 0 && (
                   <div className={styles.graphBranchLine}></div>
                 )}
 
                 <div className={styles.graphCircle}>
                   <TaskRoadmapSVG status={getStatusByProgress(stage.progress)} isActive={chosenStage === stage.id} />
                 </div>
-                {/* with some specified color by stage.status */}
                 <input
                   type="text"
                   placeholder={stage.name}
                   className={styles.stageName}
                 />
 
-                {/* can be chosen (stage.chosen) */}
-                {position === 0 && (
+                {position === 1 && (
                   <div
                     className={styles.graphBranchLine}
                     style={{ bottom: 0, position: "absolute" }}
@@ -179,34 +278,33 @@ const RoadmapGraph = ({ stages }) => {
               styles.moveGraphButton,
               styles.moveGraphButtonRight,
             ].join(" ")}
-            onClick={() => moveGraph("right")}
-          >
-            <MoveRoadMap
-              style={{
-                marginTop: "calc(177px - 32px)",
-                right: "0",
-                position: "absolute",
-              }}
-            />
-          </div>
+          ></div>
           <div
             className={[
               styles.moveGraphButton,
               styles.moveGraphButtonLeft,
             ].join(" ")}
-            onClick={() => moveGraph("left")}
-          >
-            <MoveRoadMap
-              style={{
-                transform: "rotate(180deg)",
-                marginTop: "calc(177px - 32px)",
-                left: "0",
-              }}
-            />
-          </div>
-          <RoadmapPagination blocks={blocksVisibility} />
+          ></div>
+          {stageContainer.length > 1 && 
+            <div className={styles.moveButtons}>
+              <MoveRoadMap
+                style={{
+                  transform: "rotate(180deg)",
+                  pointerEvents: "all"
+                }}
+                onClick={() => moveGraph("left")}
+              />
+              <MoveRoadMap
+                style={{
+                  pointerEvents: "all"
+                }}
+                onClick={() => moveGraph("right")}
+              />
+            </div>
+          }
         </div>
       </div>
+      {stageContainer.length > 1 && <RoadmapPagination blocks={blocksVisibility} />}
     </>
   );
 };

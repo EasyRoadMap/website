@@ -35,16 +35,22 @@ const SidebarProjectButton = ({ project, chosen, blocks, places }) => {
   const navigate = useNavigate();
 
   const { workspaceContext } = useWorkspaceContext();
-  const { projectContext } = useProjectContext();
+  const { projectContext, setProjectContext } = useProjectContext();
   const {Project, Members} = useProjectInfo();
 
   const toProject = () => {
     if (project?.id && workspaceContext?.id) {
+      setProjectContext((prev) => ({...prev, id: project.id}));
       navigate({
         pathname: "/workspace/project",
-        search: '?ws_id='+workspaceContext.id+"&pr_id="+project.id
+        search: '?ws_id='+workspaceContext.id+"&pr_id="+project.id,
+      }, {
+        state: {
+          pr_id: project.id,
+          replace: false
+        }
       })
-      initProject(Project, Members, project.id);
+      // initProject(Project, Members, getStages, project.id);
     }
   }
 
@@ -56,7 +62,7 @@ const SidebarProjectButton = ({ project, chosen, blocks, places }) => {
         <img src={project?.photo?.url} alt="" className={avatarClassName} />
         <span className={styles.name}>{project?.name}</span>
       </button>
-      {chosen && (
+      {(chosen && project?.id === projectContext?.id) && (
         <>
           <hr />
           <div className={styles.placesInProject}>

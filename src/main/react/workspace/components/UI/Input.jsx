@@ -39,6 +39,7 @@ export default function Input({
   error,
   clearError,
   typeOfInput,
+  loading = null,
 }) {
   const inputStyle = error ? styles.error : "";
   const inputWithContentStyle = data ? styles.inputWithContent : "";
@@ -61,33 +62,35 @@ export default function Input({
       setType("password");
     }
   };
-  return (
-    <>
-      <div className={styles.inputWithTextWrapper}>
-        <label className={styles.label}>{translation[typeOfInput]}</label>
-        <div className={styles.inputWrapper}>
-          <input
-            type={type === "repeatedPassword" ? "password" : type}
-            className={[styles.input, inputWithContentStyle, inputStyle].join(
-              " "
+  if (loading === null || loading === false) {
+    return (
+      <>
+        <div className={styles.inputWithTextWrapper}>
+          <label className={styles.label}>{translation[typeOfInput]}</label>
+          <div className={styles.inputWrapper}>
+            <input
+              type={type === "repeatedPassword" ? "password" : type}
+              className={[styles.input, inputWithContentStyle, inputStyle].join(
+                " "
+              )}
+              placeholder={placeholder}
+              onChange={changeValue}
+              value={data}
+              autoComplete={autoCompleteName[typeOfInput]}
+              onMouseEnter={() => setActive(true)}
+              onMouseLeave={() => setActive(false)}
+              min={type === "date" ? "1990-01-01" : undefined}
+              max={type === "date" ? "2990-01-01" : undefined}
+            ></input>
+            {typeOfInput === "password" && (
+              <div onClick={handleToggle} className={styles.iconSVG}>
+                {icon}
+              </div>
             )}
-            placeholder={placeholder}
-            onChange={changeValue}
-            value={data}
-            autoComplete={autoCompleteName[typeOfInput]}
-            onMouseEnter={() => setActive(true)}
-            onMouseLeave={() => setActive(false)}
-            min={type === "date" ? "1990-01-01" : undefined}
-            max={type === "date" ? "2990-01-01" : undefined}
-          ></input>
-          {typeOfInput === "password" && (
-            <div onClick={handleToggle} className={styles.iconSVG}>
-              {icon}
-            </div>
-          )}
+          </div>
         </div>
-      </div>
-      <ErrorTooltip isShown={active && error} errorText={error} />
-    </>
-  );
+        <ErrorTooltip isShown={active && error} errorText={error} />
+      </>
+    );
+  }
 }

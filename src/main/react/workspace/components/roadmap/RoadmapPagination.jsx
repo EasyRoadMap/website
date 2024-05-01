@@ -1,8 +1,6 @@
 import styles from "./styles.module.css";
 
 const RoadmapPagination = ({blocks}) => {
-    console.log("BLOCKS");
-    console.log(blocks);
     return (
         <div className={styles.paginationWrapper}>
             <div className={styles.pagination}>

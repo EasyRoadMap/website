@@ -2,7 +2,7 @@ import Base from "./Base.jsx";
 import ProjectsList from "../components/projects/ProjectsList.jsx";
 
 
-const Projects = () => {
+const ProjectsPage = () => {
     return (
         <Base>
             <ProjectsList />
@@ -10,4 +10,4 @@ const Projects = () => {
     );
 }
 
-export default Projects;
+export default ProjectsPage;
