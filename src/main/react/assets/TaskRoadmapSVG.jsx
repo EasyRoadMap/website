@@ -1,16 +1,16 @@
 import styles from "./style.module.css";
 
 const className = {
-  "done": styles.taskRoadmapDoneSVG,
-  "progress": styles.taskRoadmapProgressSVG,
-  "planned": styles.taskRoadmapPlannedSVG,
-}
+  done: styles.taskRoadmapDoneSVG,
+  progress: styles.taskRoadmapProgressSVG,
+  planned: styles.taskRoadmapPlannedSVG,
+};
 
 const classNameActive = {
-  "done": styles.taskRoadmapDoneSVGActive,
-  "progress": styles.taskRoadmapProgressSVGActive,
-  "planned": styles.taskRoadmapPlannedSVGActive,
-}
+  done: styles.taskRoadmapDoneSVGActive,
+  progress: styles.taskRoadmapProgressSVGActive,
+  planned: styles.taskRoadmapPlannedSVGActive,
+};
 
 const TaskRoadmapSVG = (props) => (
   <svg
@@ -19,7 +19,11 @@ const TaskRoadmapSVG = (props) => (
     viewBox="0 0 132 130"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className={props.isActive ? [className[props.status], classNameActive[props.status]].join(" ") : className[props.status]}
+    className={
+      props.isActive
+        ? [className[props.status], classNameActive[props.status]].join(" ")
+        : className[props.status]
+    }
     {...props}
   >
     <path
@@ -84,7 +88,7 @@ const TaskRoadmapSVG = (props) => (
       d="M68 100C86.5015 100 101.5 85.0015 101.5 66.5C101.5 47.9985 86.5015 33 68 33C49.4985 33 34.5 47.9985 34.5 66.5C34.5 85.0015 49.4985 100 68 100Z"
       stroke="#99E550"
       strokeWidth={12}
-      className={styles.taskRoadmapSVG}
+      className={styles.taskRoadmapSVGOutside}
     />
   </svg>
 );

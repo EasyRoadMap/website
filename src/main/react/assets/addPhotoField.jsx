@@ -6,9 +6,10 @@ const AddPhotoFieldSVG = (props) => (
     viewBox="0 0 647 250"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    сlassName={styles.addPhotoField}
     {...props}
   >
-    <g opacity={0.5}>
+    <g>
       <rect
         x={0.75}
         y={0.75}

@@ -3,6 +3,7 @@ import styles from "./workspaceMainInfoStyle.module.css";
 import TextFieldDate from "./UI/TextFieldDate.jsx";
 import TextFieldLink from "./UI/TextFieldLink.jsx";
 import useProjectContext from "../hooks/useProjectContext.js";
+import CameraSVG from "../../assets/cameraSVG.jsx";
 import { useState } from "react";
 
 const ProjectMainInfo = () => {
@@ -13,17 +14,31 @@ const ProjectMainInfo = () => {
 
   const { projectContext } = useProjectContext();
 
-  const avatarClassName = projectContext?.photo?.default ? [styles.logo, styles.pixelAvatar].join(" ") : styles.logo;
-  
+  const avatarClassName = projectContext?.photo?.default
+    ? [styles.logo, styles.pixelAvatar].join(" ")
+    : styles.logo;
+
   return (
     <section className={styles.section} id="main">
       <span className={styles.title}>Основная информация</span>
       <div className={styles.info}>
-        <img src={projectContext?.photo?.url} alt="" className={avatarClassName} />
+        <div className={styles.projectAvatar}>
+          <img
+            src={projectContext?.photo?.url}
+            alt=""
+            className={avatarClassName}
+          />
+          <div className={styles.projectAvatarWrapper}>
+            <div className={styles.UserAvatarPlaceholder}>
+              <CameraSVG />
+            </div>
+          </div>
+        </div>
+
         <div className={styles.sectionUrl}>
-          <TextField 
-            title="Название проекта" 
-            placeholder="Название проекта" 
+          <TextField
+            title="Название проекта"
+            placeholder="Название проекта"
             data={name}
             setData={setName}
           />
@@ -39,10 +54,7 @@ const ProjectMainInfo = () => {
           <TextFieldLink />
           <TextFieldLink />
           <label className={styles.titleInput}>Дата дедлайна</label>
-          <TextFieldDate 
-            data={date}
-            setData={setDate}
-          />
+          <TextFieldDate data={date} setData={setDate} />
         </div>
       </div>
     </section>

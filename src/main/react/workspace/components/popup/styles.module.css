@@ -70,9 +70,14 @@
   gap: 12px;
   justify-content: center;
 }
-
-.addPhotoFieldWrapper {
+.addPhotoFieldInput {
+  display: flex;
+  position: relative;
   width: 647px;
+  opacity: 0.5;
+}
+.addPhotoFieldInput:hover {
+  opacity: 1;
 }
 .photosList {
   display: flex;
@@ -80,7 +85,7 @@
   justify-content: baseline;
   gap: calc((100% - 600px) / 2);
   flex-wrap: wrap;
-  margin-bottom: 12px;
+  width: 647px;
 }
 .photo {
   width: 200px;
@@ -106,6 +111,8 @@
   width: 650px;
   height: 250px;
   cursor: pointer;
+  position: absolute;
+  opacity: 0;
 }
 .dragActive {
   width: 650px;
@@ -137,7 +144,6 @@
   background-color: var(--bg-color-task), rgb(244, 228, 86, 0.2);
   background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
     linear-gradient(rgb(244, 228, 86, 0.2), rgb(244, 228, 86, 0.2));
-  color: var(--color-task-done);
   color: var(--color-task-progress);
 }
 .inProgressTask:active {
@@ -145,7 +151,6 @@
   background-color: var(--bg-color-task), rgb(244, 228, 86, 0.2);
   background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
     linear-gradient(rgb(244, 228, 86, 0.2), rgb(244, 228, 86, 0.2));
-  color: var(--color-task-done);
   color: var(--color-task-progress);
 }
 .plannedTask {
@@ -156,7 +161,6 @@
   background-color: var(--bg-color-task), rgb(169, 173, 179, 0.2);
   background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
     linear-gradient(rrgb(169, 173, 179, 0.2), rgb(169, 173, 179, 0.2));
-  color: var(--color-task-done);
   color: var(--color-task-planned);
 }
 .plannedTask:active {
@@ -164,7 +168,6 @@
   background-color: var(--bg-color-task), rgb(169, 173, 179, 0.2);
   background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
     linear-gradient(rrgb(169, 173, 179, 0.2), rgb(169, 173, 179, 0.2));
-  color: var(--color-task-done);
   color: var(--color-task-planned);
 }
 
@@ -278,6 +281,44 @@
   border-style: solid;
   border-width: 1px;
   border-color: var(--light-stroke);
+  background-color: #e6ebf2;
+}
+.UserAvatarPlaceholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.UserAvatarWrapper {
+  height: 120px;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.UserAvatarWrapper:hover {
+  .userAvatarDiv {
+    opacity: 0.5;
+  }
+}
+.UserAvatarWrapper:active {
+  .userAvatarDiv {
+    opacity: 1;
+  }
+}
+.userAvatarDiv {
+  opacity: 0;
+  height: 120px;
+  width: 120px;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .containerInfoUser {
   display: flex;

@@ -13,22 +13,19 @@ const completionIcons = {
 
 // TODO: change colors
 const completionColors = {
-  done: "var(--bg-task-complete)",
-  in_progress: "var(--bg-task-in-progress)",
-  planned: "var(--bg-task-in-planned)",
+  done: "taskFieldDone",
+  in_progress: "taskFieldProgress",
+  planned: "taskFieldPlanned",
 };
 
 const TaskItem = ({ task }) => {
   const IconTaskComplete = completionIcons[task?.status];
   console.log("task");
   console.log(task);
+  const classTask = styles[completionColors[task?.status]];
 
   return (
-    <div
-      className={styles.taskField}
-      style={{ backgroundColor: completionColors[task?.status] }}
-    >
-      <img src="" alt="" />
+    <div className={classTask}>
       <div className={styles.taskFieldsWrapper}>
         <div className={styles.taskMainPart}>
           <div className={styles.taskTitleWrapper}>

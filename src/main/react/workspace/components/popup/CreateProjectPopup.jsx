@@ -28,15 +28,15 @@ const CreateProjectPopup = ({ close }) => {
           data={name}
           setData={setName}
           placeholder={"Введите название"}
-          typeOfInput={"nameRegion"}
+          typeOfInput={"nameProject"}
         />
         <Input
           data={description}
           setData={setDescription}
           placeholder={"Введите описание"}
-          typeOfInput={"descriptionRegion"}
+          typeOfInput={"descriptionProject"}
         />
-        <InputDate typeDate="endDate" />
+        <InputDate typeDate="endDate" loading={true} />
       </div>
       <div className={styles.buttonsWrapper}>
         <Button

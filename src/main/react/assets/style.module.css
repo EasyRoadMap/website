@@ -2,46 +2,6 @@
   fill: var(--bg-icon-sidebar);
   stroke: var(--bg-icon-sidebar);
 }
-.addPersonSVG {
-  path {
-    fill: var(--accent-color);
-  }
-  rect {
-    fill: transparent;
-    stroke: var(--accent-color);
-  }
-}
-.addPersonSVG:hover {
-  path {
-    fill: rgba(255, 255, 255);
-  }
-  rect {
-    fill: #1a75fe;
-    stroke: transparent;
-  }
-}
-
-.addPersonSVG:active {
-  opacity: 0.75;
-  path {
-    fill: rgba(255, 255, 255);
-  }
-  rect {
-    fill: #1a75fe;
-    stroke: transparent;
-  }
-}
-
-.addPersonSVG:disabled {
-  opacity: 0.3;
-  path {
-    fill: #1a75fe;
-  }
-  rect {
-    fill: transparent;
-    stroke: #1a75fe;
-  }
-}
 
 .buttonDotsSVG {
   path {
@@ -135,13 +95,31 @@
   .taskRoadmapSVG {
     stroke: #99e550;
   }
+  .taskRoadmapSVGOutside {
+    opacity: 1;
+    stroke: #99e550;
+    stroke-width: 12px;
+  }
   .taskRoadmapSVGFill {
     fill: #99e550;
+  }
+}
+.taskRoadmapDoneSVG:hover {
+  .taskRoadmapSVGOutside {
+    opacity: 0.85;
+  }
+}
+.taskRoadmapDoneSVG:active {
+  .taskRoadmapSVGOutside {
+    stroke-width: 13px;
   }
 }
 
 .taskRoadmapDoneSVGActive {
   .taskRoadmapSVG {
+    stroke: var(--bg-task-done-roadmap-active);
+  }
+  .taskRoadmapSVGOutside {
     stroke: var(--bg-task-done-roadmap-active);
   }
   .taskRoadmapSVGFill {
@@ -153,12 +131,37 @@
   .taskRoadmapSVG {
     stroke: #f4e456;
   }
+  .taskRoadmapSVGOutside {
+    opacity: 1;
+    stroke: #f4e456;
+    stroke-width: 12px;
+  }
+  .taskRoadmapSVGFill {
+    fill: #f4e456;
+  }
+}
+.taskRoadmapProgressSVG:hover {
+  .taskRoadmapSVGOutside {
+    opacity: 0.85;
+  }
+}
+.taskRoadmapProgressSVG:active {
+  .taskRoadmapSVG {
+    stroke: #f4e456;
+  }
+  .taskRoadmapSVGOutside {
+    stroke: #f4e456;
+    stroke-width: 13px;
+  }
   .taskRoadmapSVGFill {
     fill: #f4e456;
   }
 }
 .taskRoadmapProgressSVGActive {
   .taskRoadmapSVG {
+    stroke: var(--bg-task-progress-roadmap-active);
+  }
+  .taskRoadmapSVGOutside {
     stroke: var(--bg-task-progress-roadmap-active);
   }
   .taskRoadmapSVGFill {
@@ -170,6 +173,28 @@
   .taskRoadmapSVG {
     stroke: #a9adb3;
   }
+  .taskRoadmapSVGOutside {
+    opacity: 1;
+    stroke: #a9adb3;
+    stroke-width: 12px;
+  }
+  .taskRoadmapSVGFill {
+    fill: #a9adb3;
+  }
+}
+.taskRoadmapPlannedSVG:hover {
+  .taskRoadmapSVGOutside {
+    opacity: 0.85;
+  }
+}
+.taskRoadmapPlannedSVG:active {
+  .taskRoadmapSVG {
+    stroke: #a9adb3;
+  }
+  .taskRoadmapSVGOutside {
+    stroke: #a9adb3;
+    stroke-width: 13px;
+  }
   .taskRoadmapSVGFill {
     fill: #a9adb3;
   }
@@ -178,8 +203,38 @@
   .taskRoadmapSVG {
     stroke: var(--bg-task-planned-roadmap-active);
   }
+  .taskRoadmapSVGOutside {
+    stroke: var(--bg-task-planned-roadmap-active);
+  }
   .taskRoadmapSVGFill {
     fill: var(--bg-task-planned-roadmap-active);
+  }
+}
+
+.addTaskRoadmapSVG {
+  .addTaskRoadmapSVGStroke {
+    stroke: #a9adb3;
+  }
+  .addTaskRoadmapSVGStrokeOutside {
+    opacity: 1;
+    stroke: #a9adb3;
+  }
+}
+.addTaskRoadmapSVG:hover {
+  .addTaskRoadmapSVGStrokeOutside {
+    opacity: 0.85;
+    width: 61;
+    height: 61;
+  }
+}
+.addTaskRoadmapSVG:active {
+  .addTaskRoadmapSVGStroke {
+    stroke: var(--bg-task-planned-roadmap-active);
+  }
+  .addTaskRoadmapSVGStrokeOutside {
+    stroke: var(--bg-task-planned-roadmap-active);
+    width: 61;
+    height: 61;
   }
 }
 
@@ -190,6 +245,9 @@
   rect {
     fill: var(--switch-hover-color);
     fill-opacity: 0.05;
+  }
+  path {
+    stroke: var(--text-color);
   }
 }
 .roadMapMoveIcon:hover {

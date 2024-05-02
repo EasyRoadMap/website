@@ -1,6 +1,7 @@
 import styles from "./styles.module.css";
 import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
+import CameraSVG from "../../../assets/cameraSVG.jsx";
 import { useState } from "react";
 
 const UpdateProfilePopup = ({ workspaceName, close }) => {
@@ -19,7 +20,14 @@ const UpdateProfilePopup = ({ workspaceName, close }) => {
         <h1 className={styles.title}>Мой профиль</h1>
 
         <div className={styles.containerInfoUser}>
-          <div src="" alt="" className={styles.UserAvatar}></div>
+          <div className={styles.UserAvatarWrapper}>
+            <img src="" alt="" className={styles.UserAvatar}></img>
+            <div className={styles.userAvatarDiv}>
+              <div className={styles.UserAvatarPlaceholder}>
+                <CameraSVG />
+              </div>
+            </div>
+          </div>
           <div className={styles.containerWithInputUser}>
             <Input
               data={name}

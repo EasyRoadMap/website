@@ -23,7 +23,7 @@ const CreateStagePopup = ({ close }) => {
           data={name}
           setData={setName}
           placeholder={"Введите название"}
-          typeOfInput={"nameRegion"}
+          typeOfInput={"nameStage"}
         />
       </div>
       <div className={styles.buttonsWrapper}>

@@ -81,6 +81,8 @@
   font-weight: normal;
   opacity: 0.5;
   color: var(--text-color);
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 }
 .projectButton:hover {
   background-color: var(--bg-workspace-button);

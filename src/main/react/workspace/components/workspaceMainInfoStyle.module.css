@@ -43,3 +43,41 @@
   font-size: 16px;
   font-weight: 500;
 }
+.UserAvatarPlaceholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+  position: absolute;
+}
+.projectAvatar {
+  height: 120px;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.projectAvatarWrapper {
+  opacity: 0;
+  height: 120px;
+  width: 120px;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.projectAvatar:hover {
+  .projectAvatarWrapper {
+    opacity: 0.5;
+  }
+}
+.projectAvatar:active {
+  .projectAvatarWrapper {
+    opacity: 1;
+  }
+}

@@ -34,7 +34,7 @@ const AddParticipantButton = () => {
     <button className={styles.addButton} onClick={openSendInvitePopup}>
       {/* add icon */}
       <div className={styles.addLogo}>
-        <AddPersonSVG />
+        <AddPersonSVG className={styles.addPersonSVG} />
       </div>
       <div className={styles.addUser}>Добавить участника</div>
     </button>

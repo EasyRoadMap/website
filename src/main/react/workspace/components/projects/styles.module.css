@@ -7,12 +7,17 @@
   border-radius: 24px;
 }
 .name {
+  width: 100%;
   font-size: 24px;
   font-weight: 500;
   color: var(--text-color);
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 }
 .project {
-  height: 339px;
+  height: 341px;
+  width: 312px;
   flex-basis: calc(50% - 12px);
   background-color: var(--bg-color-sidebar-and-dropdown);
   padding: 20px;

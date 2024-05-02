@@ -7,7 +7,7 @@ const AddPersonSVG = (props) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
-    className={styles.addPersonSVG}
+    // className={styles.addPersonSVG}
   >
     <rect
       x={0.75}

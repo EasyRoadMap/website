@@ -63,7 +63,52 @@
   user-select: none;
   border: none;
   background-color: transparent;
+  .addPersonSVG {
+    path {
+      fill: var(--accent-color);
+    }
+    rect {
+      fill: transparent;
+      stroke: var(--accent-color);
+    }
+  }
 }
+.addButton:hover {
+  .addPersonSVG {
+    path {
+      fill: rgba(255, 255, 255);
+    }
+    rect {
+      fill: #1a75fe;
+      stroke: transparent;
+    }
+  }
+}
+.addButton:active {
+  .addPersonSVG {
+    opacity: 0.75;
+    path {
+      fill: rgba(255, 255, 255);
+    }
+    rect {
+      fill: #1a75fe;
+      stroke: transparent;
+    }
+  }
+}
+.addButton:disabled {
+  .addPersonSVG {
+    opacity: 0.3;
+    path {
+      fill: #1a75fe;
+    }
+    rect {
+      fill: transparent;
+      stroke: #1a75fe;
+    }
+  }
+}
+
 .addLogo {
   height: 64px;
   width: 64px;

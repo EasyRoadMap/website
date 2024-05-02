@@ -8,19 +8,97 @@
   border-radius: 24px;
   gap: 12px;
 }
-.taskField {
+.taskFieldDone {
   padding-left: 24px;
   padding-top: 12px;
   padding-bottom: 12px;
-  padding-right: 24px;
+  padding-right: 45px;
   border-radius: 24px;
   display: flex;
   align-items: center;
   position: relative;
+  background-color: var(--bg-task-complete);
 }
-.taskField:active {
-  opacity: 0.75;
+.taskFieldDone:hover {
+  background-color: var(--bg-color-task), rgba(153, 229, 80, 0.15);
+  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
+    linear-gradient(rgba(153, 229, 80, 0.15), rgba(153, 229, 80, 0.15));
 }
+.taskFieldDone:active {
+  background-color: var(--bg-color-task), rgba(153, 229, 80, 0.15);
+  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
+    linear-gradient(rgba(153, 229, 80, 0.15), rgba(153, 229, 80, 0.15));
+  .taskMainPart {
+    opacity: 0.75;
+  }
+  .taskCompletionIcon {
+    opacity: 0.75;
+  }
+  .dots {
+    opacity: 0.75;
+  }
+}
+.taskFieldProgress {
+  padding-left: 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 45px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: var(--bg-task-in-progress);
+}
+.taskFieldProgress:hover {
+  background-color: var(--bg-color-task), rgb(244, 228, 86, 0.15);
+  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
+    linear-gradient(rgb(244, 228, 86, 0.15), rgb(244, 228, 86, 0.15));
+}
+.taskFieldProgress:active {
+  background-color: var(--bg-color-task), rgb(244, 228, 86, 0.15);
+  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
+    linear-gradient(rgb(244, 228, 86, 0.15), rgb(244, 228, 86, 0.15));
+  .taskMainPart {
+    opacity: 0.75;
+  }
+  .taskCompletionIcon {
+    opacity: 0.75;
+  }
+  .dots {
+    opacity: 0.75;
+  }
+}
+.taskFieldPlanned {
+  padding-left: 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 45px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: var(--bg-task-in-planned);
+}
+.taskFieldPlanned:hover {
+  background-color: var(--bg-color-task), rgb(169, 173, 179, 0.15);
+  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
+    linear-gradient(rrgb(169, 173, 179, 0.15), rgb(169, 173, 179, 0.15));
+}
+.taskFieldPlanned:active {
+  background-color: var(--bg-color-task), rgb(169, 173, 179, 0.15);
+  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
+    linear-gradient(rrgb(169, 173, 179, 0.15), rgb(169, 173, 179, 0.15));
+  .taskMainPart {
+    opacity: 0.75;
+  }
+  .taskCompletionIcon {
+    opacity: 0.75;
+  }
+  .dots {
+    opacity: 0.75;
+  }
+}
+
 .tasksListWrapper {
   width: 100%;
   position: relative;
@@ -84,11 +162,11 @@
 .paginationCircle {
   width: 18px;
   height: 18px;
-  background-color: grey;
+  background-color: var(--bg-pagination-circle);
   border-radius: 50%;
 }
 .paginationCircleActive {
-  background-color: antiquewhite;
+  background-color: var(--bg-workspace-button-focus);
 }
 .tasksListTitleWrapper {
   display: flex;
@@ -178,14 +256,18 @@
   transition-duration: 500ms;
 }
 .graphCircle {
-  height: 128px;
+  /* height: 128px; */
   width: 131px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
   /* background-color: antiquewhite; */
 }
 .graphLine {
   /* width: 100%; */
   height: 4px;
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--light-stroke);
   position: absolute;
   transition: ease-in-out;
   transition-duration: 500ms;
@@ -226,7 +308,7 @@
   top: 10px;
   right: 10px;
   display: none;
-  patch {
+  path {
     stroke: var(--text-color);
   }
   rect {
@@ -245,7 +327,7 @@
 .graphBranchLine {
   height: 24px;
   width: 4px;
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--light-stroke);
 }
 
 .showMoreButton {
@@ -269,4 +351,6 @@
   font-weight: 500;
   color: var(--foreground-color50);
   user-select: none;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 }

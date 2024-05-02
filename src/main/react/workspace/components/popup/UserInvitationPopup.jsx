@@ -6,21 +6,22 @@ const UserInvitationPopup = ({ close, invite }) => {
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "decline" && nameButtonClicked !== "accept")
       return;
-    close({button: nameButtonClicked, invite_id: invite.id});
+    close({ button: nameButtonClicked, invite_id: invite.id });
   };
   return (
     <>
       <div className={styles.containerWithGaps}>
         <h1 className={styles.title}>Приглашение в рабочую область</h1>
         <div className={styles.description}>
-            Вы получили приглашение в
-            <span className={styles.descriptionBolder}>
-                {" " + invite?.workspace?.name + " "}
-            </span>{" "}
-            от администратора
-            <span className={styles.descriptionBolder}>
-                {" " + invite?.inviter?.name + " "}
-            </span>{" "}
+          Вы получили приглашение в
+          <span className={styles.descriptionBolder}>
+            {" " + invite?.workspace?.name + " "}
+          </span>{" "}
+          <br />
+          от администратора
+          <span className={styles.descriptionBolder}>
+            {" " + invite?.inviter?.name + " "}
+          </span>{" "}
         </div>
         <div className={styles.participantCard}>
           <div className={styles.participantCardWrapper}>
