@@ -7,6 +7,7 @@ import { deleteWorkspace } from "../api/workspace-api/deleteWorkspace.js";
 import { putAppearance } from "../api/workspace-api/putAppearance.js";
 import { getAppearance } from "../api/workspace-api/getAppearance.js";
 import { putInfo } from "../api/workspace-api/putInfo.js";
+import { getInfo } from "../api/workspace-api/getInfo.js";
 import { getInvite } from "../api/workspace-api/getInvite.js";
 import { sendInvite } from "../api/workspace-api/sendInvite.js";
 import { acceptInvite } from "../api/workspace-api/acceptInvite.js";
@@ -16,6 +17,8 @@ import { leaveWorkspace } from "../api/workspace-api/leaveWorkspace.js";
 import { getWorkspaceMembers } from "../api/workspace-api/getWorkspaceMembers.js";
 import { getProjects } from "../api/workspace-api/getProjects.js";
 import { getPhoto } from "../api/workspace-api/getPhoto.js"
+import { transferOwnership } from "../api/workspace-api/transferOwnership.js";
+import { kickMember } from "../api/workspace-api/kickMember.js"
 
 import useWorkspaceContext from "./useWorkspaceContext.js";
 import useUserContext from "./useUserContext.js";
@@ -108,9 +111,18 @@ export const useWorkspaceInfo = () => {
         })
     }
 
+    const Info = (ws_id) => {
+        getInfo(ws_id).then((response) => {
+            setWorkspace((prev) => ({...prev, info: response.data}));
+        }).catch((e) => {
+            console.log("response error");
+            console.log(e);
+        })
+    }
+
     const updateInfo = (ws_id, name, description) => {
         putInfo(ws_id, name, description).then((response) => {
-            setWorkspace((prev) => ({...prev, name, description}));
+            Info(ws_id);
         }).catch((e) => {
             console.log("response error");
             console.log(e);
@@ -128,7 +140,8 @@ export const useWorkspaceInfo = () => {
 
     const SendInvite = (ws_id, email, role) => {
         sendInvite(ws_id, email, role).then((response) => {
-            console.log(response);
+            console.debug("sent invite");
+            Members(ws_id);
         }).catch((e) => {
             console.log("response error");
             console.log(e);
@@ -138,7 +151,7 @@ export const useWorkspaceInfo = () => {
     const AbortInvite = (ws_id, email) => {
         abortInvite(ws_id, email).then((response) => {
             console.log(response);
-            Workspace(ws_id);
+            Members(ws_id);
         }).catch((e) => {
             console.log("response error");
             console.log(e);
@@ -176,6 +189,7 @@ export const useWorkspaceInfo = () => {
 
     const Members = (ws_id) => {
         getWorkspaceMembers(ws_id).then((response) => {
+            console.debug("members");
             setWorkspace((prev) => ({...prev, users: response.data}))
         }).catch((e) => {
             console.log("response error");
@@ -201,5 +215,23 @@ export const useWorkspaceInfo = () => {
         })
     }
 
-    return { workspace, Workspace, checkWorkspace, CreateWorkspace, DeleteWorkspace, PutAppearance, GetAppearance, SendInvite, LeaveWorkspace, Members, AbortInvite, Projects, GetInviteInfo, AcceptInvite, DeclineInvite, Photo };
+    const TransferOwnership = (ws_id, email) => {
+        transferOwnership(ws_id, email).then((response) => {
+            Members(ws_id);
+        }).catch((e) => {
+            console.log("response error");
+            console.log(e);
+        })
+    }
+
+    const KickMember = (ws_id, email) => {
+        kickMember(ws_id, email).then((response) => {
+            Members(ws_id);
+        }).catch((e) => {
+            console.log("response error");
+            console.log(e);
+        })
+    }
+
+    return { workspace, updateInfo, Workspace, checkWorkspace, CreateWorkspace, DeleteWorkspace, PutAppearance, TransferOwnership, KickMember, GetAppearance, SendInvite, LeaveWorkspace, Members, AbortInvite, Projects, GetInviteInfo, AcceptInvite, DeclineInvite, Photo };
 }

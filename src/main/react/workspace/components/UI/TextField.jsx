@@ -9,7 +9,7 @@ const TextField = ({ data, setData, title, placeholder, type, loading = null }) 
   };
 
   const inputField = type === "textarea" ?
-    <textarea className={[styles.input, styles.textarea].join(" ")} type="text" placeholder={placeholder} disabled={loading}/> :
+    <textarea className={[styles.input, styles.textarea].join(" ")} type="text" placeholder={placeholder} onChange={changeValue} value={data} disabled={loading}/> :
     <input className={styles.input} type="text" placeholder={placeholder} onChange={changeValue} value={data} disabled={loading}/>
 
   if (loading === null || loading === false) {

@@ -5,6 +5,11 @@ import { useState, useEffect } from "react";
 import useProjectContext from "./useProjectContext.js";
 import { useWorkspaceInfo } from "./useWorkspace.jsx";
 import { getMembers } from "../api/project-api/getMembers.js";
+import { updateInfo } from "../api/project-api/updateInfo.js";
+import { updateLinks } from "../api/project-api/updateLinks.js";
+import { getInfo } from "../api/project-api/getInfo.js";
+import { getLinks } from "../api/project-api/getLinks.js";
+import { removeMember } from "../api/project-api/removeMember.js";
 
 export const useProjectInfo = () => {
     const [project, setProject] = useState({});
@@ -61,6 +66,51 @@ export const useProjectInfo = () => {
         });
     } 
 
+    const KickMember = (pr_id, email) => {
+        removeMember(pr_id, email).then((response) => {
+            Members(pr_id);
+        }).catch((e) => {
+            console.log("response error");
+            console.log(e);
+        })
+    }
 
-    return { Project, DeleteProject, CreateProject, Members };
+    const Info = (pr_id) => {
+        getInfo(pr_id).then((response) => {
+            setProject((prev) => ({...prev, info: response.data}));
+        }).catch((e) => {
+            console.log("response error");
+            console.log(e);
+        });
+    }
+
+    const Links = (pr_id) => {
+        getLinks(pr_id).then((response) => {
+            setProject((prev) => ({...prev, links: response.data}));
+        }).catch((e) => {
+            console.log("response error");
+            console.log(e);
+        });
+    }
+
+    const UpdateInfo = (pr_id, name, description, deadline_at) => {
+        updateInfo(pr_id, name, description, deadline_at).then((response) => {
+            Info(pr_id);
+        }).catch((e) => {
+            console.log("response error");
+            console.log(e);
+        });
+    }
+
+    const UpdateLinks = (pr_id, names_array, urls_array) => {
+        updateLinks(pr_id, names_array, urls_array).then((response) => {
+            Links(pr_id);
+        }).catch((e) => {
+            console.log("response error");
+            console.log(e);
+        });
+    }
+
+
+    return { Project, DeleteProject, KickMember, CreateProject, Members, UpdateInfo, UpdateLinks };
 }

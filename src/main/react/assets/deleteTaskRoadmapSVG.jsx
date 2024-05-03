@@ -5,6 +5,7 @@ const deleteTaskRoadmapSVG = (props) => (
     viewBox="0 0 20 20"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    onClick={props.onClick}
     {...props}
   >
     <rect x={0.5} width={20} height={20} rx={10} fill="black" fillOpacity={1} />

@@ -12,27 +12,32 @@ const TypeDateInput = {
   },
 };
 
-const InputDate = ({ typeDate, loading }) => {
-  const data = TypeDateInput[typeDate];
+const InputDate = ({ data, setData, typeDate, loading }) => {
+  const date = TypeDateInput[typeDate];
 
-  if (loading === null || loading === true) {
-    return (
-      <>
-        <div className={styles.inputWithTextWrapper}>
-          <label className={styles.label}>{data.lable}</label>
-          <div className={styles.inputWrapper}>
-            <CalendarSVG className={styles.calendarSVG} />
-            <input
-              type="date"
-              className={styles.input}
-              placeholder={data.placeholder}
-              min={"1990-01-01"}
-              max={"2990-01-01"}
-            ></input>
-          </div>
+  const changeValue = (e) => {
+    console.debug("Date,", e.target.value);
+    setData(e.target.value);
+  };
+
+  return (
+    <>
+      <div className={styles.inputWithTextWrapper}>
+        <label className={styles.label}>{date.lable}</label>
+        <div className={styles.inputWrapper}>
+          <CalendarSVG className={styles.calendarSVG} />
+          <input
+            type="date"
+            className={styles.input}
+            placeholder={date.placeholder}
+            min={"1990-01-01"}
+            max={"2990-01-01"}
+            onChange={changeValue}
+            value={data}
+          ></input>
         </div>
-      </>
-    );
-  }
+      </div>
+    </>
+  );
 };
 export default InputDate;

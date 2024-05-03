@@ -16,16 +16,22 @@ import {
 import ChangePositionPopup from "../popup/ChangePositionPopup.jsx"; 
 
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
+import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 
 const ParticipantActionsButton = ({participant}) => {
   const [listShowed, setListShowed] = useState(false);
 
   const { workspaceContext } = useWorkspaceContext();
+  const { TransferOwnership, KickMember } = useWorkspaceInfo();
 
-  const onCloseTransferControlPopup = (...params) =>
-    console.log("TransferControlPopup has closed with:", ...params);
-  const onCloseRemoveParticipantPopup = (...params) =>
-    console.log("RemoveParticipantPopup has closed with:", ...params);
+  const onCloseTransferControlPopup = (...params) => {
+    if (params[0] !== "yes" || !workspaceContext?.id || !participant?.user?.email) return;
+    TransferOwnership(workspaceContext.id, participant.user.email);
+  }
+  const onCloseRemoveParticipantPopup = (...params) => {
+    if (params[0] !== "yes" || !workspaceContext?.id || !participant?.user?.email) return;
+    KickMember(workspaceContext.id, participant.user.email);
+  }
   const onCloseChangePositionPopup = (...params) =>
     console.log("ChangePositionPopup has closed with:", ...params);
 

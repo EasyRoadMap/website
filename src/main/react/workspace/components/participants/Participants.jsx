@@ -13,14 +13,14 @@ const Participants = ({participants, type}) => {
             </h1>
             <div className={styles.participantsList}>
                 {(participants) && participants.map((participant, i) => {
-                    const participantItem = participant;
-                    if (type === "project") {
-                        participantItem.is_admin = false;
-                        participantItem.is_invited = false;
-                    }
+                    // const participantItem = participant;
+                    // if (type === "project") {
+                    //     participantItem.is_admin = false;
+                    //     participantItem.is_invited = false;
+                    // }
                     return (
                         <div key={i}>
-                            <ParticipantItem participant={participantItem} />
+                            <ParticipantItem participant={participant} type={type}/>
                         </div>
                     );
                 })}

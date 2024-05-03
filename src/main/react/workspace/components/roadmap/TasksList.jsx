@@ -9,6 +9,8 @@ import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
 import CreateTaskPopup from "../popup/CreateTaskPopup.jsx";
 
+import { useState } from "react";
+
 const statusToInt = {
   "in_progress": 0,
   "planned": 1,
@@ -20,12 +22,13 @@ const TasksList = ({ tasks }) => {
   const { chosenStage } = useRoadmapContext();
   const { projectContext } = useProjectContext();
 
+  const [showedAll, setShowedAll] = useState(false);
+
   const popupManager = usePopupManager();
 
   const onCloseCreateTaskPopup = (...params) => {
     console.log(params?.[0]);
     if (params?.[0]?.button === "create" && chosenStage && params?.[0]?.status && params?.[0]?.name && projectContext?.id) {
-      console.log("ok");
       CreateTask(projectContext?.id, chosenStage, statusToInt[params?.[0]?.status], params?.[0]?.name, params?.[0]?.description, params?.[0]?.deadline, params?.[0]?.attachment)
     }
   }
@@ -38,6 +41,10 @@ const TasksList = ({ tasks }) => {
       onClose: onCloseCreateTaskPopup,
     });
   };
+
+  const showMoreTasks = () => {
+    setShowedAll(true)
+  }
 
   return (
     <section className={styles.tasksList}>
@@ -57,13 +64,17 @@ const TasksList = ({ tasks }) => {
         />
       </div>
       {tasks && tasks.map((task, i) => {
+        if (i < 3 || showedAll)
         return (
           <div className={styles.task}>
             <TaskItem task={task} key={i} />
           </div>
         );
       })}
-      <div className={styles.showMoreButton}>Показать ещё</div>
+      {
+        (tasks?.length > 3 && !showedAll) &&
+        <div className={styles.showMoreButton} onClick={showMoreTasks}>Показать ещё</div>
+      }
     </section>
   );
 };

@@ -3,7 +3,7 @@ import AddPhotoFieldSVG from "../../../../assets/addPhotoField.jsx";
 import { useRef, useState } from "react";
 
 // drag drop file component
-function AddPhotoField({ addPhoto }) {
+function AddFileField({ addFile }) {
   // drag state
   const [dragActive, setDragActive] = useState(false);
   // ref
@@ -23,7 +23,9 @@ function AddPhotoField({ addPhoto }) {
   const handleFiles = (files) => {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      addPhoto({ file: file, URL: URL.createObjectURL(file) });
+      console.debug("file info", file);
+      // if ()
+      addFile({ file: file, URL: URL.createObjectURL(file) });
     }
   };
 
@@ -64,7 +66,7 @@ function AddPhotoField({ addPhoto }) {
         type="file"
         multiple={true}
         onChange={handleChange}
-        accept=".png,.jpg,.jpeg"
+        // accept=".png,.jpg,.jpeg"
         onDragEnter={handleDrag}
         onSubmit={(e) => e.preventDefault()}
       />
@@ -85,7 +87,7 @@ function AddPhotoField({ addPhoto }) {
   );
 }
 
-export default AddPhotoField;
+export default AddFileField;
 
 /* <label className={dragActive ? styles.dragActive : ""}>
           <div className={styles.addPhotoFieldText}>

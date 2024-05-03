@@ -14,7 +14,9 @@ const ProjectsList = () => {
                     <ProjectItem project={project} key={i}/>
                 );
             })}
-            <ProjectAddButton />
+            {
+                workspaceContext?.is_admin && <ProjectAddButton />
+            }
         </section>
     );
 }

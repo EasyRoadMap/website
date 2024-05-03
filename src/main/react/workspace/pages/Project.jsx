@@ -36,8 +36,6 @@ const Project = () => {
   }
 
   const openDeleteProjectPopup = () => {
-    console.log("PRG");
-    console.log(projectContext);
     popupManager.open(Popup, {
       popup: {
         component: DeleteProjectPopup,
@@ -52,7 +50,6 @@ const Project = () => {
   useEffect(() => {
     if (!location?.state?.pr_id) return; 
     setProjectID((prev) => prev+1);
-    console.debug("wtf");
     initProject(Project, Members, getStages, location.state.pr_id);
   }, [location?.state?.pr_id]);
 
@@ -70,10 +67,29 @@ const Project = () => {
     return qs.parse(location.search, { ignoreQueryPrefix: true })
   }
 
+  const getFulledLinksArray = () => { 
+    if (!projectContext?.links) return [null, null, null];
+    if (projectContext?.links.length < 3) {
+      const fulledArray = [null, null, null];
+      projectContext.links.forEach((element, i) => {
+        fulledArray[i] = projectContext.links[i];
+      });
+      return fulledArray;
+    }
+    return projectContext.links;
+  }
+
   if (projectContext?.info?.name) {
     return (
       <Base>
-          <ProjectMainInfo />
+          <ProjectMainInfo 
+            initialValues={{
+              name: projectContext?.info?.name,
+              description: projectContext?.info?.description,
+              links: getFulledLinksArray(),
+              date: projectContext?.info?.deadline_at ? projectContext?.info?.deadline_at : ""
+            }}
+          />
           <Participants participants={projectContext?.users} type="project" />
           <Roadmap pr_id={projectID}/>
           <DeleteBlock typeButton="deleteProject" callback={openDeleteProjectPopup} />

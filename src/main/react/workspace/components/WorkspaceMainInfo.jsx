@@ -2,10 +2,17 @@ import TextField from "./UI/TextField.jsx";
 import styles from "./workspaceMainInfoStyle.module.css";
 import CameraSVG from "../../assets/cameraSVG.jsx";
 import { useState, useEffect } from "react";
+import Button from "./UI/Button.jsx";
+
+import { useWorkspaceInfo } from "../hooks/useWorkspace.jsx";
+import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 
 const WorkspaceMainInfo = ({ logo, initialValues }) => {
   const [name, setName] = useState(initialValues.name);
   const [description, setDescription] = useState(initialValues.description);
+
+  const { updateInfo } = useWorkspaceInfo();
+  const { workspaceContext } = useWorkspaceContext();
 
   useEffect(() => {
     console.debug("initialValues", initialValues.workspace);
@@ -14,6 +21,23 @@ const WorkspaceMainInfo = ({ logo, initialValues }) => {
   const avatarClassName = logo?.default
     ? [styles.logo, styles.pixelAvatar].join(" ")
     : styles.logo;
+
+  const isDataChanged = () => {
+    return !(
+      name === initialValues?.name &&
+      description === initialValues?.description
+    )
+  }
+
+  const changeData = () => {
+    if (!workspaceContext?.id) return;
+    if (
+      name !== initialValues?.name ||
+      description !== initialValues?.description
+    ) {
+      updateInfo(workspaceContext.id, name, description);
+    } 
+  }
 
   if (initialValues) {
     return (
@@ -43,6 +67,14 @@ const WorkspaceMainInfo = ({ logo, initialValues }) => {
               setData={setDescription}
               loading={!initialValues.name}
             />
+            {
+            isDataChanged() &&
+            <Button
+              text={"Сохранить изменения"}
+              type={"filledAccent"}
+              callback={changeData}
+            />
+          }
           </div>
         </div>
       </section>

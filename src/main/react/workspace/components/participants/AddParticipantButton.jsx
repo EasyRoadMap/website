@@ -5,11 +5,12 @@ import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
 import InviteParticipantPopup from "../popup/InviteParticipantPopup.jsx";
 
-import { sendInvite } from "../../api/workspace-api/sendInvite.js";
+import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 const AddParticipantButton = () => {
   const popupManager = usePopupManager();
   const { workspaceContext } = useWorkspaceContext();
+  const { SendInvite } = useWorkspaceInfo();
 
   const onSendInvite = (...params) => {
     const email = params[0].email;
@@ -18,7 +19,7 @@ const AddParticipantButton = () => {
 
     if (button !== "invite" || !email || !role || !workspaceContext?.id) return;
     console.log("sending invite", params);
-    sendInvite(workspaceContext.id, email, role);
+    SendInvite(workspaceContext.id, email, role);
   };
 
   const openSendInvitePopup = (...params) => {

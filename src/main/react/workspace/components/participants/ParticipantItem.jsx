@@ -1,18 +1,19 @@
 import styles from "./styles.module.css";
 import ParticipantActionsButton from "./ParticipantActionsButton.jsx";
+import ParticipantsActionsProjectButton from "./ParticipantsActionsProjectButton.jsx";
 import Button from "../UI/Button.jsx";
 import CrownSVG from "../../../assets/crownSVG.jsx";
 import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
-import useUserContext from "../../hooks/useUserContext.js";
+import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 
-const ParticipantItem = ({ participant }) => {
+const ParticipantItem = ({ participant, type }) => {
   const avatarClassName = participant?.user?.photo?.default ? [styles.avatar, styles.pixelAvatar].join(" ") : styles.avatar;
 
   const { AbortInvite } = useWorkspaceInfo();
-  const { user } = useUserContext();
+  const { workspaceContext } = useWorkspaceContext();
 
   const removeInvite = () => {
-    AbortInvite(user.currentWorkspace.id, participant.user.email);
+    AbortInvite(workspaceContext.id, participant.user.email);
   }
 
   return (
@@ -27,7 +28,10 @@ const ParticipantItem = ({ participant }) => {
           </div>
           <div className={styles.position}>{participant?.is_admin ? "Администратор" : participant?.role}</div>
         </div>
-        {(participant?.is_admin && !participant?.is_invited) && <ParticipantActionsButton participant={participant}/>}
+        {(workspaceContext?.is_admin && !participant?.is_invited && !participant?.is_admin) && 
+          (type === "project" ? <ParticipantsActionsProjectButton participant={participant}/>
+          : <ParticipantActionsButton participant={participant}/>)
+        }
         {participant?.is_invited && <Button text={"Отменить"} type={"outlineSecondary"} style={{width: "125px", height: "30px"}} callback={removeInvite}/>}
       </div>
     </div>

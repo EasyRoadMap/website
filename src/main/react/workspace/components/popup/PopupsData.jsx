@@ -19,6 +19,16 @@ const removeParticipantDecsription = (name) => {
     </span>
   );
 };
+const removeParticipantFromProjectDecsription = (name) => {
+  return (
+    <span>
+      Вы уверены, что хотите исключить из
+      <br /> проекта учаcтника
+      <br />
+      <span className={styles.descriptionBolder}>{" " + name}?</span>
+    </span>
+  );
+};
 const removeImageDecsription = () => {
   return (
     <span>Вы уверены, что хотите удалить текущее изображение проекта?</span>
@@ -58,6 +68,22 @@ const askForDeleteWorkspace = (workspace) => {
     </span>
   );
 }
+const askForDeleteStage = (stage) => {
+  return (
+    <span>
+      Вы уверены, что хотите удалить этап
+      <span className={styles.descriptionBolder}>{" " + stage}?</span>
+    </span>
+  );
+}
+const askForDeleteTask = (task) => {
+  return (
+    <span>
+      Вы уверены, что хотите удалить задачу
+      <span className={styles.descriptionBolder}>{" " + task}?</span>
+    </span>
+  );
+}
 
 export const transferControlProps = (name) => {
   return {
@@ -71,6 +97,13 @@ export const removeParticipantProps = (name) => {
     type: "warn",
     title: "Исключить участника",
     description: () => removeParticipantDecsription(name),
+  };
+};
+export const removeParticipantFromProjectProps = (name) => {
+  return {
+    type: "warn",
+    title: "Исключить участника",
+    description: () => removeParticipantFromProjectDecsription(name),
   };
 };
 export const removeImageProps = () => {
@@ -106,5 +139,19 @@ export const askForDeleteWorkspaceProps = (workspace) => {
     type: "warn",
     title: "Удалить рабочую область",
     description: () => askForDeleteWorkspace(workspace),
+  };
+};
+export const askForDeleteStageProps = (stage) => {
+  return {
+    type: "warn",
+    title: "Удалить этап",
+    description: () => askForDeleteStage(stage),
+  };
+};
+export const askForDeleteTaskProps = (task) => {
+  return {
+    type: "warn",
+    title: "Удалить задачу",
+    description: () => askForDeleteTask(task),
   };
 };

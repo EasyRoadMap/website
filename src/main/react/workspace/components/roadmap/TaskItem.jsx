@@ -51,7 +51,7 @@ const TaskItem = ({ task }) => {
         </div>
         <div className={styles.taskAsidePart}>
           <IconTaskComplete className={styles.taskCompletionIcon} />
-          <TaskActionsButton />
+          <TaskActionsButton task={task}/>
         </div>
       </div>
     </div>

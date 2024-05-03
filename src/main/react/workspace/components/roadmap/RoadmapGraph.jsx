@@ -7,11 +7,16 @@ import DeleteTaskRoadmap from "../../../assets/deleteTaskRoadmapSVG.jsx";
 import useProjectContext from "../../hooks/useProjectContext.js";
 import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
 import { usePopupManager } from "react-popup-manager";
+import AlertPopup from "../popup/AlertPopup.jsx";
+import {
+  askForDeleteStageProps
+} from "../popup/PopupsData.jsx";
 import Popup from "../popup/Popup.jsx";
 import CreateStagePopup from "../popup/CreateStage.jsx";
 import { useRef, useState, useEffect, useCallback } from "react";
 import RoadmapPagination from "./RoadmapPagination.jsx";
 import useRoadmapContext from "../../hooks/useRoadmapContext.js";
+import { useProjectInfo } from "../../hooks/useProject.jsx";
 
 const pixelsToInt = (pixelValue) => {
   return parseInt(pixelValue.slice(0, pixelValue.length - 2));
@@ -38,13 +43,14 @@ const getStatusByProgress = (progress) => {
 
 const RoadmapGraph = ({ stages }) => {
   const [moveDiff, setMoveDiff] = useState(0);
+  // const [stagesNames, setStagesNames] = useState(stages.map((stage) => {return stage.name}));
 
   const [stageContainer, setStageContainer] = useState([]);
   const stageWrapper = useRef(null);
   const [blocksVisibility, setBlocksVisibility] = useState([]);
 
   const { projectId } = useProjectContext();
-  const { CreateStage } = useRoadmapInfo();
+  const { CreateStage, DeleteStage } = useRoadmapInfo();
 
   const { chosenStage, setChosenStage } = useRoadmapContext();
 
@@ -59,6 +65,22 @@ const RoadmapGraph = ({ stages }) => {
           });
         }
       },
+    });
+  };
+
+  const onCloseDeleteStagePopup = (...params) => {
+    if (params?.[0] === "yes" && chosenStage && projectId) {
+      DeleteStage(projectId, chosenStage);
+    }
+  }
+
+  const openDeleteStagePopup = (stageName) => {
+    popupManager.open(Popup, {
+      popup: {
+        component: AlertPopup,
+        props: askForDeleteStageProps(stageName),
+      },
+      onClose: onCloseDeleteStagePopup,
     });
   };
 
@@ -287,7 +309,10 @@ const RoadmapGraph = ({ stages }) => {
                         }}
                       >
                         <div className={styles.graphCircle}>
-                          <DeleteTaskRoadmap className={styles.deleteTask} />
+                          <DeleteTaskRoadmap className={styles.deleteTask} onClick={() => {
+                            console.debug("clicked");
+                            openDeleteStagePopup(stage?.name)
+                          }}/>
                           <TaskRoadmapSVG
                             status={getStatusByProgress(stage.progress)}
                             isActive={chosenStage === stage.id}
@@ -310,7 +335,10 @@ const RoadmapGraph = ({ stages }) => {
                         }}
                       >
                         <div className={styles.graphCircle}>
-                          <DeleteTaskRoadmap className={styles.deleteTask} />
+                          <DeleteTaskRoadmap className={styles.deleteTask} onClick={() => {
+                            console.debug("clicked");
+                            openDeleteStagePopup(stage?.name)
+                          }}/>
                           <TaskRoadmapSVG
                             status={getStatusByProgress(stage.progress)}
                             isActive={chosenStage === stage.id}

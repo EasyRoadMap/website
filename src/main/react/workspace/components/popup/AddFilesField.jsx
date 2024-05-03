@@ -1,9 +1,12 @@
 import styles from "./styles.module.css";
 import AddingChangesForm from "./last-changes-list/AddingChangesForm.jsx";
 
-const AddFilesField = () => {
+const AddFilesField = ({
+    files,
+    setFiles
+}) => {
     return (
-        <AddingChangesForm />
+        <AddingChangesForm files={files} setFiles={setFiles}/>
     );
 }
 

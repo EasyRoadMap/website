@@ -146,11 +146,14 @@ const Sidebar = () => {
         // ]}
         places={placesInProjects}
       />
-      <SidebarButton
-        type="settings"
-        active={page === "settings"}
-        callback={() => navigate("/workspace/settings" + getWS())}
-      />
+      {
+        workspaceContext?.is_admin &&
+        <SidebarButton
+          type="settings"
+          active={page === "settings"}
+          callback={() => navigate("/workspace/settings" + getWS())}
+        />
+      }
       <SidebarButton type="exit" active={false} callback={openExitWorkspacePopup} />
     </aside>
   );
