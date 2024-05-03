@@ -29,14 +29,17 @@ const TasksList = ({ tasks }) => {
   const onCloseCreateTaskPopup = (...params) => {
     console.log(params?.[0]);
     if (params?.[0]?.button === "create" && chosenStage && params?.[0]?.status && params?.[0]?.name && projectContext?.id) {
-      CreateTask(projectContext?.id, chosenStage, statusToInt[params?.[0]?.status], params?.[0]?.name, params?.[0]?.description, params?.[0]?.deadline, params?.[0]?.attachment)
+      CreateTask(projectContext?.id, chosenStage, statusToInt[params?.[0]?.status], params?.[0]?.name, params?.[0]?.description, params?.[0]?.deadline, params?.[0]?.attachment);
     }
   }
 
   const openCreateTaskPopup = () => {
     popupManager.open(Popup, {
       popup: {
-        component: CreateTaskPopup
+        component: CreateTaskPopup,
+        props: {
+          chosenStage: chosenStage
+        }
       },
       onClose: onCloseCreateTaskPopup,
     });

@@ -10,6 +10,7 @@ export const createTask = (rms_id, status, name, description, deadlineAt, attach
         deadlineAt: deadlineAt,
         attachment: attachment
     },
-    {rms_id: rms_id}
+    {rms_id: rms_id},
+    true
 );
 }

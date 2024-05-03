@@ -2,14 +2,23 @@ import styles from "../styles.module.css";
 import AddPhotoFieldSVG from "../../../../assets/addPhotoField.jsx";
 import { useRef, useState } from "react";
 
-// drag drop file component
-function AddFileField({ addFile }) {
-  // drag state
+import { useRoadmapInfo } from "../../../hooks/useRoadmap.js";
+import useRoadmapContext from "../../../hooks/useRoadmapContext.js";
+
+function AddFileField({ setFiles, chosenStage }) {
   const [dragActive, setDragActive] = useState(false);
-  // ref
   const inputRef = useRef(null);
 
-  // handle drag events
+  const { UploadAttachment } = useRoadmapInfo();
+
+  const addFile = (file) => {
+    console.debug("chosen stage", chosenStage, file.file);
+    if (!chosenStage) return;
+    UploadAttachment(chosenStage, file.file, (rmta_id) => {
+      setFiles((prev) => [...prev, {rmta_id: rmta_id, file: file.file, url: file.URL}])
+    });
+  };
+
   const handleDrag = function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -24,12 +33,10 @@ function AddFileField({ addFile }) {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       console.debug("file info", file);
-      // if ()
       addFile({ file: file, URL: URL.createObjectURL(file) });
     }
   };
 
-  // triggers when file is dropped
   const handleDrop = function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -39,7 +46,6 @@ function AddFileField({ addFile }) {
     }
   };
 
-  // triggers when file is selected with click
   const handleChange = function (e) {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
@@ -47,7 +53,6 @@ function AddFileField({ addFile }) {
     }
   };
 
-  // triggers the input when the button is clicked
   const onButtonClick = () => {
     inputRef.current.click();
   };
@@ -55,11 +60,6 @@ function AddFileField({ addFile }) {
   return (
     <div className={styles.addPhotoFieldInput}>
       <AddPhotoFieldSVG className={styles.addPhotoField} />
-      {/* <form
-        className={styles.addPhotoFieldForm}
-        // onDragEnter={handleDrag}
-        // onSubmit={(e) => e.preventDefault()}
-      > */}
       <input
         className={styles.fileInput}
         ref={inputRef}
@@ -82,8 +82,6 @@ function AddFileField({ addFile }) {
         ></div>
       )}
     </div>
-
-    /* </form> */
   );
 }
 

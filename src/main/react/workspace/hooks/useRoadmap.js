@@ -98,9 +98,10 @@ export const useRoadmapInfo = () => {
         })
     }
 
-    const ChangeTask = (rms_id, rmt_id, status, name, description, deadlineAt, attachment) => {
+    const ChangeTask = (pr_id, rms_id, rmt_id, status, name, description, deadlineAt, attachment) => {
         putTask(rmt_id, status, name, description, deadlineAt, attachment).then((response) => {
             getTasks(rms_id);
+            getStages(pr_id);
         }).catch((e) => {
             console.log("error in Change Task");
             console.log(e);
@@ -131,14 +132,16 @@ export const useRoadmapInfo = () => {
         })
     }
 
-    const AddAttachment = (rms_id, attachment) => {
+    const UploadAttachment = (rms_id, attachment, callback) => {
         addAttachment(rms_id, attachment).then((response) => {
             Attachments(rms_id);
+            if (callback) callback(response.data.id);
         }).catch((e) => {
             console.log("error in Delete Task");
             console.log(e);
         })
     }
 
-    return { getStages, CreateStage, DeleteStage, getTasks, CreateTask, ChangeTask, DeleteTask };
+
+    return { getStages, CreateStage, DeleteStage, getTasks, CreateTask, ChangeTask, DeleteTask, UploadAttachment };
 }

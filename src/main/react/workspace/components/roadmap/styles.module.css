@@ -178,6 +178,11 @@
   max-height: 40px;
   border-radius: 8px;
 }
+.taskParticipantAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
 .title {
   font-size: 24px;
   font-weight: 500;

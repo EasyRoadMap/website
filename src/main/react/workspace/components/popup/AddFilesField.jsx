@@ -3,10 +3,11 @@ import AddingChangesForm from "./last-changes-list/AddingChangesForm.jsx";
 
 const AddFilesField = ({
     files,
-    setFiles
+    setFiles,
+    chosenStage
 }) => {
     return (
-        <AddingChangesForm files={files} setFiles={setFiles}/>
+        <AddingChangesForm files={files} setFiles={setFiles} chosenStage={chosenStage}/>
     );
 }
 

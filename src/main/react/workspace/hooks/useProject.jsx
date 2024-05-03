@@ -10,6 +10,7 @@ import { updateLinks } from "../api/project-api/updateLinks.js";
 import { getInfo } from "../api/project-api/getInfo.js";
 import { getLinks } from "../api/project-api/getLinks.js";
 import { removeMember } from "../api/project-api/removeMember.js";
+import { addMember } from "../api/project-api/addMember.js";
 
 export const useProjectInfo = () => {
     const [project, setProject] = useState({});
@@ -75,6 +76,15 @@ export const useProjectInfo = () => {
         })
     }
 
+    const AddMember = (pr_id, email, role) => {
+        addMember(pr_id, email, role).then((response) => {
+            Members(pr_id);
+        }).catch((e) => {
+            console.log("response error");
+            console.log(e);
+        })
+    }
+
     const Info = (pr_id) => {
         getInfo(pr_id).then((response) => {
             setProject((prev) => ({...prev, info: response.data}));
@@ -112,5 +122,5 @@ export const useProjectInfo = () => {
     }
 
 
-    return { Project, DeleteProject, KickMember, CreateProject, Members, UpdateInfo, UpdateLinks };
+    return { Project, DeleteProject, KickMember, AddMember, CreateProject, Members, UpdateInfo, UpdateLinks };
 }

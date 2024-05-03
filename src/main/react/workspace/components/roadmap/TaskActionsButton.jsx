@@ -17,6 +17,7 @@ import {
 import ChangeTaskPopup from "../popup/ChangeTaskPopup.jsx";
 
 import useRoadmapContext from "../../hooks/useRoadmapContext.js";
+import useProjectContext from "../../hooks/useProjectContext.js";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
 
@@ -29,13 +30,14 @@ const statusToInt = {
 const TaskActionsButton = ({ task }) => {
   const [listShowed, setListShowed] = useState(false);
 
-  const { workspaceContext } = useWorkspaceContext();
+  const { projectId } = useProjectContext();
   const { chosenStage } = useRoadmapContext();
   const { ChangeTask, DeleteTask } = useRoadmapInfo();
 
   const onCloseChangeTaskPopup = (...params) => {
-    if (params?.[0]?.button === "change" && chosenStage && task?.id && params?.[0]?.status && params?.[0]?.name) {
-      ChangeTask(chosenStage, task?.id, statusToInt[params?.[0]?.status], params?.[0]?.name, params?.[0]?.description, params?.[0]?.deadline);
+    console.debug("chosenStage on close", chosenStage);
+    if (params?.[0]?.button === "change" && chosenStage && task?.id && projectId && params?.[0]?.status && params?.[0]?.name) {
+      ChangeTask(projectId, chosenStage, task?.id, statusToInt[params?.[0]?.status], params?.[0]?.name, params?.[0]?.description, params?.[0]?.deadline, params?.[0]?.attachment);
       // params?.[0]?.attachment
     }
   }
@@ -47,8 +49,9 @@ const TaskActionsButton = ({ task }) => {
 
   const setStatus = (status) => {
     console.debug("task information", task);
-    if (!(chosenStage && task?.id && task?.name)) return;
-    ChangeTask(chosenStage, task.id, statusToInt[status], task.name)
+    console.debug(projectId);
+    if (!(chosenStage && task?.id && task?.name && projectId)) return;
+    ChangeTask(projectId, chosenStage, task.id, statusToInt[status], task.name, task?.description, task?.deadline_at, task?.attachment)
   }
 
   const popupManager = usePopupManager();
@@ -63,7 +66,8 @@ const TaskActionsButton = ({ task }) => {
             description: task?.description,
             status: task?.status,
             deadline: task?.deadline_at
-          }
+          },
+          chosenStage: chosenStage
         }
       },
       onClose: onCloseChangeTaskPopup,
@@ -74,7 +78,7 @@ const TaskActionsButton = ({ task }) => {
     popupManager.open(Popup, {
       popup: {
         component: AlertPopup,
-        props: askForDeleteTaskProps(task),
+        props: askForDeleteTaskProps(task?.name),
       },
       onClose: onCloseDeleteTaskPopup,
     });

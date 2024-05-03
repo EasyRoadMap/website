@@ -1,6 +1,7 @@
 import ParticipantsList from "./ParticipantsList.jsx";
 import ParticipantItem from "./ParticipantItem.jsx";
 import AddParticipantButton from "./AddParticipantButton.jsx";
+import AddParticipantProjectButton from "./AddParticipantProjectButton.jsx";
 import styles from "./styles.module.css";
 
 const Participants = ({participants, type}) => {
@@ -13,11 +14,6 @@ const Participants = ({participants, type}) => {
             </h1>
             <div className={styles.participantsList}>
                 {(participants) && participants.map((participant, i) => {
-                    // const participantItem = participant;
-                    // if (type === "project") {
-                    //     participantItem.is_admin = false;
-                    //     participantItem.is_invited = false;
-                    // }
                     return (
                         <div key={i}>
                             <ParticipantItem participant={participant} type={type}/>
@@ -25,10 +21,10 @@ const Participants = ({participants, type}) => {
                     );
                 })}
             </div>
-            
-            {/* {avatar: "", name: "Имя пользователя 1", position: "Администратор", transferControl: () => {}, exclude: () => {}},
-            {avatar: "", name: "Имя пользователя 2", position: "Разработчик", transferControl: () => {}, exclude: () => {}}, */}
-            <AddParticipantButton />
+            {
+                type === "project" ? <AddParticipantProjectButton />
+                : <AddParticipantButton />
+            }
         </section>
     );
 }

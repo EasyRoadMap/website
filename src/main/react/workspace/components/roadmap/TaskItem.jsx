@@ -40,7 +40,7 @@ const TaskItem = ({ task }) => {
             {task?.attachments?.map((participantAvatar, i) => {
               return (
                 <img
-                  src={participantAvatar}
+                  src={participantAvatar.url}
                   alt=""
                   key={i}
                   className={styles.taskParticipantAvatar}

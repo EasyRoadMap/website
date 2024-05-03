@@ -6,7 +6,7 @@ import Input from "../UI/Input.jsx";
 import InputDate from "../UI/InputDate.jsx";
 import { useState } from "react";
 
-const ChangeTaskPopup = ({ close, task }) => {
+const ChangeTaskPopup = ({ close, task, chosenStage }) => {
   const [name, setName] = useState(task?.name);
   const [description, setDescription] = useState(task?.description);
   const [status, setStatus] = useState(task?.status);
@@ -22,7 +22,7 @@ const ChangeTaskPopup = ({ close, task }) => {
       description: description,
       status: status,
       deadline: deadline,
-      attachment: files,
+      attachment: files.map((file) => {return file.rmta_id}),
     });
   };
   return (
@@ -61,7 +61,7 @@ const ChangeTaskPopup = ({ close, task }) => {
         <div className={styles.description}>
           Прикрепите необходимые вложения к вашей задаче.
         </div>
-        <AddFilesField files={files} setFiles={setFiles}/>
+        <AddFilesField files={files} setFiles={setFiles} chosenStage={chosenStage}/>
       </div>
       <div className={styles.buttonsWrapper}>
         <Button
