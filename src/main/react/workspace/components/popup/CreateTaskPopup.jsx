@@ -11,6 +11,7 @@ const CreateTaskPopup = ({ close }) => {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
   const [deadline, setDeadline] = useState("");
+  const [files, setFiles] = useState([]);
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create")
@@ -54,13 +55,13 @@ const CreateTaskPopup = ({ close }) => {
         <div className={styles.description}>
           По желанию можете указать дату создания задачи.
         </div>
-        <InputDate typeDate={"deadlineDate"} loading={true} />
+        <InputDate data={deadline} setData={setDeadline} typeDate={"deadlineDate"} loading={true} />
       </div>
       <div className={styles.containerWithGaps}>
         <div className={styles.description}>
           Прикрепите необходимые вложения к вашей задаче.
         </div>
-        <AddFilesField />
+        <AddFilesField files={files} setFiles={setFiles}/>
       </div>
       <div className={styles.buttonsWrapper}>
         <Button

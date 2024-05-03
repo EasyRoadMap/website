@@ -15,7 +15,7 @@ const AddingChangesForm = ({
     <>
       <div className={styles.photosList}>
         {/* {files[0] && <PhotoCropper photo={files[0].URL} />} */}
-        {files.map((file, i) => {
+        {files && files.map((file, i) => {
           return <img src={file.URL} alt="" className={styles.photo} />;
         })}
       </div>
