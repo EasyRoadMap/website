@@ -1,20 +1,21 @@
 import styles from "./style.module.css";
 import Button from "../UI/Button.jsx";
 
-
 const TypeDeleleButton = {
   deleteProject: {
     title: "Удалить проект",
     description: "Все ваши данные о проекте будут безвозвратно удалены!",
+    className: "deleteProjectDescription",
   },
-  deleteAccount: {
-    title: "Удалить аккаунт",
-    description: "Все ваши данные будут безвозвратно удалены!",
-  },
+  // deleteAccount: {
+  //   title: "Удалить аккаунт",
+  //   description: "Все ваши данные будут безвозвратно удалены!",
+  // },
   deleteWorkspace: {
     title: "Удалить рабочую область",
     description:
       "Все ваши данные о рабочей области будут безвозвратно удалены!",
+    className: "deleteWorkspaceDescription",
   },
 };
 
@@ -25,7 +26,7 @@ const DeleteButton = ({ typeButton, callback }) => {
       <div className={styles.content}>
         <div className={styles.info}>
           <span className={styles.title}>{data.title}</span>
-          <span className={styles.description}>{data.description}</span>
+          <span className={styles[data.className]}>{data.description}</span>
         </div>
 
         <div>

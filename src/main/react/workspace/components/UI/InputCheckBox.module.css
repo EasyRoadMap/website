@@ -28,7 +28,7 @@
 /* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
 .checkbox:not(:checked):focus + label::before {
   opacity: 75%;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: var(--switch-hover-color);
   background-image: none;
 }
 /* стили для активного состояния чекбокса (при нажатии на него) */
@@ -44,11 +44,11 @@
 }
 /* стили при наведении курсора на checkbox */
 .checkbox:not(:disabled):not(:checked):hover + label::before {
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: var(--switch-hover-color);
   background-image: none;
 }
 .checkbox + label::before:hover {
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: var(--switch-hover-color);
 }
 
 .checkbox + label::before {
@@ -58,7 +58,7 @@
   height: 32px;
   flex-shrink: 0;
   flex-grow: 0;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--bg-workspace-button-focus);
   border-radius: 12px;
   margin-right: 12px;
   background-repeat: no-repeat;

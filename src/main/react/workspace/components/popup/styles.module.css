@@ -26,6 +26,12 @@
   border-color: var(--light-stroke);
 }
 
+.CreateTaskPopup {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .closeButton {
   cursor: pointer;
   position: absolute;
