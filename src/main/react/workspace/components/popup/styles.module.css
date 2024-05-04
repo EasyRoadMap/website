@@ -97,6 +97,7 @@
   width: 200px;
   height: 140px;
   border-radius: 8px;
+  user-select: none;
 }
 .addPhotoField {
   width: 650px;
@@ -392,4 +393,69 @@
   gap: 24px;
   padding-left: 36px;
   padding-right: 36px;
+}
+
+.photoWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.photoInfo {
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+  height: 29px;
+  padding-left: 3px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 3px;
+}
+
+.sizeFile {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground-color50);
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+.nameFile {
+  width: 100px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent-color);
+}
+
+.deletePhotoInTask {
+  height: 15px;
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+  path {
+    stroke: var(--bg-icon-detele-photo);
+  }
+  rect {
+    fill: var(--foreground-color50);
+  }
+}
+.unhandledFile {
+  width: 200px;
+  height: 140px;
+  border-radius: 8px;
+  user-select: none;
+  background-color: var(--bg-move-roadmap);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fielIcon {
+  path {
+    stroke: var(--foreground-color50);
+  }
 }

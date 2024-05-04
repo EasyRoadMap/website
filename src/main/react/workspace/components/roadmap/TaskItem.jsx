@@ -28,14 +28,16 @@ const TaskItem = ({ task }) => {
     <div className={classTask}>
       <div className={styles.taskFieldsWrapper}>
         <div className={styles.taskMainPart}>
-          <div className={styles.taskTitleWrapper}>
-            <div className={styles.taskName}>{task?.name}</div>
-            <div className={styles.taskDate}>
-              <CalendarSVG className={styles.calendarSVG} />
-              <span className={styles.taskDateText}>{task?.deadline_at}</span>
+          <div className={styles.taskInfo}>
+            <div className={styles.taskTitleWrapper}>
+              <div className={styles.taskName}>{task?.name}</div>
+              <div className={styles.taskDate}>
+                <CalendarSVG className={styles.calendarSVG} />
+                <span className={styles.taskDateText}>{task?.deadline_at}</span>
+              </div>
             </div>
+            <span className={styles.taskDescription}>{task?.description}</span>
           </div>
-          <div className={styles.taskDescription}>{task?.description}</div>
           <div className={styles.taskParticipantsAvatars}>
             {task?.attachments?.map((participantAvatar, i) => {
               return (
@@ -51,7 +53,7 @@ const TaskItem = ({ task }) => {
         </div>
         <div className={styles.taskAsidePart}>
           <IconTaskComplete className={styles.taskCompletionIcon} />
-          <TaskActionsButton task={task}/>
+          <TaskActionsButton task={task} />
         </div>
       </div>
     </div>

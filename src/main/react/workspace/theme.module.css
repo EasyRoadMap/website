@@ -20,6 +20,7 @@ color-4 - для бокового меню
   --light-stroke: rgba(0, 0, 0, 0.1);
   --bg-move-roadmap: rgba(0, 0, 0, 0.2);
   --bg-pagination-circle: rgba(0, 0, 0, 0.3);
+  --bg-icon-detele-photo: rgb(255, 255, 255);
   /*Кнопки*/
   --bg-error-button: #f1403a;
   /* кнопки сайдбара проекты  */
@@ -68,6 +69,7 @@ color-4 - для бокового меню
   --title-input-color: rgb(0, 0, 0, 0.75);
   --bg-move-roadmap: rgba(0, 0, 0, 0.2);
   --bg-pagination-circle: rgba(0, 0, 0, 0.3);
+  --bg-icon-detele-photo: rgb(255, 255, 255);
   /*Кнопки*/
   --bg-error-button: #f1403a;
   /* кнопки сайдбара проекты  */
@@ -117,6 +119,7 @@ color-4 - для бокового меню
   --light-stroke: rgba(255, 255, 255, 0.1);
   --bg-move-roadmap: rgba(255, 255, 255, 0.2);
   --bg-pagination-circle: rgba(255, 255, 255, 0.3);
+  --bg-icon-detele-photo: rgb(0, 0, 0);
   /*Кнопки*/
   --bg-error-button: #f1403a;
   /* кнопки сайдбара проекты  */

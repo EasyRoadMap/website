@@ -15,7 +15,7 @@ const SettingsPopup = ({ close }) => {
     <>
       <h1 className={styles.title}>Настройки</h1>
       <div className={styles.settingsWrapper}>
-        <SettingsCard
+        {/* <SettingsCard
           icon="changePassword"
           name="Пароль"
           descriptionComponent={() => {
@@ -31,7 +31,7 @@ const SettingsPopup = ({ close }) => {
           callback={() => {
             handleClick("change-password");
           }}
-        />
+        /> */}
         <SettingsCard
           icon="deleteAccount"
           name="Удаление аккаунта"

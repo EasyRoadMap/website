@@ -106,12 +106,23 @@
 .taskMainPart {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  width: 500px;
+  cursor: pointer;
+}
+.taskInfo {
+  display: flex;
+  flex-direction: column;
   gap: 6px;
 }
 .taskName {
+  max-width: 350px;
   font-size: 16px;
   font-weight: 500;
   color: var(--text-color);
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 .taskDate {
   display: flex;
@@ -145,6 +156,10 @@
   font-size: 14px;
   font-weight: normal;
   color: var(--foreground-color50);
+  height: 17px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 .paginationWrapper {
   width: 100%;
@@ -174,9 +189,11 @@
   justify-content: space-between;
 }
 .taskParticipantsAvatars {
-  max-width: 40px;
   max-height: 40px;
   border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  flex-direction: row;
 }
 .taskParticipantAvatar {
   width: 40px;

@@ -28,7 +28,7 @@ const SettingsCard = ({
         <IconComponent className={styles.icon} />
         <h1 className={styles.titleText}>{name}</h1>
       </div>
-      {descriptionComponent}
+      {descriptionComponent()}
       <Button
         text={buttonText}
         type={buttonType}
