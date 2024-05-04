@@ -11,7 +11,11 @@ const ChangeTaskPopup = ({ close, task, chosenStage }) => {
   const [description, setDescription] = useState(task?.description);
   const [status, setStatus] = useState(task?.status);
   const [deadline, setDeadline] = useState(task?.deadline);
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState(task?.attachments ? 
+    task?.attachments?.map((attachment) => {
+      return {file: attachment, url: attachment.url, id: attachment.id, type: attachment.type, name: attachment.file_name};
+    })
+    : []);
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "change")
@@ -22,7 +26,7 @@ const ChangeTaskPopup = ({ close, task, chosenStage }) => {
       description: description,
       status: status,
       deadline: deadline,
-      attachment: files.map((file) => {return file.rmta_id}),
+      attachment: files.map((file) => {return file.id}),
     });
   };
   return (

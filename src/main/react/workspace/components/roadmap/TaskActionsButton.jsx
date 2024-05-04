@@ -51,7 +51,8 @@ const TaskActionsButton = ({ task }) => {
     console.debug("task information", task);
     console.debug(projectId);
     if (!(chosenStage && task?.id && task?.name && projectId)) return;
-    ChangeTask(projectId, chosenStage, task.id, statusToInt[status], task.name, task?.description, task?.deadline_at, task?.attachment)
+    ChangeTask(projectId, chosenStage, task.id, statusToInt[status], task.name, task?.description, task?.deadline_at, 
+      task?.attachments?.map((attachment) => {return attachment.id}))
   }
 
   const popupManager = usePopupManager();
@@ -65,7 +66,8 @@ const TaskActionsButton = ({ task }) => {
             name: task?.name,
             description: task?.description,
             status: task?.status,
-            deadline: task?.deadline_at
+            deadline: task?.deadline_at,
+            attachments: task?.attachments
           },
           chosenStage: chosenStage
         }

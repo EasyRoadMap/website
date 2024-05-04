@@ -5,17 +5,35 @@ import { useRef, useState } from "react";
 import { useRoadmapInfo } from "../../../hooks/useRoadmap.js";
 import useRoadmapContext from "../../../hooks/useRoadmapContext.js";
 
+const ARCHIVE_MIME_SUBTYPES = [
+  "x-bzip", "x-bzip2", "gzip", "java-archive", "vnd.rar", "x-tar", "zip", "x-7z-compressed", 
+  // "x-zip-compressed"
+]
+
+
 function AddFileField({ setFiles, chosenStage }) {
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef(null);
 
   const { UploadAttachment } = useRoadmapInfo();
 
+  const getFileType = (file) => {
+    const fileMIMEType = file.type.split("/")[0];
+    if (fileMIMEType === "application") {
+      const fileMIMESubtype = file.type.split("/")[1];
+      console.debug("fileMIMESubtype", fileMIMESubtype);
+      if (ARCHIVE_MIME_SUBTYPES.includes(fileMIMESubtype)) return "archive";
+    } else if (fileMIMEType === "image") {
+      return "image";
+    }
+    return "default";
+  }
+
   const addFile = (file) => {
     console.debug("chosen stage", chosenStage, file.file);
     if (!chosenStage) return;
     UploadAttachment(chosenStage, file.file, (rmta_id) => {
-      setFiles((prev) => [...prev, {rmta_id: rmta_id, file: file.file, url: file.URL}])
+      setFiles((prev) => [...prev, {id: rmta_id, file: file.file, url: file.URL, type: getFileType(file.file), name: file.file.name}])
     });
   };
 

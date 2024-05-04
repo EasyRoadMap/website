@@ -16,19 +16,20 @@ function formatBytes(a, b = 2) {
   }`;
 }
 
-const archiveExtensions = [
-  ".zip",
-  ".rar",
-  ".7z",
-  ".tar",
-  ".gz",
-  ".bz2",
-  ".xz",
-  ".iso",
-];
-
 const AddingChangesForm = ({ files, setFiles, chosenStage }) => {
   console.debug("files", files);
+
+  const removeFile = (id) => {
+    if (!files) return;
+    console.debug("file", files.filter((file, i) => {
+      return (i !== id) 
+    }));
+    const newFilesList = files.filter((file, i) => {
+      return (i !== id) 
+    });
+    setFiles(newFilesList);
+  }
+
   return (
     <>
       <div className={styles.photosList}>
@@ -41,31 +42,29 @@ const AddingChangesForm = ({ files, setFiles, chosenStage }) => {
                   <div style={{ position: "relative" }}>
                     <DeleteTaskRoadmapSVG
                       className={styles.deletePhotoInTask}
+                      onClick={() => removeFile(i)}
                     />
                     <img src={file.url} alt="" className={styles.photo} />
                   </div>
                 )}
                 {file.file.type.split("/")[0] !== "image" && (
-                  // <span>it's some unhandled file</span>
                   <div style={{ position: "relative" }}>
                     <DeleteTaskRoadmapSVG
                       className={styles.deletePhotoInTask}
+                      onClick={() => removeFile(i)}
                     />
                     <div className={styles.unhandledFile}>
-                      {archiveExtensions.includes(
-                        file.file.name
-                          .toLowerCase()
-                          .substring(file.file.name.lastIndexOf("."))
-                      ) ? (
+                      {file.type === "archive" &&
                         <ZipFielIconSVG className={styles.fielIcon} />
-                      ) : (
+                      }
+                      {file.type === "default" &&
                         <UnhandledFieldIcon className={styles.fielIcon} />
-                      )}
+                      }
                     </div>
                   </div>
                 )}
                 <div className={styles.photoInfo}>
-                  <span className={styles.nameFile}>{file.file.name}</span>
+                  <span className={styles.nameFile}>{file.name}</span>
                   <span className={styles.sizeFile}>
                     {formatBytes(file.file.size)}
                   </span>
