@@ -1,15 +1,22 @@
 import styles from "../styles.module.css";
 import AddPhotoFieldSVG from "../../../../assets/addPhotoField.jsx";
+import AddPhotoFieldActive from "../../../../assets/addPhotoFieldActive.jsx";
 import { useRef, useState } from "react";
 
 import { useRoadmapInfo } from "../../../hooks/useRoadmap.js";
 import useRoadmapContext from "../../../hooks/useRoadmapContext.js";
 
 const ARCHIVE_MIME_SUBTYPES = [
-  "x-bzip", "x-bzip2", "gzip", "java-archive", "vnd.rar", "x-tar", "zip", "x-7z-compressed", 
+  "x-bzip",
+  "x-bzip2",
+  "gzip",
+  "java-archive",
+  "vnd.rar",
+  "x-tar",
+  "zip",
+  "x-7z-compressed",
   // "x-zip-compressed"
-]
-
+];
 
 function AddFileField({ setFiles, chosenStage }) {
   const [dragActive, setDragActive] = useState(false);
@@ -27,13 +34,22 @@ function AddFileField({ setFiles, chosenStage }) {
       return "image";
     }
     return "default";
-  }
+  };
 
   const addFile = (file) => {
     console.debug("chosen stage", chosenStage, file.file);
     if (!chosenStage) return;
     UploadAttachment(chosenStage, file.file, (rmta_id) => {
-      setFiles((prev) => [...prev, {id: rmta_id, file: file.file, url: file.URL, type: getFileType(file.file), name: file.file.name}])
+      setFiles((prev) => [
+        ...prev,
+        {
+          id: rmta_id,
+          file: file.file,
+          url: file.URL,
+          type: getFileType(file.file),
+          name: file.file.name,
+        },
+      ]);
     });
   };
 
@@ -76,23 +92,26 @@ function AddFileField({ setFiles, chosenStage }) {
   };
 
   return (
-    <div className={styles.addPhotoFieldInput}>
-      <AddPhotoFieldSVG className={styles.addPhotoField} />
+    <div
+      className={styles.addPhotoFieldInput}
+      dragActive={dragActive.toString()}
+    >
+      {dragActive ? <AddPhotoFieldActive /> : <AddPhotoFieldSVG />}
       <input
         className={styles.fileInput}
         ref={inputRef}
         type="file"
         multiple={true}
         onChange={handleChange}
-        // accept=".png,.jpg,.jpeg"
         onDragEnter={handleDrag}
+        onDragLeave={handleDrag}
+        onDragOver={handleDrag}
+        onDrop={handleDrop}
         onSubmit={(e) => e.preventDefault()}
       />
-
-      {/* Место лейбла */}
-
       {dragActive && (
         <div
+          className={styles.dragOverlay}
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDrag}

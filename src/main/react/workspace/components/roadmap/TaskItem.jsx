@@ -4,7 +4,8 @@ import TaskInProgressSVG from "../../../assets/taskInProgress.jsx";
 import TaskInPlannedSVG from "../../../assets/taskInPlanned.jsx";
 import CalendarSVG from "../../../assets/calendarSVG.jsx";
 import TaskActionsButton from "./TaskActionsButton.jsx";
-
+import ZipFielIconSVG from "../../../assets/zipFielIconSVG.jsx";
+import UnhandledFieldIcon from "../../../assets/unhandledFieldIconSVG.jsx";
 const completionIcons = {
   done: TaskCompletedSVG,
   in_progress: TaskInProgressSVG,
@@ -41,12 +42,25 @@ const TaskItem = ({ task }) => {
           <div className={styles.taskParticipantsAvatars}>
             {task?.attachments?.map((participantAvatar, i) => {
               return (
-                <img
-                  src={participantAvatar.url}
-                  alt=""
-                  key={i}
-                  className={styles.taskParticipantAvatar}
-                />
+                <>
+                  {participantAvatar.type === "image" ? (
+                    <img
+                      src={participantAvatar.url}
+                      alt=""
+                      key={i}
+                      className={styles.taskParticipantAvatar}
+                    />
+                  ) : (
+                    <div className={styles.unhandledFile}>
+                      {participantAvatar.type === "archive" && (
+                        <ZipFielIconSVG className={styles.fileIcon} />
+                      )}
+                      {participantAvatar.type === "default" && (
+                        <UnhandledFieldIcon className={styles.fileIcon} />
+                      )}
+                    </div>
+                  )}
+                </>
               );
             })}
           </div>

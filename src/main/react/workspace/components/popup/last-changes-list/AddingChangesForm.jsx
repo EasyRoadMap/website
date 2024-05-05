@@ -21,14 +21,17 @@ const AddingChangesForm = ({ files, setFiles, chosenStage }) => {
 
   const removeFile = (id) => {
     if (!files) return;
-    console.debug("file", files.filter((file, i) => {
-      return (i !== id) 
-    }));
+    console.debug(
+      "file",
+      files.filter((file, i) => {
+        return i !== id;
+      })
+    );
     const newFilesList = files.filter((file, i) => {
-      return (i !== id) 
+      return i !== id;
     });
     setFiles(newFilesList);
-  }
+  };
 
   return (
     <>
@@ -54,12 +57,12 @@ const AddingChangesForm = ({ files, setFiles, chosenStage }) => {
                       onClick={() => removeFile(i)}
                     />
                     <div className={styles.unhandledFile}>
-                      {file.type === "archive" &&
+                      {file.type === "archive" && (
                         <ZipFielIconSVG className={styles.fielIcon} />
-                      }
-                      {file.type === "default" &&
+                      )}
+                      {file.type === "default" && (
                         <UnhandledFieldIcon className={styles.fielIcon} />
-                      }
+                      )}
                     </div>
                   </div>
                 )}

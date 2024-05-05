@@ -85,6 +85,9 @@
 .addPhotoFieldInput:hover {
   opacity: 1;
 }
+.addPhotoFieldInput[dragActive="true"] {
+  opacity: 1;
+}
 .photosList {
   display: flex;
   flex-direction: row;
@@ -98,6 +101,8 @@
   height: 140px;
   border-radius: 8px;
   user-select: none;
+  object-fit: cover;
+  object-position: center;
 }
 .addPhotoField {
   width: 650px;
@@ -430,7 +435,7 @@
 }
 
 .deletePhotoInTask {
-  height: 15px;
+  height: 20px;
   cursor: pointer;
   position: absolute;
   top: 5px;

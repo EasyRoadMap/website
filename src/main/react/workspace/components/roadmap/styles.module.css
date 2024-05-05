@@ -376,3 +376,21 @@
   text-overflow: ellipsis;
   overflow-x: hidden;
 }
+.unhandledFile {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  user-select: none;
+  background-color: var(--bg-move-roadmap);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fileIcon {
+  width: 20px;
+  height: 20px;
+  path {
+    stroke: var(--foreground-color50);
+  }
+}
