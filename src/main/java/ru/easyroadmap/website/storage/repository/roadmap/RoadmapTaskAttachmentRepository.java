@@ -10,6 +10,8 @@ import java.util.UUID;
 
 public interface RoadmapTaskAttachmentRepository extends JpaRepository<RoadmapTaskAttachment, Long> {
 
+    void deleteAllByTaskIdIn(List<Long> taskIds);
+
     void deleteAllByTaskIdEquals(long taskId);
 
     boolean existsByTaskIdEqualsAndAttachmentIdEquals(long taskId, UUID uploadId);

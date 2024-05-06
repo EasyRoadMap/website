@@ -187,14 +187,27 @@ public class RoadmapService {
 
     public void deleteStage(UUID projectId, long stageId) {
         Optional<Byte> position = stageRepository.getStagePosition(stageId);
+
+        List<Long> roadmapTaskIds = taskRepository.getAllTasksInStage(stageId);
+        if (!roadmapTaskIds.isEmpty()) {
+            taskAttachmentRepository.deleteAllByTaskIdIn(roadmapTaskIds);
+            taskRepository.deleteAllByStageIdEquals(stageId);
+        }
+
         stageRepository.deleteById(stageId);
 
         position.ifPresent(pos -> stageRepository.decrementPositionsAfter(projectId, pos));
     }
 
-    public void deleteTask(RoadmapTask task) throws ApiException {
-        taskRepository.delete(task);
-        updateStageProgress(task.getStageId());
+    public void deleteTask(long taskId) throws ApiException {
+        Optional<Long> stageId = taskRepository.getTaskStageId(taskId);
+
+        taskAttachmentRepository.deleteAllByTaskIdEquals(taskId);
+        taskRepository.deleteById(taskId);
+
+        if (stageId.isPresent()) {
+            updateStageProgress(stageId.get());
+        }
     }
 
     public RoadmapStage getStage(long stageId) throws ApiException {

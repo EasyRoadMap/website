@@ -11,6 +11,9 @@ import ru.easyroadmap.website.storage.model.workspace.WorkspaceMember;
 import ru.easyroadmap.website.storage.repository.project.ProjectLinkRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectMemberRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectRepository;
+import ru.easyroadmap.website.storage.repository.roadmap.RoadmapStageRepository;
+import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskAttachmentRepository;
+import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskRepository;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceInvitationRepository;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceMemberRepository;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceRepository;
@@ -35,6 +38,10 @@ public class WorkspaceService {
     private final ProjectMemberRepository projectMemberRepository;
     private final ProjectLinkRepository projectLinkRepository;
 
+    private final RoadmapStageRepository roadmapStageRepository;
+    private final RoadmapTaskRepository roadmapTaskRepository;
+    private final RoadmapTaskAttachmentRepository roadmapTaskAttachmentRepository;
+
     public Workspace createWorkspace(String userEmail, String name, String description) throws ApiException {
         int joinedWorkspaces = workspaceMemberRepository.countAllByUserEmailEquals(userEmail);
         if (joinedWorkspaces >= MAX_JOINED_WORKSPACES)
@@ -55,9 +62,22 @@ public class WorkspaceService {
 
     public void deleteWorkspace(UUID workspaceId) {
         List<UUID> projectIds = projectRepository.getAllProjectIdsInWorkspace(workspaceId);
-        projectLinkRepository.deleteAllByProjectIdIn(projectIds);
-        projectMemberRepository.deleteAllByProjectIdIn(projectIds);
-        projectRepository.deleteAllByWorkspaceIdEquals(workspaceId);
+        if (!projectIds.isEmpty()) {
+            List<Long> roadmapStageIds = roadmapStageRepository.getAllStagesInProjects(projectIds);
+            if (!roadmapStageIds.isEmpty()) {
+                List<Long> roadmapTaskIds = roadmapTaskRepository.getAllTasksInStages(roadmapStageIds);
+                if (!roadmapTaskIds.isEmpty()) {
+                    roadmapTaskAttachmentRepository.deleteAllByTaskIdIn(roadmapTaskIds);
+                    roadmapTaskRepository.deleteAllByStageIdIn(roadmapStageIds);
+                }
+
+                roadmapStageRepository.deleteAllByProjectIdIn(projectIds);
+            }
+
+            projectLinkRepository.deleteAllByProjectIdIn(projectIds);
+            projectMemberRepository.deleteAllByProjectIdIn(projectIds);
+            projectRepository.deleteAllByWorkspaceIdEquals(workspaceId);
+        }
 
         workspaceInvitationRepository.deleteAllByWorkspaceIdEquals(workspaceId);
         workspaceMemberRepository.deleteAllByWorkspaceIdEquals(workspaceId);

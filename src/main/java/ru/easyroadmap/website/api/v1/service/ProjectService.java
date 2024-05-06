@@ -12,6 +12,9 @@ import ru.easyroadmap.website.storage.model.workspace.Workspace;
 import ru.easyroadmap.website.storage.repository.project.ProjectLinkRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectMemberRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectRepository;
+import ru.easyroadmap.website.storage.repository.roadmap.RoadmapStageRepository;
+import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskAttachmentRepository;
+import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,6 +32,10 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMemberRepository projectMemberRepository;
     private final ProjectLinkRepository projectLinkRepository;
+
+    private final RoadmapStageRepository roadmapStageRepository;
+    private final RoadmapTaskRepository roadmapTaskRepository;
+    private final RoadmapTaskAttachmentRepository roadmapTaskAttachmentRepository;
 
     public Project createProject(UUID workspaceId, String name, String description, LocalDate deadlineAt) throws ApiException {
         int projectsCount = projectRepository.countAllByWorkspaceIdEquals(workspaceId);
@@ -53,6 +60,17 @@ public class ProjectService {
     }
 
     public void deleteProject(UUID projectId) {
+        List<Long> roadmapStageIds = roadmapStageRepository.getAllStagesInProject(projectId);
+        if (!roadmapStageIds.isEmpty()) {
+            List<Long> roadmapTaskIds = roadmapTaskRepository.getAllTasksInStages(roadmapStageIds);
+            if (!roadmapTaskIds.isEmpty()) {
+                roadmapTaskAttachmentRepository.deleteAllByTaskIdIn(roadmapTaskIds);
+                roadmapTaskRepository.deleteAllByStageIdIn(roadmapStageIds);
+            }
+
+            roadmapStageRepository.deleteAllByProjectIdEquals(projectId);
+        }
+
         projectLinkRepository.deleteAllByProjectIdEquals(projectId);
         projectMemberRepository.deleteAllByProjectIdEquals(projectId);
         projectRepository.deleteById(projectId);

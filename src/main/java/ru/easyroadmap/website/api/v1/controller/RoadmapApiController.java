@@ -175,7 +175,7 @@ public class RoadmapApiController extends ApiControllerBase {
         String userEmail = requireUserExistance(userService);
         RoadmapTask task = roadmapService.getTask(taskId);
         roadmapService.requireStageProjectMembership(userEmail, task.getStageId());
-        roadmapService.deleteTask(task);
+        roadmapService.deleteTask(taskId);
     }
 
     @Operation(summary = "Get a roadmap task attachment by ID", tags = "roadmap-api")
