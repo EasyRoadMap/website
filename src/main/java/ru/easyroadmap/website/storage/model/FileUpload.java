@@ -99,7 +99,7 @@ public class FileUpload {
         }
 
         private static final List<String> ARCHIVE_MIME_SUBTYPES = List.of(
-                "x-bzip", "x-bzip2", "gzip", "java-archive", "vnd.rar", "x-tar", "zip", "x-7z-compressed"
+                "x-bzip", "x-bzip2", "gzip", "java-archive", "vnd.rar", "x-tar", "zip", "x-7z-compressed", "x-zip-compressed"
         );
 
     }
