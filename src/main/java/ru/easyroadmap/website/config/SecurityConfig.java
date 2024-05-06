@@ -57,8 +57,9 @@ public class SecurityConfig {
                         .requestMatchers("/legal/eula", "/legal/privacy").permitAll()
                         .requestMatchers("/docs/openapi", "/docs/swagger", "/docs/swagger-ui/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/workspace/**").authenticated()
                         .requestMatchers("/p/**").permitAll()
+                        .requestMatchers("/api/v1/public/**").permitAll()
+                        .requestMatchers("/workspace/**").authenticated()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(new HttpSessionCsrfTokenRepository())

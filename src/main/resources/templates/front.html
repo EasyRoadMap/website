@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" type="image/png" sizes="512x512" th:href="@{/erm-web/image/favicon_512x512.png}"/>
+    <link rel="icon" type="image/png" sizes="128x128" th:href="@{/erm-web/image/favicon_128x128.png}"/>
+    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/erm-web/image/favicon_64x64.png}"/>
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/erm-web/image/favicon_32x32.png}"/>
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/erm-web/image/favicon_16x16.png}"/>
+    <link rel="stylesheet" th:href="@{/erm-web/css/font.css}" />
+    <title>EasyRoadMap</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <script type="text/javascript" th:src="@{/erm-web/js/front.js}"></script>
+  </body>
+</html>

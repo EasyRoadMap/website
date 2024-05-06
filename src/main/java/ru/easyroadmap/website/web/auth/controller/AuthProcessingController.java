@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import ru.easyroadmap.website.exception.GenericErrorException;
+import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.web.auth.dto.*;
 import ru.easyroadmap.website.web.auth.service.RecoveryService;
 import ru.easyroadmap.website.web.auth.service.RegistrationService;
@@ -91,7 +91,7 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/sign-up/email-code", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processSignUpCodeRequest(@Valid SignUpCodeRequestDto dto, HttpServletResponse response) throws GenericErrorException {
+    public void processSignUpCodeRequest(@Valid SignUpCodeRequestDto dto, HttpServletResponse response) throws ApiException {
         registrationService.processConfirmationRequest(dto.getEmail(), dto.getName(), dto.isRenew(), cookieBased(response));
     }
 
@@ -121,7 +121,7 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/sign-up/confirm-email", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processSignUpConfirmation(@Valid SignUpConfirmationDto dto, HttpServletRequest request) throws GenericErrorException {
+    public void processSignUpConfirmation(@Valid SignUpConfirmationDto dto, HttpServletRequest request) throws ApiException {
         registrationService.processEmailConfirmation(dto.getEmail(), dto.getCode(), extractProofKey(request));
     }
 
@@ -151,7 +151,7 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/sign-up/complete", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processSignUpComplete(@Valid SignUpCompleteDto dto, HttpServletRequest request, HttpServletResponse response) throws GenericErrorException {
+    public void processSignUpComplete(@Valid SignUpCompleteDto dto, HttpServletRequest request, HttpServletResponse response) throws ApiException {
         registrationService.registerNewUser(dto.getEmail(), dto.getName(), dto.getPassword(), extractProofKey(request));
         forgetProofKey(response);
     }
@@ -182,7 +182,7 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/recovery/email-code", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processRecoveryCodeRequest(@Valid RecoveryCodeRequestDto dto, HttpServletResponse response) throws GenericErrorException {
+    public void processRecoveryCodeRequest(@Valid RecoveryCodeRequestDto dto, HttpServletResponse response) throws ApiException {
         recoveryService.processConfirmationRequest(dto.getEmail(), dto.isRenew(), cookieBased(response));
     }
 
@@ -212,7 +212,7 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/recovery/confirm-email", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processRecoveryConfirmation(@Valid RecoveryConfirmationDto dto, HttpServletRequest request) throws GenericErrorException {
+    public void processRecoveryConfirmation(@Valid RecoveryConfirmationDto dto, HttpServletRequest request) throws ApiException {
         recoveryService.processEmailConfirmation(dto.getEmail(), dto.getCode(), extractProofKey(request));
     }
 
@@ -242,7 +242,7 @@ public final class AuthProcessingController {
     })
     @PostMapping(value = "/recovery/change-password", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void processRecoveryChangePassword(@Valid RecoveryChangePasswordDto dto, HttpServletRequest request, HttpServletResponse response) throws GenericErrorException {
+    public void processRecoveryChangePassword(@Valid RecoveryChangePasswordDto dto, HttpServletRequest request, HttpServletResponse response) throws ApiException {
         recoveryService.performRecovery(dto.getEmail(), dto.getPassword(), extractProofKey(request));
         forgetProofKey(response);
     }

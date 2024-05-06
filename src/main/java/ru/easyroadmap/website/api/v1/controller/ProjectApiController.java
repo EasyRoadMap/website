@@ -12,7 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
 import ru.easyroadmap.website.api.v1.dto.UserAddMemberDto;
 import ru.easyroadmap.website.api.v1.dto.UserIdentifierDto;
-import ru.easyroadmap.website.api.v1.dto.project.*;
+import ru.easyroadmap.website.api.v1.dto.project.ProjectDataDto;
+import ru.easyroadmap.website.api.v1.dto.project.ProjectLinksDto;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
 import ru.easyroadmap.website.api.v1.model.UserModel;
 import ru.easyroadmap.website.api.v1.model.project.ProjectInfoModel;
@@ -24,7 +25,6 @@ import ru.easyroadmap.website.api.v1.service.ProjectService;
 import ru.easyroadmap.website.api.v1.service.UserService;
 import ru.easyroadmap.website.api.v1.service.WorkspaceService;
 import ru.easyroadmap.website.exception.ApiException;
-import ru.easyroadmap.website.exception.GenericErrorException;
 import ru.easyroadmap.website.storage.model.User;
 import ru.easyroadmap.website.storage.model.project.Project;
 import ru.easyroadmap.website.storage.model.project.ProjectLink;
@@ -128,7 +128,7 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Set project links", tags = "project-api")
     @PutMapping(value = "/links", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void putProjectLinks(@RequestParam("pr_id") UUID projectId, @Valid ProjectLinksDto dto) throws GenericErrorException {
+    public void putProjectLinks(@RequestParam("pr_id") UUID projectId, @Valid ProjectLinksDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         List<ProjectLinksDto.LinkFacade> links = dto.collect();
 

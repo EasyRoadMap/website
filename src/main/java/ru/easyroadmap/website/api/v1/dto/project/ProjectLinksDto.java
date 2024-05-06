@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import ru.easyroadmap.website.exception.GenericErrorException;
+import ru.easyroadmap.website.exception.ApiException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +20,12 @@ public final class ProjectLinksDto {
     @Size(max = 3)
     private String[] url;
 
-    public List<LinkFacade> collect() throws GenericErrorException {
+    public List<LinkFacade> collect() throws ApiException {
         int nameCount = name != null ? name.length : 0;
         int urlCount = url != null ? url.length : 0;
 
         if (nameCount != urlCount)
-            throw new GenericErrorException(HttpStatus.BAD_REQUEST, "bad_links", "Count of names must be equal to count of urls");
+            throw new ApiException(HttpStatus.BAD_REQUEST, "bad_links", "Count of names must be equal to count of urls");
 
         if (nameCount == 0)
             return null;
@@ -35,11 +35,11 @@ public final class ProjectLinksDto {
         for (int i = 0; i < nameCount; i++) {
             String name = this.name[i];
             if (name == null || name.isEmpty() || name.length() > 32)
-                throw new GenericErrorException(HttpStatus.BAD_REQUEST, "bad_links", "A link name must be a string with length in [1;32]");
+                throw new ApiException(HttpStatus.BAD_REQUEST, "bad_links", "A link name must be a string with length in [1;32]");
 
             String url = this.url[i];
             if (url == null || url.isEmpty() || url.length() > 120)
-                throw new GenericErrorException(HttpStatus.BAD_REQUEST, "bad_links", "A link URL must be a string with length in [1;120]");
+                throw new ApiException(HttpStatus.BAD_REQUEST, "bad_links", "A link URL must be a string with length in [1;120]");
 
             facades.add(new LinkFacade(name, url));
         }

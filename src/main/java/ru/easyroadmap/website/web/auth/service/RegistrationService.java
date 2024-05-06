@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.easyroadmap.website.exception.GenericErrorException;
+import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.storage.model.User;
 import ru.easyroadmap.website.storage.repository.UserRepository;
 import ru.easyroadmap.website.web.auth.service.EmailConfirmationService.ProofKeyConsumer;
@@ -21,10 +21,10 @@ public final class RegistrationService {
     private final PasswordEncoder passwordEncoder;
     private final EmailConfirmationService confirmationService;
 
-    public void registerNewUser(String email, String name, String password, String proofKey) throws GenericErrorException {
+    public void registerNewUser(String email, String name, String password, String proofKey) throws ApiException {
         Optional<User> existing = userRepository.findById(email);
         if (existing.isPresent())
-            throw new GenericErrorException(
+            throw new ApiException(
                     "user_already_exists",
                     "An user with same email address is already registered"
             );
@@ -40,9 +40,9 @@ public final class RegistrationService {
         log.info("Registered a new user '{}'.", email);
     }
 
-    public void processConfirmationRequest(String email, String name, boolean renew, ProofKeyConsumer proofKeyConsumer) throws GenericErrorException {
+    public void processConfirmationRequest(String email, String name, boolean renew, ProofKeyConsumer proofKeyConsumer) throws ApiException {
         if (userRepository.existsById(email))
-            throw new GenericErrorException(
+            throw new ApiException(
                     "email_already_used",
                     "This email is already used by other account"
             );
@@ -62,7 +62,7 @@ public final class RegistrationService {
         );
     }
 
-    public void processEmailConfirmation(String email, String code, String proofKey) throws GenericErrorException {
+    public void processEmailConfirmation(String email, String code, String proofKey) throws ApiException {
         confirmationService.processEmailConfirmation(email, code, proofKey);
     }
 

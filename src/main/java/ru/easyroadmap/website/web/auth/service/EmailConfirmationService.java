@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.easyroadmap.website.exception.GenericErrorException;
+import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.service.MailService;
 import ru.easyroadmap.website.storage.model.auth.EmailConfirmation;
 import ru.easyroadmap.website.storage.repository.auth.EmailConfirmationRepository;
@@ -38,11 +38,11 @@ public final class EmailConfirmationService {
             String userName,
             MailContentFormatter mailContentFormatter,
             ProofKeyConsumer proofKeyConsumer
-    ) throws GenericErrorException {
+    ) throws ApiException {
         Optional<EmailConfirmation> existing = emailConfirmationRepository.findById(email);
         if (existing.isPresent()) {
             if (existing.get().isConfirmed()) {
-                throw new GenericErrorException(
+                throw new ApiException(
                         "email_already_confirmed",
                         "This email is already confirmed"
                 );
@@ -50,14 +50,14 @@ public final class EmailConfirmationService {
 
             if (renew) {
                 if (!existing.get().canBeRenewed()) {
-                    throw new GenericErrorException(
+                    throw new ApiException(
                             "email_confirmation_unrenewable",
                             "This email already has a pending confirmation request that cannot be renewed yet"
                     );
                 }
             } else {
                 if (!existing.get().isExpired()) {
-                    throw new GenericErrorException(
+                    throw new ApiException(
                             "email_confirmation_pending",
                             "This email already has a pending confirmation request"
                     );
@@ -87,31 +87,31 @@ public final class EmailConfirmationService {
         log.info("Requested email confirmation for '{}'.", email);
     }
 
-    public void processEmailConfirmation(String email, String code, String proofKey) throws GenericErrorException {
+    public void processEmailConfirmation(String email, String code, String proofKey) throws ApiException {
         Optional<EmailConfirmation> confirmation = emailConfirmationRepository.findById(email);
         if (confirmation.isEmpty()) {
-            throw new GenericErrorException(
+            throw new ApiException(
                     "request_not_found",
                     "A confirmation wasn't requested for this email"
             );
         }
 
         if (confirmation.get().isExpired()) {
-            throw new GenericErrorException(
+            throw new ApiException(
                     "request_expired",
                     "The confirmation request is expired"
             );
         }
 
         if (!confirmation.get().getProofKey().equalsIgnoreCase(proofKey)) {
-            throw new GenericErrorException(
+            throw new ApiException(
                     "wrong_proof_key",
                     "Your proof key isn't correct"
             );
         }
 
         if (confirmation.get().hasNoMoreAttempts()) {
-            throw new GenericErrorException(
+            throw new ApiException(
                     "no_more_attempts",
                     "You have no more attempts to confirm this email"
             );
@@ -130,7 +130,7 @@ public final class EmailConfirmationService {
                         email, confirmation.get().getAttemptsLeft()
                 );
 
-                throw new GenericErrorException(
+                throw new ApiException(
                         "wrong_code",
                         "Your code doesn't match with the correct"
                 );
@@ -140,17 +140,17 @@ public final class EmailConfirmationService {
         }
     }
 
-    public void validateEmailConfirmation(String email, String proofKey) throws GenericErrorException {
+    public void validateEmailConfirmation(String email, String proofKey) throws ApiException {
         Optional<EmailConfirmation> confirmation = emailConfirmationRepository.findById(email);
         if (confirmation.isEmpty() || !confirmation.get().isConfirmed()) {
-            throw new GenericErrorException(
+            throw new ApiException(
                     "email_not_confirmed",
                     "This operation requires an email confirmation"
             );
         }
 
         if (!confirmation.get().getProofKey().equals(proofKey)) {
-            throw new GenericErrorException(
+            throw new ApiException(
                     "wrong_proof_key",
                     "Your proof key isn't correct"
             );
@@ -161,14 +161,14 @@ public final class EmailConfirmationService {
         emailConfirmationRepository.deleteById(email);
     }
 
-    public static String extractProofKey(HttpServletRequest request) throws GenericErrorException {
+    public static String extractProofKey(HttpServletRequest request) throws ApiException {
         Cookie[] cookies = request.getCookies();
         if (cookies != null)
             for (Cookie cookie : cookies)
                 if (PROOF_KEY_COOKIE_NAME.equals(cookie.getName()))
                     return cookie.getValue();
 
-        throw new GenericErrorException(
+        throw new ApiException(
                 "wrong_proof_key",
                 "Your proof key isn't correct"
         );
