@@ -15,6 +15,9 @@ public interface RoadmapStageRepository extends PagingAndSortingRepository<Roadm
 
     int countAllByProjectIdEquals(UUID projectId);
 
+    @Query("select s.position from RoadmapStage s where s.id = ?1")
+    Optional<Byte> getStagePosition(long stageId);
+
     @Query("select s.projectId from RoadmapStage s where s.id = ?1")
     Optional<UUID> getStageProjectId(long stageId);
 
@@ -27,5 +30,9 @@ public interface RoadmapStageRepository extends PagingAndSortingRepository<Roadm
     @Modifying
     @Query("update RoadmapStage s set s.position = s.position - 1, s.updatedAt = current timestamp where s.projectId = ?1 and s.position > ?2 and s.position <= ?3")
     void updatePositionsAfter(UUID projectId, byte current, byte target);
+
+    @Modifying
+    @Query("update RoadmapStage s set s.position = s.position - 1, s.updatedAt = current timestamp where s.projectId = ?1 and s.position > ?2")
+    void decrementPositionsAfter(UUID projectId, byte position);
 
 }

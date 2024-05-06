@@ -96,8 +96,8 @@ public class RoadmapApiController extends ApiControllerBase {
     @ResponseStatus(HttpStatus.OK)
     public void deleteStage(@RequestParam("rms_id") long stageId) throws ApiException {
         String userEmail = requireUserExistance(userService);
-        roadmapService.requireStageProjectMembership(userEmail, stageId);
-        roadmapService.deleteStage(stageId);
+        UUID projectId = roadmapService.requireStageProjectMembership(userEmail, stageId);
+        roadmapService.deleteStage(projectId, stageId);
     }
 
     @Operation(summary = "Create a new roadmap task", tags = "roadmap-api")

@@ -19,6 +19,7 @@ import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -184,8 +185,11 @@ public class RoadmapService {
         updateStageProgress(task.getStageId());
     }
 
-    public void deleteStage(long stageId) {
+    public void deleteStage(UUID projectId, long stageId) {
+        Optional<Byte> position = stageRepository.getStagePosition(stageId);
         stageRepository.deleteById(stageId);
+
+        position.ifPresent(pos -> stageRepository.decrementPositionsAfter(projectId, pos));
     }
 
     public void deleteTask(RoadmapTask task) throws ApiException {
