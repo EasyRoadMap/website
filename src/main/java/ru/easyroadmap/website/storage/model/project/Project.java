@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
+import ru.easyroadmap.website.api.v1.model.project.ProjectInfoModel;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -46,6 +47,10 @@ public final class Project {
         this.deadlineAt = deadlineAt;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = createdAt;
+    }
+
+    public ProjectInfoModel createInfoModel() {
+        return new ProjectInfoModel(name, description, deadlineAt);
     }
 
     public void setName(String name) {

@@ -19,6 +19,8 @@ public interface RoadmapTaskAttachmentRepository extends JpaRepository<RoadmapTa
     @Query("select u.id from FileUpload u inner join RoadmapTaskAttachment a on u.id = a.attachmentId where a.taskId = ?1")
     List<UUID> findAllAttachmentIds(long taskId);
 
+    List<RoadmapTaskAttachment> findAllByTaskIdEquals(long taskId);
+
     Optional<RoadmapTaskAttachment> findByAttachmentIdEquals(UUID uploadId);
 
     @Query("select u.id from FileUpload u inner join RoadmapTaskAttachment a on u.id = a.attachmentId where a.taskId = ?1 and u.id not in ?2")

@@ -46,7 +46,7 @@ public class RoadmapApiController extends ApiControllerBase {
     public StageModel createStage(@RequestParam("pr_id") UUID projectId, @Valid StageDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         projectService.requireProjectMembership(userEmail, projectId);
-        return StageModel.fromStage(roadmapService.createStage(projectId, dto.getName()));
+        return roadmapService.createStage(projectId, dto.getName()).createModel();
     }
 
     @Operation(summary = "Get a roadmap stage by ID", tags = "roadmap-api")
@@ -55,7 +55,7 @@ public class RoadmapApiController extends ApiControllerBase {
         String userEmail = requireUserExistance(userService);
         RoadmapStage stage = roadmapService.getStage(stageId);
         projectService.requireProjectMembership(userEmail, stage.getProjectId());
-        return StageModel.fromStage(stage);
+        return stage.createModel();
     }
 
     @Operation(summary = "Get a page of roadmap stages list", tags = "roadmap-api")
@@ -68,7 +68,7 @@ public class RoadmapApiController extends ApiControllerBase {
         if (rawPage.isEmpty())
             return ResponseEntity.noContent().build();
 
-        return ResponseEntity.ok(PageableCollection.fromPage(rawPage, StageModel::fromStage));
+        return ResponseEntity.ok(PageableCollection.fromPage(rawPage, RoadmapStage::createModel));
     }
 
     @Operation(summary = "Move a roadmap stage", tags = "roadmap-api")
@@ -113,10 +113,10 @@ public class RoadmapApiController extends ApiControllerBase {
 
         List<FileUpload> attachments = fileUploadService.getTaskAttachments(task.getId());
         if (attachments == null || attachments.isEmpty())
-            return TaskModel.fromTask(task, null);
+            return task.createModel(null);
 
-        List<TaskAttachmentModel> models = attachments.stream().map(a -> TaskAttachmentModel.fromFileUpload(serverHost, a)).toList();
-        return TaskModel.fromTask(task, models);
+        List<TaskAttachmentModel> attachmentModels = attachments.stream().map(a -> a.createTaskAttachmentModel(serverHost)).toList();
+        return task.createModel(attachmentModels);
     }
 
     @Operation(summary = "Get a roadmap task by ID", tags = "roadmap-api")
@@ -128,10 +128,10 @@ public class RoadmapApiController extends ApiControllerBase {
 
         List<FileUpload> attachments = fileUploadService.getTaskAttachments(task.getId());
         if (attachments == null || attachments.isEmpty())
-            return TaskModel.fromTask(task, null);
+            return task.createModel(null);
 
-        List<TaskAttachmentModel> models = attachments.stream().map(a -> TaskAttachmentModel.fromFileUpload(serverHost, a)).toList();
-        return TaskModel.fromTask(task, models);
+        List<TaskAttachmentModel> attachmentModels = attachments.stream().map(a -> a.createTaskAttachmentModel(serverHost)).toList();
+        return task.createModel(attachmentModels);
     }
 
     @Operation(summary = "Get a page of roadmap tasks list", tags = "roadmap-api")
@@ -147,10 +147,10 @@ public class RoadmapApiController extends ApiControllerBase {
         return ResponseEntity.ok(PageableCollection.fromPage(rawPage, task -> {
             List<FileUpload> attachments = fileUploadService.getTaskAttachments(task.getId());
             if (attachments == null || attachments.isEmpty())
-                return TaskModel.fromTask(task, null);
+                return task.createModel(null);
 
-            List<TaskAttachmentModel> models = attachments.stream().map(a -> TaskAttachmentModel.fromFileUpload(serverHost, a)).toList();
-            return TaskModel.fromTask(task, models);
+            List<TaskAttachmentModel> attachmentModels = attachments.stream().map(a -> a.createTaskAttachmentModel(serverHost)).toList();
+            return task.createModel(attachmentModels);
         }));
     }
 
@@ -187,7 +187,7 @@ public class RoadmapApiController extends ApiControllerBase {
         RoadmapTaskAttachment attachment = roadmapService.getTaskAttachment(attachmentId);
         roadmapService.requireTaskProjectMembership(userEmail, attachment.getTaskId());
 
-        return TaskAttachmentModel.fromFileUpload(serverHost, fileUpload);
+        return fileUpload.createTaskAttachmentModel(serverHost);
     }
 
     @Operation(summary = "Get a list of roadmap task attachments", tags = "roadmap-api")
@@ -201,7 +201,7 @@ public class RoadmapApiController extends ApiControllerBase {
             return ResponseEntity.noContent().build();
 
         List<TaskAttachmentModel> models = attachments.stream()
-                .map(a -> TaskAttachmentModel.fromFileUpload(serverHost, a))
+                .map(a -> a.createTaskAttachmentModel(serverHost))
                 .toList();
 
         return ResponseEntity.ok(models);
@@ -214,7 +214,7 @@ public class RoadmapApiController extends ApiControllerBase {
         roadmapService.requireStageProjectMembership(userEmail, stageId);
 
         FileUpload fileUpload = fileUploadService.saveFile(file);
-        return TaskAttachmentModel.fromFileUpload(serverHost, fileUpload);
+        return fileUpload.createTaskAttachmentModel(serverHost);
     }
 
 }

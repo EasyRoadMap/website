@@ -3,6 +3,7 @@ package ru.easyroadmap.website.storage.model.project;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ru.easyroadmap.website.api.v1.model.project.ProjectLinkModel;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -39,6 +40,10 @@ public final class ProjectLink {
         this.url = url;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = createdAt;
+    }
+
+    public ProjectLinkModel createModel() {
+        return new ProjectLinkModel(name, url);
     }
 
     public void update(String name, String url) {

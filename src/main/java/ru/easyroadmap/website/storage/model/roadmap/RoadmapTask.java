@@ -5,9 +5,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ru.easyroadmap.website.api.v1.model.front.FrontTaskAttachmentModel;
+import ru.easyroadmap.website.api.v1.model.front.FrontTaskModel;
+import ru.easyroadmap.website.api.v1.model.roadmap.TaskAttachmentModel;
+import ru.easyroadmap.website.api.v1.model.roadmap.TaskModel;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -50,6 +55,14 @@ public final class RoadmapTask {
         this.deadlineAt = deadlineAt;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = createdAt;
+    }
+
+    public TaskModel createModel(List<TaskAttachmentModel> attachments) {
+        return new TaskModel(id, getStatus(), name, description, deadlineAt, attachments);
+    }
+
+    public FrontTaskModel createFrontModel(List<FrontTaskAttachmentModel> attachments) {
+        return new FrontTaskModel(getStatus(), name, description, deadlineAt, attachments);
     }
 
     public Status getStatus() {

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
+import ru.easyroadmap.website.api.v1.model.front.FrontTaskAttachmentModel;
+import ru.easyroadmap.website.api.v1.model.roadmap.TaskAttachmentModel;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -54,6 +56,16 @@ public class FileUpload {
         this.size = size;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = createdAt;
+    }
+
+    public TaskAttachmentModel createTaskAttachmentModel(String urlBase) {
+        String url = "%s/erm-web/u/%s".formatted(urlBase, id);
+        return new TaskAttachmentModel(id, getType(), fileName, md5, size, urlBase);
+    }
+
+    public FrontTaskAttachmentModel createFrontTaskAttachmentModel(String urlBase) {
+        String url = "%s/erm-web/u/%s".formatted(urlBase, id);
+        return new FrontTaskAttachmentModel(getType(), fileName, size, urlBase);
     }
 
     public Type getType() {

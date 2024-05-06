@@ -36,6 +36,8 @@ public interface RoadmapStageRepository extends PagingAndSortingRepository<Roadm
     @Query("select s.projectId from RoadmapStage s where s.id = ?1")
     Optional<UUID> getStageProjectId(long stageId);
 
+    List<RoadmapStage> findAllByProjectIdEquals(UUID projectId);
+
     Page<RoadmapStage> findAllByProjectIdEquals(UUID projectId, Pageable pageable);
 
     @Modifying

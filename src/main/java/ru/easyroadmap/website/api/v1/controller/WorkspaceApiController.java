@@ -137,7 +137,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     public WorkspaceInfoModel getWorkspaceInfo(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Workspace workspace = workspaceService.requireWorkspaceMembership(userEmail, workspaceId);
-        return WorkspaceInfoModel.fromWorkspace(workspace);
+        return workspace.createInfoModel();
     }
 
     @Operation(summary = "Set a workspace info", tags = "workspace-api")
@@ -154,7 +154,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     public WorkspaceAppearanceModel getWorkspaceAppearance(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Workspace workspace = workspaceService.requireWorkspaceMembership(userEmail, workspaceId);
-        return WorkspaceAppearanceModel.fromWorkspace(workspace);
+        return workspace.createAppearanceModel();
     }
 
     @Operation(summary = "Set a workspace appearance", tags = "workspace-api")

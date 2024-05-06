@@ -18,8 +18,8 @@ public record WorkspaceModel(
     public static WorkspaceModel fromWorkspace(Workspace workspace, PhotoModel photo, Boolean isAdmin, boolean includeAppearance) {
         return new WorkspaceModel(
                 workspace.getId(),
-                WorkspaceInfoModel.fromWorkspace(workspace),
-                includeAppearance ? WorkspaceAppearanceModel.fromWorkspace(workspace) : null,
+                workspace.createInfoModel(),
+                includeAppearance ? workspace.createAppearanceModel() : null,
                 photo,
                 isAdmin
         );

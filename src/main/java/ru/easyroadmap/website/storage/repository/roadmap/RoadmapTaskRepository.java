@@ -34,6 +34,8 @@ public interface RoadmapTaskRepository extends PagingAndSortingRepository<Roadma
     @Query("select t.stageId from RoadmapTask t where t.id = ?1")
     Optional<Long> getTaskStageId(long taskId);
 
+    List<RoadmapTask> findAllByStageIdEquals(long stageId);
+
     Page<RoadmapTask> findAllByStageIdEquals(long stageId, Pageable pageable);
 
 }

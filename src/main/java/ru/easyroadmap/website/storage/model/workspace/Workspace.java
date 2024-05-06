@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
+import ru.easyroadmap.website.api.v1.model.workspace.WorkspaceAppearanceModel;
+import ru.easyroadmap.website.api.v1.model.workspace.WorkspaceInfoModel;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -53,6 +55,14 @@ public final class Workspace {
         this.accentColor = accentColor;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = createdAt;
+    }
+
+    public WorkspaceInfoModel createInfoModel() {
+        return new WorkspaceInfoModel(name, description);
+    }
+
+    public WorkspaceAppearanceModel createAppearanceModel() {
+        return new WorkspaceAppearanceModel(theme, accentColor);
     }
 
     public void setName(String name) {

@@ -3,6 +3,8 @@ package ru.easyroadmap.website.storage.model.roadmap;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ru.easyroadmap.website.api.v1.model.front.FrontProjectModel;
+import ru.easyroadmap.website.api.v1.model.roadmap.StageModel;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -43,6 +45,14 @@ public final class RoadmapStage {
         this.progress = 0F;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = createdAt;
+    }
+
+    public StageModel createModel() {
+        return new StageModel(id, position, name, progress);
+    }
+
+    public FrontProjectModel.StageModel createFrontModel() {
+        return new FrontProjectModel.StageModel(id, position, name, progress);
     }
 
     public void setPosition(byte position) {
