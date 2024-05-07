@@ -61,7 +61,7 @@ public class UserApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Change user password", tags = "user-api")
-    @PatchMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PutMapping(value = "/password", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void changePassword(@Valid ChangePasswordDto dto) throws ApiException {
         User user = getCurrentUser(userService);
