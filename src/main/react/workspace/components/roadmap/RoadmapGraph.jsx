@@ -8,9 +8,7 @@ import useProjectContext from "../../hooks/useProjectContext.js";
 import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
 import { usePopupManager } from "react-popup-manager";
 import AlertPopup from "../popup/AlertPopup.jsx";
-import {
-  askForDeleteStageProps
-} from "../popup/PopupsData.jsx";
+import { askForDeleteStageProps } from "../popup/PopupsData.jsx";
 import Popup from "../popup/Popup.jsx";
 import CreateStagePopup from "../popup/CreateStage.jsx";
 import { useRef, useState, useEffect, useCallback } from "react";
@@ -72,7 +70,7 @@ const RoadmapGraph = ({ stages }) => {
     if (params?.[0] === "yes" && chosenStage && projectId) {
       DeleteStage(projectId, chosenStage);
     }
-  }
+  };
 
   const openDeleteStagePopup = (stageName) => {
     popupManager.open(Popup, {
@@ -309,10 +307,13 @@ const RoadmapGraph = ({ stages }) => {
                         }}
                       >
                         <div className={styles.graphCircle}>
-                          <DeleteTaskRoadmap className={styles.deleteTask} onClick={() => {
-                            console.debug("clicked");
-                            openDeleteStagePopup(stage?.name)
-                          }}/>
+                          <DeleteTaskRoadmap
+                            className={styles.deleteTask}
+                            onClick={() => {
+                              console.debug("clicked");
+                              openDeleteStagePopup(stage?.name);
+                            }}
+                          />
                           <TaskRoadmapSVG
                             status={getStatusByProgress(stage.progress)}
                             isActive={chosenStage === stage.id}
@@ -335,13 +336,17 @@ const RoadmapGraph = ({ stages }) => {
                         }}
                       >
                         <div className={styles.graphCircle}>
-                          <DeleteTaskRoadmap className={styles.deleteTask} onClick={() => {
-                            console.debug("clicked");
-                            openDeleteStagePopup(stage?.name)
-                          }}/>
+                          <DeleteTaskRoadmap
+                            className={styles.deleteTask}
+                            onClick={() => {
+                              console.debug("clicked");
+                              openDeleteStagePopup(stage?.name);
+                            }}
+                          />
                           <TaskRoadmapSVG
                             status={getStatusByProgress(stage.progress)}
                             isActive={chosenStage === stage.id}
+                            progress={stage.progress}
                           />
                           <input
                             type="text"

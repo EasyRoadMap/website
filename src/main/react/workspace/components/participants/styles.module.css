@@ -35,7 +35,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 6px 0;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 .avatar {
   height: 64px;
@@ -54,11 +55,18 @@
   justify-content: space-between;
   align-items: center;
 }
+.ParticipantsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .addButton {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 6px 0;
+  padding-top: 6px;
+  padding-bottom: 6px;
   cursor: pointer;
   user-select: none;
   border: none;

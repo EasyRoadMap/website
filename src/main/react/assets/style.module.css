@@ -103,6 +103,12 @@
   .taskRoadmapSVGFill {
     fill: #99e550;
   }
+  .taskRoadmapSVGProgress {
+    stroke: rgba(153, 229, 80, 0.2);
+  }
+  .taskRoadmapSVGProgressFill {
+    fill: rgba(153, 229, 80, 0.2);
+  }
 }
 .taskRoadmapDoneSVG:hover {
   .taskRoadmapSVGOutside {
@@ -139,6 +145,12 @@
   .taskRoadmapSVGFill {
     fill: #f4e456;
   }
+  .taskRoadmapSVGProgress {
+    stroke: rgba(244, 228, 86, 0.2);
+  }
+  .taskRoadmapSVGProgressFill {
+    fill: rgba(244, 228, 86, 0.2);
+  }
 }
 .taskRoadmapProgressSVG:hover {
   .taskRoadmapSVGOutside {
@@ -155,6 +167,12 @@
   }
   .taskRoadmapSVGFill {
     fill: #f4e456;
+  }
+  .taskRoadmapSVGProgress {
+    stroke: rgba(244, 228, 86, 0.2);
+  }
+  .taskRoadmapSVGProgressFill {
+    fill: rgba(244, 228, 86, 0.2);
   }
 }
 .taskRoadmapProgressSVGActive {
@@ -181,6 +199,12 @@
   .taskRoadmapSVGFill {
     fill: #a9adb3;
   }
+  .taskRoadmapSVGProgress {
+    stroke: rgba(169, 173, 179, 0.2);
+  }
+  .taskRoadmapSVGProgressFill {
+    fill: rgba(169, 173, 179, 0.2);
+  }
 }
 .taskRoadmapPlannedSVG:hover {
   .taskRoadmapSVGOutside {
@@ -197,6 +221,12 @@
   }
   .taskRoadmapSVGFill {
     fill: #a9adb3;
+  }
+  .taskRoadmapSVGProgress {
+    stroke: rgba(169, 173, 179, 0.2);
+  }
+  .taskRoadmapSVGProgressFill {
+    fill: rgba(169, 173, 179, 0.2);
   }
 }
 .taskRoadmapPlannedSVGActive {
