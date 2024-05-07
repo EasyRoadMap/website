@@ -7,5 +7,6 @@ public record StageModel(
         @JsonProperty("id") long id,
         @JsonProperty("position") int position,
         @JsonProperty("name") @JsonInclude(JsonInclude.Include.NON_NULL) String name,
-        @JsonProperty("progress") float progress
+        @JsonProperty("progress") float progress,
+        @JsonProperty("is_in_progress") Boolean inProgress
 ) { }

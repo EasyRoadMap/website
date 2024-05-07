@@ -48,11 +48,19 @@ public final class RoadmapStage {
     }
 
     public StageModel createModel() {
-        return new StageModel(id, position, name, progress);
+        return new StageModel(id, position, name, progress, null);
+    }
+
+    public StageModel createModel(boolean inProgress) {
+        return new StageModel(id, position, name, progress, inProgress);
     }
 
     public FrontProjectModel.StageModel createFrontModel() {
-        return new FrontProjectModel.StageModel(id, position, name, progress);
+        return new FrontProjectModel.StageModel(id, position, name, progress, null);
+    }
+
+    public FrontProjectModel.StageModel createFrontModel(boolean inProgress) {
+        return new FrontProjectModel.StageModel(id, position, name, progress, inProgress);
     }
 
     public void setPosition(byte position) {

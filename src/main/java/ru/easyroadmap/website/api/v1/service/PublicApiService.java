@@ -5,10 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
-import ru.easyroadmap.website.api.v1.model.front.*;
+import ru.easyroadmap.website.api.v1.model.front.FrontProjectModel;
+import ru.easyroadmap.website.api.v1.model.front.FrontTaskAttachmentModel;
+import ru.easyroadmap.website.api.v1.model.front.FrontTaskModel;
+import ru.easyroadmap.website.api.v1.model.front.FrontWorkspaceModel;
 import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.storage.model.project.Project;
-import ru.easyroadmap.website.storage.model.roadmap.RoadmapStage;
 import ru.easyroadmap.website.storage.model.roadmap.RoadmapTask;
 import ru.easyroadmap.website.storage.model.workspace.Workspace;
 import ru.easyroadmap.website.storage.repository.project.ProjectMemberRepository;
@@ -73,7 +75,7 @@ public final class PublicApiService {
         ));
 
         List<FrontProjectModel.StageModel> stageModels = stageRepository.findAllByProjectIdEquals(projectId).stream()
-                .map(RoadmapStage::createFrontModel)
+                .map(s -> s.createFrontModel(taskRepository.existsByStageIdEqualsAndStatusEquals(s.getId(), 0)))
                 .toList();
 
         PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(PhotoService.generateProjectPhotoID(projectId));

@@ -16,7 +16,7 @@ public interface RoadmapTaskRepository extends PagingAndSortingRepository<Roadma
     int countAllByStageIdEquals(long stageId);
 
     @Query("select count(t) from RoadmapTask t where t.stageId = ?1 and t.status = 2")
-    int countNotPlannedStageTasks(long stageId);
+    int countDoneStageTasks(long stageId);
 
     void deleteAllByStageIdIn(List<Long> stageIds);
 
@@ -37,5 +37,7 @@ public interface RoadmapTaskRepository extends PagingAndSortingRepository<Roadma
     List<RoadmapTask> findAllByStageIdEquals(long stageId);
 
     Page<RoadmapTask> findAllByStageIdEquals(long stageId, Pageable pageable);
+
+    boolean existsByStageIdEqualsAndStatusEquals(long stageId, int status);
 
 }

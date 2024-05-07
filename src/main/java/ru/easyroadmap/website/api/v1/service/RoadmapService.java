@@ -107,6 +107,10 @@ public class RoadmapService {
         stageRepository.save(stage);
     }
 
+    public boolean hasInProgressTask(long stageId) {
+        return taskRepository.existsByStageIdEqualsAndStatusEquals(stageId, 0);
+    }
+
     public float computeStageProgress(long stageId) {
         int total = countTotalStageTasks(stageId);
         if (total <= 0)
@@ -120,7 +124,7 @@ public class RoadmapService {
     }
 
     public int countNotPlannedStageTasks(long stageId) {
-        return taskRepository.countNotPlannedStageTasks(stageId);
+        return taskRepository.countDoneStageTasks(stageId);
     }
 
     public int countTotalStageTasks(long stageId) {

@@ -55,7 +55,7 @@ public class RoadmapApiController extends ApiControllerBase {
         String userEmail = requireUserExistance(userService);
         RoadmapStage stage = roadmapService.getStage(stageId);
         projectService.requireProjectMembership(userEmail, stage.getProjectId());
-        return stage.createModel();
+        return stage.createModel(roadmapService.hasInProgressTask(stageId));
     }
 
     @Operation(summary = "Get a page of roadmap stages list", tags = "roadmap-api")
@@ -68,7 +68,7 @@ public class RoadmapApiController extends ApiControllerBase {
         if (rawPage.isEmpty())
             return ResponseEntity.noContent().build();
 
-        return ResponseEntity.ok(PageableCollection.fromPage(rawPage, RoadmapStage::createModel));
+        return ResponseEntity.ok(PageableCollection.fromPage(rawPage, s -> s.createModel(roadmapService.hasInProgressTask(s.getId()))));
     }
 
     @Operation(summary = "Move a roadmap stage", tags = "roadmap-api")
