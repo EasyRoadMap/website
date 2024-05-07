@@ -60,12 +60,12 @@ public class FileUpload {
 
     public TaskAttachmentModel createTaskAttachmentModel(String urlBase) {
         String url = "%s/erm-web/u/%s".formatted(urlBase, id);
-        return new TaskAttachmentModel(id, getType(), fileName, md5, size, urlBase);
+        return new TaskAttachmentModel(id, getType(), fileName, md5, size, url);
     }
 
     public FrontTaskAttachmentModel createFrontTaskAttachmentModel(String urlBase) {
         String url = "%s/erm-web/u/%s".formatted(urlBase, id);
-        return new FrontTaskAttachmentModel(getType(), fileName, size, urlBase);
+        return new FrontTaskAttachmentModel(getType(), fileName, size, url);
     }
 
     public Type getType() {
