@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
+import ru.easyroadmap.website.api.v1.dto.user.ChangePasswordDto;
 import ru.easyroadmap.website.api.v1.dto.user.UserDataDto;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
 import ru.easyroadmap.website.api.v1.model.UserModel;
@@ -57,6 +58,17 @@ public class UserApiController extends ApiControllerBase {
     public void setUserName(@Valid UserDataDto dto) throws ApiException {
         User user = getCurrentUser(userService);
         userService.updateUserName(user, dto.getName());
+    }
+
+    @Operation(summary = "Change user password", tags = "user-api")
+    @PatchMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void changePassword(@Valid ChangePasswordDto dto) throws ApiException {
+        User user = getCurrentUser(userService);
+        if (!passwordEncoder.matches(dto.getCurrentPassword(), user.getPassword()))
+            throw new ApiException("wrong_password", "Password isn't correct");
+
+        userService.updateUserPassword(user, dto.getNewPassword());
     }
 
     @Operation(summary = "Get a list of joined workspaces", tags = "user-api")
