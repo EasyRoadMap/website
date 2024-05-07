@@ -160,6 +160,16 @@ public class WorkspaceService {
         }
     }
 
+    public void changeMemberRole(UUID workspaceId, String otherUserEmail, String role) throws ApiException {
+        WorkspaceMember member = workspaceMemberRepository.findByUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId).orElseThrow(() -> new ApiException(
+                "not_a_member",
+                "Requested user isn't a member of this workspace"
+        ));
+
+        member.setRole(role);
+        workspaceMemberRepository.save(member);
+    }
+
     public void updateWorkspaceInfo(Workspace workspace, String name, String description) {
         workspace.setName(name);
         workspace.setDescription(description);

@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
-import ru.easyroadmap.website.api.v1.dto.UserAddMemberDto;
+import ru.easyroadmap.website.api.v1.dto.DomainMemberDto;
 import ru.easyroadmap.website.api.v1.dto.UserIdentifierDto;
 import ru.easyroadmap.website.api.v1.dto.project.ProjectDataDto;
 import ru.easyroadmap.website.api.v1.dto.project.ProjectLinksDto;
@@ -156,7 +156,7 @@ public class ProjectApiController extends ApiControllerBase {
 
     @Operation(summary = "Add workspace member to project", tags = "project-api")
     @PostMapping(value = "/members/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void addMemberToProject(@RequestParam("pr_id") UUID projectId, @Valid UserAddMemberDto dto) throws ApiException {
+    public void addMemberToProject(@RequestParam("pr_id") UUID projectId, @Valid DomainMemberDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Project project = projectService.requireProjectWorkspaceAdminRights(userEmail, projectId);
 
@@ -188,6 +188,15 @@ public class ProjectApiController extends ApiControllerBase {
             throw new ApiException("not_a_member", "Requested user isn't a member of this workspace");
 
         projectService.kickFromProject(projectId, otherUserEmail);
+    }
+
+    @Operation(summary = "Change role of a project member", tags = "project-api")
+    @PatchMapping(value = "/members/role", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void changeMemberRole(@RequestParam("ws_id") UUID projectId, @Valid DomainMemberDto dto) throws ApiException {
+        String userEmail = requireUserExistance(userService);
+        projectService.requireProjectWorkspaceAdminRights(userEmail, projectId);
+        projectService.changeMemberRole(projectId, dto.getEmail(), dto.getRole());
     }
 
     @Operation(summary = "Delete project", tags = "project-api")

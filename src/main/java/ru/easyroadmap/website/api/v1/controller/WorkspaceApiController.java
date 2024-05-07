@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
-import ru.easyroadmap.website.api.v1.dto.UserAddMemberDto;
+import ru.easyroadmap.website.api.v1.dto.DomainMemberDto;
 import ru.easyroadmap.website.api.v1.dto.UserIdentifierDto;
 import ru.easyroadmap.website.api.v1.dto.workspace.WorkspaceDataDto;
 import ru.easyroadmap.website.api.v1.dto.workspace.WorkspaceAppearanceDto;
@@ -197,6 +197,15 @@ public class WorkspaceApiController extends ApiControllerBase {
         workspaceService.transferOwnership(workspace, otherUserEmail);
     }
 
+    @Operation(summary = "Change role of a workspace member", tags = "workspace-api")
+    @PatchMapping(value = "/members/role", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void changeMemberRole(@RequestParam("ws_id") UUID workspaceId, @Valid DomainMemberDto dto) throws ApiException {
+        String userEmail = requireUserExistance(userService);
+        workspaceService.requireWorkspaceAdminRights(userEmail, workspaceId);
+        workspaceService.changeMemberRole(workspaceId, dto.getEmail(), dto.getRole());
+    }
+
     @Operation(summary = "Get an invitation model", tags = "workspace-api")
     @GetMapping(value = "/invite")
     public WorkspaceInvitationModel getInvitation(@RequestParam("invite_id") UUID invitationId) throws ApiException {
@@ -233,7 +242,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     @Operation(summary = "Invite a user to workspace", tags = "workspace-api")
     @PostMapping(value = "/invite", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public WorkspaceInvitationModel inviteUserToWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid UserAddMemberDto dto) throws ApiException {
+    public WorkspaceInvitationModel inviteUserToWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid DomainMemberDto dto) throws ApiException {
         User sender = getCurrentUser(userService);
         Workspace workspace = workspaceService.requireWorkspaceAdminRights(sender.getEmail(), workspaceId);
 

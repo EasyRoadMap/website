@@ -9,7 +9,7 @@ import ru.easyroadmap.website.validation.ValidEmailPattern;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class UserAddMemberDto {
+public final class DomainMemberDto {
 
     @NotBlank @Size(min = 6, max = 64)
     @ValidEmailPattern

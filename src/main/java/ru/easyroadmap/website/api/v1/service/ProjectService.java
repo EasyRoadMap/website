@@ -99,6 +99,16 @@ public class ProjectService {
         projectMemberRepository.save(member);
     }
 
+    public void changeMemberRole(UUID projectId, String otherUserEmail, String role) throws ApiException {
+        ProjectMember member = projectMemberRepository.findByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId).orElseThrow(() -> new ApiException(
+                "not_a_member",
+                "Requested user isn't a member of this project"
+        ));
+
+        member.setRole(role);
+        projectMemberRepository.save(member);
+    }
+
     public List<ProjectLink> getProjectLinks(UUID projectId) {
         return projectLinkRepository.findAllByProjectIdEquals(projectId);
     }
