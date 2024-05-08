@@ -1,0 +1,40 @@
+@import "../../../workspace/theme.module.css";
+.header {
+  height: 100px;
+  width: 100vw;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 calc((100vw - 1060px) / 2);
+  user-select: none;
+  background-color: var(--bg-color-header-and-dropdown-user);
+  position: fixed;
+  z-index: 10000;
+}
+.logo {
+  height: 64px;
+  width: auto;
+}
+.logoWrapper {
+  height: 100%;
+  width: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+.subTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+}

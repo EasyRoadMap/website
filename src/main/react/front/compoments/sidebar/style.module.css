@@ -1,0 +1,207 @@
+@import "../../../workspace/theme.module.css";
+
+.aside {
+  position: fixed;
+  height: fit-content;
+  width: 340px;
+  left: calc((100vw - 1060px) / 2);
+  background-color: var(--bg-color-sidebar-and-dropdown);
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+  border-radius: 24px;
+  border: 1px solid var(--light-stroke);
+}
+.project {
+  margin-left: 44px;
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+  user-select: none;
+  color: var(--text-color);
+}
+.projectButtonWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.projectButtonWrapper hr {
+  margin: 12px 0;
+}
+.placesInProject {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: baseline;
+}
+.activePlaceButton {
+  color: var(--text-color) !important;
+}
+.placesInProject span {
+  font-size: 16px;
+  color: var(--light-blue-text-places);
+}
+.projectdiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  border: none;
+  height: 44px;
+  background-color: transparent;
+}
+/* стили для кнопок проектов */
+.projectButton {
+  cursor: pointer;
+  width: 272px;
+  border-radius: 15px;
+  border: none;
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 12px;
+  background-color: transparent;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: white;
+  opacity: 0.5;
+}
+.pixelAvatar {
+  image-rendering: pixelated;
+}
+.name {
+  font-size: 22px;
+  font-weight: normal;
+  opacity: 0.5;
+  color: var(--text-color);
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+.projectButton:hover {
+  background-color: var(--bg-workspace-button);
+  .avatar {
+    opacity: 0.8;
+  }
+  .name {
+    opacity: 0.8;
+  }
+}
+.buttonProjectActive {
+  background-color: var(--bg-workspace-button-focus);
+  .avatar {
+    opacity: 1;
+  }
+  .name {
+    opacity: 1;
+  }
+}
+.projectButton:active {
+  background-color: var(--bg-workspace-button-active);
+  .avatar {
+    opacity: 1;
+  }
+  .name {
+    opacity: 1;
+  }
+}
+.projectButton:disabled {
+  opacity: 0.3;
+}
+
+/* Стили терх разделов */
+.buttonChapter {
+  padding-left: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 12px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  cursor: pointer;
+  border: none;
+  user-select: none;
+  background-color: transparent;
+}
+.buttonChapterName {
+  opacity: 0.5;
+  color: var(--text-color);
+  font-size: 22px;
+  font-weight: normal;
+}
+.buttonChapterIcon {
+  path {
+    fill: var(--bg-icon-sidebar);
+    opacity: 0.5;
+  }
+}
+.buttonChapterIconExit {
+  path {
+    stroke: var(--bg-exit-icon);
+    opacity: 0.5;
+  }
+}
+
+.buttonChapter:hover {
+  background-color: var(--bg-workspace-button);
+  .buttonChapterIcon {
+    path {
+      opacity: 0.8;
+    }
+  }
+  .buttonChapterIconExit {
+    path {
+      opacity: 0.8;
+    }
+  }
+  .buttonChapterName {
+    opacity: 0.8;
+  }
+}
+
+.buttonChapterActive {
+  background-color: var(--bg-workspace-button-focus);
+  .buttonChapterIcon {
+    path {
+      opacity: 1;
+    }
+  }
+  .buttonChapterIconExit {
+    path {
+      opacity: 1;
+    }
+  }
+  .buttonChapterName {
+    opacity: 1;
+  }
+}
+
+.buttonChapter:active {
+  background-color: var(--bg-workspace-button-active);
+  .buttonChapterIcon {
+    path {
+      opacity: 1;
+    }
+  }
+  .buttonChapterIconExit {
+    path {
+      opacity: 1;
+    }
+  }
+  .buttonChapterName {
+    opacity: 1;
+  }
+}
+
+.buttonChapter:disabled {
+  opacity: 0.3;
+}

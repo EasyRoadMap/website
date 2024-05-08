@@ -7,23 +7,22 @@ import Popup from "../popup/Popup.jsx";
 import AlertPopup from "../popup/AlertPopup.jsx";
 import ButtonDotsSVG from "../../../assets/buttonDots.jsx";
 import DeleteSVG from "../../../assets/deleteSVG.jsx";
-import {
-    removeParticipantFromProjectProps,
-} from "../popup/PopupsData.jsx";
+import { removeParticipantFromProjectProps } from "../popup/PopupsData.jsx";
 
 import { useProjectInfo } from "../../hooks/useProject.jsx";
 import useProjectContext from "../../hooks/useProjectContext.js";
 
-const ParticipantActionsButton = ({participant}) => {
+const ParticipantActionsButton = ({ participant }) => {
   const [listShowed, setListShowed] = useState(false);
 
   const { projectContext } = useProjectContext();
   const { KickMember } = useProjectInfo();
 
   const onCloseRemoveParticipantPopup = (...params) => {
-    if (params[0] !== "yes" || !projectContext?.id || !participant?.user?.email) return;
+    if (params[0] !== "yes" || !projectContext?.id || !participant?.user?.email)
+      return;
     KickMember(projectContext.id, participant.user.email);
-  }
+  };
 
   const popupManager = usePopupManager();
 
@@ -42,7 +41,7 @@ const ParticipantActionsButton = ({participant}) => {
       icon: DeleteSVG,
       text: "Исключить",
       callback: () => openRemoveParticipantPopup(),
-    }
+    },
   ];
 
   const toggleListvisibility = () => {

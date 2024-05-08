@@ -1,0 +1,169 @@
+.btn {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 24px;
+  padding-right: 24px;
+  font-size: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.buttonFilledAccent {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+}
+.buttonFilledAccent:hover {
+  background-color: rgba(255, 255, 255, 0.1), var(--accent-color);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1)
+    ),
+    linear-gradient(var(--accent-color), var(--accent-color));
+  color: white;
+}
+.buttonFilledAccent:active {
+  opacity: 75%;
+  background-color: rgba(255, 255, 255, 0.1), var(--accent-color);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1)
+    ),
+    linear-gradient(var(--accent-color), var(--accent-color));
+  color: white;
+}
+.buttonFilledAccent:disabled {
+  opacity: 30%;
+  background-color: var(--accent-color);
+  color: white;
+  cursor: not-allowed;
+}
+
+.buttonFilledSecondary {
+  background-color: var(--bg-workspace-button-focus);
+  color: var(--foreground-color50);
+  border: none;
+}
+
+.buttonFilledSecondary:hover {
+  background-color: var(--switch-hover-color);
+  color: var(--text-color);
+}
+
+.buttonFilledSecondary:active {
+  opacity: 75%;
+  background-color: var(--switch-hover-color);
+  color: var(--text-color);
+}
+
+.buttonFilledSecondary:disabled {
+  opacity: 30%;
+  background-color: var(--bg-workspace-button-focus);
+  color: var(--text-color);
+  cursor: not-allowed;
+}
+
+.buttonOutlineAccent {
+  background-color: transparent;
+  color: var(--accent-color);
+  border-style: solid;
+  border-color: var(--accent-color);
+}
+
+.buttonOutlineAccent:hover {
+  background-color: rgba(255, 255, 255, 0.15), var(--accent-color);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.15)
+    ),
+    linear-gradient(var(--accent-color), var(--accent-color));
+  color: rgb(255, 255, 255);
+}
+
+.buttonOutlineAccent:active {
+  opacity: 75%;
+  background-color: rgba(255, 255, 255, 0.15), var(--accent-color);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.15)
+    ),
+    linear-gradient(var(--accent-color), var(--accent-color));
+  color: rgb(255, 255, 255);
+}
+
+.buttonOutlineAccent:disabled {
+  opacity: 30%;
+  border-style: solid;
+  border-color: var(--accent-color);
+  background-color: transparent;
+  color: var(--accent-color);
+  cursor: not-allowed;
+}
+
+.buttonOutlineSecondary {
+  background-color: transparent;
+  color: var(--foreground-color50);
+  border-style: solid;
+  border-color: var(--light-stroke);
+}
+
+.buttonOutlineSecondary:hover {
+  background-color: var(--switch-hover-color);
+  color: var(--text-color);
+}
+
+.buttonOutlineSecondary:active {
+  opacity: 75%;
+  background-color: var(--switch-hover-color);
+  color: var(--text-color);
+}
+
+.buttonOutlineSecondary:disabled {
+  opacity: 30%;
+  border-style: solid;
+  border-color: var(--bg-workspace-button-focus);
+  background-color: transparent;
+  color: var(--foreground-color50);
+  cursor: not-allowed;
+}
+
+.buttonOutlineError {
+  background-color: transparent;
+  color: var(--bg-error-button);
+  border-style: solid;
+  border-color: var(--bg-error-button);
+}
+.buttonOutlineError:hover {
+  background-color: rgba(255, 255, 255, 0.15), var(--bg-error-button);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.15)
+    ),
+    linear-gradient(var(--bg-error-button), var(--bg-error-button));
+  color: rgb(255, 255, 255);
+}
+
+.buttonOutlineError:active {
+  opacity: 75%;
+  background-color: rgba(255, 255, 255, 0.15), var(--bg-error-button);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.15)
+    ),
+    linear-gradient(var(--bg-error-button), var(--bg-error-button));
+  color: rgb(255, 255, 255);
+}
+
+.buttonOutlineError:disabled {
+  opacity: 30%;
+  border-style: solid;
+  border-color: var(--bg-error-button);
+  background-color: transparent;
+  color: var(--bg-error-button);
+  cursor: not-allowed;
+}

@@ -25,7 +25,11 @@ const UserInvitationPopup = ({ close, invite }) => {
         </div>
         <div className={styles.participantCard}>
           <div className={styles.participantCardWrapper}>
-            <img src={invite?.workspace?.photo} alt="" className={styles.participantAvatar} />
+            <img
+              src={invite?.workspace?.photo}
+              alt=""
+              className={styles.participantAvatar}
+            />
             <div className={styles.participantCardTextWrapper}>
               <div className={styles.participantCardTitle}>
                 {invite?.workspace?.name}
@@ -41,7 +45,7 @@ const UserInvitationPopup = ({ close, invite }) => {
       <div className={styles.buttonsWrapper}>
         <Button
           text="Отклонить"
-          type="outlineSecondary"
+          type="outlineAccent"
           callback={() => handleClick("decline")}
           style={{ width: "131px", height: "40px" }}
         />

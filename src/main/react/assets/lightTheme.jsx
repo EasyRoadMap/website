@@ -1,13 +1,13 @@
 const lightThemeSVG = (props) => (
   <svg
-    width={21}
-    height={21}
+    width={20}
+    height={20}
     viewBox="0 0 20 20"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <g clipPath="url(#clip0_1293_2659)">
+    <g clipPath="url(#clip0_1929_5419)">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -22,7 +22,7 @@ const lightThemeSVG = (props) => (
       />
     </g>
     <defs>
-      <clipPath id="clip0_1293_2659">
+      <clipPath id="clip0_1929_5419">
         <rect width={18} height={18} fill="white" transform="translate(1 1)" />
       </clipPath>
     </defs>

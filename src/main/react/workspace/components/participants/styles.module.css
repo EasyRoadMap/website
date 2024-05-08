@@ -138,3 +138,14 @@
 .infoInvite {
   opacity: 0.4;
 }
+
+.dots {
+  opacity: 0.5;
+  cursor: pointer;
+}
+.dots:hover {
+  opacity: 1;
+}
+.dots:active {
+  opacity: 0.75;
+}

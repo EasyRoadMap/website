@@ -145,6 +145,7 @@
   height: 19px;
 }
 .dots {
+  opacity: 0.5;
   cursor: pointer;
   width: 10px;
   path {
@@ -152,6 +153,13 @@
     stroke: var(--text-color);
   }
 }
+.dots:hover {
+  opacity: 1;
+}
+.dots:active {
+  opacity: 0.75;
+}
+
 .taskDescription {
   font-size: 14px;
   font-weight: normal;
@@ -392,5 +400,40 @@
   height: 20px;
   path {
     stroke: var(--foreground-color50);
+  }
+}
+
+.noTasks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 42px;
+  padding-top: 12px;
+}
+
+.noTasksText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+}
+.noTasksTitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+.noTasksSubTitle {
+  font-size: 18px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+}
+
+.noTasksSVG {
+  opacity: 1;
+  path {
+    stroke: var(--bg-move-roadmap);
   }
 }

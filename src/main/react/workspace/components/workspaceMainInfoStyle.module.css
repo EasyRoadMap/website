@@ -29,6 +29,9 @@
   aspect-ratio: 1;
   border-radius: 15px;
   background-color: white;
+  border-style: solid;
+  border-color: var(--light-stroke);
+  border-width: 1px;
 }
 .pixelAvatar {
   image-rendering: pixelated;
