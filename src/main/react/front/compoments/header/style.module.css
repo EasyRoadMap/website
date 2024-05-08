@@ -38,3 +38,12 @@
   display: flex;
   flex-direction: column;
 }
+.themeChange {
+  cursor: pointer;
+}
+
+.iconTheme {
+  path {
+    fill: var(--bg-pagination-circle);
+  }
+}
