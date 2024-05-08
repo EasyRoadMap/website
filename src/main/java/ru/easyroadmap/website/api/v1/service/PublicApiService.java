@@ -11,14 +11,14 @@ import ru.easyroadmap.website.api.v1.model.front.FrontTaskModel;
 import ru.easyroadmap.website.api.v1.model.front.FrontWorkspaceModel;
 import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.storage.model.project.Project;
+import ru.easyroadmap.website.storage.model.project.ProjectLink;
 import ru.easyroadmap.website.storage.model.roadmap.RoadmapTask;
 import ru.easyroadmap.website.storage.model.workspace.Workspace;
-import ru.easyroadmap.website.storage.repository.project.ProjectMemberRepository;
+import ru.easyroadmap.website.storage.repository.project.ProjectLinkRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectRepository;
 import ru.easyroadmap.website.storage.repository.roadmap.RoadmapStageRepository;
 import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskAttachmentRepository;
 import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskRepository;
-import ru.easyroadmap.website.storage.repository.workspace.WorkspaceMemberRepository;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceRepository;
 
 import java.util.ArrayList;
@@ -31,10 +31,9 @@ import java.util.UUID;
 public final class PublicApiService {
 
     private final WorkspaceRepository workspaceRepository;
-    private final WorkspaceMemberRepository workspaceMemberRepository;
 
     private final ProjectRepository projectRepository;
-    private final ProjectMemberRepository projectMemberRepository;
+    private final ProjectLinkRepository projectLinkRepository;
 
     private final RoadmapStageRepository stageRepository;
     private final RoadmapTaskRepository taskRepository;
@@ -54,8 +53,9 @@ public final class PublicApiService {
 
         List<FrontWorkspaceModel.ProjectModel> projectModels = new ArrayList<>();
         for (Project project : projectRepository.findAllByWorkspaceIdEquals(workspaceId)) {
-            PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(PhotoService.generateWorkspacePhotoID(workspaceId));
-            projectModels.add(new FrontWorkspaceModel.ProjectModel(project.getId(), project.createInfoModel(), photoModel));
+            UUID projectId = project.getId();
+            PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(PhotoService.generateProjectPhotoID(projectId));
+            projectModels.add(new FrontWorkspaceModel.ProjectModel(projectId, project.createInfoModel(), photoModel));
         }
 
         PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(PhotoService.generateWorkspacePhotoID(workspaceId));
@@ -74,6 +74,10 @@ public final class PublicApiService {
                 "Project with this ID doesn't exist"
         ));
 
+        List<FrontProjectModel.LinkModel> linkModels = projectLinkRepository.findAllByProjectIdEquals(projectId).stream()
+                .map(ProjectLink::createFrontModel)
+                .toList();
+
         List<FrontProjectModel.StageModel> stageModels = stageRepository.findAllByProjectIdEquals(projectId).stream()
                 .map(s -> s.createFrontModel(taskRepository.existsByStageIdEqualsAndStatusEquals(s.getId(), 0)))
                 .toList();
@@ -83,6 +87,7 @@ public final class PublicApiService {
                 projectId,
                 project.createInfoModel(),
                 photoModel,
+                linkModels,
                 stageModels
         );
     }

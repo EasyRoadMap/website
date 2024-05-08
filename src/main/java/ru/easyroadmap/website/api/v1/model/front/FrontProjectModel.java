@@ -12,8 +12,14 @@ public record FrontProjectModel(
         @JsonProperty("id") UUID uuid,
         @JsonProperty("info") ProjectInfoModel info,
         @JsonProperty("photo") PhotoModel photo,
+        @JsonProperty("links") @JsonInclude(JsonInclude.Include.NON_EMPTY) List<LinkModel> links,
         @JsonProperty("stages") @JsonInclude(JsonInclude.Include.NON_EMPTY) List<StageModel> roadmapStages
 ) {
+
+    public record LinkModel(
+            @JsonProperty("name") String name,
+            @JsonProperty("url") String url
+    ) { }
 
     public record StageModel(
             @JsonProperty("id") long id,

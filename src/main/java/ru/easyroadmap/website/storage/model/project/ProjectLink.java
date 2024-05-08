@@ -3,6 +3,7 @@ package ru.easyroadmap.website.storage.model.project;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ru.easyroadmap.website.api.v1.model.front.FrontProjectModel;
 import ru.easyroadmap.website.api.v1.model.project.ProjectLinkModel;
 
 import java.time.LocalDateTime;
@@ -44,6 +45,10 @@ public final class ProjectLink {
 
     public ProjectLinkModel createModel() {
         return new ProjectLinkModel(name, url);
+    }
+
+    public FrontProjectModel.LinkModel createFrontModel() {
+        return new FrontProjectModel.LinkModel(name, url);
     }
 
     public void update(String name, String url) {
