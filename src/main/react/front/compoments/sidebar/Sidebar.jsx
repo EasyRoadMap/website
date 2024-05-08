@@ -1,5 +1,7 @@
 import styles from "./style.module.css";
 import SidebarButton from "./SidebarButton.jsx";
+import SidebarProjects from "./SidebarProjects.jsx";
+
 const Sidebar = () => {
   return (
     <aside className={styles.aside}>
@@ -14,25 +16,22 @@ const Sidebar = () => {
         // active={page === "projects"}
         // callback={() => navigate("/workspace/projects" + getWS())}
       />
-      {/* <SidebarProjects
-        projects={workspaceContext?.projects}
-        chosen={projectField}
-        blocks={getProjectsFieldsRefs()}
-        // projects={[
-        //   {
-        //     avatar: "",
-        //     name: "Проект 1",
-        //     toProject: () => {
-        //       navigate("/workspace/project");
-        //     },
-        //     blocks: getProjectsFieldsRefs(),
-        //     chosen: projectField,
-        //     placeInProject: null,
-        //     toPlace: () => {},
-        //   },
-        // ]}
-        places={placesInProjects}
-      /> */}
+      <SidebarProjects
+        // projects={workspaceContext?.projects}
+        // chosen={projectField}
+        // blocks={getProjectsFieldsRefs()}
+        projects={[
+          {
+            avatar: "",
+            name: "Проект 1",
+            id: "1",
+            blocks: "",
+            chosen: false,
+            placeInProject: null,
+          },
+        ]}
+        // places={placesInProjects}
+      />
     </aside>
   );
 };

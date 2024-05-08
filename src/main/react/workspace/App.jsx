@@ -6,7 +6,9 @@ import "./global.css";
 import { StrictMode, useEffect, useState } from "react";
 import { PopupProvider } from "react-popup-manager";
 import { UserProvider } from "./context/UserContextProvider.js";
-import WorkspaceContext, { WorkspaceProvider } from "./context/WorkspaceContextProvider.js";
+import WorkspaceContext, {
+  WorkspaceProvider,
+} from "./context/WorkspaceContextProvider.js";
 import { ProjectProvider } from "./context/ProjectContextProvider.js";
 import { RoadmapProvider } from "./context/RoadmapContextProvider.js";
 import Settings from "./pages/Settings.jsx";
@@ -21,8 +23,14 @@ import qs from "qs";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function App() {
-
-  const { user, currentWorkspace, setCurrentWorkspace, User, Workspaces, Photo } = useUserInfo();
+  const {
+    user,
+    currentWorkspace,
+    setCurrentWorkspace,
+    User,
+    Workspaces,
+    Photo,
+  } = useUserInfo();
   const { Workspace, Members, Projects, checkWorkspace } = useWorkspaceInfo();
   const { setProjectContext } = useProjectContext();
   const { workspaceContext } = useWorkspaceContext();
@@ -57,48 +65,51 @@ function App() {
       updateURLWithNewWS(currentWorkspace.id);
     } else {
       navigate({
-        pathname: "/workspace"
-      })
+        pathname: "/workspace",
+      });
     }
   }, [currentWorkspace]);
 
   const getWSFromURL = () => {
-    const queryParams = qs.parse(location.search, { ignoreQueryPrefix: true })
+    const queryParams = qs.parse(location.search, { ignoreQueryPrefix: true });
     if (queryParams.ws_id) {
       checkWorkspace(queryParams.ws_id);
     }
     return queryParams;
-  }
+  };
 
   const updateURLWithNewWS = (ws) => {
     // if (ws && !ws.pr_id && setProjectContext) setProjectContext({});
     // const searchParam = Object.keys(ws).length === 2 ? '?ws_id='+ws.ws_id+"&pr_id="+ws.pr__id : '?ws_id='+ws.ws_id;
     navigate({
       pathname: "/workspace",
-      search: '?ws_id='+ws
-    })
-  }
+      search: "?ws_id=" + ws,
+    });
+  };
 
   const clearProjectHighlight = () => {
     if (location.pathname !== "/workspace/project") setProjectContext({});
-  }
-  
+  };
+
   return (
     <PopupProvider>
       {/* <UserProvider>
         <WorkspaceProvider>
           <ProjectProvider>
             <BrowserRouter> */}
-            <RoadmapProvider>
-              <Routes>
-                  <Route path="/workspace" element={<Main />} />
-                  <Route path="/workspace/projects" element={<ProjectsPage />} />
-                  <Route path="/workspace/project" element={<Project />} />
-                  <Route path="/workspace/settings" element={<Settings />} />
-                  <Route path="/workspace/invite" element={<Main fromInvite={true}/>} />
-                </Routes>
-            </RoadmapProvider>
-            {/* </BrowserRouter>
+      <RoadmapProvider>
+        <Routes>
+          <Route path="/workspace" element={<Main />} />
+          <Route path="/workspace/projects" element={<ProjectsPage />} />
+          <Route path="/workspace/project" element={<Project />} />
+          <Route path="/workspace/settings" element={<Settings />} />
+          <Route
+            path="/workspace/invite"
+            element={<Main fromInvite={true} />}
+          />
+        </Routes>
+      </RoadmapProvider>
+      {/* </BrowserRouter>
           </ProjectProvider>
         </WorkspaceProvider>
       </UserProvider> */}
