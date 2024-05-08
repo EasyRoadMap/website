@@ -17,10 +17,7 @@ public class PublicFrontController {
 
     private final PublicFrontService publicFrontService;
 
-    @GetMapping({
-            "/{ws_id}",
-            "/{ws_id}/projects"
-    })
+    @GetMapping("/{ws_id}")
     public String workspacePage(@PathVariable(name = "ws_id") UUID workspaceId) throws GenericErrorException {
         publicFrontService.requireWorkspaceExistance(workspaceId);
         return "front";
