@@ -25,7 +25,17 @@
   border-width: 1px;
   border-color: var(--light-stroke);
 }
-
+.cropperContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cropperWrapper {
+  height: 400px;
+  width: 400px;
+  position: relative;
+}
 .CreateTaskPopup {
   display: flex;
   flex-direction: column;
@@ -285,7 +295,9 @@
   font-size: 16px;
   font-weight: normal;
 }
-
+.pixelAvatar {
+  image-rendering: pixelated;
+}
 .UserAvatar {
   width: 120px;
   height: 120px;

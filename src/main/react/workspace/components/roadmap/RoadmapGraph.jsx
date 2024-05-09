@@ -39,7 +39,7 @@ const getStatusByProgress = (progress) => {
   return "progress";
 };
 
-const RoadmapGraph = ({ stages }) => {
+const RoadmapGraph = ({ stages, projectId }) => {
   const [moveDiff, setMoveDiff] = useState(0);
   // const [stagesNames, setStagesNames] = useState(stages.map((stage) => {return stage.name}));
 
@@ -47,7 +47,7 @@ const RoadmapGraph = ({ stages }) => {
   const stageWrapper = useRef(null);
   const [blocksVisibility, setBlocksVisibility] = useState([]);
 
-  const { projectId } = useProjectContext();
+  // const { projectId } = useProjectContext();
   const { CreateStage, DeleteStage } = useRoadmapInfo();
 
   const { chosenStage, setChosenStage } = useRoadmapContext();
@@ -68,7 +68,18 @@ const RoadmapGraph = ({ stages }) => {
 
   const onCloseDeleteStagePopup = (...params) => {
     if (params?.[0] === "yes" && chosenStage && projectId) {
+      console.debug("chosenStage to delete", chosenStage);
+      const stageToDelete = stages.find((stage) => {
+        if (stage.id == chosenStage) return stage;
+      });
+      if (!stageToDelete) return;
+
+      console.debug(stageToDelete.position);
+      console.debug(stageContainer);
+      const stageContainerToDelete = stageContainer[stageToDelete.position + 1];
+      console.debug("stageContainerToDelete", stageContainerToDelete);
       DeleteStage(projectId, chosenStage);
+      
     }
   };
 
@@ -81,6 +92,12 @@ const RoadmapGraph = ({ stages }) => {
       onClose: onCloseDeleteStagePopup,
     });
   };
+
+  useEffect(() => {
+    console.debug("project id updated");
+    console.debug(stageContainer);
+    // setStageContainer([])
+  }, [projectId])
 
   useEffect(() => {
     setBlocksVisibility(
@@ -96,6 +113,7 @@ const RoadmapGraph = ({ stages }) => {
 
   const measuredRef = useCallback((node) => {
     if (node !== null) {
+      console.debug("measuredRef");
       setStageContainer((prev) => [node, ...prev]);
     }
   }, []);
@@ -264,6 +282,10 @@ const RoadmapGraph = ({ stages }) => {
             className={styles.graphStage}
             style={getAddStageCircleStyles()}
             ref={measuredRef}
+
+            // ref={(node) => {
+            //   measuredRef(node)
+            // }}
           >
             {stageContainer.length > 1 && stageContainer.length % 2 === 1 && (
               <div className={styles.graphBranchLine}></div>
@@ -317,6 +339,8 @@ const RoadmapGraph = ({ stages }) => {
                           <TaskRoadmapSVG
                             status={getStatusByProgress(stage.progress)}
                             isActive={chosenStage === stage.id}
+                            progress={stage.progress}
+                            id={stage.id}
                           />
                           <input
                             type="text"
@@ -347,6 +371,7 @@ const RoadmapGraph = ({ stages }) => {
                             status={getStatusByProgress(stage.progress)}
                             isActive={chosenStage === stage.id}
                             progress={stage.progress}
+                            id={stage.id}
                           />
                           <input
                             type="text"

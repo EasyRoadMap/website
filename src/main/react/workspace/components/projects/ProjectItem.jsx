@@ -14,16 +14,21 @@ const ProjectItem = ({
 }) => {
     const navigate = useNavigate();
     const { workspaceContext } = useWorkspaceContext();
-    const { Project, Members } = useProjectInfo();
-    const { getStages } = useRoadmapInfo();
+    const { setProjectContext } = useProjectContext();
 
     const toProject = () => {
         if (project?.id && workspaceContext?.id) {
+            setProjectContext((prev) => ({...prev, id: project.id}));
             navigate({
-            pathname: "/workspace/project",
-            search: '?ws_id='+workspaceContext.id+"&pr_id="+project.id
+                pathname: "/workspace/project",
+                search: '?ws_id='+workspaceContext.id+"&pr_id="+project.id,
+                // key: project.id
+            }, {
+                state: {
+                pr_id: project.id,
+                replace: false
+                }
             })
-            // initProject(Project, Members, getStages, project.id);
         }
     }
     

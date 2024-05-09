@@ -20,6 +20,10 @@
   border-width: 1px;
 }
 
+.pixelAvatar {
+  image-rendering: pixelated;
+}
+
 .infoWrapper {
   display: flex;
   flex-direction: column;

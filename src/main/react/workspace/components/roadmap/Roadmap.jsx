@@ -6,25 +6,12 @@ import { useEffect } from "react";
 
 import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
 import useRoadmapContext from "../../hooks/useRoadmapContext.js";
-import useProjectContext from "../../hooks/useProjectContext.js"
 
 const Roadmap = ({
     pr_id
 }) => {
     const { getStages, getTasks } = useRoadmapInfo();
     const { roadmapContext, chosenStage } = useRoadmapContext();
-
-    // useEffect(() => {
-    //     console.log("DAMN");
-    //     console.log(projectId);
-    //     if (projectId) {
-    //         getStages(projectId);
-    //     }
-    // }, [projectId]);
-    useEffect(() => {
-        console.debug(pr_id);
-        console.debug("hehe");
-    }, [])
 
     useEffect(() => {
         if (chosenStage) {
@@ -39,7 +26,7 @@ const Roadmap = ({
                     Дорожная карта
                 </h1>
                 <div className={styles.graphWrapper}>
-                    <RoadmapGraph stages={roadmapContext?.stages}/>
+                    <RoadmapGraph stages={roadmapContext?.stages} projectId={pr_id}/>
                     {/* <RoadmapPagination /> */}
                 </div>
                 {chosenStage && 

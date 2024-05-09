@@ -43,7 +43,7 @@ const ParticipantItem = ({ participant, type }) => {
             )}
           </div>
           <div className={styles.position}>
-            {participant?.is_admin ? "Администратор" : participant?.role}
+            {participant?.is_admin ? "" : participant?.role}
           </div>
         </div>
         {workspaceContext?.is_admin &&

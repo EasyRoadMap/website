@@ -26,7 +26,7 @@ const SidebarButton = ({ type, callback, active }) => {
   const className = styles[data.className];
 
   return (
-    <button onClick={callback} className={styles.buttonChapter}>
+    <button onClick={callback} className={buttonClass}>
       <IconComponent className={className} />
       <span className={styles.buttonChapterName}>{data.name}</span>
     </button>

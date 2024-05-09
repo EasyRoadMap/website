@@ -1,11 +1,24 @@
 import styles from "./style.module.css";
-const MainInfo = () => {
+
+const MainInfo = ({
+  name,
+  description,
+  photo
+}) => {
+  const avatarClassName = photo?.default
+    ? [styles.projectAvatar, styles.pixelAvatar].join(" ")
+    : styles.projectAvatar;
+  
   return (
     <div className={styles.mainInfo}>
-      <img src="" alt="" className={styles.projectAvatar}></img>
+      <img src={photo?.url} alt="" className={avatarClassName}></img>
       <div className={styles.infoWrapper}>
-        <span className={styles.infoTitle}>Название рабочей области</span>
-        <span className={styles.infoDescription}>Описание рабочей области</span>
+        <span className={styles.infoTitle}>
+          {name}
+        </span>
+        <span className={styles.infoDescription}>
+          {description}
+        </span>
       </div>
     </div>
   );

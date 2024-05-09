@@ -8,15 +8,11 @@ const DropdownWorkspaceButton = ({ workspace }) => {
   const { userContext } = useUserContext();
   const { Workspace, Members, Projects } = useWorkspaceInfo();
   const navigate = useNavigate();
-  
-  console.log("JJJJJJ");
-  console.log(workspace?.id);
-  console.log(userContext);
 
   const changeWorkspace = () => {
     if (workspace?.id) {
       navigate({
-        pathname: location.pathname,
+        pathname: "/workspace",
         search: '?ws_id='+workspace.id
       })
       userContext.currentWorkspace = workspace;

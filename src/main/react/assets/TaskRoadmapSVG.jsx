@@ -13,11 +13,10 @@ const classNameActive = {
 };
 
 const getY = (progress) => {
-  return (-Math.sin(0.5 * Math.pi - 2 * Math.pi * progress) + 1) * 46;
+  return  Math.round((-Math.sin(0.5 * Math.PI - 2 * Math.PI * progress) + 1) * 46);
 };
 const getX = (progress) => {
-  console.debug("progress", progress);
-  return Math.cos(0.5 * Math.pi - 2 * Math.pi * progress) * 46;
+  return Math.round(Math.cos(0.5 * Math.PI - 2 * Math.PI * progress) * 46);
 };
 
 const TaskRoadmapSVG = (props) => (
@@ -212,25 +211,28 @@ const TaskRoadmapSVG = (props) => (
         strokeOpacity={0.1}
       />
     </g>
-    <mask
-      id="a"
-      style={{
-        maskType: "alpha",
-      }}
-      maskUnits="userSpaceOnUse"
-      x={22}
-      y={21}
-      width={92}
-      height={92}
-    >
-      <path
-        d={`M68 21a46 ${getY(props.progress)} 0 ${
-          props.progress <= 0.5 ? 0 : 1
-        } 1 ${getX(props.progress)} 46h46Z`}
-        fill="#D9D9D9"
-      />
-    </mask>
-    <g mask="url(#a)" strokeWidth={15}>
+    {
+      (props.progress < 1) &&
+      <mask
+        id={"stage" + props.id}
+        style={{
+          maskType: "alpha",
+        }}
+        maskUnits="userSpaceOnUse"
+        x={22}
+        y={21}
+        width={92}
+        height={92}
+      >
+        <path
+          d={`M68 21a46 46 0 ${
+            props.progress <= 0.5 ? 0 : 1
+          } 1 ${getX(props.progress)} ${getY(props.progress)}L68 67Z`}
+          fill="#D9D9D9"
+        />  
+      </mask>
+    }
+    <g mask={`url(#stage${props.id})`} strokeWidth={15}>
       <path
         d="M68 104.5c20.987 0 38-17.013 38-38s-17.013-38-38-38-38 17.013-38 38 17.013 38 38 38Z"
         stroke="#99E550"

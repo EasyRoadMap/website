@@ -32,7 +32,7 @@ function App() {
     Photo,
   } = useUserInfo();
   const { Workspace, Members, Projects, checkWorkspace } = useWorkspaceInfo();
-  const { setProjectContext } = useProjectContext();
+  const { projectId, setProjectContext } = useProjectContext();
   const { workspaceContext } = useWorkspaceContext();
 
   const location = useLocation();
@@ -79,6 +79,7 @@ function App() {
   };
 
   const updateURLWithNewWS = (ws) => {
+    if (!ws || !workspaceContext?.workspaceExists) return;
     // if (ws && !ws.pr_id && setProjectContext) setProjectContext({});
     // const searchParam = Object.keys(ws).length === 2 ? '?ws_id='+ws.ws_id+"&pr_id="+ws.pr__id : '?ws_id='+ws.ws_id;
     navigate({
@@ -97,19 +98,16 @@ function App() {
         <WorkspaceProvider>
           <ProjectProvider>
             <BrowserRouter> */}
-      <RoadmapProvider>
-        <Routes>
-          <Route path="/workspace" element={<Main />} />
-          <Route path="/workspace/projects" element={<ProjectsPage />} />
-          <Route path="/workspace/project" element={<Project />} />
-          <Route path="/workspace/settings" element={<Settings />} />
-          <Route
-            path="/workspace/invite"
-            element={<Main fromInvite={true} />}
-          />
-        </Routes>
-      </RoadmapProvider>
-      {/* </BrowserRouter>
+            <RoadmapProvider>
+              <Routes>
+                  <Route path="/workspace" element={<Main />} />
+                  <Route path="/workspace/projects" element={<ProjectsPage />} />
+                  <Route path="/workspace/project" element={<Project key={projectId}/>} />
+                  <Route path="/workspace/settings" element={<Settings />} />
+                  <Route path="/workspace/invite" element={<Main fromInvite={true}/>} />
+                </Routes>
+            </RoadmapProvider>
+            {/* </BrowserRouter>
           </ProjectProvider>
         </WorkspaceProvider>
       </UserProvider> */}

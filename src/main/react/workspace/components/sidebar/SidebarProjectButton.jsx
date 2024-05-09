@@ -40,10 +40,12 @@ const SidebarProjectButton = ({ project, chosen, blocks, places }) => {
 
   const toProject = () => {
     if (project?.id && workspaceContext?.id) {
+      console.debug("project.id", project.id);
       setProjectContext((prev) => ({...prev, id: project.id}));
       navigate({
         pathname: "/workspace/project",
         search: '?ws_id='+workspaceContext.id+"&pr_id="+project.id,
+        // key: project.id
       }, {
         state: {
           pr_id: project.id,

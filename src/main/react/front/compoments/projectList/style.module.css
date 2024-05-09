@@ -7,6 +7,9 @@
   border-style: solid;
   border-color: var(--light-stroke);
   border-width: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .projectItem {
@@ -47,6 +50,10 @@
   border-style: solid;
   border-color: var(--light-stroke);
   border-width: 1px;
+}
+
+.pixelAvatar {
+  image-rendering: pixelated;
 }
 
 .projectItemTitle {

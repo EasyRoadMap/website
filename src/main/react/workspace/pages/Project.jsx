@@ -25,6 +25,7 @@ const Project = () => {
   const { getStages } = useRoadmapInfo();
   const [projectID, setProjectID] = useState(0);
   const location = useLocation();
+  const { state } = useLocation();
 
   const popupManager = usePopupManager();
 
@@ -48,13 +49,23 @@ const Project = () => {
   };
 
   useEffect(() => {
-    if (!location?.state?.pr_id) return; 
-    setProjectID((prev) => prev+1);
-    initProject(Project, Members, getStages, location.state.pr_id);
-  }, [location?.state?.pr_id]);
+    console.debug("projectContext has been updated");
+  }, [projectContext]);
 
   useEffect(() => {
-    if (location?.state?.pr_id) return;
+    // if (!location?.state?.pr_id) return; 
+    console.debug("state has been updated");
+    if (!state?.pr_id) return; 
+
+    setProjectID(state?.pr_id);
+    // initProject(Project, Members, getStages, location.state.pr_id);
+    initProject(Project, Members, getStages, state?.pr_id);
+
+  }, [state]);
+
+  useEffect(() => {
+    // if (location?.state?.pr_id) return;
+    if (state?.pr_id) return;
 
     const searchParams = getProjectFromURL();
     if (Object.keys(searchParams).includes("pr_id")) {
@@ -79,7 +90,7 @@ const Project = () => {
     return projectContext.links;
   }
 
-  if (projectContext?.info?.name) {
+  if (projectContext?.info?.name && state?.pr_id) {
     return (
       <Base>
           <ProjectMainInfo 
@@ -89,6 +100,7 @@ const Project = () => {
               links: getFulledLinksArray(),
               date: projectContext?.info?.deadline_at ? projectContext?.info?.deadline_at : ""
             }}
+            projectId={projectID}
           />
           <Participants participants={projectContext?.users} type="project" />
           <Roadmap pr_id={projectID}/>

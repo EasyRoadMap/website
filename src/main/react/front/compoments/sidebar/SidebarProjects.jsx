@@ -1,7 +1,9 @@
 import SidebarProjectButton from "./SidebarProjectButton.jsx";
 import styles from "./style.module.css";
+import useProjectContext from "../../hooks/useProjectContext.js";
 
 const SidebarProjects = ({ projects, chosen, blocks, places }) => {
+  const { projectContext } = useProjectContext();
   return (
     <>
       {projects && (
@@ -11,12 +13,11 @@ const SidebarProjects = ({ projects, chosen, blocks, places }) => {
               <button
                 key={i}
                 className={
-                  // project?.id && project?.id === projectContext?.id
-                  //   ? [styles.projectButton, styles.buttonProjectActive].join(
-                  //       " "
-                  //     )
-                  //   : styles.projectButton
-                  styles.projectButton
+                  project?.id && project?.id === projectContext?.id
+                    ? [styles.projectButton, styles.buttonProjectActive].join(
+                        " "
+                      )
+                    : styles.projectButton
                 }
               >
                 <SidebarProjectButton

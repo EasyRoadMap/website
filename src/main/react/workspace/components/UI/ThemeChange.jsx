@@ -3,31 +3,34 @@ import Switch from "./switch.jsx";
 import DarkThemeLayoutSVG from "../../../assets/darkThemelayoutSVG.jsx";
 import LightThemeLayoutSVG from "../../../assets/lightThemeLayoutSVG.jsx";
 import { useEffect, useState } from "react";
-import { useTheme } from "../../hooks/useTheme.js";
 
 import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
+import { IntToRGBA } from "../../utils/RGBAToIntConverter.js";
 
 export default function ThemeChange() {
-  const { theme, setTheme } = useTheme();
+  const [theme, setTheme] = useState("light");
   const [checked, setChecked] = useState(false);
 
-  // const { workspaceContext } = useWorkspaceContext();
-  // const { PutAppearance } = useWorkspaceInfo();
+  const { workspaceContext } = useWorkspaceContext();
+  const { PutAppearance } = useWorkspaceInfo();
 
-  // useEffect(() => {
-  //   setTheme(workspaceContext?.appearance?.theme);
-  // }, workspaceContext?.appearance)
+  useEffect(() => {
+    if (!workspaceContext?.appearance?.theme) return;
+    setTheme(workspaceContext.appearance.theme);
+  }, workspaceContext?.appearance)
 
   const onSwitchChange = () => {
     setChecked((prev) => !prev);
   }
 
-  // const chooseTheme = (newTheme) => {
-  //   if (theme === newTheme) return;
-  //   // PutAppearance();
-  //   setTheme(newTheme);
-  // }
+  const chooseTheme = (newTheme) => {
+    if (theme === newTheme) return;
+    if (!workspaceContext?.id || !workspaceContext?.appearance?.accent_color) return;
+    const color_rgba = IntToRGBA( workspaceContext.appearance.accent_color);
+    PutAppearance(workspaceContext.id, newTheme, color_rgba);
+    setTheme(newTheme);
+  }
 
   return (
     <div className={styles.themeWrapper}>
@@ -37,11 +40,11 @@ export default function ThemeChange() {
       </span>
       <div className={styles.themeChangeBlock}>
         <LightThemeLayoutSVG
-          onClick={checked ? () => {} : () => setTheme("light")}
+          onClick={checked ? () => {} : () => chooseTheme("light")}
           active={theme === "light"}
         />
         <DarkThemeLayoutSVG
-          onClick={checked ? () => {} : () => setTheme("dark")}
+          onClick={checked ? () => {} : () => chooseTheme("dark")}
           active={theme === "dark"}
         />
       </div>

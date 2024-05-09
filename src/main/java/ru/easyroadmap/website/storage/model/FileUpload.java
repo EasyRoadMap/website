@@ -98,7 +98,7 @@ public class FileUpload {
                         return IMAGE;
 
                     if ("application".equalsIgnoreCase(mediaType.getType())) {
-                        String subtype = mediaType.getSubtype();
+                          String subtype = mediaType.getSubtype();
                         if (subtype != null && !subtype.isBlank() && ARCHIVE_MIME_SUBTYPES.contains(subtype.toLowerCase())) {
                             return ARCHIVE;
                         }

@@ -116,7 +116,6 @@ const Sidebar = () => {
 
   return (
     <aside className={styles.aside}>
-      {/* pages + their props */}
       <SidebarButton
         type="main"
         active={page === "main"}
@@ -128,22 +127,9 @@ const Sidebar = () => {
         callback={() => navigate("/workspace/projects" + getWS())}
       />
       <SidebarProjects
-      projects={workspaceContext?.projects}
-      chosen={projectField}
-      blocks={getProjectsFieldsRefs()}
-        // projects={[
-        //   {
-        //     avatar: "",
-        //     name: "Проект 1",
-        //     toProject: () => {
-        //       navigate("/workspace/project");
-        //     },
-        //     blocks: getProjectsFieldsRefs(),
-        //     chosen: projectField,
-        //     placeInProject: null,
-        //     toPlace: () => {},
-        //   },
-        // ]}
+        projects={workspaceContext?.projects}
+        chosen={projectField}
+        blocks={getProjectsFieldsRefs()}
         places={placesInProjects}
       />
       {

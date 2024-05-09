@@ -1,21 +1,34 @@
 import styles from "./style.module.css";
 import LinkSVG from "../../../assets/linkSVG.jsx";
-const ProjectInfo = () => {
+
+const ProjectInfo = ({
+  name,
+  description,
+  links,
+  photo
+}) => {
+  const avatarClassName = photo?.default
+    ? [styles.projectAvatar, styles.pixelAvatar].join(" ")
+    : styles.projectAvatar;
+
   return (
     <div className={styles.mainInfo}>
-      <img src="" alt="" className={styles.projectAvatar}></img>
+      <img src={photo?.url} alt="" className={avatarClassName}></img>
       <div className={styles.infoWrapper}>
-        <span className={styles.infoTitle}>Название рабочей области</span>
-        <span className={styles.infoDescription}>Описание рабочей области</span>
+        <span className={styles.infoTitle}>{name}</span>
+        <span className={styles.infoDescription}>{description}</span>
         <div className={styles.infoLinkWrapper}>
-          <div className={styles.infoLink}>
-            <LinkSVG />
-            <span>Ссылка на соцсети</span>
-          </div>
-          <div className={styles.infoLink}>
-            <LinkSVG />
-            <span>Ссылка на соцсети</span>
-          </div>
+          {
+            links &&
+            links?.map((link) => {
+              return (
+                <div className={styles.infoLink}>
+                  <LinkSVG />
+                  <a href={link?.url}>{link?.name}</a>
+                </div>
+              );
+            })
+          }
         </div>
       </div>
     </div>

@@ -10,8 +10,10 @@ import { useState, useEffect } from "react";
 import { useProjectInfo } from "../hooks/useProject.jsx";
 
 const ProjectMainInfo = ({
-  initialValues
+  initialValues,
+  projectId
 }) => {
+  console.debug("Component did mount");
   const [name, setName] = useState(initialValues?.name);
   const [description, setDescription] = useState(initialValues?.description);
   const [links, setLinks] = useState(initialValues?.links);
@@ -19,6 +21,12 @@ const ProjectMainInfo = ({
 
   const { projectContext } = useProjectContext();
   const { UpdateInfo, UpdateLinks } = useProjectInfo();
+
+  useEffect(() => {
+    console.debug("initialValues has been updated");
+    console.debug(initialValues?.name);
+    console.debug(name);
+  }, [initialValues]);
 
   const avatarClassName = projectContext?.photo?.default
     ? [styles.logo, styles.pixelAvatar].join(" ")

@@ -5,7 +5,6 @@ import DeleteTaskRoadmapSVG from "../../../../assets/deleteTaskRoadmapSVG.jsx";
 import ZipFielIconSVG from "../../../../assets/zipFielIconSVG.jsx";
 import UnhandledFieldIcon from "../../../../assets/unhandledFieldIconSVG.jsx";
 import { useState } from "react";
-import PhotoCropper from "../../cropper/PhotoCropper.jsx";
 
 function formatBytes(a, b = 2) {
   if (!+a) return "0 B";

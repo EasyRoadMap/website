@@ -1,12 +1,32 @@
 import style from "./styleUI.module.css";
 import AccentColor from "../../../assets/accentColorSVG.jsx";
 import { useState } from "react";
+import { accentColors } from "../../accent.js";
+import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
+import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 
 export default function Accent() {
   const [activeAccent, setActiveAccent] = useState(null);
+  const { PutAppearance } = useWorkspaceInfo();
+  const { workspaceContext } = useWorkspaceContext();
+
+  const changeColorInAPI = (color_name) => {
+    const color_hash = accentColors.find((color) => {return color.name === color_name})?.color;
+    if (!color_hash) return;
+    const color_obj = {
+      r: color_hash[0],
+      g: color_hash[1],
+      b: color_hash[2],
+      a: color_hash[3],
+    }
+
+    PutAppearance(workspaceContext.id, workspaceContext.appearance.theme, color_obj);
+  }
 
   const handleColorClick = (color) => {
+    if (!workspaceContext?.id || !workspaceContext?.appearance?.theme) return;
     setActiveAccent(color);
+    changeColorInAPI(color);
   };
   return (
     <div className={style.accentWrapper}>

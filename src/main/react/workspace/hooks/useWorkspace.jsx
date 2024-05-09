@@ -40,12 +40,9 @@ export const useWorkspaceInfo = () => {
 
     const Workspace = (ws_id) => {
         getWorkspace(ws_id).then((response) => {
-            console.log("WHAAAAAAAAAAT");
-            console.log(currentWorkspace);
             setWorkspace((prev) => ({...prev, ...response.data}));
             setUserContext((prev) => ({...prev, currentWorkspace: ws_id}));
             setCurrentWorkspace((prev) => ({...prev, currentWorkspace: ws_id}));
-            console.log({...currentWorkspace, currentWorkspace: ws_id});
         }).catch((e) => {
             setWorkspaceContext((prev) => ({...prev, workspaceExists: false}));
             console.log("response error");
@@ -189,7 +186,6 @@ export const useWorkspaceInfo = () => {
 
     const Members = (ws_id) => {
         getWorkspaceMembers(ws_id).then((response) => {
-            console.debug("members");
             setWorkspace((prev) => ({...prev, users: response.data}))
         }).catch((e) => {
             console.log("response error");
