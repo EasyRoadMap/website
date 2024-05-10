@@ -27,7 +27,7 @@ color-4 - для бокового меню
   --bg-workspace-button: rgba(0, 0, 0, 0.08);
   --bg-workspace-button-focus: rgba(0, 0, 0, 0.05);
   --bg-workspace-button-active: rgba(0, 0, 0, 0.12);
-  --bg-icon-sidebar: #0066fe;
+  --bg-icon-sidebar: var(--accent-color);
   --border-input: rgb(0, 0, 0, 0.1);
   --light-blue-text-places: #6f7b8d;
   --bg-exit-icon: #ff0000;
@@ -76,7 +76,7 @@ color-4 - для бокового меню
   --bg-workspace-button: rgba(0, 0, 0, 0.08);
   --bg-workspace-button-focus: rgba(0, 0, 0, 0.05);
   --bg-workspace-button-active: rgba(0, 0, 0, 0.12);
-  --bg-icon-sidebar: #0066fe;
+  --bg-icon-sidebar: var(--accent-color);
   --border-input: rgb(0, 0, 0, 0.1);
   --light-blue-text-places: #6f7b8d;
   --bg-exit-icon: #ff0000;

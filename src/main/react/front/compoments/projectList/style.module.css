@@ -60,6 +60,9 @@
   font-size: 20px;
   font-weight: 500;
   color: var(--text-color);
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 
 .projectItemDate {

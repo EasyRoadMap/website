@@ -22,3 +22,12 @@
   flex-direction: column;
   gap: 24px;
 }
+
+.centeredContentWorkspace {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  justify-content: center;
+  align-items: center;
+  padding: 90px;
+}

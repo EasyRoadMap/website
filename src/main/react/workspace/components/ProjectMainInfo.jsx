@@ -9,10 +9,7 @@ import { useState, useEffect } from "react";
 
 import { useProjectInfo } from "../hooks/useProject.jsx";
 
-const ProjectMainInfo = ({
-  initialValues,
-  projectId
-}) => {
+const ProjectMainInfo = ({ initialValues, projectId }) => {
   console.debug("Component did mount");
   const [name, setName] = useState(initialValues?.name);
   const [description, setDescription] = useState(initialValues?.description);
@@ -33,17 +30,22 @@ const ProjectMainInfo = ({
     : styles.logo;
 
   const isDataChanged = () => {
-    if (links?.length > 0) for (let i = 0; i < links.length; i++) {
-      if ((links[i]?.name !== initialValues.links[i]?.name ||
-          links[i]?.url !== initialValues.links[i]?.url) &&
-          links[i]?.name && links[i]?.url) return true;
-    }
+    if (links?.length > 0)
+      for (let i = 0; i < links.length; i++) {
+        if (
+          (links[i]?.name !== initialValues.links[i]?.name ||
+            links[i]?.url !== initialValues.links[i]?.url) &&
+          links[i]?.name &&
+          links[i]?.url
+        )
+          return true;
+      }
     return !(
       name === initialValues?.name &&
       description === initialValues?.description &&
       date === initialValues?.date
-    )
-  }
+    );
+  };
 
   const changeData = () => {
     if (!projectContext?.id) return;
@@ -53,12 +55,14 @@ const ProjectMainInfo = ({
       date !== initialValues?.date
     ) {
       UpdateInfo(projectContext.id, name, description, date);
-    } 
-    if (!(
-      links[0] === initialValues.links[0] &&
-      links[1] === initialValues.links[1] &&
-      links[2] === initialValues.links[2]
-    )) {
+    }
+    if (
+      !(
+        links[0] === initialValues.links[0] &&
+        links[1] === initialValues.links[1] &&
+        links[2] === initialValues.links[2]
+      )
+    ) {
       const names = [];
       const urls = [];
       links.forEach((link) => {
@@ -66,12 +70,12 @@ const ProjectMainInfo = ({
           names.push(link.name);
           urls.push(link.url);
         }
-      })
+      });
       if (names.length === urls.length) {
         UpdateLinks(projectContext.id, names, urls);
       }
     }
-  }
+  };
 
   return (
     <section className={styles.section} id="main">
@@ -105,22 +109,18 @@ const ProjectMainInfo = ({
             setData={setDescription}
           />
           <label className={styles.titleInput}>Ссылки</label>
-          <TextFieldLink data={links} setData={setLinks} order={0}/>
-          <TextFieldLink data={links} setData={setLinks} order={1}/>
-          <TextFieldLink data={links} setData={setLinks} order={2}/>
+          <TextFieldLink data={links} setData={setLinks} order={0} />
+          <TextFieldLink data={links} setData={setLinks} order={1} />
+          <TextFieldLink data={links} setData={setLinks} order={2} />
           <label className={styles.titleInput}>Дата дедлайна</label>
-          <TextFieldDate 
-            data={date}
-            setData={setDate}
-          />
-          {
-            isDataChanged() &&
+          <TextFieldDate data={date} setData={setDate} />
+          {isDataChanged() && (
             <Button
               text={"Сохранить изменения"}
               type={"filledAccent"}
               callback={changeData}
             />
-          }
+          )}
         </div>
       </div>
     </section>

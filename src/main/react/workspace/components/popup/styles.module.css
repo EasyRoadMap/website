@@ -476,3 +476,17 @@
     stroke: var(--foreground-color50);
   }
 }
+
+.addPhotoFieldContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.addPhotoFieldWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 36px;
+  padding-right: 36px;
+}

@@ -70,8 +70,10 @@
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: white;
   opacity: 0.5;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
 }
 .pixelAvatar {
   image-rendering: pixelated;

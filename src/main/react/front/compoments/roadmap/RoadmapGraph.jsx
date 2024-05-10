@@ -6,7 +6,6 @@ import DeleteTaskRoadmap from "../../../assets/deleteTaskRoadmapSVG.jsx";
 import { useRef, useState, useEffect, useCallback } from "react";
 import RoadmapPagination from "./RoadmapPagination.jsx";
 
-
 // const CSS_SIZES = {
 //   centerOfCanvas: "50%",
 //   heightOfLine: 4
@@ -26,7 +25,6 @@ import RoadmapPagination from "./RoadmapPagination.jsx";
 //   },
 
 // }
-
 
 const pixelsToInt = (pixelValue) => {
   return parseInt(pixelValue.slice(0, pixelValue.length - 2));
@@ -87,8 +85,7 @@ const RoadmapGraph = ({ stages, chosenStage, setChosenStage }) => {
 
     if (
       pixelsToInt(stageContainer[0].style.right) >=
-        stageWrapper.current.offsetWidth -
-          stageContainer[0].offsetWidth &&
+        stageWrapper.current.offsetWidth - stageContainer[0].offsetWidth &&
       direction === "right"
     ) {
       return;
@@ -219,11 +216,7 @@ const RoadmapGraph = ({ stages, chosenStage, setChosenStage }) => {
                             progress={stage.progress}
                             id={stage.id}
                           />
-                          <input
-                            type="text"
-                            placeholder={stage.name}
-                            className={styles.stageName}
-                          />
+                          <span className={styles.stageName}>{stage.name}</span>
                         </div>
                       </div>
                     </>
@@ -243,11 +236,7 @@ const RoadmapGraph = ({ stages, chosenStage, setChosenStage }) => {
                             progress={stage.progress}
                             id={stage.id}
                           />
-                          <input
-                            type="text"
-                            placeholder={stage.name}
-                            className={styles.stageName}
-                          />
+                          <span className={styles.stageName}>{stage.name}</span>
                         </div>
                       </div>
                       <div

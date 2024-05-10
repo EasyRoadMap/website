@@ -79,9 +79,9 @@ const DeleteWorkspacePopup = ({ workspace, close }) => {
           disabled={!check}
           callback={() => handleClick("delete")}
           style={{
-            width: "214px",
+            width: "255px",
             height: "40px",
-            padding: "0",
+            // padding: "0",
             fontSize: "16px",
           }}
         />

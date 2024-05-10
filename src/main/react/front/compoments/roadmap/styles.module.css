@@ -308,7 +308,7 @@
     cursor: pointer;
     display: block;
   }
-  .stageName::placeholder {
+  .stageName {
     font-size: 20px;
   }
 }
@@ -321,13 +321,13 @@
       fill: transparent;
     }
   }
-  .stageName::placeholder {
+  .stageName {
     font-size: 20px;
     font-weight: bold;
   }
 }
 .graphCircleActive {
-  .stageName::placeholder {
+  .stageName {
     font-size: 20px;
     font-weight: bold;
     color: var(--text-color);
@@ -374,8 +374,6 @@
   border: none;
   background-color: transparent;
   padding: 6px;
-}
-.stageName::placeholder {
   text-align: center;
   font-size: 16px;
   font-weight: 500;

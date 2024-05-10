@@ -18,9 +18,7 @@ import CreateWorkspace from "./CreateWorkspace.jsx";
 
 import qs from "qs";
 
-const Main = ({
-  fromInvite = false
-}) => {
+const Main = ({ fromInvite = false }) => {
   const { workspaceContext } = useWorkspaceContext();
   const { userContext } = useUserContext();
   const { AcceptInvite, DeclineInvite } = useWorkspaceInfo();
@@ -31,27 +29,33 @@ const Main = ({
     const params = getQueryParam();
     if (!params?.invite_id) return;
 
-    getInvite(params.invite_id).then((response) => {
-      openInvitationPopup({invite: response.data});
-    }).catch((e) => {
-      console.log("response error");
-      console.log(e);
-    })
+    getInvite(params.invite_id)
+      .then((response) => {
+        openInvitationPopup({ invite: response.data });
+      })
+      .catch((e) => {
+        console.log("response error");
+        console.log(e);
+      });
   }, []);
 
   const getQueryParam = () => {
-    return qs.parse(location.search, { ignoreQueryPrefix: true })
-  }
+    return qs.parse(location.search, { ignoreQueryPrefix: true });
+  };
 
   const popupManager = usePopupManager();
 
   const onCloseInvitationPopup = (...params) => {
-    if (params[0].button !== "decline" && params[0].button !== "accept" && !params[0].invite_id) return;
+    if (
+      params[0].button !== "decline" &&
+      params[0].button !== "accept" &&
+      !params[0].invite_id
+    )
+      return;
 
     if (params[0].button === "decline") {
       DeclineInvite(params[0].invite_id);
-    }
-    else if (params[0].button === "accept") {
+    } else if (params[0].button === "accept") {
       AcceptInvite(params[0].invite_id);
     }
   };
@@ -61,35 +65,39 @@ const Main = ({
       popup: {
         component: UserInvitationPopup,
         props: {
-          invite: params[0].invite
-        }
+          invite: params[0].invite,
+        },
       },
       onClose: onCloseInvitationPopup,
     });
   };
 
-    return (
-      <>
-      {(workspaceContext?.info?.name) ? 
+  return (
+    <>
+      {workspaceContext?.info?.name ? (
         <Base>
-          <WorkspaceMainInfo 
-          logo={workspaceContext?.photo} initialValues={{
-            name: workspaceContext?.info?.name,
-            description: workspaceContext?.info?.description,
-            waitUntilLoadName: workspaceContext?.info?.name === null,
-            waitUntilLoadDescription: workspaceContext?.info?.description === null,
-            workspace: workspaceContext
-          }}
+          <WorkspaceMainInfo
+            logo={workspaceContext?.photo}
+            initialValues={{
+              name: workspaceContext?.info?.name,
+              description: workspaceContext?.info?.description,
+              waitUntilLoadName: workspaceContext?.info?.name === null,
+              waitUntilLoadDescription:
+                workspaceContext?.info?.description === null,
+              workspace: workspaceContext,
+            }}
           />
           {console.debug("workspaceContext?.id", workspaceContext?.id)}
-          <Participants participants={workspaceContext?.users} type={"workspace"}/>
+          <Participants
+            participants={workspaceContext?.users}
+            type={"workspace"}
+          />
         </Base>
-        :
-        <CreateWorkspace />
-      }
-      </>
-      
-    );
+      ) : (
+        <CreateWorkspace type={"workspace"} />
+      )}
+    </>
+  );
 };
 
 export default Main;

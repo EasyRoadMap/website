@@ -25,3 +25,13 @@
   font-weight: 500;
   color: var(--foreground-color50);
 }
+.wrapper {
+  background-color: var(--bg-color-and-popup);
+  height: 100%;
+  width: 100%;
+}
+.createWorkspaceSVG {
+  path {
+    stroke: var(--bg-move-roadmap);
+  }
+}
