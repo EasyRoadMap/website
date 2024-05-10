@@ -55,7 +55,9 @@ public class WorkspaceApiController extends ApiControllerBase {
         String userEmail = requireUserExistance(userService);
         Workspace workspace = workspaceService.createWorkspace(userEmail, dto.getName(), dto.getDescription());
         workspaceService.joinToWorkspace(userEmail, workspace.getId());
-        return WorkspaceModel.fromWorkspace(workspace, null, null, true);
+
+        PhotoModel photo = photoService.getPhotoModelOrDefaultPicture(generateWorkspacePhotoID(workspace.getId()));
+        return WorkspaceModel.fromWorkspace(workspace, photo, true, true);
     }
 
     @Operation(summary = "Get a workspace model", tags = "workspace-api")

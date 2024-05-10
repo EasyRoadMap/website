@@ -58,7 +58,9 @@ public class ProjectApiController extends ApiControllerBase {
 
         Project project = projectService.createProject(workspaceId, dto.getName(), dto.getDescription(), dto.getDeadlineAt());
         projectService.joinToProject(userEmail, project.getId());
-        return ProjectModel.fromProject(project, null, null);
+
+        PhotoModel photo = photoService.getPhotoModelOrDefaultPicture(generateProjectPhotoID(project.getId()));
+        return ProjectModel.fromProject(project, photo, null);
     }
 
     @Operation(summary = "Get a project model", tags = "project-api")
