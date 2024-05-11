@@ -1,0 +1,177 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+}
+.background {
+  background-image: url("/erm-web/image/landing/backgroundLanding.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -100;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.buttonWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+}
+.header {
+  width: 100%;
+  height: 100px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 489px;
+}
+.logoWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+}
+
+.textLogo {
+  display: flex;
+  align-items: center;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.buttonFilledAccent {
+  width: 124px;
+  height: 56px;
+  border-radius: 12px;
+  background-color: #0066fe;
+  color: white;
+  border: none;
+  font-size: 20px;
+  font-weight: 500;
+}
+.buttonFilledAccent:hover {
+  background-color: rgba(255, 255, 255, 0.1), #0066fe;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1)
+    ),
+    linear-gradient(#0066fe, #0066fe);
+  color: white;
+}
+.buttonFilledAccent:active {
+  opacity: 75%;
+  background-color: rgba(255, 255, 255, 0.1), #0066fe;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1)
+    ),
+    linear-gradient(#0066fe, #0066fe);
+  color: white;
+}
+.buttonFilledAccent:disabled {
+  opacity: 30%;
+  background-color: #0066fe;
+  color: white;
+  cursor: not-allowed;
+}
+
+.buttonOutlineAccent {
+  width: 230px;
+  height: 56px;
+  border-radius: 12px;
+  background-color: transparent;
+  color: #0066fe;
+  border-style: solid;
+  border-color: #0066fe;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.buttonOutlineAccent:hover {
+  background-color: rgba(255, 255, 255, 0.15), #0066fe;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.15)
+    ),
+    linear-gradient(#0066fe, #0066fe);
+  color: rgb(255, 255, 255);
+}
+
+.buttonOutlineAccent:active {
+  opacity: 75%;
+  background-color: rgba(255, 255, 255, 0.15), #0066fe;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0.15)
+    ),
+    linear-gradient(#0066fe, #0066fe);
+  color: rgb(255, 255, 255);
+}
+
+.buttonOutlineAccent:disabled {
+  opacity: 30%;
+  border-style: solid;
+  border-color: #0066fe;
+  background-color: transparent;
+  color: #0066fe;
+  cursor: not-allowed;
+}
+.infoProject {
+  display: flex;
+  flex-direction: column;
+  gap: 31px;
+}
+.wrapperInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 78px;
+  align-items: center;
+}
+.wrapperContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.titleProject {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.textTitleProject {
+  font-size: 100px;
+  font-weight: 800;
+  color: #0066fe;
+  text-align: center;
+}
+
+.descriptionProject {
+  font-size: 50px;
+  font-weight: 600;
+  color: #0066fe;
+  text-align: center;
+}
+
+.textInfoProject {
+  font-size: 40px;
+  font-weight: 500;
+  color: black;
+  text-align: center;
+}
+.textInfoProjectWrapper {
+  display: flex;
+  justify-content: center;
+}
