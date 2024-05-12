@@ -195,7 +195,7 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Change role of a project member", tags = "project-api")
     @PatchMapping(value = "/members/role", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void changeMemberRole(@RequestParam("ws_id") UUID projectId, @Valid DomainMemberDto dto) throws ApiException {
+    public void changeMemberRole(@RequestParam("pr_id") UUID projectId, @Valid DomainMemberDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         projectService.requireProjectWorkspaceAdminRights(userEmail, projectId);
         projectService.changeMemberRole(projectId, dto.getEmail(), dto.getRole());
