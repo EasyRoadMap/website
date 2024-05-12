@@ -82,7 +82,7 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .deleteCookies("JSESSIONID")
                         .logoutUrl("/auth/logout")
-                        .logoutSuccessUrl("/auth/sign-in"))
+                        .logoutSuccessUrl(serverHost + "/auth/sign-in"))
                 .build();
     }
 
