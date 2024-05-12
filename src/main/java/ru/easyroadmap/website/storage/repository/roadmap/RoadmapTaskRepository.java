@@ -1,5 +1,6 @@
 package ru.easyroadmap.website.storage.repository.roadmap;
 
+import jakarta.persistence.OrderBy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,7 +35,8 @@ public interface RoadmapTaskRepository extends PagingAndSortingRepository<Roadma
     @Query("select t.stageId from RoadmapTask t where t.id = ?1")
     Optional<Long> getTaskStageId(long taskId);
 
-    List<RoadmapTask> findAllByStageIdEquals(long stageId);
+    @OrderBy("status asc, deadlineAt asc, name asc")
+    Page<RoadmapTask> findAllByStageIdEquals(long stageId);
 
     Page<RoadmapTask> findAllByStageIdEquals(long stageId, Pageable pageable);
 
