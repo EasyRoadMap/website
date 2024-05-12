@@ -22,6 +22,9 @@ const DropdownUser = ({ user, updateUser, hide }) => {
     popupManager.open(Popup, {
       popup: {
         component: UpdateProfilePopup,
+        props: {
+          userName: user.name
+        }
       },
       onClose: onUpdateProfile,
     });

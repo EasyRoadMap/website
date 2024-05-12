@@ -10,8 +10,8 @@ import { usePopupManager } from "react-popup-manager";
 import Popup from "./Popup.jsx";
 import AddPhotoPopup from "./AddPhotoPopup.jsx";
 
-const UpdateProfilePopup = ({ close }) => {
-  const [name, setName] = useState("");
+const UpdateProfilePopup = ({ close, userName }) => {
+  const [name, setName] = useState(userName);
   const {} = useUserInfo();
   const { userContext } = useUserContext();
 
