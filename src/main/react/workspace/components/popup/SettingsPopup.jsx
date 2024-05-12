@@ -22,7 +22,8 @@ const SettingsPopup = ({ close }) => {
           descriptionComponent={() => {
             return (
               <span className={styles.descriptionSetting}>
-                После смены пароля вход в аккаунт должен будет осуществляться с новым паролем.
+                После смены пароля вход в аккаунт должен будет <br />{" "}
+                осуществляться с новым паролем.
               </span>
             );
           }}

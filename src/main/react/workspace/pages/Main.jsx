@@ -1,4 +1,5 @@
 import Base from "./Base.jsx";
+import LinkVisitorPage from "../components/linkVisitorPage/linkVisitorPage.jsx";
 import WorkspaceMainInfo from "../components/WorkspaceMainInfo.jsx";
 import Participants from "../components/participants/Participants.jsx";
 
@@ -88,6 +89,7 @@ const Main = ({ fromInvite = false }) => {
             }}
           />
           {console.debug("workspaceContext?.id", workspaceContext)}
+          <LinkVisitorPage />
           <Participants
             participants={workspaceContext?.users}
             type={"workspace"}
