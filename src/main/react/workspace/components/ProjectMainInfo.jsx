@@ -36,6 +36,9 @@ const ProjectMainInfo = ({
           links[i]?.name && links[i]?.url) return true;
     }
 
+    if (description === "" && !initialValues?.description) return false;
+    if (name === "" && !initialValues?.name) return false;
+
     return !(
       name === initialValues?.name &&
       description === initialValues?.description &&
