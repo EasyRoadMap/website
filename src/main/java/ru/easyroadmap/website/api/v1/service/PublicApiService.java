@@ -3,12 +3,15 @@ package ru.easyroadmap.website.api.v1.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
 import ru.easyroadmap.website.api.v1.model.front.FrontProjectModel;
 import ru.easyroadmap.website.api.v1.model.front.FrontTaskAttachmentModel;
 import ru.easyroadmap.website.api.v1.model.front.FrontTaskModel;
 import ru.easyroadmap.website.api.v1.model.front.FrontWorkspaceModel;
+import ru.easyroadmap.website.api.v1.model.project.ProjectInfoModel;
 import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.storage.model.project.Project;
 import ru.easyroadmap.website.storage.model.project.ProjectLink;
@@ -54,8 +57,9 @@ public final class PublicApiService {
         List<FrontWorkspaceModel.ProjectModel> projectModels = new ArrayList<>();
         for (Project project : projectRepository.findAllByWorkspaceIdEquals(workspaceId)) {
             UUID projectId = project.getId();
+            ProjectInfoModel infoModel = project.createInfoModel(() -> taskRepository.getMostFarTaskDeadline(projectId));
             PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(PhotoService.generateProjectPhotoID(projectId));
-            projectModels.add(new FrontWorkspaceModel.ProjectModel(projectId, project.createInfoModel(), photoModel));
+            projectModels.add(new FrontWorkspaceModel.ProjectModel(projectId, infoModel, photoModel));
         }
 
         PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(PhotoService.generateWorkspacePhotoID(workspaceId));
@@ -85,7 +89,7 @@ public final class PublicApiService {
         PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(PhotoService.generateProjectPhotoID(projectId));
         return new FrontProjectModel(
                 projectId,
-                project.createInfoModel(),
+                project.createInfoModel(() -> taskRepository.getMostFarTaskDeadline(projectId)),
                 photoModel,
                 linkModels,
                 stageModels
@@ -96,9 +100,10 @@ public final class PublicApiService {
         if (!stageRepository.existsById(stageId))
             throw new ApiException("stage_not_found", "Roadmap stage with this ID doesn't exist");
 
+        Sort sort = Sort.by("status", "deadlineAt", "name").ascending();
         List<FrontTaskModel> taskModels = new ArrayList<>();
 
-        for (RoadmapTask task : taskRepository.findAllByStageIdEquals(stageId)) {
+        for (RoadmapTask task : taskRepository.findAllByStageIdEquals(stageId, Pageable.unpaged())) {
             List<FrontTaskAttachmentModel> attachmentModels = fileUploadService.getTaskAttachments(task.getId()).stream()
                     .map(a -> a.createFrontTaskAttachmentModel(serverHost))
                     .toList();

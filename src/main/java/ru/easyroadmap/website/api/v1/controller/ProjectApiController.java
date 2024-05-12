@@ -60,7 +60,7 @@ public class ProjectApiController extends ApiControllerBase {
         projectService.joinToProject(userEmail, project.getId());
 
         PhotoModel photo = photoService.getPhotoModelOrDefaultPicture(generateProjectPhotoID(project.getId()));
-        return ProjectModel.fromProject(project, photo, null);
+        return ProjectModel.fromProject(project, photo, null, null);
     }
 
     @Operation(summary = "Get a project model", tags = "project-api")
@@ -70,7 +70,7 @@ public class ProjectApiController extends ApiControllerBase {
         Project project = projectService.requireProjectMembership(userEmail, projectId);
         PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(generateProjectPhotoID(projectId));
         List<ProjectLink> links = projectService.getProjectLinks(projectId);
-        return ProjectModel.fromProject(project, photoModel, links);
+        return ProjectModel.fromProject(project, photoModel, links, () -> projectService.getTasksBasedProjectDeadline(projectId));
     }
 
     @Operation(summary = "Get a list of project members", tags = "project-api")
@@ -103,7 +103,7 @@ public class ProjectApiController extends ApiControllerBase {
     public ProjectInfoModel getProjectInfo(@RequestParam("pr_id") UUID projectId) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Project project = projectService.requireProjectMembership(userEmail, projectId);
-        return ProjectInfoModel.fromProject(project);
+        return project.createInfoModel(() -> projectService.getTasksBasedProjectDeadline(projectId));
     }
 
     @Operation(summary = "Set a project info", tags = "project-api")

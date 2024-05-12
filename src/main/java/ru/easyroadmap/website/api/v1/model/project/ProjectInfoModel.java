@@ -13,11 +13,11 @@ public record ProjectInfoModel(
         @JsonProperty("deadline_at") @JsonFormat(pattern = "yyyy-MM-dd") @JsonInclude(JsonInclude.Include.NON_NULL) LocalDate deadlineAt
 ) {
 
-    public static ProjectInfoModel fromProject(Project project) {
+    public static ProjectInfoModel fromProject(Project project, LocalDate deadlineAt) {
         return new ProjectInfoModel(
                 project.getName(),
                 project.getDescription(),
-                project.getDeadlineAt()
+                deadlineAt
         );
     }
 

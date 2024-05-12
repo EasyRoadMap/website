@@ -138,8 +138,7 @@ public class RoadmapService {
 
     public Page<RoadmapTask> getTasksPage(long stageId, int page) {
         Sort sort = Sort.by("status", "deadlineAt", "name").ascending();
-        PageRequest pageRequest = PageRequest.of(page, TASKS_PAGE_SIZE, sort);
-        return taskRepository.findAllByStageIdEquals(stageId, pageRequest);
+        return taskRepository.findAllByStageIdEquals(stageId, PageRequest.of(page, TASKS_PAGE_SIZE, sort));
     }
 
     public void updateStageName(RoadmapStage stage, String name) {

@@ -95,9 +95,10 @@ public class UserApiController extends ApiControllerBase {
 
         List<ProjectModel> result = new ArrayList<>();
         for (Project project : joinedProjects) {
-            PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(generateProjectPhotoID(project.getId()));
-            List<ProjectLink> links = projectService.getProjectLinks(project.getId());
-            result.add(ProjectModel.fromProject(project, photoModel, links));
+            UUID projectId = project.getId();
+            PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(generateProjectPhotoID(projectId));
+            List<ProjectLink> links = projectService.getProjectLinks(projectId);
+            result.add(ProjectModel.fromProject(project, photoModel, links, () -> projectService.getTasksBasedProjectDeadline(projectId)));
         }
 
         return result.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(result);

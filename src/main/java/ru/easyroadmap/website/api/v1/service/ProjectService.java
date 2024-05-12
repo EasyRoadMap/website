@@ -164,6 +164,10 @@ public class ProjectService {
         ));
     }
 
+    public LocalDate getTasksBasedProjectDeadline(UUID projectId) {
+        return roadmapTaskRepository.getMostFarTaskDeadline(projectId);
+    }
+
     public Optional<String> getProjectWorkspaceAdminId(UUID projectId) {
         return projectRepository.getProjectWorkspaceAdminId(projectId);
     }

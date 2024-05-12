@@ -26,7 +26,6 @@ public final class TaskDataDto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate deadlineAt;
 
-    @Max(10)
     private UUID[] attachment;
 
 }

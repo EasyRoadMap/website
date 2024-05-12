@@ -9,6 +9,7 @@ import ru.easyroadmap.website.api.v1.model.project.ProjectInfoModel;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 @Getter
 @NoArgsConstructor
@@ -49,8 +50,12 @@ public final class Project {
         this.updatedAt = createdAt;
     }
 
-    public ProjectInfoModel createInfoModel() {
-        return new ProjectInfoModel(name, description, deadlineAt);
+    public ProjectInfoModel createInfoModel(Supplier<LocalDate> tasksBasedDeadlineSupplier) {
+        return new ProjectInfoModel(name, description, getDeadlineAtOr(tasksBasedDeadlineSupplier));
+    }
+
+    public LocalDate getDeadlineAtOr(Supplier<LocalDate> tasksBasedDeadlineSupplier) {
+        return deadlineAt != null || tasksBasedDeadlineSupplier == null ? deadlineAt : tasksBasedDeadlineSupplier.get();
     }
 
     public void setName(String name) {

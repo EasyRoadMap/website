@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import ru.easyroadmap.website.storage.model.roadmap.RoadmapTask;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,6 +30,9 @@ public interface RoadmapTaskRepository extends PagingAndSortingRepository<Roadma
     @Query("select t.id from RoadmapTask t where t.stageId in ?1")
     List<Long> getAllTasksInStages(List<Long> stageIds);
 
+    @Query("select max(t.deadlineAt) from RoadmapTask t inner join RoadmapStage s on s.id = t.stageId where s.projectId = ?1")
+    LocalDate getMostFarTaskDeadline(UUID projectId);
+
     @Query("select s.projectId from RoadmapTask t inner join RoadmapStage s on t.stageId = s.id where t.id = ?1")
     Optional<UUID> getTaskProjectId(long taskId);
 
@@ -36,8 +40,6 @@ public interface RoadmapTaskRepository extends PagingAndSortingRepository<Roadma
     Optional<Long> getTaskStageId(long taskId);
 
     @OrderBy("status asc, deadlineAt asc, name asc")
-    Page<RoadmapTask> findAllByStageIdEquals(long stageId);
-
     Page<RoadmapTask> findAllByStageIdEquals(long stageId, Pageable pageable);
 
     boolean existsByStageIdEqualsAndStatusEquals(long stageId, int status);
