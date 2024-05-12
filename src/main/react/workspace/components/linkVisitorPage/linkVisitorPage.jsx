@@ -3,6 +3,14 @@ import TextLink from "../UI/TextLInk.jsx";
 import CopyLinkSVG from "../../../assets/copyLinkSVG.jsx";
 import ShareLinkSVG from "../../../assets/shareLinkSVG.jsx";
 
+function copyLinkToClipboard(text) {
+  navigator.clipboard.writeText(text);
+}
+
+function openInNewTab(url) {
+  window.open(url, '_blank').focus();
+}
+
 const LinkVisitorPage = ({ link }) => {
   return (
     <div className={styles.container}>
@@ -23,10 +31,10 @@ const LinkVisitorPage = ({ link }) => {
               data={link}
             />
             <div className={styles.LinkSVG}>
-              <CopyLinkSVG />
+              <CopyLinkSVG onClick={() => copyLinkToClipboard(link)}/>
             </div>
             <div className={styles.LinkSVG}>
-              <ShareLinkSVG />
+              <ShareLinkSVG onClick={() => openInNewTab(link)}/>
             </div>
           </div>
         </div>

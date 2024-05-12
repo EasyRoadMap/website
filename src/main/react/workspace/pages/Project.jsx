@@ -37,6 +37,11 @@ const Project = () => {
     return "";
   };
 
+  const getLinkToPublicPage = () => {
+    if (!projectContext?.id || !workspaceContext?.id) return;
+    return document.location.origin + "/p/" + workspaceContext.id + "/" + projectContext?.id;
+  }
+
   const onCloseDeleteProjectPopup = (...params) => {
     console.log(params?.[0]);
     if (
@@ -120,7 +125,7 @@ const Project = () => {
           }}
           projectId={projectID}
         />
-        <LinkVisitorPage />
+        <LinkVisitorPage link={getLinkToPublicPage()}/>
         <Participants participants={projectContext?.users} type="project" />
         <Roadmap pr_id={projectID} />
         <DeleteBlock

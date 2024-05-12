@@ -1,12 +1,8 @@
 import styles from "./styleUI.module.css";
 
-const TextLink = ({ data, setData, placeholder, type, loading = null }) => {
+const TextLink = ({ data, placeholder, type, loading = null }) => {
   console.log("INPUT");
   console.log(data);
-
-  const changeValue = (e) => {
-    setData(e.target.value);
-  };
 
   const inputField =
     type === "textarea" ? (
@@ -23,9 +19,9 @@ const TextLink = ({ data, setData, placeholder, type, loading = null }) => {
         className={styles.inputLinkVisitorPage}
         type="text"
         placeholder={placeholder}
-        onChange={changeValue}
         value={data}
         disabled={loading}
+        readonly="readonly"
       />
     );
 

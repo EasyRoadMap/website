@@ -44,6 +44,11 @@ const Main = ({ fromInvite = false }) => {
     return qs.parse(location.search, { ignoreQueryPrefix: true });
   };
 
+  const getLinkToPublicPage = () => {
+    if (!workspaceContext?.id) return;
+    return document.location.origin + "/p/" + workspaceContext.id;
+  }
+
   const popupManager = usePopupManager();
 
   const onCloseInvitationPopup = (...params) => {
@@ -89,7 +94,7 @@ const Main = ({ fromInvite = false }) => {
             }}
           />
           {console.debug("workspaceContext?.id", workspaceContext)}
-          <LinkVisitorPage />
+          <LinkVisitorPage link={getLinkToPublicPage()}/>
           <Participants
             participants={workspaceContext?.users}
             type={"workspace"}
