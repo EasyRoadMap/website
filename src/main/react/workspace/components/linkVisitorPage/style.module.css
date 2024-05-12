@@ -1,0 +1,58 @@
+.container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: var(--bg-color-project);
+  border-radius: 24px;
+}
+
+.linkWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+.description {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+}
+.linkTitle {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--text-color);
+}
+
+.LinkSVG {
+  background-color: var(--bg-workspace-button-focus);
+  padding: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  cursor: pointer;
+  opacity: 0.5;
+}
+.LinkSVG:hover {
+  opacity: 1;
+}
+.LinkSVG:active {
+  opacity: 0.75;
+}
+
+.linkField {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+}

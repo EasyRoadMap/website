@@ -32,10 +32,14 @@ const TaskItem = ({ task }) => {
           <div className={styles.taskInfo}>
             <div className={styles.taskTitleWrapper}>
               <div className={styles.taskName}>{task?.name}</div>
-              <div className={styles.taskDate}>
-                <CalendarSVG className={styles.calendarSVG} />
-                <span className={styles.taskDateText}>{task?.deadline_at}</span>
-              </div>
+              {task.deadline_at && (
+                <div className={styles.taskDate}>
+                  <CalendarSVG className={styles.calendarSVG} />
+                  <span className={styles.taskDateText}>
+                    {task?.deadline_at}
+                  </span>
+                </div>
+              )}
             </div>
             <span className={styles.taskDescription}>{task?.description}</span>
           </div>

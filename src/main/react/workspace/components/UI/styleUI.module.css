@@ -47,6 +47,37 @@
   height: 43px;
   outline: none;
 }
+.inputLinkVisitorPage {
+  background-color: transparent;
+  border-width: 1.5px;
+  border-style: solid;
+  border-color: var(--switch-hover-color);
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 12px;
+  padding-left: 18px;
+  padding-right: 18px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  width: 548px;
+  height: 43px;
+  outline: none;
+}
+
+.input::-webkit-scrollbar {
+  width: 7px;
+}
+
+.input::-webkit-scrollbar-track {
+  background-color: var(--light-stroke);
+  border-radius: 20px;
+}
+
+.input::-webkit-scrollbar-thumb {
+  background-color: var(--light-stroke);
+  border-radius: 20px;
+}
 .input:hover {
   background-color: var(--bg-workspace-button-focus);
   border-width: 1.5px;

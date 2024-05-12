@@ -27,10 +27,9 @@ const WorkspaceMainInfo = ({ logo, initialValues }) => {
     if (!initialValues?.description && description === "") return false;
 
     return !(
-      name === initialValues?.name &&
-      description === initialValues?.description
-    )
-  }
+      name === initialValues?.name && description === initialValues?.description
+    );
+  };
 
   const changeData = () => {
     if (!workspaceContext?.id) return;
@@ -39,8 +38,8 @@ const WorkspaceMainInfo = ({ logo, initialValues }) => {
       description !== initialValues?.description
     ) {
       updateInfo(workspaceContext.id, name, description);
-    } 
-  }
+    }
+  };
 
   if (initialValues) {
     return (
@@ -66,18 +65,18 @@ const WorkspaceMainInfo = ({ logo, initialValues }) => {
             <TextField
               title="Описание"
               placeholder="Описание рабочей области"
+              type="textarea"
               data={description}
               setData={setDescription}
               loading={!initialValues.name}
             />
-            {
-            isDataChanged() &&
-            <Button
-              text={"Сохранить изменения"}
-              type={"filledAccent"}
-              callback={changeData}
-            />
-          }
+            {isDataChanged() && (
+              <Button
+                text={"Сохранить изменения"}
+                type={"filledAccent"}
+                callback={changeData}
+              />
+            )}
           </div>
         </div>
       </section>

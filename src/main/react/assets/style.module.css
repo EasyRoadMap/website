@@ -37,6 +37,18 @@
 .calendarSVG {
   stroke: var(--foreground-color50);
 }
+.shareLinkSVG {
+  stroke: var(--foreground-color50);
+}
+.copyLinkSVGStroke {
+  stroke: var(--foreground-color50);
+}
+.copyLinkSVGFill {
+  fill: var(--foreground-color50);
+}
+.calendarVisitorSVG {
+  fill: var(--foreground-color50);
+}
 
 .darkThemelayoutBorder {
   stroke: none;

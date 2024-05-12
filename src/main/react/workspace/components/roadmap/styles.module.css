@@ -374,6 +374,7 @@
   border: none;
   background-color: transparent;
   padding: 6px;
+  color: var(--text-color);
 }
 .stageName::placeholder {
   text-align: center;

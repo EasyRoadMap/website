@@ -43,6 +43,7 @@
   font-size: 16px;
   font-weight: normal;
   color: var(--foreground-color50);
+  word-break: break-word;
 }
 
 .infoLinkWrapper {

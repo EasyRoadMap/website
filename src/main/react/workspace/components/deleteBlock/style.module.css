@@ -6,6 +6,7 @@
 .info {
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
 .wrapper {
   padding: 24px;
