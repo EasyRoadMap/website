@@ -2,7 +2,7 @@
 
 .logoAndButtonwrapper {
   display: flex;
-  gap: 12px;
+  gap: 15px;
   padding-left: 4px;
 }
 .unclickableText {

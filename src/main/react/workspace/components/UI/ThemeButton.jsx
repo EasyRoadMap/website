@@ -47,9 +47,9 @@ export default function ThemeButton() {
       style={{ width: "fit-content", height: "20px" }}
     >
       <div className={styles.dropdownTheme}>
-        <div className={styles.logoAndButtonwrapper}>
+        <div className={styles.logoAndButtonwrapper} style={{ height: "21px" }}>
           {theme === "light" ? <div>{icon}</div> : <div>{icon}</div>}
-          <div className={styles.wholeText}>
+          <div className={styles.wholeText} style={{ height: "21px" }}>
             <span className={styles.unclickableText}>Тема:&nbsp;</span>
             <span
               onClick={() => setShowed((prev) => !prev)}
