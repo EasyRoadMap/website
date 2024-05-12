@@ -36,6 +36,7 @@ const TasksList = ({ tasks }) => {
       params?.[0]?.name &&
       projectContext?.id
     ) {
+      console.debug("closed with status", statusToInt[params?.[0]?.status]);
       CreateTask(
         projectContext?.id,
         chosenStage,

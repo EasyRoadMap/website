@@ -87,17 +87,17 @@ const TaskActionsButton = ({ task }) => {
   };
 
   const buttons = [
-    {
+    (task && task?.status === "done") ? null : {
       icon: DoneTaskIcon,
       text: "Отметить готовой",
       callback: () => setStatus("done"),
     },
-    {
+    (task && task?.status === "in_progress") ? null : {
       icon: ProgressTaskIcon,
       text: "Отметить выполняемой",
       callback: () => setStatus("in_progress"),
     },
-    {
+    (task && task?.status === "planned") ? null : {
       icon: PlannedTaskIcon,
       text: "Отметить запланированной",
       callback: () => setStatus("planned"),

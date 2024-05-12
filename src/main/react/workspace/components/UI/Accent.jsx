@@ -1,14 +1,29 @@
 import style from "./styleUI.module.css";
 import AccentColor from "../../../assets/accentColorSVG.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { accentColors } from "../../accent.js";
 import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
+import { IntToRGBA } from "../../utils/RGBAToIntConverter.js";
 
 export default function Accent() {
   const [activeAccent, setActiveAccent] = useState(null);
   const { PutAppearance } = useWorkspaceInfo();
   const { workspaceContext } = useWorkspaceContext();
+
+  useEffect(() => {
+    if (workspaceContext?.appearance?.accent_color && activeAccent === null) {
+      const rgbaWSColor = IntToRGBA(workspaceContext.appearance.accent_color);
+      const accentColorObj = accentColors.find((colorObj) => {
+        return colorObj.color[0] === rgbaWSColor.r &&
+               colorObj.color[1] === rgbaWSColor.g &&
+               colorObj.color[2] === rgbaWSColor.b &&
+               colorObj.color[3] === rgbaWSColor.a
+      });
+      if (!accentColorObj) return;
+      setActiveAccent(accentColorObj.name);
+    }
+  }, [workspaceContext.appearance]);
 
   const changeColorInAPI = (color_name) => {
     const color_hash = accentColors.find((color) => {return color.name === color_name})?.color;

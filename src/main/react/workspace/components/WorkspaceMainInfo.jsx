@@ -23,6 +23,9 @@ const WorkspaceMainInfo = ({ logo, initialValues }) => {
     : styles.logo;
 
   const isDataChanged = () => {
+    if (!initialValues?.name && name === "") return false;
+    if (!initialValues?.description && description === "") return false;
+
     return !(
       name === initialValues?.name &&
       description === initialValues?.description

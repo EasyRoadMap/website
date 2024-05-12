@@ -7,32 +7,40 @@ import useProjectContext from "../hooks/useProjectContext.js";
 import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 import { useRoadmapInfo } from "../hooks/useRoadmap.js";
 import { useProjectInfo } from "../hooks/useProject.jsx";
-import { useEffect, useState, useReducer } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import qs from "qs";
 
 import { usePopupManager } from "react-popup-manager";
 import Popup from "../components/popup/Popup.jsx";
 import DeleteProjectPopup from "../components/popup/DeleteProjectPopup.jsx";
 
-import { RoadmapProvider } from "../context/RoadmapContextProvider.js";
 import { initProject } from "../hooks/InitProject.js";
 
 const Project = () => {
-  const { projectContext } = useProjectContext();
+  const { projectContext, setProjectContext } = useProjectContext();
   const { workspaceContext } = useWorkspaceContext();
   const { Project, Members, DeleteProject } = useProjectInfo();
   const { getStages } = useRoadmapInfo();
   const [projectID, setProjectID] = useState(0);
   const location = useLocation();
+  const navigate = useNavigate();
   const { state } = useLocation();
 
   const popupManager = usePopupManager();
 
+  const getWS = () => {
+    const searchParam = qs.parse(location.search, { ignoreQueryPrefix: true });
+    if (Object.keys(searchParam).length > 0) return "?ws_id=" + searchParam.ws_id;
+    return "";
+  }
+
   const onCloseDeleteProjectPopup = (...params) => {
     console.log(params?.[0]);
     if (params?.[0]?.button === "delete" && workspaceContext?.id && projectContext?.id) {
-      DeleteProject(workspaceContext?.id, projectContext?.id, params?.[0].password);
+      DeleteProject(workspaceContext?.id, projectContext?.id, params?.[0].password, () => 
+        navigate("/workspace/projects" + getWS())
+      );
     }
   }
 
@@ -57,9 +65,9 @@ const Project = () => {
     console.debug("state has been updated");
     if (!state?.pr_id) return; 
 
-    setProjectID(state?.pr_id);
-    // initProject(Project, Members, getStages, location.state.pr_id);
-    initProject(Project, Members, getStages, state?.pr_id);
+    setProjectID(state.pr_id);
+    setProjectContext(state.pr_id);
+    initProject(Project, Members, getStages, state.pr_id);
 
   }, [state]);
 

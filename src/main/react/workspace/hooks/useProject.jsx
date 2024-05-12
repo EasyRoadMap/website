@@ -34,22 +34,22 @@ export const useProjectInfo = () => {
         });
     }
 
-    const DeleteProject = (ws_id, pr_id, password) => {
+    const DeleteProject = (ws_id, pr_id, password, callback) => {
         deleteProject(pr_id, password).then((response) => {
             console.log("deleting Project");
             Projects(ws_id);
+            if (callback) callback();
         }).catch((e) => {
             console.log("response error");
             console.log(e);
         });
     }
 
-    const CreateProject = (ws_id, name, description, deadlineAt) => {
+    const CreateProject = (ws_id, name, description, deadlineAt, callback) => {
         createProject(ws_id, name, description, deadlineAt).then((response) => {
-            console.log("creating Project");
-            console.log(response);
             setProject((prev) => ({...prev, ...response.data}));
             Projects(ws_id);
+            if (callback) callback(response.data);
         }).catch((e) => {
             console.log("response error");
             console.log(e);

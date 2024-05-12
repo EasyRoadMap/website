@@ -1,16 +1,20 @@
 import styles from "./styles.module.css";
 import useUserContext from "../../hooks/useUserContext.js";
 import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
+import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 import { useNavigate } from "react-router-dom";
 import { initWorkspace } from "../../hooks/InitWorkspace.js";
+import { addWSID } from "../../utils/WSIDStorage.js";
 
 const DropdownWorkspaceButton = ({ workspace }) => {
   const { userContext } = useUserContext();
+  const { workspaceContext } = useWorkspaceContext(); 
   const { Workspace, Members, Projects } = useWorkspaceInfo();
   const navigate = useNavigate();
 
   const changeWorkspace = () => {
     if (workspace?.id) {
+      addWSID(workspace.id);
       navigate({
         pathname: "/workspace",
         search: '?ws_id='+workspace.id
@@ -24,7 +28,7 @@ const DropdownWorkspaceButton = ({ workspace }) => {
 
   return (
     <button className={
-      (workspace?.id && workspace?.id === userContext?.currentWorkspace?.id) ? [styles.dropdownWorkspaceButton, styles.dropdownWorkspaceButtonActive].join(" ") : styles.dropdownWorkspaceButton
+      (workspace?.id && workspace?.id === workspaceContext?.id) ? [styles.dropdownWorkspaceButton, styles.dropdownWorkspaceButtonActive].join(" ") : styles.dropdownWorkspaceButton
     }
     onClick={changeWorkspace}
     >

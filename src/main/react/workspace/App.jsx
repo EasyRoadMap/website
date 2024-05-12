@@ -22,6 +22,8 @@ import useWorkspaceContext from "./hooks/useWorkspaceContext.js";
 import qs from "qs";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import { addWSID } from "./utils/WSIDStorage.js";
+
 function App() {
   const {
     user,
@@ -52,13 +54,15 @@ function App() {
       Projects(ws.ws_id);
       return;
     }
+    console.debug("no found ws id");
     User();
     Workspaces(setCurrentWorkspace);
     Photo();
   }, [workspaceContext?.workspaceExists]);
 
   useEffect(() => {
-    if (user.workspaces?.length > 0 && currentWorkspace) {
+    console.debug("currentWorkspace was updated with value", currentWorkspace);
+    if (user.workspaces?.length > 0 && currentWorkspace?.id) {
       Workspace(currentWorkspace.id);
       Members(currentWorkspace.id);
       Projects(currentWorkspace.id);
@@ -79,9 +83,12 @@ function App() {
   };
 
   const updateURLWithNewWS = (ws) => {
+    console.debug("started updateURLWithNewWS with value", ws);
     if (!ws || !workspaceContext?.workspaceExists) return;
+    console.debug("updateURLWithNewWS condition passed");
     // if (ws && !ws.pr_id && setProjectContext) setProjectContext({});
     // const searchParam = Object.keys(ws).length === 2 ? '?ws_id='+ws.ws_id+"&pr_id="+ws.pr__id : '?ws_id='+ws.ws_id;
+    addWSID(ws);
     navigate({
       pathname: "/workspace",
       search: "?ws_id=" + ws,
@@ -100,11 +107,11 @@ function App() {
             <BrowserRouter> */}
             <RoadmapProvider>
               <Routes>
-                  <Route path="/workspace" element={<Main />} />
-                  <Route path="/workspace/projects" element={<ProjectsPage />} />
-                  <Route path="/workspace/project" element={<Project key={projectId}/>} />
-                  <Route path="/workspace/settings" element={<Settings />} />
-                  <Route path="/workspace/invite" element={<Main fromInvite={true}/>} />
+                  <Route path="/workspace" element={<Main key={workspaceContext.id + "main"}/>} />
+                  <Route path="/workspace/projects" element={<ProjectsPage key={workspaceContext.id + "projects"}/>} />
+                  <Route path="/workspace/project" element={<Project key={workspaceContext.id + "" + projectId}/>} />
+                  <Route path="/workspace/settings" element={<Settings key={workspaceContext.id + "settings"}/>} />
+                  <Route path="/workspace/invite" element={<Main fromInvite={true} key={workspaceContext.id + "maininvite"}/>} />
                 </Routes>
             </RoadmapProvider>
             {/* </BrowserRouter>

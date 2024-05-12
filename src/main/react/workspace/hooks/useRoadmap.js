@@ -17,9 +17,9 @@ export const useRoadmapInfo = () => {
     const { roadmapContext, setRoadmapContext } = useRoadmapContext();
 
     const getStages = (pr_id, callback) => { 
-        console.log("WTF");
         getStagesPage(pr_id, 1).then((response) => {
             const stages = response.data.content;
+            if (callback) callback();
             if (response.status === 204) {
                 setRoadmapContext((prev) => ({...prev, stages: []}));
                 return;
@@ -35,7 +35,6 @@ export const useRoadmapInfo = () => {
                     })
                 }
             }
-            if (callback) callback();
         }) 
     }
 
@@ -48,16 +47,16 @@ export const useRoadmapInfo = () => {
     const CreateStage = (pr_id, name, onSuccess) => {
         createStage(pr_id, name).then((response) => {
             getStages(pr_id);
-            onSuccess();
+            onSuccess(response.data);
         }).catch((e) => {
             console.log("error in Create Stage");
             console.log(e);
         })
     }
 
-    const DeleteStage = (pr_id, rms_id) => {
+    const DeleteStage = (pr_id, rms_id, onSuccess) => {
         deleteStage(rms_id).then((response) => {
-            getStages(pr_id);
+            getStages(pr_id, onSuccess);
         }).catch((e) => {
             console.log("error in Delete Stage");
             console.log(e);

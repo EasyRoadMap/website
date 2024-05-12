@@ -24,23 +24,32 @@ import useWorkspaceContext from "./useWorkspaceContext.js";
 import useUserContext from "./useUserContext.js";
 
 import { useNavigate } from "react-router-dom";
+import WorkspaceContext from "../context/WorkspaceContextProvider.js";
+
+import { initWorkspace } from "./InitWorkspace.js";
+import { addWSID, removeWSID } from "../utils/WSIDStorage.js";
 
 export const useWorkspaceInfo = () => {
     const [workspace, setWorkspace] = useState();
     const { setCurrentWorkspace, Workspaces } = useUserInfo();
-    const { currentWorkspace, setWorkspaceContext } = useWorkspaceContext();
+    const { currentWorkspace, workspaceContext, setWorkspaceContext } = useWorkspaceContext();
     const { setUserContext } = useUserContext();
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        // setWorkspaceContext((prev) => ({...prev, isLoading: false}));
         setWorkspaceContext((prev) => ({...prev, ...workspace}));
     }, [workspace])
 
-    const Workspace = (ws_id) => {
+    const Workspace = (ws_id, resetPrevious=false) => {
         getWorkspace(ws_id).then((response) => {
-            setWorkspace((prev) => ({...prev, ...response.data}));
+            if (resetPrevious) {
+                setWorkspaceContext({...response.data, workspaceExists: true});
+                setUserContext((prev) => ({...prev, currentWorkspace: ws_id}));
+                setCurrentWorkspace((prev) => ({currentWorkspace: ws_id}));
+                return;
+            }
+            setWorkspaceContext((prev) => ({...prev, ...response.data, workspaceExists: true}));
             setUserContext((prev) => ({...prev, currentWorkspace: ws_id}));
             setCurrentWorkspace((prev) => ({...prev, currentWorkspace: ws_id}));
         }).catch((e) => {
@@ -59,11 +68,25 @@ export const useWorkspaceInfo = () => {
     }
 
     const CreateWorkspace = (name, description) => {
+        if (description && description.length === 0) {
+            description = null;
+        }
         createWorkspace(name, description).then((workspace) => {
+            if (workspace?.data?.id) addWSID(workspace.data.id);
             getPhoto(workspace.data.id).then((photo) => {
+                navigate({
+                    pathname: "/workspace",
+                    search: "?ws_id=" + workspace.data.id,
+                });
                 setWorkspace({...workspace.data, photo: photo.data});
                 setWorkspaceContext({...workspace.data, photo: photo.data});
-                Workspaces();
+                Workspaces((newWS) => {
+                    initWorkspace(
+                    (ws, reset) => Workspace(ws, reset),
+                    (ws) => Members(ws),
+                    (ws) => Projects(ws),
+                    newWS.id
+                )});
             }).catch((e) => {
                 console.log("response error");
                 console.log(e);
@@ -76,6 +99,7 @@ export const useWorkspaceInfo = () => {
 
     const DeleteWorkspace = (ws_id, password) => {
         deleteWorkspace(ws_id, password).then((response) => {
+            removeWSID(ws_id);
             setWorkspace({});
             setWorkspaceContext({})
             Workspaces();
@@ -118,6 +142,9 @@ export const useWorkspaceInfo = () => {
     }
 
     const updateInfo = (ws_id, name, description) => {
+        if (description && description.length === 0) {
+            description = null;
+        }
         putInfo(ws_id, name, description).then((response) => {
             Info(ws_id);
         }).catch((e) => {
@@ -186,7 +213,7 @@ export const useWorkspaceInfo = () => {
 
     const Members = (ws_id) => {
         getWorkspaceMembers(ws_id).then((response) => {
-            setWorkspace((prev) => ({...prev, users: response.data}))
+            setWorkspaceContext((prev) => ({...prev, users: response.data}))
         }).catch((e) => {
             console.log("response error");
             console.log(e);
@@ -194,8 +221,9 @@ export const useWorkspaceInfo = () => {
     }
 
     const Projects = (ws_id) => {
+        if (!ws_id) return;
         getProjects(ws_id).then((response) => {
-            setWorkspace((prev) => ({...prev, projects: response.data}))
+            setWorkspaceContext((prev) => ({...prev, projects: response.data}))
         }).catch((e) => {
             console.log("response error");
             console.log(e);

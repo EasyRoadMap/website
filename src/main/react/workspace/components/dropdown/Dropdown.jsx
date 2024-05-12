@@ -4,7 +4,7 @@ import DropdownSettingsButton from "./DropdownSettingsButton.jsx";
 import styles from "./styles.module.css";
 import { OutsideAlerter } from "../../hooks/useOutsideAlerter.jsx";
 import { PlaceFixedBlockToAnother } from "../../hooks/usePlaceFixedBlockToAnother.jsx";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import SettingsSvg from "../../../assets/settingsIconSVG.jsx";
 import ExitSVG from "../../../assets/exitIconSVG.jsx";
 import ThemeButton from "../UI/ThemeButton.jsx";
@@ -37,13 +37,15 @@ const logoutAndExit = () => {
   })
 }
 
-const Dropdown = ({ visible, hide, showButtonRef, user, deleteUser, updateUser, createWorkspace, currentWorkspace }) => {
+const Dropdown = ({ visible, hide, showButtonRef, user, deleteUser, updateUser, currentWorkspace }) => {
   const dropdown = useRef();
-  console.log("userrrrr");
-  console.log(user);
 
   const { userContext } = useUserContext();
   const popupManager = usePopupManager();
+
+  useEffect(() => {
+    console.debug("usercontext updated in dropdown", userContext);
+  }, [userContext]);
 
   const onCloseSettingsPopup = (...params) => {
     if (params[0] === "change-password") console.log("clicked change paswword");
@@ -51,10 +53,11 @@ const Dropdown = ({ visible, hide, showButtonRef, user, deleteUser, updateUser, 
   };
 
   const onCloseDeleteAccountPopup = (...params) => {
-    console.log("closed");
+    // console.log("closed");
   };
 
   const openSettingsPopup = () => {
+    hide();
     popupManager.open(Popup, {
       popup: {
         component: SettingsPopup
@@ -84,8 +87,8 @@ const Dropdown = ({ visible, hide, showButtonRef, user, deleteUser, updateUser, 
           style={{ position: "fixed" }}
         >
           <section className={styles.dropdown}>
-            <DropdownUser user={user} currentWorkspace={currentWorkspace} updateUser={updateUser} />
-            <DropdownWorkspaces workspaces={userContext.workspaces} createWorkspace={createWorkspace}/>
+            <DropdownUser user={user} updateUser={updateUser} hide={hide} />
+            <DropdownWorkspaces workspaces={userContext.workspaces} hide={hide}/>
             <div className={styles.dropdownButtons}>
               <ThemeButton />
               <DropdownSettingsButton type={typeButton.settings} callback={openSettingsPopup} />

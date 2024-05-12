@@ -10,7 +10,7 @@ import { usePopupManager } from "react-popup-manager";
 import Popup from "./Popup.jsx";
 import AddPhotoPopup from "./AddPhotoPopup.jsx";
 
-const UpdateProfilePopup = ({ workspaceName, close }) => {
+const UpdateProfilePopup = ({ close }) => {
   const [name, setName] = useState("");
   const {} = useUserInfo();
   const { userContext } = useUserContext();
@@ -35,9 +35,6 @@ const UpdateProfilePopup = ({ workspaceName, close }) => {
     });
   };
 
-  console.log("propd");
-  console.log(workspaceName);
-
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "save") return;
     close({ button: nameButtonClicked, name: name });
@@ -53,7 +50,7 @@ const UpdateProfilePopup = ({ workspaceName, close }) => {
         <h1 className={styles.title}>Мой профиль</h1>
 
         <div className={styles.containerInfoUser}>
-          <div className={styles.UserAvatarWrapper} onClick={openAddPhotoPopup}>
+          <div className={styles.UserAvatarWrapper}>
             <img src={userContext?.photo?.url} alt="" className={avatarClassName} ></img>
             <div className={styles.userAvatarDiv}>
               <div className={styles.UserAvatarPlaceholder}>

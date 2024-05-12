@@ -7,7 +7,7 @@ import UpdateProfilePopup from "../popup/UpdateProfilePopup.jsx";
 
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 
-const DropdownUser = ({ user, updateUser }) => {
+const DropdownUser = ({ user, updateUser, hide }) => {
   const { workspaceContext } = useWorkspaceContext();
   const popupManager = usePopupManager();
 
@@ -18,13 +18,10 @@ const DropdownUser = ({ user, updateUser }) => {
   };
 
   const openUpdateProfilePopup = (...params) => {
-    if (!workspaceContext?.info?.name) return;
+    hide();
     popupManager.open(Popup, {
       popup: {
         component: UpdateProfilePopup,
-        props: {
-          workspaceName: workspaceContext?.info?.name
-        }
       },
       onClose: onUpdateProfile,
     });

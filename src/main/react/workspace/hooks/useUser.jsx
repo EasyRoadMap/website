@@ -5,6 +5,7 @@ import { updateUser } from "../api/user-api/updateUser.js";
 import { getUserWorkspaces } from "../api/user-api/getUserWorkspaces.js";
 import { getUserPhoto } from "../api/user-api/getUserPhoto.js";
 import { getUserProjectsByWS } from "../api/user-api/getUserProjectsByWS.js";
+import { getWSIDs } from "../utils/WSIDStorage.js";
 
 import useUserContext from "./useUserContext.js";
 
@@ -21,7 +22,13 @@ export const useUserInfo = () => {
     useEffect(() => {
         if (currentWorkspace === null) return;
         setUserContext((prev) => ({...prev, currentWorkspace: currentWorkspace}));
-    }, [currentWorkspace])
+    }, [currentWorkspace]);
+
+    const getObjInArrayByItsValue = (arr, keyOfSearchedValue, value) => {
+        return arr ? arr.find((el) => {
+            return (el && el[keyOfSearchedValue] === value);
+        }) : null;
+    }
 
     const User = () => {
         getUser().then((response) => {
@@ -59,7 +66,14 @@ export const useUserInfo = () => {
             console.log(response);
             setUser((prev) => ({...prev, workspaces: response.data, workspacesReceived: true}));
             setUserContext((prev) => ({...prev, workspaces: response.data, workspacesReceived: true}));
-            if (firstRequestCallback) firstRequestCallback(response.data?.[0]);
+
+            console.debug("here we gettig wsid");
+            const last_visited_ws_ids = getWSIDs();
+            const last_visited_ws_id = last_visited_ws_ids?.length > 0 ? last_visited_ws_ids[last_visited_ws_ids.length - 1] : null;
+            console.debug("last_visited_ws_ids", last_visited_ws_ids, last_visited_ws_id, response.data);
+            const last_visited_ws = last_visited_ws_id ? getObjInArrayByItsValue(response.data, "id", last_visited_ws_id) : null;
+
+            if (firstRequestCallback) firstRequestCallback(last_visited_ws ? last_visited_ws : response.data?.[0]);
             if (chosenWS) {
                 const ws = Object.keys(response.data).find(key => response.data[key] === chosenWS);
                 firstRequestCallback(ws);

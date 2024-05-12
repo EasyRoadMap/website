@@ -8,7 +8,6 @@ const Header = ({
     DeleteUser,
     UpdateUser,
     workspaces,
-    CreateWorkspace,
     currentWorkspace
 }) => {
     const { userContext } = useUserContext();
@@ -18,7 +17,6 @@ const Header = ({
             <UserHeaderButton user={userContext}
                               DeleteUser={DeleteUser}
                               UpdateUser={UpdateUser}
-                              CreateWorkspace={CreateWorkspace}
                               currentWorkspace={currentWorkspace}
             />
         </header>

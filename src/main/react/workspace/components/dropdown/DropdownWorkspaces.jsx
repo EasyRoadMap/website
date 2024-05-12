@@ -5,19 +5,19 @@ import styles from "./styles.module.css";
 import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
 import CreateWorkspacePopup from "../popup/CreateWorkspacePopup.jsx";
+import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 
-const DropdownWorkspaces = ({ workspaces, createWorkspace }) => {
-  console.log("workspaces");
-  console.log(workspaces);
-
+const DropdownWorkspaces = ({ workspaces, hide }) => {
   const popupManager = usePopupManager();
+  const { CreateWorkspace } = useWorkspaceInfo();
 
   const onCreateWorkspace = (...params) => {
     if (params?.[0]?.button === "create")
-      createWorkspace(params?.[0]?.name, params?.[0]?.description);
+      CreateWorkspace(params?.[0]?.name, params?.[0]?.description);
   };
 
   const openCreateWorkspacePopup = (...params) => {
+    hide();
     popupManager.open(Popup, {
       popup: {
         component: CreateWorkspacePopup,

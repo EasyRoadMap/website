@@ -6,29 +6,15 @@ import ThemeButton from "../components/UI/ThemeButton.jsx";
 import { useUserInfo } from "../hooks/useUser.jsx";
 import { useWorkspaceInfo } from "../hooks/useWorkspace.jsx";
 import useProjectContext from "../hooks/useProjectContext.js";
-// import { useEffect, useState } from "react";
-import qs from "qs";
-import { useLocation, useNavigate } from "react-router-dom";
 
 import { useEffect } from "react";
+import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 
-// import useUserContext from "../hooks/useUserContext.js";
-// import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
-
-const Base = ({ children }) => {
-  const {
-    user,
-    currentWorkspace,
-    setCurrentWorkspace,
-    User,
-    Workspaces,
-    Photo,
-    DeleteUser,
-    UpdateUser,
-    getUserWorkspaceById,
-  } = useUserInfo();
-  const { Workspace, CreateWorkspace, Members, Projects } = useWorkspaceInfo();
+const Base = ({children}) => {
+  const { currentWorkspace, DeleteUser, UpdateUser } = useUserInfo();
+  const { CreateWorkspace } = useWorkspaceInfo();
   const { setProjectContext } = useProjectContext();
+  const { workspaceContext } = useWorkspaceContext();
 
   useEffect(() => {
     clearProjectHighlight();
@@ -38,14 +24,13 @@ const Base = ({ children }) => {
     if (location.pathname !== "/workspace/project") setProjectContext({});
   };
 
+  useEffect(() => {
+    console.debug("in Base workspace id has changed up to", workspaceContext.id);
+  }, [workspaceContext])
+
   return (
     <main className={styles.main}>
-      <Header
-        DeleteUser={DeleteUser}
-        UpdateUser={UpdateUser}
-        CreateWorkspace={CreateWorkspace}
-        currentWorkspace={currentWorkspace}
-      />
+    <Header  DeleteUser={DeleteUser} UpdateUser={UpdateUser} currentWorkspace={currentWorkspace}/>
       <div className={styles.themeButton}>
         <ThemeButton />
       </div>

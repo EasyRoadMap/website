@@ -1,4 +1,6 @@
-.dropdownWorkspaceButtonActive {
+@import "../../theme.module.css";
+
+button.dropdownWorkspaceButtonActive {
   background-color: var(--bg-workspace-button-focus);
   .workspaceAvatar {
     opacity: 1;
