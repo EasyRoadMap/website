@@ -8,6 +8,7 @@ import Button from "./UI/Button.jsx";
 import { useState, useEffect } from "react";
 
 import { useProjectInfo } from "../hooks/useProject.jsx";
+import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 
 const ProjectMainInfo = ({
   initialValues,
@@ -20,6 +21,7 @@ const ProjectMainInfo = ({
 
   const { projectContext } = useProjectContext();
   const { UpdateInfo, UpdateLinks } = useProjectInfo();
+  const { workspaceContext } = useWorkspaceContext();
 
   const avatarClassName = projectContext?.photo?.default
     ? [styles.logo, styles.pixelAvatar].join(" ")
@@ -47,13 +49,13 @@ const ProjectMainInfo = ({
   }
 
   const changeData = () => {
-    if (!projectContext?.id) return;
+    if (!projectContext?.id || !workspaceContext?.id) return;
     if (
       name !== initialValues?.name ||
       description !== initialValues?.description ||
       date !== initialValues?.date
     ) {
-      UpdateInfo(projectContext.id, name, description, date);
+      UpdateInfo(workspaceContext.id, projectContext.id, name, description, date);
     } 
     if (!(
       links[0] === initialValues.links[0] &&

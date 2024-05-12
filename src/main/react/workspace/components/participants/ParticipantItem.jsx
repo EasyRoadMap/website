@@ -5,6 +5,7 @@ import Button from "../UI/Button.jsx";
 import CrownSVG from "../../../assets/crownSVG.jsx";
 import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
+import useUserContext from "../../hooks/useUserContext.js";
 
 const ParticipantItem = ({ participant, type }) => {
   const avatarClassName = participant?.user?.photo?.default
@@ -13,6 +14,7 @@ const ParticipantItem = ({ participant, type }) => {
 
   const { AbortInvite } = useWorkspaceInfo();
   const { workspaceContext } = useWorkspaceContext();
+  const { userContext } = useUserContext();
 
   const removeInvite = () => {
     AbortInvite(workspaceContext.id, participant.user.email);
@@ -50,7 +52,8 @@ const ParticipantItem = ({ participant, type }) => {
           !participant?.is_invited &&
           !participant?.is_admin &&
           (type === "project" ? (
-            <ParticipantsActionsProjectButton participant={participant} />
+              (participant?.user?.email !== userContext?.email) &&
+              <ParticipantsActionsProjectButton participant={participant} />
           ) : (
             <ParticipantActionsButton participant={participant} />
           ))}

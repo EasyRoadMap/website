@@ -6,6 +6,14 @@ import CalendarSVG from "../../../assets/calendarSVG.jsx";
 import TaskActionsButton from "./TaskActionsButton.jsx";
 import ZipFielIconSVG from "../../../assets/zipFielIconSVG.jsx";
 import UnhandledFieldIcon from "../../../assets/unhandledFieldIconSVG.jsx";
+import { transformDate } from "../../../common/utils/separatedByDashesDateToSeparatedByDots.js";
+import { usePopupManager } from "react-popup-manager";
+import Popup from "../popup/Popup.jsx";
+import ChangeTaskPopup from "../popup/ChangeTaskPopup.jsx";
+import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
+import useRoadmapContext from "../../hooks/useRoadmapContext.js";
+
+
 const completionIcons = {
   done: TaskCompletedSVG,
   in_progress: TaskInProgressSVG,
@@ -21,24 +29,67 @@ const completionColors = {
 
 const TaskItem = ({ task }) => {
   const IconTaskComplete = completionIcons[task?.status];
-  console.log("task");
-  console.log(task);
   const classTask = styles[completionColors[task?.status]];
 
+  const { ChangeTask } = useRoadmapInfo();
+  const { chosenStage } = useRoadmapContext();
+
+  const popupManager = usePopupManager();
+  const onCloseChangeTaskPopup = (...params) => {
+    if (params?.[0]?.button === "change" && chosenStage && task?.id && projectId && params?.[0]?.status && params?.[0]?.name) {
+      ChangeTask(projectId, chosenStage, task?.id, statusToInt[params?.[0]?.status], params?.[0]?.name, params?.[0]?.description, params?.[0]?.deadline, params?.[0]?.attachment);
+    }
+  }
+
+  const checkCollision = (event) => {
+    const dotsBlock = document.querySelector("." + styles.dots);
+    const dotsBlockBoundingClientRect = dotsBlock.getBoundingClientRect();
+    console.debug(
+        dotsBlockBoundingClientRect.x,
+        dotsBlockBoundingClientRect.width,
+        dotsBlockBoundingClientRect.y,
+        dotsBlockBoundingClientRect.height
+    );
+
+    return (dotsBlockBoundingClientRect.x <= event.clientX &&
+        event.clientX <= dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.width &&
+        dotsBlockBoundingClientRect.y <= event.clientY &&
+        event.clientY <= dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.height
+    )
+  }
+
+  const openChangeTaskPopup = (event) => {
+    if (checkCollision(event)) return;
+    popupManager.open(Popup, {
+      popup: {
+        component: ChangeTaskPopup,
+        props: {
+          task: {
+            name: task?.name,
+            description: task?.description,
+            status: task?.status,
+            deadline: task?.deadline_at,
+            attachments: task?.attachments
+          },
+          chosenStage: chosenStage
+        }
+      },
+      onClose: onCloseChangeTaskPopup,
+    });
+  };
+
   return (
-    <div className={classTask}>
+    <div className={classTask} onClick={openChangeTaskPopup}>
       <div className={styles.taskFieldsWrapper}>
         <div className={styles.taskMainPart}>
           <div className={styles.taskInfo}>
             <div className={styles.taskTitleWrapper}>
               <div className={styles.taskName}>{task?.name}</div>
               {task.deadline_at && (
-                <div className={styles.taskDate}>
-                  <CalendarSVG className={styles.calendarSVG} />
-                  <span className={styles.taskDateText}>
-                    {task?.deadline_at}
-                  </span>
-                </div>
+                  <div className={styles.taskDate}>
+                    <CalendarSVG className={styles.calendarSVG} />
+                    <span className={styles.taskDateText}>{task?.deadline_at ? transformDate(task?.deadline_at) : null}</span>
+                  </div>
               )}
             </div>
             <span className={styles.taskDescription}>{task?.description}</span>

@@ -1,12 +1,19 @@
 import styles from "./styles.module.css";
 import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
+import { useState } from "react";
 
 const ChangePositionPopup = ({ close, participant }) => {
+  const [role, setRole] = useState(participant?.role);
+
+  const avatarClassName = participant?.user?.photo?.default
+    ? [styles.participantAvatar, styles.pixelAvatar].join(" ")
+    : styles.participantAvatar;
+
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "change")
       return;
-    close(nameButtonClicked);
+    close({button: nameButtonClicked, role: role});
   };
   return (
     <>
@@ -14,7 +21,7 @@ const ChangePositionPopup = ({ close, participant }) => {
         <h1 className={styles.title}>Изменить должность</h1>
         <div className={styles.participantCard}>
           <div className={styles.participantCardWrapper}>
-            <img src="" alt="" className={styles.participantAvatar} />
+            <img src={participant?.user?.photo?.url} alt="" className={avatarClassName} />
             <div className={styles.participantCardTextWrapper}>
               <div className={styles.participantCardTitle}>
                 {participant?.user?.name}
@@ -30,7 +37,7 @@ const ChangePositionPopup = ({ close, participant }) => {
             Вы можете назначить должность данному <br />
             пользователю в поле ниже.
           </div>
-          <Input placeholder={"Введите должность"} typeOfInput={"position"} />
+          <Input placeholder={"Введите должность"} typeOfInput={"position"} data={role} setData={setRole}/>
         </div>
       </div>
 

@@ -35,10 +35,8 @@ const TaskActionsButton = ({ task }) => {
   const { ChangeTask, DeleteTask } = useRoadmapInfo();
 
   const onCloseChangeTaskPopup = (...params) => {
-    console.debug("chosenStage on close", chosenStage);
     if (params?.[0]?.button === "change" && chosenStage && task?.id && projectId && params?.[0]?.status && params?.[0]?.name) {
       ChangeTask(projectId, chosenStage, task?.id, statusToInt[params?.[0]?.status], params?.[0]?.name, params?.[0]?.description, params?.[0]?.deadline, params?.[0]?.attachment);
-      // params?.[0]?.attachment
     }
   }
   const onCloseDeleteTaskPopup = (...params) => {
@@ -48,8 +46,6 @@ const TaskActionsButton = ({ task }) => {
   }
 
   const setStatus = (status) => {
-    console.debug("task information", task);
-    console.debug(projectId);
     if (!(chosenStage && task?.id && task?.name && projectId)) return;
     ChangeTask(projectId, chosenStage, task.id, statusToInt[status], task.name, task?.description, task?.deadline_at, 
       task?.attachments?.map((attachment) => {return attachment.id}))
@@ -57,7 +53,6 @@ const TaskActionsButton = ({ task }) => {
 
   const popupManager = usePopupManager();
   const openChangeTaskPopup = () => {
-    console.debug("task info", task);
     popupManager.open(Popup, {
       popup: {
         component: ChangeTaskPopup,
@@ -76,7 +71,6 @@ const TaskActionsButton = ({ task }) => {
     });
   };
   const openDeleteTaskPopup = () => {
-    console.debug("task info", task);
     popupManager.open(Popup, {
       popup: {
         component: AlertPopup,

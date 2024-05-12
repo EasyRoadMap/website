@@ -29,7 +29,7 @@ const UserInvitationPopup = ({ close, invite }) => {
         </div>
         <div className={styles.participantCard}>
           <div className={styles.participantCardWrapper}>
-            <img src={avatarClassName} alt="" className={styles.participantAvatar} />
+            <img src={invite?.workspace?.photo?.url} alt="" className={avatarClassName} />
             <div className={styles.participantCardTextWrapper}>
               <div className={styles.participantCardTitle}>
                 {invite?.workspace?.name}

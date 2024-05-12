@@ -5,6 +5,7 @@ import TaskInPlannedSVG from "../../../assets/taskInPlanned.jsx";
 import CalendarSVG from "../../../assets/calendarSVG.jsx";
 import ZipFielIconSVG from "../../../assets/zipFielIconSVG.jsx";
 import UnhandledFieldIcon from "../../../assets/unhandledFieldIconSVG.jsx";
+import { transformDate } from "../../../common/utils/separatedByDashesDateToSeparatedByDots.js";
 
 const completionIcons = {
   done: TaskCompletedSVG,
@@ -31,7 +32,7 @@ const TaskItem = ({ task }) => {
               <div className={styles.taskName}>{task?.name}</div>
               <div className={styles.taskDate}>
                 <CalendarSVG className={styles.calendarSVG} />
-                <span className={styles.taskDateText}>{task?.deadline_at}</span>
+                <span className={styles.taskDateText}>{task?.deadline_at ? transformDate(task?.deadline_at) : null}</span>
               </div>
             </div>
             <span className={styles.taskDescription}>{task?.description}</span>

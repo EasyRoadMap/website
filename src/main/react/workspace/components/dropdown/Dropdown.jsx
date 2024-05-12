@@ -13,6 +13,7 @@ import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
 import SettingsPopup from "../popup/SettingsPopup.jsx";
 import DeleteAccountPopup from "../popup/DeleteAccountPopup.jsx";
+import ChangePasswordPopup from "../popup/ChangePasswordPopup.jsx";
 
 import { logout } from "../../api/user-api/logout.js";
 
@@ -48,13 +49,17 @@ const Dropdown = ({ visible, hide, showButtonRef, user, deleteUser, updateUser, 
   }, [userContext]);
 
   const onCloseSettingsPopup = (...params) => {
-    if (params[0] === "change-password") console.log("clicked change paswword");
+    if (params[0] === "change-password") openAskForChangePasswordPopup();
     else if (params[0] === "delete-account") openAskForDeletionPopup();
   };
 
   const onCloseDeleteAccountPopup = (...params) => {
     // console.log("closed");
   };
+
+  const onCloseChangePasswordPopup = () => {
+
+  }
 
   const openSettingsPopup = () => {
     hide();
@@ -75,6 +80,15 @@ const Dropdown = ({ visible, hide, showButtonRef, user, deleteUser, updateUser, 
         }
       },
       onClose: onCloseDeleteAccountPopup,
+    });
+  };
+
+  const openAskForChangePasswordPopup = () => {
+    popupManager.open(Popup, {
+      popup: {
+        component: ChangePasswordPopup,
+      },
+      onClose: onCloseChangePasswordPopup,
     });
   };
 

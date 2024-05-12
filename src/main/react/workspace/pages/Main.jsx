@@ -87,7 +87,7 @@ const Main = ({ fromInvite = false }) => {
               workspace: workspaceContext,
             }}
           />
-          {console.debug("workspaceContext?.id", workspaceContext?.id)}
+          {console.debug("workspaceContext?.id", workspaceContext)}
           <Participants
             participants={workspaceContext?.users}
             type={"workspace"}

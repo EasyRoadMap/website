@@ -1,5 +1,6 @@
 import styles from "./styles.module.css";
 import SettingsCard from "./SettingsCard.jsx";
+import { useState } from "react";
 
 const SettingsPopup = ({ close }) => {
   const handleClick = (nameButtonClicked) => {
@@ -15,14 +16,13 @@ const SettingsPopup = ({ close }) => {
     <>
       <h1 className={styles.title}>Настройки</h1>
       <div className={styles.settingsWrapper}>
-        {/* <SettingsCard
+        <SettingsCard
           icon="changePassword"
           name="Пароль"
           descriptionComponent={() => {
             return (
               <span className={styles.descriptionSetting}>
-                Последнее изменение:{" "}
-                <span className={styles.bolder}>2 месяца назад</span>
+                После смены пароля вход в аккаунт должен будет осуществляться с новым паролем.
               </span>
             );
           }}
@@ -31,7 +31,7 @@ const SettingsPopup = ({ close }) => {
           callback={() => {
             handleClick("change-password");
           }}
-        /> */}
+        />
         <SettingsCard
           icon="deleteAccount"
           name="Удаление аккаунта"

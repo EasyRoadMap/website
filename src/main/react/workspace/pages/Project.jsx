@@ -70,9 +70,9 @@ const Project = () => {
   }, [projectContext]);
 
   useEffect(() => {
-    // if (!location?.state?.pr_id) return;
-    console.debug("state has been updated");
-    if (!state?.pr_id) return;
+    // if (!location?.state?.pr_id) return; 
+    console.debug("state has been updated", state?.pr_id);
+    if (!state?.pr_id) return; 
 
     setProjectID(state.pr_id);
     setProjectContext(state.pr_id);
@@ -91,10 +91,10 @@ const Project = () => {
   }, []);
 
   const getProjectFromURL = () => {
-    return qs.parse(location.search, { ignoreQueryPrefix: true });
-  };
+    return qs.parse(location.search, { ignoreQueryPrefix: true })
+  }
 
-  const getFulledLinksArray = () => {
+  const getFulledLinksArray = () => { 
     if (!projectContext?.links) return [null, null, null];
     if (projectContext?.links.length < 3) {
       const fulledArray = [null, null, null];
@@ -104,7 +104,7 @@ const Project = () => {
       return fulledArray;
     }
     return projectContext.links;
-  };
+  }
 
   if (projectContext?.info?.name && state?.pr_id) {
     return (

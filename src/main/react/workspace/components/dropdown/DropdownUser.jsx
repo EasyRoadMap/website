@@ -6,15 +6,19 @@ import Popup from "../popup/Popup.jsx";
 import UpdateProfilePopup from "../popup/UpdateProfilePopup.jsx";
 
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
+import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 
 const DropdownUser = ({ user, updateUser, hide }) => {
   const { workspaceContext } = useWorkspaceContext();
+  const { Members } = useWorkspaceInfo();
   const popupManager = usePopupManager();
 
   const onUpdateProfile = (...params) => {
     if (!params[0].button === "save") return;
     if (!params[0].name) return;
-    updateUser(params[0].name);
+    updateUser(params[0].name, () => {
+      if (workspaceContext?.id) Members(workspaceContext.id);
+    });
   };
 
   const openUpdateProfilePopup = (...params) => {

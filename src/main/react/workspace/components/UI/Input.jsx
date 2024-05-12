@@ -75,7 +75,7 @@ export default function Input({
           <label className={styles.label}>{translation[typeOfInput]}</label>
           <div className={styles.inputWrapper}>
             <input
-              type={type === "repeatedPassword" ? "password" : type}
+              type={(type === "repeatedPassword" || type === "newPassword") ? "password" : type}
               className={[styles.input, inputWithContentStyle, inputStyle].join(
                 " "
               )}
@@ -88,7 +88,7 @@ export default function Input({
               min={type === "date" ? "1990-01-01" : undefined}
               max={type === "date" ? "2990-01-01" : undefined}
             ></input>
-            {typeOfInput === "password" && (
+            {(typeOfInput === "password" || typeOfInput === "newPassword") && (
               <div onClick={handleToggle} className={styles.iconSVG}>
                 {icon}
               </div>

@@ -51,9 +51,10 @@ export const useUserInfo = () => {
         });
     };
 
-    const UpdateUser = (name) => {
+    const UpdateUser = (name, callback) => {
         updateUser(name).then((response) => {
             setUser((prev) => ({...prev, name: name}));
+            if (callback) callback();
         }).catch((e) => {
             console.log("error in useUser updateUser");
             console.log(e);

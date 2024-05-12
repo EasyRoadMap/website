@@ -18,7 +18,8 @@ import { getWorkspaceMembers } from "../api/workspace-api/getWorkspaceMembers.js
 import { getProjects } from "../api/workspace-api/getProjects.js";
 import { getPhoto } from "../api/workspace-api/getPhoto.js"
 import { transferOwnership } from "../api/workspace-api/transferOwnership.js";
-import { kickMember } from "../api/workspace-api/kickMember.js"
+import { kickMember } from "../api/workspace-api/kickMember.js";
+import { updateMemberRole } from "../api/workspace-api/updateMemberRole.js";
 
 import useWorkspaceContext from "./useWorkspaceContext.js";
 import useUserContext from "./useUserContext.js";
@@ -257,5 +258,14 @@ export const useWorkspaceInfo = () => {
         })
     }
 
-    return { workspace, updateInfo, Workspace, checkWorkspace, CreateWorkspace, DeleteWorkspace, PutAppearance, TransferOwnership, KickMember, GetAppearance, SendInvite, LeaveWorkspace, Members, AbortInvite, Projects, GetInviteInfo, AcceptInvite, DeclineInvite, Photo };
+    const UpdateMemberRole = (ws_id, email, role) => {
+        updateMemberRole(ws_id, email, role).then((response) => {
+            Members(ws_id);
+        }).catch((e) => {
+            console.log("response error");
+            console.log(e);
+        })
+    }
+
+    return { workspace, updateInfo, Workspace, checkWorkspace, CreateWorkspace, DeleteWorkspace, UpdateMemberRole, PutAppearance, TransferOwnership, KickMember, GetAppearance, SendInvite, LeaveWorkspace, Members, AbortInvite, Projects, GetInviteInfo, AcceptInvite, DeclineInvite, Photo };
 }

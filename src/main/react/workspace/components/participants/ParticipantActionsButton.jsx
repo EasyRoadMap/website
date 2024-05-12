@@ -22,7 +22,7 @@ const ParticipantActionsButton = ({participant}) => {
   const [listShowed, setListShowed] = useState(false);
 
   const { workspaceContext } = useWorkspaceContext();
-  const { TransferOwnership, KickMember } = useWorkspaceInfo();
+  const { TransferOwnership, KickMember, UpdateMemberRole } = useWorkspaceInfo();
 
   const onCloseTransferControlPopup = (...params) => {
     if (params[0] !== "yes" || !workspaceContext?.id || !participant?.user?.email) return;
@@ -32,8 +32,11 @@ const ParticipantActionsButton = ({participant}) => {
     if (params[0] !== "yes" || !workspaceContext?.id || !participant?.user?.email) return;
     KickMember(workspaceContext.id, participant.user.email);
   }
-  const onCloseChangePositionPopup = (...params) =>
-    console.log("ChangePositionPopup has closed with:", ...params);
+  const onCloseChangePositionPopup = (...params) => {
+    if (params[0].button !== "change" || !workspaceContext?.id || !participant?.user?.email || !params[0].role)
+      return;
+    UpdateMemberRole(workspaceContext.id, participant.user.email, params[0].role);
+  }
 
   const popupManager = usePopupManager();
   const openTransferControlPopup = () => {

@@ -5,23 +5,33 @@ import { OutsideAlerter } from "../../hooks/useOutsideAlerter.jsx";
 import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
 import AlertPopup from "../popup/AlertPopup.jsx";
+import ChangePositionPopup from "../popup/ChangePositionPopup.jsx";
 import ButtonDotsSVG from "../../../assets/buttonDots.jsx";
 import DeleteSVG from "../../../assets/deleteSVG.jsx";
+import EditSVG from "../../../assets/editSVG.jsx";
 import { removeParticipantFromProjectProps } from "../popup/PopupsData.jsx";
 
 import { useProjectInfo } from "../../hooks/useProject.jsx";
 import useProjectContext from "../../hooks/useProjectContext.js";
+import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 
 const ParticipantActionsButton = ({ participant }) => {
   const [listShowed, setListShowed] = useState(false);
 
   const { projectContext } = useProjectContext();
-  const { KickMember } = useProjectInfo();
+  const { KickMember, UpdateMemberRole } = useProjectInfo();
+  const { workspaceContext } = useWorkspaceContext();
 
   const onCloseRemoveParticipantPopup = (...params) => {
     if (params[0] !== "yes" || !projectContext?.id || !participant?.user?.email)
       return;
     KickMember(projectContext.id, participant.user.email);
+  };
+
+  const onCloseUpdateParticipantRolePopup = (...params) => {
+    if (params[0].button !== "change" || !workspaceContext?.id || !projectContext?.id || !participant?.user?.email || !params[0].role)
+      return;
+    UpdateMemberRole(workspaceContext.id, projectContext.id, participant.user.email, params[0].role);
   };
 
   const popupManager = usePopupManager();
@@ -36,11 +46,28 @@ const ParticipantActionsButton = ({ participant }) => {
     });
   };
 
+  const openChangePositionPopup = () => {
+    popupManager.open(Popup, {
+      popup: {
+        component: ChangePositionPopup,
+        props: {
+          participant: participant
+        }
+      },
+      onClose: onCloseUpdateParticipantRolePopup,
+    });
+  };
+
   const buttons = [
     {
       icon: DeleteSVG,
       text: "Исключить",
       callback: () => openRemoveParticipantPopup(),
+    },
+    {
+      icon: EditSVG,
+      text: "Изменить должность",
+      callback: () => openChangePositionPopup(),
     },
   ];
 

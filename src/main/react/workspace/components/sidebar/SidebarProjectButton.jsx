@@ -27,7 +27,8 @@ const handleScrollTo = (blocks, toBlock) => {
     left: 0,
     behavior: "smooth",
   });
-  window.location.hash = "#" + toBlock;
+  history.pushState(null, null, "#" + toBlock);
+  // window.location.replace("#" + toBlock);
 };
 
 const SidebarProjectButton = ({ project, chosen, blocks, places }) => {

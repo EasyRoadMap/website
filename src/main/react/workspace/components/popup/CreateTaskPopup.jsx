@@ -53,7 +53,7 @@ const CreateTaskPopup = ({ close, chosenStage }) => {
       </div>
       <div className={styles.containerWithGaps}>
         <div className={styles.description}>
-          По желанию можете указать дату создания задачи.
+          По желанию можете указать дату завершения задачи.
         </div>
         <InputDate data={deadline} setData={setDeadline} typeDate={"deadlineDate"} loading={true} />
       </div>
