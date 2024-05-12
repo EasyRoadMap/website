@@ -305,7 +305,6 @@
   border-style: solid;
   border-width: 1px;
   border-color: var(--light-stroke);
-  background-color: #e6ebf2;
 }
 .UserAvatarPlaceholder {
   display: flex;
