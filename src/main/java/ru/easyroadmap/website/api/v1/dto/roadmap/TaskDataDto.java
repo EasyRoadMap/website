@@ -19,13 +19,14 @@ public final class TaskDataDto {
     @NotNull @Size(min = 2, max = 80)
     private String name;
 
-    @Size(max = 320)
+    @Size(min = 2, max = 320)
     private String description;
 
     @FutureOrPresent
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate deadlineAt;
 
+    @Max(10)
     private UUID[] attachment;
 
 }
