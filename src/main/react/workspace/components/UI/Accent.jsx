@@ -6,8 +6,26 @@ import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 import { IntToRGBA } from "../../utils/RGBAToIntConverter.js";
 
-export default function Accent() {
-  const [activeAccent, setActiveAccent] = useState(null);
+
+const findColorNameByInt = (num) => {
+  console.debug('num', num);
+  const rgbaWSColor = IntToRGBA(num);
+  if (rgbaWSColor.a > 1) rgbaWSColor.a /= 255; 
+  const accentColorObj = accentColors.find((colorObj) => {
+    return colorObj.color[0] === rgbaWSColor.r &&
+           colorObj.color[1] === rgbaWSColor.g &&
+           colorObj.color[2] === rgbaWSColor.b &&
+           colorObj.color[3] === rgbaWSColor.a
+  });
+  console.debug("accc", accentColorObj, rgbaWSColor, accentColors);
+  if (!accentColorObj) return;
+  return accentColorObj.name;
+}
+
+export default function Accent({
+  accent
+}) {
+  const [activeAccent, setActiveAccent] = useState(findColorNameByInt(accent));
   const { PutAppearance } = useWorkspaceInfo();
   const { workspaceContext } = useWorkspaceContext();
 

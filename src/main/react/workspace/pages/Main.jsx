@@ -80,7 +80,7 @@ const Main = ({ fromInvite = false }) => {
 
   return (
     <>
-      {workspaceContext?.info?.name ? (
+      {(userContext?.workspaces != []) ? (
         <Base>
           <WorkspaceMainInfo
             logo={workspaceContext?.photo}

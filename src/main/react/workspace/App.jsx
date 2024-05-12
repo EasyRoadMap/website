@@ -15,6 +15,7 @@ import Settings from "./pages/Settings.jsx";
 // import CreateWorkspace from "./pages/CreateWorkspace.jsx";
 
 import { useUserInfo } from "./hooks/useUser.jsx";
+import useUserContext from "./hooks/useUserContext.js";
 import { useWorkspaceInfo } from "./hooks/useWorkspace.jsx";
 import useProjectContext from "./hooks/useProjectContext.js";
 import useWorkspaceContext from "./hooks/useWorkspaceContext.js";
@@ -36,6 +37,7 @@ function App() {
   const { Workspace, Members, Projects, checkWorkspace } = useWorkspaceInfo();
   const { projectId, setProjectContext } = useProjectContext();
   const { workspaceContext } = useWorkspaceContext();
+  const { setFirstAnswerReceived } = useUserContext();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -56,7 +58,7 @@ function App() {
     }
     console.debug("no found ws id");
     User();
-    Workspaces(setCurrentWorkspace);
+    Workspaces((ws) => {setCurrentWorkspace(ws);});
     Photo();
   }, [workspaceContext?.workspaceExists]);
 

@@ -96,7 +96,7 @@ const RoadmapGraph = ({
         const bottom = i % 2 === 0 ? null : "calc(50% + 2px)";
         const right = i * (-100) + moveDelta + "px";
         return {
-            top: top,
+            top: stages.length > 1 ? top : "unset",
             bottom: bottom,
             right: right,
             position: "absolute"
@@ -105,7 +105,7 @@ const RoadmapGraph = ({
 
     const moveToBlock = (i) => {
         if (i < 0) i = 0;
-        if (i > stages.length) i = stages.length;
+        if (i > stages.length - 1) i = stages.length - 1;
         const initRight = i * (-100);
         const goalRight = SIZES.viewportWidth/2 - SIZES.stageCircleWidth/2;
         setCenteredBlock(i);
@@ -133,10 +133,10 @@ const RoadmapGraph = ({
                 >
                     <>
                         {
-                            i % 2 === 0 &&
+                            (i % 2 === 0 && stages.length > 1) &&
                             <div className={styles.graphBranchLine}></div>
                         }
-                        <div style={i % 2 === 0 ? 
+                        <div style={(i % 2 === 0 && stages.length > 1) ? 
                             {marginTop: "10px", position: "relative"} : 
                             {marginBottom: "10px", position: "relative"}}
                         >

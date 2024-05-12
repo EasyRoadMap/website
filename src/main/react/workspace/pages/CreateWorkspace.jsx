@@ -3,6 +3,9 @@ import CreateWorkspacePageSVG from "../../assets/createWorkspacePageSVG.jsx";
 import Button from "../components/UI/Button.jsx";
 import styles from "./createWorkspace.module.css";
 import BaseCreateWorkspace from "./BaseCreateWorkspace.jsx";
+import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
+import useUserContext from "../hooks/useUserContext.js";
+
 
 import { useWorkspaceInfo } from "../hooks/useWorkspace.jsx";
 
@@ -11,6 +14,8 @@ import Popup from "../components/popup/Popup.jsx";
 import CreateWorkspacePopup from "../components/popup/CreateWorkspacePopup.jsx";
 
 const CreateWorkspace = ({ type }) => {
+  const { firstAnswerReceived } = useUserContext();
+  console.debug("ws info", firstAnswerReceived);
   const { CreateWorkspace } = useWorkspaceInfo();
 
   const popupManager = usePopupManager();

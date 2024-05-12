@@ -36,7 +36,7 @@ const Settings = () => {
   return (
     <Base>
       <ThemeChange />
-      <Accent />
+      <Accent accent={workspaceContext?.appearance?.accent_color} />
       <DeleteBlock typeButton="deleteWorkspace" callback={openDeleteWorkspacePopup} />
     </Base>
   );

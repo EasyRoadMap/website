@@ -13,10 +13,11 @@ export const useUserInfo = () => {
     const [user, setUser] = useState({});
     const [currentWorkspace, setCurrentWorkspace] = useState(null);
 
-    const { setUserContext } = useUserContext();
+    const { setUserContext, setFirstAnswerReceived } = useUserContext();
 
     useEffect(() => {
         setUserContext((prev) => ({...prev, ...user}));
+        setFirstAnswerReceived(true);
     }, [user, setUser]);
 
     useEffect(() => {
