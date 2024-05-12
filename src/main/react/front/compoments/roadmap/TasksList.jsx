@@ -26,9 +26,9 @@ const TasksList = ({ tasks }) => {
         <div className={styles.noTasks}>
           <NoTaskSVG className={styles.noTasksSVG} />
           <div className={styles.noTasksText}>
-            <div className={styles.noTasksTitle}>Ваш список задач ещё пуст</div>
+            <div className={styles.noTasksTitle}>Список задач пока пуст</div>
             <div className={styles.noTasksSubTitle}>
-              Добавьте первую задачу прямо сейчас!
+              Администратор еще не добавил задачи для этого этапа
             </div>
           </div>
         </div>

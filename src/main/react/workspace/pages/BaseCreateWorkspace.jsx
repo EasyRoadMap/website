@@ -1,5 +1,6 @@
 import Header from "../components/header/Header.jsx";
 import styles from "./styles.module.css";
+import ThemeButton from "../components/UI/ThemeButton.jsx";
 
 import { useUserInfo } from "../hooks/useUser.jsx";
 import { useWorkspaceInfo } from "../hooks/useWorkspace.jsx";
@@ -44,6 +45,9 @@ const BaseCreateWorkspace = ({ children }) => {
         CreateWorkspace={CreateWorkspace}
         currentWorkspace={currentWorkspace}
       />
+      <div className={styles.themeButton}>
+        <ThemeButton />
+      </div>
       <section className={styles.content}>
         <section className={styles.centeredContentWorkspace}>
           {children}

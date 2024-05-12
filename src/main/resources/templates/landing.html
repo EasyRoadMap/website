@@ -1,24 +1,244 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%;">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/png" sizes="512x512" th:href="@{/erm-web/image/favicon_512x512.png}">
-    <link rel="icon" type="image/png" sizes="128x128" th:href="@{/erm-web/image/favicon_128x128.png}">
-    <link rel="icon" type="image/png" sizes="64x64" th:href="@{/erm-web/image/favicon_64x64.png}">
-    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/erm-web/image/favicon_32x32.png}">
-    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/erm-web/image/favicon_16x16.png}">
-    <link rel="stylesheet" th:href="@{/erm-web/css/font.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/erm-web/css/styleLanding.css}" />
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      th:href="@{/erm-web/image/favicon_512x512.png}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="128x128"
+      th:href="@{/erm-web/image/favicon_128x128.png}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="64x64"
+      th:href="@{/erm-web/image/favicon_64x64.png}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      th:href="@{/erm-web/image/favicon_32x32.png}"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      th:href="@{/erm-web/image/favicon_16x16.png}"
+    />
+    <link rel="stylesheet" th:href="@{/erm-web/css/font.css}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/erm-web/css/styleLanding.css}"
+    />
 
     <title>EasyRoadMap</title>
 
     <style>
-        h1, p, input[type="submit"] {
-            font-family: "Golos Text", sans-serif;
-        }
+      h1,
+      p,
+      input[type="submit"] {
+        font-family: "Golos Text", sans-serif;
+      }
     </style>
+  </head>
+  <body>
+    <div class="background">
+      <div style="height: 900px">
+        <div class="header">
+          <div class="wrapper">
+            <div class="logoWrapper">
+              <img
+                th:src="@{/erm-web/image/logo.svg}"
+                style="width: 64px; height: 64px"
+              />
+              <span class="textLogo">EASYROADMAP</span>
+            </div>
+            <div class="buttonWrapper">
+              <button class="buttonOutlineAccent">Создать аккаунт</button>
+              <button class="buttonFilledAccent">Войти</button>
+            </div>
+          </div>
+        </div>
+        <div class="wrapperContent">
+          <div class="wrapperInfo">
+            <div class="infoProject">
+              <div class="titleProject">
+                <sapn class="textTitleProject">EASY ROAD MAP</sapn>
+                <span class="descriptionProject"
+                  >ПУТЕВОДИТЕЛЬ ДЛЯ ВАШИХ ПРОЕКТОВ</span
+                >
+              </div>
+              <div class="textInfoProjectWrapper">
+                <span class="textInfoProject"
+                  >Делитесь с аудиторией состоянием разработки <br />с помощью
+                  красивых дорожных карт!</span
+                >
+              </div>
+            </div>
+            <div>
+              <button
+                class="buttonFilledAccent"
+                style="
+                  width: 361px;
+                  height: 103px;
+                  font-size: 32px;
+                  font-weight: 500;
+                  border-radius: 24px;
+                "
+              >
+                Начать работу
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="height: 900px">
+        <div class="wrapperContentPlatform">
+          <div class="wrapperInfo">
+            <div class="infoProject">
+              <div
+                style="
+                  position: relative;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <sapn class="textTitlePlatform" style="position: absolute"
+                  >НАША ПЛАТФОРМА</sapn
+                >
+                <span
+                  style="
+                    font-size: 100px;
+                    font-weight: bold;
+                    color: rgb(0, 102, 254, 0.1);
+                  "
+                  >НАША ПЛАТФОРМА</span
+                >
+              </div>
+              <hr
+                style="width: 230px; height: 4px; background-color: #0066fe"
+              />
+              <div class="textInfoProjectWrapper">
+                <span class="textInfoPlatform"
+                  >Мы предоставляем возможность создавать наглядные
+                  <br />дорожные карты для проектов, что позволит
+                  <br />визуализировать работу над ними и демонстрировать ход
+                  <br />работы для заинтересованной аудитории.</span
+                >
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: row; gap: 48px">
+              <img th:src="@{/erm-web/image/landing/ProjectBlock.svg}" />
+              <img th:src="@{/erm-web/image/landing/DeveloperBlock.svg}" />
+              <img th:src="@{/erm-web/image/landing/TaskBlock.svg}" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="height: 900px">
+        <div class="wrapperContentPlatform" style="padding-left: 50%">
+          <div class="wrapperInfoProjectBlock">
+            <div class="infoProjectBlock">
+              <span class="textTitleProjectBlock">СОЗДАВАЙТЕ ПРОЕКТЫ</span>
+              <span class="descriptionProjectBlock"
+                >Организуйте все процессы <br />разработки в виде списка
+                <br />проектов с уникальным <br />
+                оформлением, добавляйте<br />
+                участников и распределяйте им <br />
+                роли.</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="height: 900px">
+        <div
+          class="wrapperContentPlatform"
+          style="padding-right: 50%; align-items: end"
+        >
+          <div class="wrapperInfoDeveloperBlock">
+            <div class="infoProjectBlock">
+              <span class="textTitleProjectBlock">ПЛАНИРУЙТЕ РАЗРАБОТКУ</span>
+              <span class="descriptionProjectBlock"
+                >Собирайте дорожную карту для <br />
+                проекта из отдельных этапов с <br />
+                уникальным именем и <br />собственным прогрессом <br />
+                выполнения.</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="height: 900px">
+        <div class="wrapperContentPlatform" style="padding-left: 50%">
+          <div
+            class="wrapperInfoProjectBlock"
+            style="
+              background-image: url('/erm-web/image/landing/task.svg');
+              width: 715px;
+              height: 792px;
+            "
+          >
+            <div class="infoProjectBlock">
+              <span class="textTitleProjectBlock">ДОБАВЛЯЙТЕ ЗАДАЧИ</span>
+              <span class="descriptionProjectBlock"
+                >Управляйте списком задач <br />
+                для каждого этапа, <br />изменяйте их статус, <br />
+                добавляйте описание и <br />
+                прикрепляйте вложения.</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="height: 900px">
+        <div class="wrapperContent">
+          <div class="wrapperInfo" style="padding-top: 176px">
+            <div class="infoProject" style="gap: 36px">
+              <div class="titleProject">
+                <sapn class="textTitleProject">EASY ROAD MAP</sapn>
+              </div>
+              <div class="textInfoProjectWrapper">
+                <span class="textInfoProject" style="font-size: 50px"
+                  >Расскажите аудитории о Ваших планах!</span
+                >
+              </div>
+            </div>
+            <div>
+              <button
+                class="buttonFilledAccent"
+                style="
+                  width: 462px;
+                  height: 103px;
+                  font-size: 32px;
+                  font-weight: 500;
+                  border-radius: 24px;
+                "
+              >
+                Приступить к работе
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
 <!-- </head>
 <body style="display: flex; justify-content: center; margin: 0; height: 100%;">
     <div id="root" style="display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center;">
@@ -29,52 +249,3 @@
         </form>
     </div>
 </body> -->
-<body>
-    <div class="background">
-      <div class="header">
-        <div class="wrapper">
-          <div class="logoWrapper">
-            <img th:src="@{/erm-web/image/logo.svg}"style="width: 64px; height: 64px" />
-            <span class="textLogo">EASYROADMAP</span>
-          </div>
-          <div class="buttonWrapper">
-            <button class="buttonOutlineAccent">Создать аккаунт</button>
-            <button class="buttonFilledAccent">Войти</button>
-          </div>
-        </div>
-      </div>
-      <div class="wrapperContent">
-        <div class="wrapperInfo">
-          <div class="infoProject">
-            <div class="titleProject">
-              <sapn class="textTitleProject">EASY ROAD MAP</sapn>
-              <span class="descriptionProject"
-                >ПУТЕВОДИТЕЛЬ ДЛЯ ВАШИХ ПРОЕКТОВ</span
-              >
-            </div>
-            <div class="textInfoProjectWrapper">
-              <span class="textInfoProject"
-                >Делитесь с аудиторией состоянием разработки <br />с помощью
-                красивых дорожных карт!</span
-              >
-            </div>
-          </div>
-          <div>
-            <button
-              class="buttonFilledAccent"
-              style="
-                width: 361px;
-                height: 103px;
-                font-size: 32px;
-                font-weight: 500;
-                border-radius: 24px;
-              "
-            >
-              Начать работу
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
-</html>

@@ -35,3 +35,7 @@
     stroke: var(--bg-move-roadmap);
   }
 }
+
+.themeButton {
+  display: none;
+}

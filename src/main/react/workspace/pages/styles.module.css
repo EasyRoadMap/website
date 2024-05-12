@@ -31,3 +31,6 @@
   align-items: center;
   padding: 90px;
 }
+.themeButton {
+  display: none;
+}

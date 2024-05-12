@@ -6,16 +6,13 @@
 body {
   width: 100vw;
   height: 100vh;
-  position: fixed;
 }
 .background {
   background-image: url("/erm-web/image/landing/backgroundLanding.svg");
   background-repeat: no-repeat;
   background-size: cover;
-  z-index: -100;
   width: 100%;
-  height: 100%;
-  position: absolute;
+  height: 5400px;
 }
 .buttonWrapper {
   display: flex;
@@ -51,6 +48,7 @@ body {
 }
 
 .buttonFilledAccent {
+  cursor: pointer;
   width: 124px;
   height: 56px;
   border-radius: 12px;
@@ -87,6 +85,7 @@ body {
 }
 
 .buttonOutlineAccent {
+  cursor: pointer;
   width: 230px;
   height: 56px;
   border-radius: 12px;
@@ -130,7 +129,9 @@ body {
 .infoProject {
   display: flex;
   flex-direction: column;
-  gap: 31px;
+  gap: 24px;
+  align-items: center;
+  flex-direction: column;
 }
 .wrapperInfo {
   display: flex;
@@ -144,6 +145,38 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.wrapperContentPlatform {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.wrapperInfoProjectBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: center;
+  width: 644px;
+  height: 773px;
+  background-image: url("/erm-web/image/landing/file.svg");
+}
+.wrapperInfoDeveloperBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: center;
+  width: 770px;
+  height: 774px;
+  background-image: url("/erm-web/image/landing/map.svg");
+}
+
+.infoProjectBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
 }
 .titleProject {
   display: flex;
@@ -174,4 +207,26 @@ body {
 .textInfoProjectWrapper {
   display: flex;
   justify-content: center;
+}
+.textTitlePlatform {
+  font-size: 50px;
+  font-weight: bold;
+  color: #0066fe;
+}
+.textInfoPlatform {
+  font-size: 36px;
+  font-weight: normal;
+  color: black;
+  text-align: center;
+}
+
+.textTitleProjectBlock {
+  font-size: 50px;
+  font-weight: 600;
+  color: #0066fe;
+}
+.descriptionProjectBlock {
+  font-size: 36px;
+  font-weight: normal;
+  color: black;
 }

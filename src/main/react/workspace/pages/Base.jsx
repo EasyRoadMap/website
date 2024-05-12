@@ -1,6 +1,7 @@
 import Header from "../components/header/Header.jsx";
 import Sidebar from "../components/sidebar/Sidebar.jsx";
 import styles from "./styles.module.css";
+import ThemeButton from "../components/UI/ThemeButton.jsx";
 
 import { useUserInfo } from "../hooks/useUser.jsx";
 import { useWorkspaceInfo } from "../hooks/useWorkspace.jsx";
@@ -14,8 +15,18 @@ import { useEffect } from "react";
 // import useUserContext from "../hooks/useUserContext.js";
 // import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 
-const Base = ({children}) => {
-  const { user, currentWorkspace, setCurrentWorkspace, User, Workspaces, Photo, DeleteUser, UpdateUser, getUserWorkspaceById } = useUserInfo();
+const Base = ({ children }) => {
+  const {
+    user,
+    currentWorkspace,
+    setCurrentWorkspace,
+    User,
+    Workspaces,
+    Photo,
+    DeleteUser,
+    UpdateUser,
+    getUserWorkspaceById,
+  } = useUserInfo();
   const { Workspace, CreateWorkspace, Members, Projects } = useWorkspaceInfo();
   const { setProjectContext } = useProjectContext();
 
@@ -25,16 +36,22 @@ const Base = ({children}) => {
 
   const clearProjectHighlight = () => {
     if (location.pathname !== "/workspace/project") setProjectContext({});
-  }
+  };
 
   return (
     <main className={styles.main}>
-      <Header  DeleteUser={DeleteUser} UpdateUser={UpdateUser} CreateWorkspace={CreateWorkspace} currentWorkspace={currentWorkspace}/>
+      <Header
+        DeleteUser={DeleteUser}
+        UpdateUser={UpdateUser}
+        CreateWorkspace={CreateWorkspace}
+        currentWorkspace={currentWorkspace}
+      />
+      <div className={styles.themeButton}>
+        <ThemeButton />
+      </div>
       <section className={styles.content}>
         <Sidebar />
-        <section className={styles.centeredContent}>
-            {children}
-        </section>
+        <section className={styles.centeredContent}>{children}</section>
       </section>
     </main>
   );
