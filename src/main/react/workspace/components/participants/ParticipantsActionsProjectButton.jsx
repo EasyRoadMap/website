@@ -37,12 +37,7 @@ const ParticipantActionsButton = ({ participant }) => {
       !params[0].role
     )
       return;
-    UpdateMemberRole(
-      workspaceContext.id,
-      projectContext.id,
-      participant.user.email,
-      params[0].role
-    );
+    UpdateMemberRole(projectContext.id, participant.user.email, params[0].role);
   };
 
   const popupManager = usePopupManager();
