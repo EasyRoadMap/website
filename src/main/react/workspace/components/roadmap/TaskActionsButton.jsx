@@ -25,8 +25,8 @@ const statusToInt = {
   done: 2,
 };
 
-const TaskActionsButton = ({ task }) => {
-  const [listShowed, setListShowed] = useState(false);
+const TaskActionsButton = ({ task, listShowed, setListShowed }) => {
+  // const [listShowed, setListShowed] = useState(false);
 
   const { projectId } = useProjectContext();
   const { chosenStage } = useRoadmapContext();
@@ -148,7 +148,7 @@ const TaskActionsButton = ({ task }) => {
       style={{ width: "fit-content" }}
     >
       <div className={styles.dotsWrapperItem}>
-        <div className={styles.dots} onClick={toggleListvisibility}>
+        <div className={styles.dots}>
           <ButtonDotsVerticalSVG className={styles.dots} />
         </div>
         <DropdownActionsList

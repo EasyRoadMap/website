@@ -12,6 +12,7 @@ import Popup from "../popup/Popup.jsx";
 import ChangeTaskPopup from "../popup/ChangeTaskPopup.jsx";
 import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
 import useRoadmapContext from "../../hooks/useRoadmapContext.js";
+import { useState } from "react";
 
 const completionIcons = {
   done: TaskCompletedSVG,
@@ -32,6 +33,7 @@ const TaskItem = ({ task }) => {
 
   const { ChangeTask } = useRoadmapInfo();
   const { chosenStage } = useRoadmapContext();
+  const [listShowed, setListShowed] = useState(false);
 
   const popupManager = usePopupManager();
   const onCloseChangeTaskPopup = (...params) => {
@@ -95,6 +97,9 @@ const TaskItem = ({ task }) => {
       onClose: onCloseChangeTaskPopup,
     });
   };
+  const toggleListvisibility = () => {
+    setListShowed((prev) => !prev);
+  };
 
   return (
     <>
@@ -153,8 +158,12 @@ const TaskItem = ({ task }) => {
             className={styles.taskCompletionIcon}
             style={{ width: "32px", height: "32px" }}
           />
-          <div className={styles.dotsWrapper}>
-            <TaskActionsButton task={task} />
+          <div className={styles.dotsWrapper} onClick={toggleListvisibility}>
+            <TaskActionsButton
+              task={task}
+              listShowed={listShowed}
+              setListShowed={setListShowed}
+            />
           </div>
         </div>
       </div>

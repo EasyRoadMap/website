@@ -52,6 +52,7 @@ color-4 - для бокового меню
   /* color-2 в виде r, g, b */
   --bg-color-project-rgb: 246, 247, 248;
 }
+[data-public-theme="light"],
 [data-theme="light"] {
   /*color 1*/
   --bg-color-and-popup: #e7ecf3;
@@ -102,6 +103,7 @@ color-4 - для бокового меню
   /* color-2 в виде r, g, b */
   --bg-color-project-rgb: 246, 247, 248;
 }
+[data-public-theme="dark"],
 [data-theme="dark"] {
   /*color 1*/
   --bg-color-and-popup: #191c20; /*Пока так, мб потом надо поменять для попапов*/
