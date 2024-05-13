@@ -46,7 +46,7 @@ public final class ERMExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         FieldError fieldError = ex.getBindingResult().getFieldError();
 
-        Object body = fieldError != null
+        ErrorModel body = fieldError != null
                 ? new FieldValidationErrorModel(fieldError.getField(), fieldError.getDefaultMessage())
                 : new ErrorModel("incorrect_field_value", "FieldError instance isn't provided!");
 
@@ -69,7 +69,7 @@ public final class ERMExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> redirectToErrorView(HttpStatusCode statusCode) {
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.SEE_OTHER)
                 .location(URI.create("%s/error?status_code=%d".formatted(serverHost, statusCode.value())))
                 .build();
     }

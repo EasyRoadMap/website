@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ru.easyroadmap.website.storage.model.project.Project;
 import ru.easyroadmap.website.storage.model.workspace.Workspace;
+import ru.easyroadmap.website.storage.model.workspace.WorkspaceMember;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +39,9 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
 
     @Query("select p from ProjectMember m inner join Project p on m.projectId = p.id where p.id = ?1 and m.userEmail = ?2")
     Optional<Project> getProjectAsMember(UUID projectId, String userEmail);
+
+    @Query("select wm from WorkspaceMember wm where wm.workspaceId = ?1 and wm.userEmail not in (select pm.userEmail from ProjectMember pm where pm.projectId = ?2)")
+    List<WorkspaceMember> getAttachableWorkspaceMembers(UUID workspaceId, UUID projectId);
 
     boolean existsByIdEqualsAndWorkspaceIdEquals(UUID projectId, UUID workspaceId);
 

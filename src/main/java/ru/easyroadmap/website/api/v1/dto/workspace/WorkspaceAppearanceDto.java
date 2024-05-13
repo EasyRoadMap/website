@@ -5,14 +5,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import ru.easyroadmap.website.validation.ValidWorkspaceTheme;
+import ru.easyroadmap.website.validation.annotation.WorkspaceTheme;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class WorkspaceAppearanceDto {
 
     @NotEmpty
-    @ValidWorkspaceTheme
+    @WorkspaceTheme
     private String theme;
 
     @NotNull

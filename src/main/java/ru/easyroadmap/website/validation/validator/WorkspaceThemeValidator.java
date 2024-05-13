@@ -1,10 +1,11 @@
-package ru.easyroadmap.website.validation;
+package ru.easyroadmap.website.validation.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import ru.easyroadmap.website.storage.model.workspace.Workspace.Theme;
+import ru.easyroadmap.website.validation.annotation.WorkspaceTheme;
 
-public final class WorkspaceThemeValidator implements ConstraintValidator<ValidWorkspaceTheme, String> {
+public final class WorkspaceThemeValidator implements ConstraintValidator<WorkspaceTheme, String> {
 
     @Override
     public boolean isValid(String theme, ConstraintValidatorContext context) {

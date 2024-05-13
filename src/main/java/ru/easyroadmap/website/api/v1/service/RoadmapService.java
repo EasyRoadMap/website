@@ -30,7 +30,7 @@ import java.util.function.Consumer;
 public class RoadmapService {
 
     public static final int MAX_STAGES_PER_ROADMAP = 25;
-    public static final int MAX_TASKS_PER_STAGE = 100;
+    public static final int MAX_TASKS_PER_STAGE = 25;
 
     public static final int STAGES_PAGE_SIZE = 10;
     public static final int TASKS_PAGE_SIZE = 10;
@@ -57,7 +57,7 @@ public class RoadmapService {
     public RoadmapTask createTask(long stageId, byte status, String name, String description, LocalDate deadlineAt, UUID[] uploadIds) throws ApiException {
         int taskCount = taskRepository.countAllByStageIdEquals(stageId);
         if (taskCount >= MAX_TASKS_PER_STAGE)
-            throw new ApiException("too_much_tasks", "One roadmap stage can have no more than 100 tasks");
+            throw new ApiException("too_much_tasks", "One roadmap stage can have no more than 25 tasks");
 
         RoadmapTask task = new RoadmapTask(stageId, status, name, description, deadlineAt);
         taskRepository.save(task);

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -53,7 +54,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, PersistentTokenRepository tokenRepository) throws Exception {
         LinkedHashMap<RequestMatcher, AuthenticationEntryPoint> entryPoints = new LinkedHashMap<>();
-        entryPoints.put(antMatcher("/api/**"), new Http403ForbiddenEntryPoint());
+        entryPoints.put(antMatcher("/api/**"), new HttpStatusEntryPoint(HttpStatus.FORBIDDEN));
 
         DelegatingAuthenticationEntryPoint authenticationEntryPoint = new DelegatingAuthenticationEntryPoint(entryPoints);
         authenticationEntryPoint.setDefaultEntryPoint(new LoginUrlAuthenticationEntryPoint("/auth/sign-in"));

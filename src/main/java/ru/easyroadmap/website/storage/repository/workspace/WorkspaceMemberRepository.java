@@ -1,6 +1,7 @@
 package ru.easyroadmap.website.storage.repository.workspace;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import ru.easyroadmap.website.storage.model.workspace.WorkspaceMember;
 
 import java.util.List;
@@ -22,5 +23,8 @@ public interface WorkspaceMemberRepository extends JpaRepository<WorkspaceMember
     List<WorkspaceMember> findAllByWorkspaceIdEquals(UUID workspaceId);
 
     Optional<WorkspaceMember> findByUserEmailEqualsAndWorkspaceIdEquals(String userEmail, UUID workspaceId);
+
+    @Query("select m.role from WorkspaceMember m where m.userEmail = ?1 and m.workspaceId = ?2")
+    String getWorkspaceMemberRole(String userEmail, UUID workspaceId);
 
 }

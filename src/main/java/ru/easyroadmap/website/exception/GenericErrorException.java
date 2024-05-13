@@ -10,13 +10,12 @@ import ru.easyroadmap.website.model.ErrorModel;
 
 import java.util.Set;
 
+@Getter
 public class GenericErrorException extends Exception {
 
-    @Getter
-    private final HttpStatusCode statusCode;
-
-    private final String errorCode;
-    private final String errorMessage;
+    protected final HttpStatusCode statusCode;
+    protected final String errorCode;
+    protected final String errorMessage;
 
     public GenericErrorException(Throwable cause) {
         this(HttpStatus.INTERNAL_SERVER_ERROR, "unexpected_error", "An unexpected error was occured! Try again later.", cause);

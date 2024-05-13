@@ -160,6 +160,10 @@ public class WorkspaceService {
         }
     }
 
+    public String getMemberRole(String userEmail, UUID workspaceId) {
+        return workspaceMemberRepository.getWorkspaceMemberRole(userEmail, workspaceId);
+    }
+
     public void changeMemberRole(UUID workspaceId, String otherUserEmail, String role) throws ApiException {
         WorkspaceMember member = workspaceMemberRepository.findByUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId).orElseThrow(() -> new ApiException(
                 "not_a_member",

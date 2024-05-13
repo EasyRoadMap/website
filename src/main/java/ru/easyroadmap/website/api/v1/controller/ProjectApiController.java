@@ -9,9 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.easyroadmap.website.api.v1.dto.ConfirmByPasswordDto;
-import ru.easyroadmap.website.api.v1.dto.DomainMemberDto;
-import ru.easyroadmap.website.api.v1.dto.UserIdentifierDto;
+import ru.easyroadmap.website.api.v1.dto.*;
 import ru.easyroadmap.website.api.v1.dto.project.ProjectDataDto;
 import ru.easyroadmap.website.api.v1.dto.project.ProjectLinksDto;
 import ru.easyroadmap.website.api.v1.model.PhotoModel;
@@ -20,6 +18,7 @@ import ru.easyroadmap.website.api.v1.model.project.ProjectInfoModel;
 import ru.easyroadmap.website.api.v1.model.project.ProjectLinkModel;
 import ru.easyroadmap.website.api.v1.model.project.ProjectMemberModel;
 import ru.easyroadmap.website.api.v1.model.project.ProjectModel;
+import ru.easyroadmap.website.api.v1.model.workspace.WorkspaceMemberModel;
 import ru.easyroadmap.website.api.v1.service.PhotoService;
 import ru.easyroadmap.website.api.v1.service.ProjectService;
 import ru.easyroadmap.website.api.v1.service.UserService;
@@ -29,6 +28,7 @@ import ru.easyroadmap.website.storage.model.User;
 import ru.easyroadmap.website.storage.model.project.Project;
 import ru.easyroadmap.website.storage.model.project.ProjectLink;
 import ru.easyroadmap.website.storage.model.project.ProjectMember;
+import ru.easyroadmap.website.storage.model.workspace.WorkspaceMember;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,26 +156,55 @@ public class ProjectApiController extends ApiControllerBase {
         return photoService.savePhoto(uuid, photo);
     }
 
-    @Operation(summary = "Add workspace member to project", tags = "project-api")
-    @PostMapping(value = "/members/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void addMemberToProject(@RequestParam("pr_id") UUID projectId, @Valid DomainMemberDto dto) throws ApiException {
+    @Operation(summary = "Get a list of all attachable workspace members for this project", tags = "project-api")
+    @GetMapping(value = "/members/attachable")
+    public ResponseEntity<List<WorkspaceMemberModel>> getAttachableWorkspaceMembers(@RequestParam("pr_id") UUID projectId) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Project project = projectService.requireProjectWorkspaceAdminRights(userEmail, projectId);
 
-        String otherUserEmail = dto.getEmail();
+        List<WorkspaceMemberModel> result = new ArrayList<>();
+        for (WorkspaceMember member : projectService.getAttachableMembers(project.getWorkspaceId(), projectId)) {
+            String memberEmail = member.getUserEmail();
+            Optional<User> user = userService.findByEmail(memberEmail);
+            if (user.isEmpty())
+                continue;
+
+            PhotoModel photoModel = photoService.getPhotoModelOrDefaultPicture(generateUserPhotoID(memberEmail));
+            UserModel userModel = UserModel.fromUser(user.get(), photoModel, true);
+            result.add(WorkspaceMemberModel.fromWorkspaceMember(member, userModel, null));
+        }
+
+        return result == null || result.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(result);
+    }
+
+    @Operation(summary = "Add workspace member(s) to project", tags = "project-api")
+    @PostMapping(value = "/members/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public void addMemberToProject(@RequestParam("pr_id") UUID projectId, @Valid UserIdentifierMultiDto dto) throws ApiException {
+        String userEmail = requireUserExistance(userService);
+        Project project = projectService.requireProjectWorkspaceAdminRights(userEmail, projectId);
+
+        String[] emails = dto.getEmail();
         UUID workspaceId = project.getWorkspaceId();
 
-        if (workspaceService.isAdmin(otherUserEmail, workspaceId))
-            throw new ApiException("user_is_admin", "Requested user is an admin of this workspace");
+        for (String email : emails) {
+            if (workspaceService.isAdmin(email, workspaceId)) {
+                throw new ApiException("user_is_admin", "Requested user is an admin of this workspace").withPayload(email);
+            }
 
-        if (!workspaceService.isMember(otherUserEmail, workspaceId))
-            throw new ApiException("not_a_member", "Requested user isn't a member of this workspace");
+            if (!workspaceService.isMember(email, workspaceId)) {
+                throw new ApiException("not_a_member", "Requested user isn't a member of this workspace").withPayload(email);
+            }
+        }
 
-        projectService.addToProject(projectId, dto.getEmail(), dto.getRole());
+        String[] roles = new String[emails.length];
+        for (int i = 0; i < emails.length; i++)
+            roles[i] = workspaceService.getMemberRole(emails[i], workspaceId);
+
+        projectService.addToProject(projectId, emails, roles);
     }
 
     @Operation(summary = "Remove workspace member from project", tags = "project-api")
-    @PostMapping(value = "/members/remove", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/members/remove", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void removeMemberFromProject(@RequestParam("pr_id") UUID projectId, @Valid UserIdentifierDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Project project = projectService.requireProjectWorkspaceAdminRights(userEmail, projectId);

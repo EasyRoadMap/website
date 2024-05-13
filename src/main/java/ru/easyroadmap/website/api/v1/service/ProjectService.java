@@ -9,6 +9,7 @@ import ru.easyroadmap.website.storage.model.project.Project;
 import ru.easyroadmap.website.storage.model.project.ProjectLink;
 import ru.easyroadmap.website.storage.model.project.ProjectMember;
 import ru.easyroadmap.website.storage.model.workspace.Workspace;
+import ru.easyroadmap.website.storage.model.workspace.WorkspaceMember;
 import ru.easyroadmap.website.storage.repository.project.ProjectLinkRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectMemberRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectRepository;
@@ -17,10 +18,7 @@ import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskAttachmentRe
 import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional
@@ -51,6 +49,10 @@ public class ProjectService {
         return projectRepository.getJoinedProjects(userEmail, workspaceId);
     }
 
+    public List<WorkspaceMember> getAttachableMembers(UUID workspaceId, UUID projectId) {
+        return projectRepository.getAttachableWorkspaceMembers(workspaceId, projectId);
+    }
+
     public List<ProjectMember> getProjectMembers(UUID projectId) {
         return projectMemberRepository.findAllByProjectIdEquals(projectId);
     }
@@ -76,12 +78,16 @@ public class ProjectService {
         projectRepository.deleteById(projectId);
     }
 
-    public void addToProject(UUID projectId, String otherUserEmail, String role) throws ApiException {
-        if (projectMemberRepository.existsByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId))
-            throw new ApiException("already_joined", "Requested user is already joined to this project");
+    public void addToProject(UUID projectId, String[] emails, String[] roles) throws ApiException {
+        for (String email : emails)
+            if (projectMemberRepository.existsByUserEmailEqualsAndProjectIdEquals(email, projectId))
+                throw new ApiException("already_joined", "Requested user is already joined to this project").withPayload(email);
 
-        ProjectMember member = new ProjectMember(projectId, otherUserEmail, role);
-        projectMemberRepository.save(member);
+        List<ProjectMember> members = new ArrayList<>();
+        for (int i = 0; i < emails.length; i++)
+            members.add(new ProjectMember(projectId, emails[i], roles[i]));
+
+        projectMemberRepository.saveAll(members);
     }
 
     public void kickFromProject(UUID projectId, String otherUserEmail) throws ApiException {

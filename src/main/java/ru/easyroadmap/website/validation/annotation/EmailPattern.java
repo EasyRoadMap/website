@@ -1,7 +1,8 @@
-package ru.easyroadmap.website.validation;
+package ru.easyroadmap.website.validation.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import ru.easyroadmap.website.validation.validator.EmailPatternValidator;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,10 +11,10 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = WorkspaceThemeValidator.class)
-public @interface ValidWorkspaceTheme {
+@Constraint(validatedBy = EmailPatternValidator.class)
+public @interface EmailPattern {
 
-    String message() default "Invalid theme constant";
+    String message() default "Invalid email";
 
     Class<?>[] groups() default {};
 

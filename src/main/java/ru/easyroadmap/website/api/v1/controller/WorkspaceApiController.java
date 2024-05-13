@@ -265,7 +265,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Abort an invitation to workspace", tags = "workspace-api")
-    @PostMapping(value = "/invite/abort")
+    @PostMapping(value = "/invite/abort", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void abortInvitation(@RequestParam("ws_id") UUID workspaceId, @Valid UserIdentifierDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         Workspace workspace = workspaceService.requireWorkspaceAdminRights(userEmail, workspaceId);
