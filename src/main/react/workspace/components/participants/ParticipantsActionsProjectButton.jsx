@@ -29,9 +29,20 @@ const ParticipantActionsButton = ({ participant }) => {
   };
 
   const onCloseUpdateParticipantRolePopup = (...params) => {
-    if (params[0].button !== "change" || !workspaceContext?.id || !projectContext?.id || !participant?.user?.email || !params[0].role)
+    if (
+      params[0].button !== "change" ||
+      !workspaceContext?.id ||
+      !projectContext?.id ||
+      !participant?.user?.email ||
+      !params[0].role
+    )
       return;
-    UpdateMemberRole(workspaceContext.id, projectContext.id, participant.user.email, params[0].role);
+    UpdateMemberRole(
+      workspaceContext.id,
+      projectContext.id,
+      participant.user.email,
+      params[0].role
+    );
   };
 
   const popupManager = usePopupManager();
@@ -51,8 +62,8 @@ const ParticipantActionsButton = ({ participant }) => {
       popup: {
         component: ChangePositionPopup,
         props: {
-          participant: participant
-        }
+          participant: participant,
+        },
       },
       onClose: onCloseUpdateParticipantRolePopup,
     });
@@ -81,8 +92,10 @@ const ParticipantActionsButton = ({ participant }) => {
       style={{ width: "fit-content" }}
     >
       <div className={styles.dotsWrapper}>
-        <div className={styles.dots} onClick={toggleListvisibility}>
-          <ButtonDotsSVG />
+        <div className={styles.dotsContainer}>
+          <div className={styles.dots} onClick={toggleListvisibility}>
+            <ButtonDotsSVG style={{ width: "16px", height: "16px" }} />
+          </div>
         </div>
         <DropdownActionsList
           buttons={buttons}

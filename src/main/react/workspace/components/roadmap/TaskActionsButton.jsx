@@ -11,9 +11,7 @@ import DeleteSVG from "../../../assets/deleteSVG.jsx";
 import DoneTaskIcon from "../../../assets/doneTaskIcon.jsx";
 import ProgressTaskIcon from "../../../assets/progressTaskIcon.jsx";
 import PlannedTaskIcon from "../../../assets/plannedTaskIcon.jsx";
-import {
-  askForDeleteTaskProps
-} from "../popup/PopupsData.jsx";
+import { askForDeleteTaskProps } from "../popup/PopupsData.jsx";
 import ChangeTaskPopup from "../popup/ChangeTaskPopup.jsx";
 
 import useRoadmapContext from "../../hooks/useRoadmapContext.js";
@@ -22,10 +20,10 @@ import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
 
 const statusToInt = {
-  "in_progress": 0,
-  "planned": 1,
-  "done": 2
-}
+  in_progress: 0,
+  planned: 1,
+  done: 2,
+};
 
 const TaskActionsButton = ({ task }) => {
   const [listShowed, setListShowed] = useState(false);
@@ -35,21 +33,47 @@ const TaskActionsButton = ({ task }) => {
   const { ChangeTask, DeleteTask } = useRoadmapInfo();
 
   const onCloseChangeTaskPopup = (...params) => {
-    if (params?.[0]?.button === "change" && chosenStage && task?.id && projectId && params?.[0]?.status && params?.[0]?.name) {
-      ChangeTask(projectId, chosenStage, task?.id, statusToInt[params?.[0]?.status], params?.[0]?.name, params?.[0]?.description, params?.[0]?.deadline, params?.[0]?.attachment);
+    if (
+      params?.[0]?.button === "change" &&
+      chosenStage &&
+      task?.id &&
+      projectId &&
+      params?.[0]?.status &&
+      params?.[0]?.name
+    ) {
+      ChangeTask(
+        projectId,
+        chosenStage,
+        task?.id,
+        statusToInt[params?.[0]?.status],
+        params?.[0]?.name,
+        params?.[0]?.description,
+        params?.[0]?.deadline,
+        params?.[0]?.attachment
+      );
     }
-  }
+  };
   const onCloseDeleteTaskPopup = (...params) => {
     if (params?.[0] === "yes" && chosenStage && task?.id) {
       DeleteTask(chosenStage, task?.id);
     }
-  }
+  };
 
   const setStatus = (status) => {
     if (!(chosenStage && task?.id && task?.name && projectId)) return;
-    ChangeTask(projectId, chosenStage, task.id, statusToInt[status], task.name, task?.description, task?.deadline_at, 
-      task?.attachments?.map((attachment) => {return attachment.id}))
-  }
+    ChangeTask(
+      projectId,
+      chosenStage,
+      task.id,
+      statusToInt[status],
+      task.name,
+      task?.description,
+      task?.deadline_at,
+      task?.attachments?.map((attachment) => {
+        return attachment.id;
+      })
+    );
+  };
 
   const popupManager = usePopupManager();
   const openChangeTaskPopup = () => {
@@ -62,10 +86,10 @@ const TaskActionsButton = ({ task }) => {
             description: task?.description,
             status: task?.status,
             deadline: task?.deadline_at,
-            attachments: task?.attachments
+            attachments: task?.attachments,
           },
-          chosenStage: chosenStage
-        }
+          chosenStage: chosenStage,
+        },
       },
       onClose: onCloseChangeTaskPopup,
     });
@@ -81,21 +105,27 @@ const TaskActionsButton = ({ task }) => {
   };
 
   const buttons = [
-    (task && task?.status === "done") ? null : {
-      icon: DoneTaskIcon,
-      text: "Отметить готовой",
-      callback: () => setStatus("done"),
-    },
-    (task && task?.status === "in_progress") ? null : {
-      icon: ProgressTaskIcon,
-      text: "Отметить выполняемой",
-      callback: () => setStatus("in_progress"),
-    },
-    (task && task?.status === "planned") ? null : {
-      icon: PlannedTaskIcon,
-      text: "Отметить запланированной",
-      callback: () => setStatus("planned"),
-    },
+    task && task?.status === "done"
+      ? null
+      : {
+          icon: DoneTaskIcon,
+          text: "Отметить готовой",
+          callback: () => setStatus("done"),
+        },
+    task && task?.status === "in_progress"
+      ? null
+      : {
+          icon: ProgressTaskIcon,
+          text: "Отметить выполняемой",
+          callback: () => setStatus("in_progress"),
+        },
+    task && task?.status === "planned"
+      ? null
+      : {
+          icon: PlannedTaskIcon,
+          text: "Отметить запланированной",
+          callback: () => setStatus("planned"),
+        },
     {
       icon: EditSVG,
       text: "Редактировать задачу",
@@ -117,7 +147,7 @@ const TaskActionsButton = ({ task }) => {
       callback={() => setListShowed(false)}
       style={{ width: "fit-content" }}
     >
-      <div className={styles.dotsWrapper}>
+      <div className={styles.dotsWrapperItem}>
         <div className={styles.dots} onClick={toggleListvisibility}>
           <ButtonDotsVerticalSVG className={styles.dots} />
         </div>

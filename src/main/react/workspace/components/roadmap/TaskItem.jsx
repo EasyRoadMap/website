@@ -13,7 +13,6 @@ import ChangeTaskPopup from "../popup/ChangeTaskPopup.jsx";
 import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
 import useRoadmapContext from "../../hooks/useRoadmapContext.js";
 
-
 const completionIcons = {
   done: TaskCompletedSVG,
   in_progress: TaskInProgressSVG,
@@ -36,27 +35,46 @@ const TaskItem = ({ task }) => {
 
   const popupManager = usePopupManager();
   const onCloseChangeTaskPopup = (...params) => {
-    if (params?.[0]?.button === "change" && chosenStage && task?.id && projectId && params?.[0]?.status && params?.[0]?.name) {
-      ChangeTask(projectId, chosenStage, task?.id, statusToInt[params?.[0]?.status], params?.[0]?.name, params?.[0]?.description, params?.[0]?.deadline, params?.[0]?.attachment);
+    if (
+      params?.[0]?.button === "change" &&
+      chosenStage &&
+      task?.id &&
+      projectId &&
+      params?.[0]?.status &&
+      params?.[0]?.name
+    ) {
+      ChangeTask(
+        projectId,
+        chosenStage,
+        task?.id,
+        statusToInt[params?.[0]?.status],
+        params?.[0]?.name,
+        params?.[0]?.description,
+        params?.[0]?.deadline,
+        params?.[0]?.attachment
+      );
     }
-  }
+  };
 
   const checkCollision = (event) => {
     const dotsBlock = document.querySelector("." + styles.dots);
     const dotsBlockBoundingClientRect = dotsBlock.getBoundingClientRect();
     console.debug(
-        dotsBlockBoundingClientRect.x,
-        dotsBlockBoundingClientRect.width,
-        dotsBlockBoundingClientRect.y,
-        dotsBlockBoundingClientRect.height
+      dotsBlockBoundingClientRect.x,
+      dotsBlockBoundingClientRect.width,
+      dotsBlockBoundingClientRect.y,
+      dotsBlockBoundingClientRect.height
     );
 
-    return (dotsBlockBoundingClientRect.x <= event.clientX &&
-        event.clientX <= dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.width &&
-        dotsBlockBoundingClientRect.y <= event.clientY &&
-        event.clientY <= dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.height
-    )
-  }
+    return (
+      dotsBlockBoundingClientRect.x <= event.clientX &&
+      event.clientX <=
+        dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.width &&
+      dotsBlockBoundingClientRect.y <= event.clientY &&
+      event.clientY <=
+        dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.height
+    );
+  };
 
   const openChangeTaskPopup = (event) => {
     if (checkCollision(event)) return;
@@ -69,63 +87,78 @@ const TaskItem = ({ task }) => {
             description: task?.description,
             status: task?.status,
             deadline: task?.deadline_at,
-            attachments: task?.attachments
+            attachments: task?.attachments,
           },
-          chosenStage: chosenStage
-        }
+          chosenStage: chosenStage,
+        },
       },
       onClose: onCloseChangeTaskPopup,
     });
   };
 
   return (
-    <div className={classTask} onClick={openChangeTaskPopup}>
-      <div className={styles.taskFieldsWrapper}>
-        <div className={styles.taskMainPart}>
-          <div className={styles.taskInfo}>
-            <div className={styles.taskTitleWrapper}>
-              <div className={styles.taskName}>{task?.name}</div>
-              {task.deadline_at && (
-                  <div className={styles.taskDate}>
-                    <CalendarSVG className={styles.calendarSVG} />
-                    <span className={styles.taskDateText}>{task?.deadline_at ? transformDate(task?.deadline_at) : null}</span>
-                  </div>
-              )}
-            </div>
-            <span className={styles.taskDescription}>{task?.description}</span>
-          </div>
-          <div className={styles.taskParticipantsAvatars}>
-            {task?.attachments?.map((participantAvatar, i) => {
-              return (
-                <>
-                  {participantAvatar.type === "image" ? (
-                    <img
-                      src={participantAvatar.url}
-                      alt=""
-                      key={i}
-                      className={styles.taskParticipantAvatar}
-                    />
-                  ) : (
-                    <div className={styles.unhandledFile}>
-                      {participantAvatar.type === "archive" && (
-                        <ZipFielIconSVG className={styles.fileIcon} />
-                      )}
-                      {participantAvatar.type === "default" && (
-                        <UnhandledFieldIcon className={styles.fileIcon} />
-                      )}
+    <>
+      <div className={styles.taskWrapper}>
+        <div className={classTask} onClick={openChangeTaskPopup}>
+          <div className={styles.taskFieldsWrapper}>
+            <div className={styles.taskMainPart}>
+              <div className={styles.taskInfo}>
+                <div className={styles.taskTitleWrapper}>
+                  <div className={styles.taskName}>{task?.name}</div>
+                  {task.deadline_at && (
+                    <div className={styles.taskDate}>
+                      <CalendarSVG className={styles.calendarSVG} />
+                      <span className={styles.taskDateText}>
+                        {task?.deadline_at
+                          ? transformDate(task?.deadline_at)
+                          : null}
+                      </span>
                     </div>
                   )}
-                </>
-              );
-            })}
+                </div>
+                <span className={styles.taskDescription}>
+                  {task?.description}
+                </span>
+              </div>
+              <div className={styles.taskParticipantsAvatars}>
+                {task?.attachments?.map((participantAvatar, i) => {
+                  return (
+                    <>
+                      {participantAvatar.type === "image" ? (
+                        <img
+                          src={participantAvatar.url}
+                          alt=""
+                          key={i}
+                          className={styles.taskParticipantAvatar}
+                        />
+                      ) : (
+                        <div className={styles.unhandledFile}>
+                          {participantAvatar.type === "archive" && (
+                            <ZipFielIconSVG className={styles.fileIcon} />
+                          )}
+                          {participantAvatar.type === "default" && (
+                            <UnhandledFieldIcon className={styles.fileIcon} />
+                          )}
+                        </div>
+                      )}
+                    </>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
         <div className={styles.taskAsidePart}>
-          <IconTaskComplete className={styles.taskCompletionIcon} />
-          <TaskActionsButton task={task} />
+          <IconTaskComplete
+            className={styles.taskCompletionIcon}
+            style={{ width: "32px", height: "32px" }}
+          />
+          <div className={styles.dotsWrapper}>
+            <TaskActionsButton task={task} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

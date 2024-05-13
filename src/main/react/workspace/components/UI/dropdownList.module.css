@@ -25,6 +25,7 @@
   background-color: transparent;
   border: none;
   border-radius: 8px;
+  cursor: pointer;
 }
 .elem:hover {
   background-color: var(--bg-workspace-button);

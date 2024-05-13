@@ -12,8 +12,10 @@ import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 
 const AddParticipantProjectButton = () => {
   const popupManager = usePopupManager();
+  const { workspaceContext } = useWorkspaceContext();
   const { AddMember } = useProjectInfo();
   const { projectId } = useProjectContext();
+  // const { workspaceContext } = useWorkspaceContext();
 
   const onSendInvite = (...params) => {
     const email = params[0].email;
@@ -35,13 +37,17 @@ const AddParticipantProjectButton = () => {
   };
 
   return (
-    <button className={styles.addButton} onClick={openSendInvitePopup}>
-      {/* add icon */}
-      <div className={styles.addLogo}>
-        <AddPersonSVG className={styles.addPersonSVG} />
-      </div>
-      <div className={styles.addUser}>Добавить участника</div>
-    </button>
+    <>
+      {workspaceContext?.is_admin && (
+        <button className={styles.addButton} onClick={openSendInvitePopup}>
+          {/* add icon */}
+          <div className={styles.addLogo}>
+            <AddPersonSVG className={styles.addPersonSVG} />
+          </div>
+          <div className={styles.addUser}>Добавить участника</div>
+        </button>
+      )}
+    </>
   );
 };
 

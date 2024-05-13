@@ -13,30 +13,50 @@ import {
   transferControlProps,
   removeParticipantProps,
 } from "../popup/PopupsData.jsx";
-import ChangePositionPopup from "../popup/ChangePositionPopup.jsx"; 
+import ChangePositionPopup from "../popup/ChangePositionPopup.jsx";
 
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 
-const ParticipantActionsButton = ({participant}) => {
+const ParticipantActionsButton = ({ participant }) => {
   const [listShowed, setListShowed] = useState(false);
 
   const { workspaceContext } = useWorkspaceContext();
-  const { TransferOwnership, KickMember, UpdateMemberRole } = useWorkspaceInfo();
+  const { TransferOwnership, KickMember, UpdateMemberRole } =
+    useWorkspaceInfo();
 
   const onCloseTransferControlPopup = (...params) => {
-    if (params[0] !== "yes" || !workspaceContext?.id || !participant?.user?.email) return;
-    TransferOwnership(workspaceContext.id, participant.user.email);
-  }
-  const onCloseRemoveParticipantPopup = (...params) => {
-    if (params[0] !== "yes" || !workspaceContext?.id || !participant?.user?.email) return;
-    KickMember(workspaceContext.id, participant.user.email);
-  }
-  const onCloseChangePositionPopup = (...params) => {
-    if (params[0].button !== "change" || !workspaceContext?.id || !participant?.user?.email || !params[0].role)
+    if (
+      params[0] !== "yes" ||
+      !workspaceContext?.id ||
+      !participant?.user?.email
+    )
       return;
-    UpdateMemberRole(workspaceContext.id, participant.user.email, params[0].role);
-  }
+    TransferOwnership(workspaceContext.id, participant.user.email);
+  };
+  const onCloseRemoveParticipantPopup = (...params) => {
+    if (
+      params[0] !== "yes" ||
+      !workspaceContext?.id ||
+      !participant?.user?.email
+    )
+      return;
+    KickMember(workspaceContext.id, participant.user.email);
+  };
+  const onCloseChangePositionPopup = (...params) => {
+    if (
+      params[0].button !== "change" ||
+      !workspaceContext?.id ||
+      !participant?.user?.email ||
+      !params[0].role
+    )
+      return;
+    UpdateMemberRole(
+      workspaceContext.id,
+      participant.user.email,
+      params[0].role
+    );
+  };
 
   const popupManager = usePopupManager();
   const openTransferControlPopup = () => {
@@ -53,8 +73,8 @@ const ParticipantActionsButton = ({participant}) => {
       popup: {
         component: ChangePositionPopup,
         props: {
-          participant: participant
-        }
+          participant: participant,
+        },
       },
       onClose: onCloseChangePositionPopup,
     });
@@ -97,9 +117,12 @@ const ParticipantActionsButton = ({participant}) => {
       style={{ width: "fit-content" }}
     >
       <div className={styles.dotsWrapper}>
-        <div className={styles.dots} onClick={toggleListvisibility}>
-          <ButtonDotsSVG />
+        <div className={styles.dotsContainer}>
+          <div className={styles.dots} onClick={toggleListvisibility}>
+            <ButtonDotsSVG style={{ width: "16px", height: "16px" }} />
+          </div>
         </div>
+
         <DropdownActionsList
           buttons={buttons}
           showed={listShowed}

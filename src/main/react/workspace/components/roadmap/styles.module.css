@@ -20,23 +20,21 @@
   background-color: var(--bg-task-complete);
 }
 .taskFieldDone:hover {
-  background-color: var(--bg-color-task), rgba(153, 229, 80, 0.15);
-  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
-    linear-gradient(rgba(153, 229, 80, 0.15), rgba(153, 229, 80, 0.15));
+  background-color: var(--bg-color-task-hover), var(--bg-task-complete);
+  background-image: linear-gradient(
+      var(--bg-color-task-hover),
+      var(--bg-color-task-hover)
+    ),
+    linear-gradient(var(--bg-task-complete), var(--bg-task-complete));
 }
 .taskFieldDone:active {
-  background-color: var(--bg-color-task), rgba(153, 229, 80, 0.15);
-  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
-    linear-gradient(rgba(153, 229, 80, 0.15), rgba(153, 229, 80, 0.15));
-  .taskMainPart {
-    opacity: 0.75;
-  }
-  .taskCompletionIcon {
-    opacity: 0.75;
-  }
-  .dots {
-    opacity: 0.75;
-  }
+  opacity: 0.75;
+  background-color: var(--bg-color-task-hover), var(--bg-task-complete);
+  background-image: linear-gradient(
+      var(--bg-color-task-hover),
+      var(--bg-color-task-hover)
+    ),
+    linear-gradient(var(--bg-task-complete), var(--bg-task-complete));
 }
 .taskFieldProgress {
   padding-left: 24px;
@@ -50,23 +48,21 @@
   background-color: var(--bg-task-in-progress);
 }
 .taskFieldProgress:hover {
-  background-color: var(--bg-color-task), rgb(244, 228, 86, 0.15);
-  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
-    linear-gradient(rgb(244, 228, 86, 0.15), rgb(244, 228, 86, 0.15));
+  background-color: var(--bg-color-task-hover), var(--bg-task-in-progress);
+  background-image: linear-gradient(
+      var(--bg-color-task-hover),
+      var(--bg-color-task-hover)
+    ),
+    linear-gradient(var(--bg-task-in-progress), var(--bg-task-in-progress));
 }
 .taskFieldProgress:active {
-  background-color: var(--bg-color-task), rgb(244, 228, 86, 0.15);
-  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
-    linear-gradient(rgb(244, 228, 86, 0.15), rgb(244, 228, 86, 0.15));
-  .taskMainPart {
-    opacity: 0.75;
-  }
-  .taskCompletionIcon {
-    opacity: 0.75;
-  }
-  .dots {
-    opacity: 0.75;
-  }
+  opacity: 0.75;
+  background-color: var(--bg-color-task-hover), var(--bg-task-in-progress);
+  background-image: linear-gradient(
+      var(--bg-color-task-hover),
+      var(--bg-color-task-hover)
+    ),
+    linear-gradient(var(--bg-task-in-progress), var(--bg-task-in-progress));
 }
 .taskFieldPlanned {
   padding-left: 24px;
@@ -80,23 +76,21 @@
   background-color: var(--bg-task-in-planned);
 }
 .taskFieldPlanned:hover {
-  background-color: var(--bg-color-task), rgb(169, 173, 179, 0.15);
-  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
-    linear-gradient(rrgb(169, 173, 179, 0.15), rgb(169, 173, 179, 0.15));
+  background-color: var(--bg-color-task-hover), var(--bg-task-in-planned);
+  background-image: linear-gradient(
+      var(--bg-color-task-hover),
+      var(--bg-color-task-hover)
+    ),
+    linear-gradient(var(--bg-task-in-planned), var(--bg-task-in-planned));
 }
 .taskFieldPlanned:active {
-  background-color: var(--bg-color-task), rgb(169, 173, 179, 0.15);
-  background-image: linear-gradient(var(--bg-color-task), var(--bg-color-task)),
-    linear-gradient(rrgb(169, 173, 179, 0.15), rgb(169, 173, 179, 0.15));
-  .taskMainPart {
-    opacity: 0.75;
-  }
-  .taskCompletionIcon {
-    opacity: 0.75;
-  }
-  .dots {
-    opacity: 0.75;
-  }
+  opacity: 0.75;
+  background-color: var(--bg-color-task-hover), var(--bg-task-in-planned);
+  background-image: linear-gradient(
+      var(--bg-color-task-hover),
+      var(--bg-color-task-hover)
+    ),
+    linear-gradient(var(--bg-task-in-planned), var(--bg-task-in-planned));
 }
 
 .tasksListWrapper {
@@ -144,20 +138,37 @@
   width: 19px;
   height: 19px;
 }
-.dots {
-  opacity: 0.5;
-  cursor: pointer;
-  width: 10px;
-  path {
-    fill: var(--text-color);
-    stroke: var(--text-color);
+
+.dotsWrapper {
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .dots {
+    opacity: 0.5;
+    cursor: pointer;
+    height: 16px;
+    path {
+      fill: black;
+      stroke: black;
+    }
   }
 }
-.dots:hover {
-  opacity: 1;
+.dotsWrapper:hover {
+  background-color: var(--light-stroke);
+  .dots {
+    opacity: 1;
+  }
 }
-.dots:active {
+.dotsWrapper:hover {
   opacity: 0.75;
+  .dots {
+    opacity: 1;
+  }
 }
 
 .taskDescription {
@@ -375,6 +386,9 @@
   background-color: transparent;
   padding: 6px;
   color: var(--text-color);
+  user-select: none;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 }
 .stageName::placeholder {
   text-align: center;
@@ -437,4 +451,11 @@
   path {
     stroke: var(--bg-move-roadmap);
   }
+}
+
+.taskWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
