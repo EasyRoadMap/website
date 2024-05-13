@@ -96,6 +96,7 @@ public final class Workspace {
 
         LIGHT("light"),
         DARK("dark"),
+        SYSTEM("system"),
         ;
 
         @JsonValue
