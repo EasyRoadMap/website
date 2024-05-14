@@ -53,7 +53,7 @@ public final class ERMOperationCustomizer implements OperationCustomizer {
             String description = operation.getDescription();
 
             if (description != null)
-                description += "\n**Требуются права администратора рабочей области!**";
+                description += "<br>**Требуются права администратора рабочей области!**";
             else
                 description = "**Требуются права администратора рабочей области!**";
 
@@ -76,7 +76,7 @@ public final class ERMOperationCustomizer implements OperationCustomizer {
                             String description = parameter.getDescription();
 
                             if (description != null)
-                                description += "\nЧасть тела запроса `multipart/form-data`";
+                                description += "<br>Часть тела запроса `multipart/form-data`";
                             else
                                 description = "Часть тела запроса `multipart/form-data`";
 

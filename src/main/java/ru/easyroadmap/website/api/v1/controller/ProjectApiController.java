@@ -177,6 +177,7 @@ public class ProjectApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Получение списка доступных для добавления пользователей", tags = "project-api", description = "Вернет список участников рабочей области, которых можно добавить в этот проект.")
+    @WorkspaceAdminOperation
     @SuccessResponse(canBeEmpty = true)
     @GenericErrorResponse({"project_not_exists", "!not_enough_rights"})
     @GetMapping(value = "/members/attachable")
