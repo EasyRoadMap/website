@@ -41,9 +41,21 @@ const TaskItem = ({ task }) => {
                 </div>
               )}
             </div>
-            <span className={styles.taskDescription}>{task?.description}</span>
+            <span
+              className={styles.taskDescription}
+              style={
+                task?.description ? { display: "flex" } : { display: "none" }
+              }
+            >
+              {task?.description}
+            </span>
           </div>
-          <div className={styles.taskParticipantsAvatars}>
+          <div
+            className={styles.taskParticipantsAvatars}
+            style={
+              task?.attachments ? { display: "flex" } : { display: "none" }
+            }
+          >
             {task?.attachments?.map((attachmentPhoto, i) => {
               return (
                 <>
@@ -70,10 +82,20 @@ const TaskItem = ({ task }) => {
           </div>
         </div>
         <div className={styles.taskAsidePart}>
-          <IconTaskComplete
-            className={styles.taskCompletionIcon}
-            style={{ width: "32px", height: "32px" }}
-          />
+          <div
+            style={{
+              width: "32px",
+              height: "32px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <IconTaskComplete
+              className={styles.taskCompletionIcon}
+              style={{ width: "21px", height: "21px" }}
+            />
+          </div>
         </div>
       </div>
     </div>
