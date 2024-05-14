@@ -3,7 +3,6 @@ package ru.easyroadmap.website.api.v1.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +19,8 @@ import ru.easyroadmap.website.api.v1.service.PhotoService;
 import ru.easyroadmap.website.api.v1.service.ProjectService;
 import ru.easyroadmap.website.api.v1.service.UserService;
 import ru.easyroadmap.website.api.v1.service.WorkspaceService;
+import ru.easyroadmap.website.docs.annotation.GenericErrorResponse;
+import ru.easyroadmap.website.docs.annotation.SuccessResponse;
 import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.storage.model.User;
 import ru.easyroadmap.website.storage.model.project.Project;
@@ -44,7 +45,8 @@ public class UserApiController extends ApiControllerBase {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Operation(summary = "Get a current user", tags = "user-api")
+    @Operation(summary = "Получение пользователя", tags = "user-api")
+    @GenericErrorResponse("user_not_found")
     @GetMapping
     public UserModel getUser() throws ApiException {
         User user = getCurrentUser(userService);
@@ -52,17 +54,19 @@ public class UserApiController extends ApiControllerBase {
         return UserModel.fromUser(user, photoModel, true);
     }
 
-    @Operation(summary = "Set name for current user", tags = "user-api")
+    @Operation(summary = "Изменение имени пользователя", tags = "user-api")
+    @SuccessResponse("Имя пользователя изменено")
+    @GenericErrorResponse("user_not_found")
     @PatchMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseStatus(HttpStatus.OK)
     public void setUserName(@Valid UserDataDto dto) throws ApiException {
         User user = getCurrentUser(userService);
         userService.updateUserName(user, dto.getName());
     }
 
-    @Operation(summary = "Change user password", tags = "user-api")
+    @Operation(summary = "Изменение пароля пользователя", tags = "user-api")
+    @SuccessResponse("Пароль пользователя изменен")
+    @GenericErrorResponse({"user_not_found", "wrong_password"})
     @PutMapping(value = "/password", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseStatus(HttpStatus.OK)
     public void changePassword(@Valid ChangePasswordDto dto) throws ApiException {
         User user = getCurrentUser(userService);
         if (!passwordEncoder.matches(dto.getCurrentPassword(), user.getPassword()))
@@ -71,7 +75,9 @@ public class UserApiController extends ApiControllerBase {
         userService.updateUserPassword(user, dto.getNewPassword());
     }
 
-    @Operation(summary = "Get a list of joined workspaces", tags = "user-api")
+    @Operation(summary = "Получение списка рабочих областей", tags = "user-api", description = "Вернет список рабочих областей, в которых состоит текущий пользователь.")
+    @SuccessResponse(canBeEmpty = true)
+    @GenericErrorResponse("user_not_found")
     @GetMapping("/workspaces")
     public ResponseEntity<List<WorkspaceModel>> getJoinedWorkspaces() throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -87,7 +93,9 @@ public class UserApiController extends ApiControllerBase {
         return result.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(result);
     }
 
-    @Operation(summary = "Get a list of joined projects in workspace", tags = "user-api")
+    @Operation(summary = "Получение списка проектов", tags = "user-api", description = "Вернет список проектов рабочей области, в которых состоит текущий пользователь.")
+    @SuccessResponse(canBeEmpty = true)
+    @GenericErrorResponse("user_not_found")
     @GetMapping("/projects")
     public ResponseEntity<List<ProjectModel>> getJoinedProjects(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -104,23 +112,27 @@ public class UserApiController extends ApiControllerBase {
         return result.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(result);
     }
 
-    @Operation(summary = "Get a current user photo", tags = "user-api")
+    @Operation(summary = "Получение аватарки пользователя", tags = "user-api")
+    @GenericErrorResponse("user_not_found")
     @GetMapping("/photo")
     public PhotoModel getUserPhoto() throws ApiException {
         String userEmail = requireUserExistance(userService);
         return photoService.getPhotoModelOrDefaultPicture(generateUserPhotoID(userEmail));
     }
 
-    @Operation(summary = "Upload a new photo for current user", tags = "user-api")
+    @Operation(summary = "Изменение аватарки пользователя", tags = "user-api")
+    @SuccessResponse("Аватарка пользователя изменена")
+    @GenericErrorResponse({"user_not_found", "!too_small_image", "!too_large_image", "!bad_image_ratio", "bad_image"})
     @PostMapping(value = "/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public PhotoModel uploadUserPhoto(MultipartFile photo) throws ApiException {
         String userEmail = requireUserExistance(userService);
         return photoService.savePhoto(generateUserPhotoID(userEmail), photo);
     }
 
-    @Operation(summary = "Delete current user", tags = "user-api")
+    @Operation(summary = "Удаление пользователя", tags = "user-api")
+    @SuccessResponse("Пользователь удален")
+    @GenericErrorResponse({"user_not_found", "!wrong_password", "!have_joined_workspace"})
     @DeleteMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@Valid ConfirmByPasswordDto dto) throws ApiException {
         User user = getCurrentUser(userService);
         if (!passwordEncoder.matches(dto.getPassword(), user.getPassword()))

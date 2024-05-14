@@ -1,10 +1,7 @@
 package ru.easyroadmap.website.web.auth.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -15,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import ru.easyroadmap.website.docs.annotation.GenericErrorResponse;
+import ru.easyroadmap.website.docs.annotation.SuccessResponse;
 import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.web.auth.dto.*;
 import ru.easyroadmap.website.web.auth.service.RecoveryService;
@@ -32,123 +31,34 @@ public final class AuthProcessingController {
     private final RegistrationService registrationService;
     private final RecoveryService recoveryService;
 
-    @Operation(summary = "Log in account", tags = "auth")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "302",
-                    description = "Logged in, redirect to /workspace"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Bad credentials",
-                                            value = "{\"error_code\": \"bad_credentials\", \"error_message\": \"The username or password is incorrect\"}"
-                                    ),
-                                    @ExampleObject(
-                                            name = "Provider not found",
-                                            description = "This response will come if there is a configuration error on the server side, it should not be on the production!",
-                                            value = "{\"error_code\": \"provider_not_found\", \"error_message\": \"Provider not found\"}"
-                                    ),
-                                    @ExampleObject(
-                                            name = "Unexpected error",
-                                            description = "This response shouldn't come, but you should handle it :)",
-                                            value = "{\"error_code\": \"unexpected_error\", \"error_message\": \"...\"}"
-                                    )
-                            }
-                    )
-            )
-    })
+    @Operation(summary = "Вход в аккаунт", tags = "auth-api")
+    @ApiResponse(responseCode = "302", description = "Вход выполнен, переадресация на `/workspace`")
+    @GenericErrorResponse("bad_credentials")
     @PostMapping(value = "/sign-in", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
     public void processSignIn(@Valid SignInDto dto) {}
 
-    @Operation(summary = "Request email confirmation code", tags = "auth")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Confirmation code has been requested"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Validation error",
-                                            value = "{\"error_code\": \"incorrect_field_value\", \"error_message\": \"...\", \"field_name\": \"...\"}"
-                                    ),
-                                    @ExampleObject(
-                                            name = "Generic error",
-                                            description = "Used codes: 'email_already_used', 'email_already_confirmed', 'email_confirmation_unrenewable', 'email_confirmation_pending'",
-                                            value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
-                                    )
-                            }
-                    )
-            )
-    })
+    @Operation(summary = "Запрос кода подтверждения регистрации", tags = "auth-api")
+    @SuccessResponse("Код подтверждения регистрации отправлен")
+    @GenericErrorResponse({"email_already_used", "email_already_confirmed", "email_confirmation_unrenewable", "email_confirmation_pending"})
     @PostMapping(value = "/sign-up/email-code", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void processSignUpCodeRequest(@Valid SignUpCodeRequestDto dto, HttpServletResponse response) throws ApiException {
         registrationService.processConfirmationRequest(dto.getEmail(), dto.getName(), dto.isRenew(), cookieBased(response));
     }
 
-    @Operation(summary = "Confirm email with code", tags = "auth")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Email has been confirmed"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Validation error",
-                                            value = "{\"error_code\": \"incorrect_field_value\", \"error_message\": \"...\", \"field_name\": \"...\"}"
-                                    ),
-                                    @ExampleObject(
-                                            name = "Generic error",
-                                            description = "Used codes: 'request_not_found', 'request_expired', 'wrong_proof_key', 'no_more_attempts', 'wrong_code'",
-                                            value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
-                                    )
-                            }
-                    )
-            )
-    })
+    @Operation(summary = "Подтверждение регистрации с помощью кода", tags = "auth-api")
+    @SuccessResponse("Выполнено подтверждение почты для регистрации аккаунта")
+    @GenericErrorResponse({"request_not_found", "request_expired", "wrong_proof_key", "no_more_attempts", "wrong_code"})
     @PostMapping(value = "/sign-up/confirm-email", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void processSignUpConfirmation(@Valid SignUpConfirmationDto dto, HttpServletRequest request) throws ApiException {
         registrationService.processEmailConfirmation(dto.getEmail(), dto.getCode(), extractProofKey(request));
     }
 
-    @Operation(summary = "Register a new user", tags = "auth")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "A new user has been registered"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Validation error",
-                                            value = "{\"error_code\": \"incorrect_field_value\", \"error_message\": \"...\", \"field_name\": \"...\"}"
-                                    ),
-                                    @ExampleObject(
-                                            name = "Generic error",
-                                            description = "Used codes: 'user_already_exists', 'email_not_confirmed', 'wrong_proof_key'",
-                                            value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
-                                    )
-                            }
-                    )
-            )
-    })
+    @Operation(summary = "Регистрация пользователя", tags = "auth-api")
+    @SuccessResponse("Новый пользователь зарегистрирован")
+    @GenericErrorResponse({"user_already_exists", "email_not_confirmed", "wrong_proof_key"})
     @PostMapping(value = "/sign-up/complete", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void processSignUpComplete(@Valid SignUpCompleteDto dto, HttpServletRequest request, HttpServletResponse response) throws ApiException {
@@ -156,90 +66,27 @@ public final class AuthProcessingController {
         forgetProofKey(response);
     }
 
-    @Operation(summary = "Request email confirmation code", tags = "auth")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Confirmation code has been requested"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Validation error",
-                                            value = "{\"error_code\": \"incorrect_field_value\", \"error_message\": \"...\", \"field_name\": \"...\"}"
-                                    ),
-                                    @ExampleObject(
-                                            name = "Generic error",
-                                            description = "Used codes: 'user_not_found', 'email_already_confirmed', 'email_confirmation_unrenewable', 'email_confirmation_pending'",
-                                            value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
-                                    )
-                            }
-                    )
-            )
-    })
+    @Operation(summary = "Запрос кода восстановления доступа", tags = "auth-api")
+    @SuccessResponse("Код восстановления доступа отправлен")
+    @GenericErrorResponse({"user_not_found", "email_already_confirmed", "email_confirmation_unrenewable", "email_confirmation_pending"})
     @PostMapping(value = "/recovery/email-code", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void processRecoveryCodeRequest(@Valid RecoveryCodeRequestDto dto, HttpServletResponse response) throws ApiException {
         recoveryService.processConfirmationRequest(dto.getEmail(), dto.isRenew(), cookieBased(response));
     }
 
-    @Operation(summary = "Confirm email with code", tags = "auth")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Email has been confirmed"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Validation error",
-                                            value = "{\"error_code\": \"incorrect_field_value\", \"error_message\": \"...\", \"field_name\": \"...\"}"
-                                    ),
-                                    @ExampleObject(
-                                            name = "Generic error",
-                                            description = "Used codes: 'user_not_found', 'request_not_found', 'request_expired', 'wrong_proof_key', 'no_more_attempts', 'wrong_code'",
-                                            value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
-                                    )
-                            }
-                    )
-            )
-    })
+    @Operation(summary = "Подтверждение восстановления с помощью кода", tags = "auth-api")
+    @SuccessResponse("Выполнено подтверждение почты для восстановления доступа")
+    @GenericErrorResponse({"user_not_found", "request_not_found", "request_expired", "wrong_proof_key", "no_more_attempts", "wrong_code"})
     @PostMapping(value = "/recovery/confirm-email", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void processRecoveryConfirmation(@Valid RecoveryConfirmationDto dto, HttpServletRequest request) throws ApiException {
         recoveryService.processEmailConfirmation(dto.getEmail(), dto.getCode(), extractProofKey(request));
     }
 
-    @Operation(summary = "Complete recovery process", tags = "auth")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Password changed"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    content = @Content(
-                            mediaType = "application/json",
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Validation error",
-                                            value = "{\"error_code\": \"incorrect_field_value\", \"error_message\": \"...\", \"field_name\": \"...\"}"
-                                    ),
-                                    @ExampleObject(
-                                            name = "Generic error",
-                                            description = "Used codes: 'user_not_found', 'email_not_confirmed', 'wrong_proof_key'",
-                                            value = "{\"error_code\": \"<one of used codes>\", \"error_message\": \"...\"}"
-                                    )
-                            }
-                    )
-            )
-    })
+    @Operation(summary = "Восстановление доступа", tags = "auth-api")
+    @SuccessResponse("Пароль успешно изменен")
+    @GenericErrorResponse({"user_not_found", "email_not_confirmed", "wrong_proof_key"})
     @PostMapping(value = "/recovery/change-password", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void processRecoveryChangePassword(@Valid RecoveryChangePasswordDto dto, HttpServletRequest request, HttpServletResponse response) throws ApiException {
@@ -247,13 +94,8 @@ public final class AuthProcessingController {
         forgetProofKey(response);
     }
 
-    @Operation(summary = "Log out", tags = "auth")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "302",
-                    description = "Logged out, redirect to /auth/sign-in"
-            )
-    })
+    @Operation(summary = "Выход из аккаунта", tags = "auth-api")
+    @ApiResponse(responseCode = "302", description = "Выход выполнен, переадресация на `/auth/sign-in`")
     @PostMapping(value = "/logout")
     @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
     public void processLogout() {}

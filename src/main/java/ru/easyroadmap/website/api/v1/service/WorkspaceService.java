@@ -105,10 +105,10 @@ public class WorkspaceService {
 
     public void kickFromWorkspace(UUID workspaceId, String otherUserEmail) throws ApiException {
         if (isAdmin(otherUserEmail, workspaceId))
-            throw new ApiException("user_is_admin", "Requested user is an admin of this workspace");
+            throw new ApiException("target_is_admin", "Requested user is an admin of this workspace");
 
         if (!isMember(otherUserEmail, workspaceId))
-            throw new ApiException("not_a_member", "Requested user isn't a member of this workspace");
+            throw new ApiException("target_not_a_member", "Requested user isn't a member of this workspace");
 
         List<UUID> joinedProjectsIds = projectRepository.getJoinedProjectsIds(otherUserEmail, workspaceId);
         if (!joinedProjectsIds.isEmpty())
@@ -141,7 +141,7 @@ public class WorkspaceService {
 
     public void transferOwnership(Workspace workspace, String otherUserEmail) throws ApiException {
         if (!isMember(otherUserEmail, workspace.getId()))
-            throw new ApiException("not_a_member", "Requested user isn't a member of this workspace");
+            throw new ApiException("target_not_a_member", "Requested user isn't a member of this workspace");
 
         workspace.setAdminId(otherUserEmail);
         workspaceRepository.save(workspace);
@@ -166,7 +166,7 @@ public class WorkspaceService {
 
     public void changeMemberRole(UUID workspaceId, String otherUserEmail, String role) throws ApiException {
         WorkspaceMember member = workspaceMemberRepository.findByUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId).orElseThrow(() -> new ApiException(
-                "not_a_member",
+                "target_not_a_member",
                 "Requested user isn't a member of this workspace"
         ));
 

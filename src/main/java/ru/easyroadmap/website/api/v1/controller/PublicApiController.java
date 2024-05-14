@@ -2,6 +2,7 @@ package ru.easyroadmap.website.api.v1.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +11,8 @@ import ru.easyroadmap.website.api.v1.model.front.FrontProjectModel;
 import ru.easyroadmap.website.api.v1.model.front.FrontTaskModel;
 import ru.easyroadmap.website.api.v1.model.front.FrontWorkspaceModel;
 import ru.easyroadmap.website.api.v1.service.PublicApiService;
+import ru.easyroadmap.website.docs.annotation.GenericErrorResponse;
+import ru.easyroadmap.website.docs.annotation.SuccessResponse;
 import ru.easyroadmap.website.exception.ApiException;
 
 import java.util.List;
@@ -22,22 +25,27 @@ public class PublicApiController extends ApiControllerBase {
 
     private final PublicApiService publicApiService;
 
-    @Operation(summary = "Get a workspace model", tags = "public-api")
+    @Operation(summary = "Получение рабочей области по ID", tags = "public-api")
+    @GenericErrorResponse("workspace_not_found")
     @GetMapping("/workspace")
     public FrontWorkspaceModel getWorkspace(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
         return publicApiService.getWorkspaceModel(workspaceId);
     }
 
-    @Operation(summary = "Get a project model", tags = "public-api")
+    @Operation(summary = "Получение проекта по ID", tags = "public-api")
+    @GenericErrorResponse("project_not_found")
     @GetMapping("/project")
     public FrontProjectModel getProject(@RequestParam("pr_id") UUID projectId) throws ApiException {
         return publicApiService.getProjectModel(projectId);
     }
 
-    @Operation(summary = "Get a page of roadmap tasks list", tags = "public-api")
+    @Operation(summary = "Получение списка задач по ID этапа", tags = "public-api")
+    @SuccessResponse(canBeEmpty = true)
+    @GenericErrorResponse("stage_not_found")
     @GetMapping("/roadmap/tasks")
-    public List<FrontTaskModel> getRoadmapTasks(@RequestParam("rms_id") long stageId) throws ApiException {
-        return publicApiService.getTaskList(stageId);
+    public ResponseEntity<List<FrontTaskModel>> getRoadmapTasks(@RequestParam("rms_id") long stageId) throws ApiException {
+        List<FrontTaskModel> result = publicApiService.getTaskList(stageId);
+        return result == null || result.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(result);
     }
 
 }

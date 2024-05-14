@@ -19,7 +19,7 @@ public final class SignInDto {
     @NotBlank @Size(min = 8, max = 128)
     private String password;
 
-    @Schema(description = "Optional flag 'remember me' to persist an authentication for 2 weeks", example = "true / false")
+    @Schema(description = "Опциональный флаг 'remember me' для сохранения аутентификации в течение 2 недель")
     private String rememberMe;
 
 }

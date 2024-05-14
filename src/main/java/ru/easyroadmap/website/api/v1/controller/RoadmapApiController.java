@@ -5,12 +5,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.easyroadmap.website.api.v1.dto.roadmap.*;
+import ru.easyroadmap.website.api.v1.dto.roadmap.MoveStageDto;
+import ru.easyroadmap.website.api.v1.dto.roadmap.StageDataDto;
+import ru.easyroadmap.website.api.v1.dto.roadmap.TaskDataDto;
 import ru.easyroadmap.website.api.v1.model.PageableCollection;
 import ru.easyroadmap.website.api.v1.model.roadmap.StageModel;
 import ru.easyroadmap.website.api.v1.model.roadmap.TaskAttachmentModel;
@@ -19,6 +20,8 @@ import ru.easyroadmap.website.api.v1.service.FileUploadService;
 import ru.easyroadmap.website.api.v1.service.ProjectService;
 import ru.easyroadmap.website.api.v1.service.RoadmapService;
 import ru.easyroadmap.website.api.v1.service.UserService;
+import ru.easyroadmap.website.docs.annotation.GenericErrorResponse;
+import ru.easyroadmap.website.docs.annotation.SuccessResponse;
 import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.storage.model.FileUpload;
 import ru.easyroadmap.website.storage.model.roadmap.RoadmapStage;
@@ -41,7 +44,9 @@ public class RoadmapApiController extends ApiControllerBase {
     @Value("${server.host}")
     private String serverHost;
 
-    @Operation(summary = "Create a new roadmap stage", tags = "roadmap-api")
+    @Operation(summary = "Создание нового этапа", tags = "roadmap-api")
+    @SuccessResponse("Новый этап создан")
+    @GenericErrorResponse({"!project_not_exists", "!not_a_member", "!too_many_stages"})
     @PostMapping(value = "/stage/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public StageModel createStage(@RequestParam("pr_id") UUID projectId, @Valid StageDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -49,7 +54,8 @@ public class RoadmapApiController extends ApiControllerBase {
         return roadmapService.createStage(projectId, dto.getName()).createModel();
     }
 
-    @Operation(summary = "Get a roadmap stage by ID", tags = "roadmap-api")
+    @Operation(summary = "Получение этапа по ID", tags = "roadmap-api")
+    @GenericErrorResponse({"!roadmap_stage_not_found", "!project_not_exists", "!not_a_member"})
     @GetMapping("/stage")
     public StageModel getStage(@RequestParam("rms_id") long stageId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -58,7 +64,9 @@ public class RoadmapApiController extends ApiControllerBase {
         return stage.createModel(roadmapService.hasInProgressTask(stageId));
     }
 
-    @Operation(summary = "Get a page of roadmap stages list", tags = "roadmap-api")
+    @Operation(summary = "Получение страницы списка этапов", tags = "roadmap-api")
+    @SuccessResponse(canBeEmpty = true)
+    @GenericErrorResponse({"!project_not_exists", "!not_a_member"})
     @GetMapping("/stages")
     public ResponseEntity<PageableCollection<StageModel>> getStages(@RequestParam("pr_id") UUID projectId, @RequestParam(value = "p", defaultValue = "1") int page) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -71,9 +79,10 @@ public class RoadmapApiController extends ApiControllerBase {
         return ResponseEntity.ok(PageableCollection.fromPage(rawPage, s -> s.createModel(roadmapService.hasInProgressTask(s.getId()))));
     }
 
-    @Operation(summary = "Move a roadmap stage", tags = "roadmap-api")
+    @Operation(summary = "Перемещение этапа на карте", tags = "roadmap-api")
+    @SuccessResponse("Этап на карте перемещен")
+    @GenericErrorResponse({"!roadmap_stage_not_found", "!project_not_exists", "!not_a_member", "!position_out_of_bounds"})
     @PostMapping(value = "/stage/move", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseStatus(HttpStatus.OK)
     public void moveStage(@Valid MoveStageDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         RoadmapStage stage = roadmapService.getStage(dto.getStageId());
@@ -81,9 +90,10 @@ public class RoadmapApiController extends ApiControllerBase {
         roadmapService.moveStage(stage, dto.getPosition());
     }
 
-    @Operation(summary = "Set a stage name", tags = "roadmap-api")
+    @Operation(summary = "Изменение названия этапа", tags = "roadmap-api")
+    @SuccessResponse("Название этапа изменено")
+    @GenericErrorResponse({"!roadmap_stage_not_found", "!project_not_exists", "!not_a_member"})
     @PatchMapping(value = "/stage", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseStatus(HttpStatus.OK)
     public void setStageName(@RequestParam("rms_id") long stageId, @Valid StageDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         RoadmapStage stage = roadmapService.getStage(stageId);
@@ -91,16 +101,19 @@ public class RoadmapApiController extends ApiControllerBase {
         roadmapService.updateStageName(stage, dto.getName());
     }
 
-    @Operation(summary = "Delete a stage", tags = "roadmap-api")
+    @Operation(summary = "Удаление этапа", tags = "roadmap-api")
+    @SuccessResponse("Этап удалена")
+    @GenericErrorResponse({"!project_not_found", "!not_a_member"})
     @DeleteMapping("/stage")
-    @ResponseStatus(HttpStatus.OK)
     public void deleteStage(@RequestParam("rms_id") long stageId) throws ApiException {
         String userEmail = requireUserExistance(userService);
         UUID projectId = roadmapService.requireStageProjectMembership(userEmail, stageId);
         roadmapService.deleteStage(projectId, stageId);
     }
 
-    @Operation(summary = "Create a new roadmap task", tags = "roadmap-api")
+    @Operation(summary = "Создание новой задачи", tags = "roadmap-api")
+    @SuccessResponse("Новая задача создана")
+    @GenericErrorResponse({"!roadmap_stage_not_found", "!project_not_exists", "!not_a_member", "!too_many_tasks", "roadmap_task_attachment_not_found"})
     @PostMapping(value = "/task/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public TaskModel createTask(@RequestParam("rms_id") long stageId, @Valid TaskDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -119,7 +132,8 @@ public class RoadmapApiController extends ApiControllerBase {
         return task.createModel(attachmentModels);
     }
 
-    @Operation(summary = "Get a roadmap task by ID", tags = "roadmap-api")
+    @Operation(summary = "Получение задачи по ID", tags = "roadmap-api")
+    @GenericErrorResponse({"!roadmap_task_not_found", "!project_not_found", "!not_a_member"})
     @GetMapping("/task")
     public TaskModel getTask(@RequestParam("rmt_id") long taskId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -134,11 +148,13 @@ public class RoadmapApiController extends ApiControllerBase {
         return task.createModel(attachmentModels);
     }
 
-    @Operation(summary = "Get a page of roadmap tasks list", tags = "roadmap-api")
+    @Operation(summary = "Получение страницы списка задач", tags = "roadmap-api")
+    @SuccessResponse(canBeEmpty = true)
+    @GenericErrorResponse({"!project_not_found", "!not_a_member"})
     @GetMapping("/tasks")
     public ResponseEntity<PageableCollection<TaskModel>> getTasks(@RequestParam("rms_id") long stageId, @RequestParam(value = "p", defaultValue = "1") int page) throws ApiException {
         String userEmail = requireUserExistance(userService);
-        UUID projectId = roadmapService.requireStageProjectMembership(userEmail, stageId);
+        roadmapService.requireStageProjectMembership(userEmail, stageId);
 
         Page<RoadmapTask> rawPage = roadmapService.getTasksPage(stageId, Math.max(page - 1, 0));
         if (rawPage.isEmpty())
@@ -154,9 +170,10 @@ public class RoadmapApiController extends ApiControllerBase {
         }));
     }
 
-    @Operation(summary = "Set a task data", tags = "roadmap-api")
+    @Operation(summary = "Изменить содержимое задачи", tags = "roadmap-api")
+    @SuccessResponse("Содержимое задачи изменено")
+    @GenericErrorResponse({"!roadmap_task_not_found", "!project_not_found", "!not_a_member", "roadmap_task_attachment_not_found"})
     @PutMapping(value = "/task", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    @ResponseStatus(HttpStatus.OK)
     public void putTaskData(@RequestParam("rmt_id") long taskId, @Valid TaskDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
         RoadmapTask task = roadmapService.getTask(taskId);
@@ -168,9 +185,10 @@ public class RoadmapApiController extends ApiControllerBase {
         );
     }
 
-    @Operation(summary = "Delete a task", tags = "roadmap-api")
+    @Operation(summary = "Удаление задачи", tags = "roadmap-api")
+    @SuccessResponse("Задача удалена")
+    @GenericErrorResponse({"!roadmap_task_not_found", "!project_not_found", "!not_a_member"})
     @DeleteMapping("/task")
-    @ResponseStatus(HttpStatus.OK)
     public void deleteTask(@RequestParam("rmt_id") long taskId) throws ApiException {
         String userEmail = requireUserExistance(userService);
         RoadmapTask task = roadmapService.getTask(taskId);
@@ -178,7 +196,8 @@ public class RoadmapApiController extends ApiControllerBase {
         roadmapService.deleteTask(taskId);
     }
 
-    @Operation(summary = "Get a roadmap task attachment by ID", tags = "roadmap-api")
+    @Operation(summary = "Получение вложения задачи по ID", tags = "roadmap-api")
+    @GenericErrorResponse({"!file_upload_not_found", "!roadmap_task_attachment_not_found", "!project_not_found", "!not_a_member"})
     @GetMapping("/task/attachment")
     public TaskAttachmentModel getTaskAttachment(@RequestParam("rmta_id") UUID attachmentId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -190,7 +209,9 @@ public class RoadmapApiController extends ApiControllerBase {
         return fileUpload.createTaskAttachmentModel(serverHost);
     }
 
-    @Operation(summary = "Get a list of roadmap task attachments", tags = "roadmap-api")
+    @Operation(summary = "Получение списка вложений задачи", tags = "roadmap-api")
+    @SuccessResponse(canBeEmpty = true)
+    @GenericErrorResponse({"!project_not_found", "!not_a_member"})
     @GetMapping("/task/attachments")
     public ResponseEntity<List<TaskAttachmentModel>> getTaskAttachments(@RequestParam("rmt_id") long taskId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -207,7 +228,8 @@ public class RoadmapApiController extends ApiControllerBase {
         return ResponseEntity.ok(models);
     }
 
-    @Operation(summary = "Upload a task attachment", tags = "roadmap-api")
+    @Operation(summary = "Загрузка вложения для задачи", tags = "roadmap-api")
+    @GenericErrorResponse({"!project_not_found", "!not_a_member", "undefined_file_name", "undefined_content_type", "bad_upload"})
     @PostMapping(value = "/task/attachment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public TaskAttachmentModel uploadTaskAttachment(@RequestParam("rms_id") long stageId, MultipartFile file) throws ApiException {
         String userEmail = requireUserExistance(userService);

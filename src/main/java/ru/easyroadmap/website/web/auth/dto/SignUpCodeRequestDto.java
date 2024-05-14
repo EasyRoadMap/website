@@ -19,7 +19,7 @@ public final class SignUpCodeRequestDto {
     @EmailPattern
     private String email;
 
-    @Schema(description = "Optional flag 'renew' to renew an email confirmation after one minute", example = "true / false")
+    @Schema(description = "Опциональный флаг 'renew' для обновления время действия подтверждения")
     private String renew;
 
     public boolean isRenew() {

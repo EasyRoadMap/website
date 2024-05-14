@@ -81,7 +81,7 @@ public class ProjectService {
     public void addToProject(UUID projectId, String[] emails, String[] roles) throws ApiException {
         for (String email : emails)
             if (projectMemberRepository.existsByUserEmailEqualsAndProjectIdEquals(email, projectId))
-                throw new ApiException("already_joined", "Requested user is already joined to this project").withPayload(email);
+                throw new ApiException("target_already_joined", "Requested user is already joined to this project").withPayload(email);
 
         List<ProjectMember> members = new ArrayList<>();
         for (int i = 0; i < emails.length; i++)
@@ -92,7 +92,7 @@ public class ProjectService {
 
     public void kickFromProject(UUID projectId, String otherUserEmail) throws ApiException {
         if (!projectMemberRepository.existsByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId))
-            throw new ApiException("not_a_member", "Requested user isn't a member of this project");
+            throw new ApiException("target_not_a_member", "Requested user isn't a member of this project");
 
         projectMemberRepository.deleteAllByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId);
     }
@@ -107,7 +107,7 @@ public class ProjectService {
 
     public void changeMemberRole(UUID projectId, String otherUserEmail, String role) throws ApiException {
         ProjectMember member = projectMemberRepository.findByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId).orElseThrow(() -> new ApiException(
-                "not_a_member",
+                "target_not_a_member",
                 "Requested user isn't a member of this project"
         ));
 
