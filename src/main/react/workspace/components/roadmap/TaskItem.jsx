@@ -5,6 +5,7 @@ import TaskInPlannedSVG from "../../../assets/taskInPlanned.jsx";
 import CalendarSVG from "../../../assets/calendarSVG.jsx";
 import TaskActionsButton from "./TaskActionsButton.jsx";
 import ZipFielIconSVG from "../../../assets/zipFielIconSVG.jsx";
+import ButtonDotsVerticalSVG from "../../../assets/buttonDotsVertical.jsx";
 import UnhandledFieldIcon from "../../../assets/unhandledFieldIconSVG.jsx";
 import { transformDate } from "../../../common/utils/separatedByDashesDateToSeparatedByDots.js";
 import { usePopupManager } from "react-popup-manager";
@@ -121,11 +122,24 @@ const TaskItem = ({ task }) => {
                     </div>
                   )}
                 </div>
-                <span className={styles.taskDescription}>
+                <span
+                  className={styles.taskDescription}
+                  style={
+                    task?.description
+                      ? { display: "flex" }
+                      : { display: "none" }
+                  }
+                >
                   {task?.description}
                 </span>
               </div>
-              <div className={styles.taskParticipantsAvatars}>
+
+              <div
+                className={styles.taskParticipantsAvatars}
+                style={
+                  task?.attachments ? { display: "flex" } : { display: "none" }
+                }
+              >
                 {task?.attachments?.map((participantAvatar, i) => {
                   return (
                     <>
@@ -154,17 +168,29 @@ const TaskItem = ({ task }) => {
           </div>
         </div>
         <div className={styles.taskAsidePart}>
-          <IconTaskComplete
-            className={styles.taskCompletionIcon}
-            style={{ width: "32px", height: "32px" }}
-          />
-          <div className={styles.dotsWrapper} onClick={toggleListvisibility}>
-            <TaskActionsButton
-              task={task}
-              listShowed={listShowed}
-              setListShowed={setListShowed}
+          <div
+            style={{
+              width: "32px",
+              height: "32px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <IconTaskComplete
+              className={styles.taskCompletionIcon}
+              style={{ width: "21px", height: "21px" }}
             />
           </div>
+
+          <div className={styles.dotsWrapper} onClick={toggleListvisibility}>
+            <ButtonDotsVerticalSVG className={styles.dots} />
+          </div>
+          <TaskActionsButton
+            task={task}
+            listShowed={listShowed}
+            setListShowed={setListShowed}
+          />
         </div>
       </div>
     </>

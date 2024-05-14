@@ -39,8 +39,14 @@ const Project = () => {
 
   const getLinkToPublicPage = () => {
     if (!projectContext?.id || !workspaceContext?.id) return;
-    return document.location.origin + "/p/" + workspaceContext.id + "/" + projectContext?.id;
-  }
+    return (
+      document.location.origin +
+      "/p/" +
+      workspaceContext.id +
+      "/" +
+      projectContext?.id
+    );
+  };
 
   const onCloseDeleteProjectPopup = (...params) => {
     console.log(params?.[0]);
@@ -75,9 +81,9 @@ const Project = () => {
   }, [projectContext]);
 
   useEffect(() => {
-    // if (!location?.state?.pr_id) return; 
+    // if (!location?.state?.pr_id) return;
     console.debug("state has been updated", state?.pr_id);
-    if (!state?.pr_id) return; 
+    if (!state?.pr_id) return;
 
     setProjectID(state.pr_id);
     setProjectContext(state.pr_id);
@@ -96,10 +102,10 @@ const Project = () => {
   }, []);
 
   const getProjectFromURL = () => {
-    return qs.parse(location.search, { ignoreQueryPrefix: true })
-  }
+    return qs.parse(location.search, { ignoreQueryPrefix: true });
+  };
 
-  const getFulledLinksArray = () => { 
+  const getFulledLinksArray = () => {
     if (!projectContext?.links) return [null, null, null];
     if (projectContext?.links.length < 3) {
       const fulledArray = [null, null, null];
@@ -109,7 +115,7 @@ const Project = () => {
       return fulledArray;
     }
     return projectContext.links;
-  }
+  };
 
   if (projectContext?.info?.name && state?.pr_id) {
     return (
@@ -125,7 +131,7 @@ const Project = () => {
           }}
           projectId={projectID}
         />
-        <LinkVisitorPage link={getLinkToPublicPage()}/>
+        <LinkVisitorPage link={getLinkToPublicPage()} type="project" />
         <Participants participants={projectContext?.users} type="project" />
         <Roadmap pr_id={projectID} />
         <DeleteBlock

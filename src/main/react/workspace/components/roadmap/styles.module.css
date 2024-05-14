@@ -248,7 +248,8 @@
   display: flex;
   gap: 12px;
   position: absolute;
-  right: 24px;
+  right: 0;
+  align-items: center;
 }
 
 .graphRoadmap {

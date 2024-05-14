@@ -3,21 +3,31 @@ import TextLink from "../UI/TextLInk.jsx";
 import CopyLinkSVG from "../../../assets/copyLinkSVG.jsx";
 import ShareLinkSVG from "../../../assets/shareLinkSVG.jsx";
 
+const typeLinkVisitorPage = {
+  project: {
+    titleName: "Ваш проект доступен",
+  },
+  workspace: {
+    titleName: "Ваша рабочая область доступна",
+  },
+};
+
 function copyLinkToClipboard(text) {
   navigator.clipboard.writeText(text);
 }
 
 function openInNewTab(url) {
-  window.open(url, '_blank').focus();
+  window.open(url, "_blank").focus();
 }
 
-const LinkVisitorPage = ({ link }) => {
+const LinkVisitorPage = ({ link, type }) => {
   return (
     <div className={styles.container}>
       <span className={styles.title}>Публичная страница</span>
       <div className={styles.linkWrapper}>
         <span className={styles.description}>
-          Ваш проект доступен всем пользователям с этой ссылкой.
+          {typeLinkVisitorPage[type].titleName} всем пользователям с этой
+          ссылкой.
           <br />
           Поделитесь ею со своей аудиторией, чтобы показать свой прогресс.
         </span>
@@ -31,10 +41,10 @@ const LinkVisitorPage = ({ link }) => {
               data={link}
             />
             <div className={styles.LinkSVG}>
-              <CopyLinkSVG onClick={() => copyLinkToClipboard(link)}/>
+              <CopyLinkSVG onClick={() => copyLinkToClipboard(link)} />
             </div>
             <div className={styles.LinkSVG}>
-              <ShareLinkSVG onClick={() => openInNewTab(link)}/>
+              <ShareLinkSVG onClick={() => openInNewTab(link)} />
             </div>
           </div>
         </div>

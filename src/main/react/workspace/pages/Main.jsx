@@ -47,7 +47,7 @@ const Main = ({ fromInvite = false }) => {
   const getLinkToPublicPage = () => {
     if (!workspaceContext?.id) return;
     return document.location.origin + "/p/" + workspaceContext.id;
-  }
+  };
 
   const popupManager = usePopupManager();
 
@@ -80,7 +80,7 @@ const Main = ({ fromInvite = false }) => {
 
   return (
     <>
-      {(userContext?.workspaces != []) ? (
+      {userContext?.workspaces != [] ? (
         <Base>
           <WorkspaceMainInfo
             logo={workspaceContext?.photo}
@@ -94,7 +94,7 @@ const Main = ({ fromInvite = false }) => {
             }}
           />
           {console.debug("workspaceContext?.id", workspaceContext)}
-          <LinkVisitorPage link={getLinkToPublicPage()}/>
+          <LinkVisitorPage link={getLinkToPublicPage()} type={"workspace"} />
           <Participants
             participants={workspaceContext?.users}
             type={"workspace"}

@@ -5,7 +5,7 @@ import { OutsideAlerter } from "../../hooks/useOutsideAlerter.jsx";
 import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
 import AlertPopup from "../popup/AlertPopup.jsx";
-import ButtonDotsVerticalSVG from "../../../assets/buttonDotsVertical.jsx";
+
 import EditSVG from "../../../assets/editSVG.jsx";
 import DeleteSVG from "../../../assets/deleteSVG.jsx";
 import DoneTaskIcon from "../../../assets/doneTaskIcon.jsx";
@@ -148,14 +148,14 @@ const TaskActionsButton = ({ task, listShowed, setListShowed }) => {
       style={{ width: "fit-content" }}
     >
       <div className={styles.dotsWrapperItem}>
-        <div className={styles.dots}>
-          <ButtonDotsVerticalSVG className={styles.dots} />
-        </div>
         <DropdownActionsList
           buttons={buttons}
           showed={listShowed}
           close={() => setListShowed(false)}
-          style={{ display: listShowed ? "block" : "none" }}
+          style={{
+            display: listShowed ? "block" : "none",
+            top: "32px",
+          }}
         />
       </div>
     </OutsideAlerter>

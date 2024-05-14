@@ -52,7 +52,7 @@
   border-width: 1.5px;
   border-style: solid;
   border-color: var(--switch-hover-color);
-  color: var(--text-color);
+  color: var(--foreground-color50);
   font-size: 16px;
   font-weight: 500;
   border-radius: 12px;

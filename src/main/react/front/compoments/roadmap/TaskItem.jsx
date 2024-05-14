@@ -30,10 +30,16 @@ const TaskItem = ({ task }) => {
           <div className={styles.taskInfo}>
             <div className={styles.taskTitleWrapper}>
               <div className={styles.taskName}>{task?.name}</div>
-              <div className={styles.taskDate}>
-                <CalendarSVG className={styles.calendarSVG} />
-                <span className={styles.taskDateText}>{task?.deadline_at ? transformDate(task?.deadline_at) : null}</span>
-              </div>
+              {task.deadline_at && (
+                <div className={styles.taskDate}>
+                  <CalendarSVG className={styles.calendarSVG} />
+                  <span className={styles.taskDateText}>
+                    {task?.deadline_at
+                      ? transformDate(task?.deadline_at)
+                      : null}
+                  </span>
+                </div>
+              )}
             </div>
             <span className={styles.taskDescription}>{task?.description}</span>
           </div>
@@ -64,7 +70,10 @@ const TaskItem = ({ task }) => {
           </div>
         </div>
         <div className={styles.taskAsidePart}>
-          <IconTaskComplete className={styles.taskCompletionIcon} />
+          <IconTaskComplete
+            className={styles.taskCompletionIcon}
+            style={{ width: "32px", height: "32px" }}
+          />
         </div>
       </div>
     </div>
