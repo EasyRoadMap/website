@@ -70,6 +70,7 @@ springdoc:
     path: /docs/openapi
   default-produces-media-type: 'application/json'
   enable-spring-security: false
+  pre-loading-enabled: true
   swagger-ui:
     disable-swagger-default-url: true
     operations-sorter: alpha
