@@ -9,15 +9,19 @@
   gap: 12px;
 }
 .taskFieldDone {
+  min-height: 56px;
   padding-left: 24px;
   padding-top: 12px;
   padding-bottom: 12px;
-  padding-right: 45px;
+  padding-right: 24px;
   border-radius: 24px;
   display: flex;
   align-items: center;
   position: relative;
   background-color: var(--bg-task-complete);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
 }
 .taskFieldDone:hover {
   background-color: var(--bg-color-task-hover), var(--bg-task-complete);
@@ -37,15 +41,19 @@
     linear-gradient(var(--bg-task-complete), var(--bg-task-complete));
 }
 .taskFieldProgress {
+  min-height: 56px;
   padding-left: 24px;
   padding-top: 12px;
   padding-bottom: 12px;
-  padding-right: 45px;
+  padding-right: 24px;
   border-radius: 24px;
   display: flex;
   align-items: center;
   position: relative;
   background-color: var(--bg-task-in-progress);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
 }
 .taskFieldProgress:hover {
   background-color: var(--bg-color-task-hover), var(--bg-task-in-progress);
@@ -65,15 +73,19 @@
     linear-gradient(var(--bg-task-in-progress), var(--bg-task-in-progress));
 }
 .taskFieldPlanned {
+  min-height: 56px;
   padding-left: 24px;
   padding-top: 12px;
   padding-bottom: 12px;
-  padding-right: 45px;
+  padding-right: 24px;
   border-radius: 24px;
   display: flex;
   align-items: center;
   position: relative;
   background-color: var(--bg-task-in-planned);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
 }
 .taskFieldPlanned:hover {
   background-color: var(--bg-color-task-hover), var(--bg-task-in-planned);
@@ -138,19 +150,33 @@
   width: 19px;
   height: 19px;
 }
-.dots {
-  opacity: 0.5;
+
+.dotsWrapper {
+  opacity: 0.3;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  width: 10px;
-  path {
-    fill: var(--text-color);
-    stroke: var(--text-color);
+  .dots {
+    cursor: pointer;
+    height: 16px;
+    width: 3.64px;
+    path {
+      fill: var(--text-color);
+      stroke: var(--text-color);
+    }
   }
 }
-.dots:hover {
+.dotsWrapper:hover {
   opacity: 1;
+  background-color: var(--light-stroke);
 }
-.dots:active {
+.dotsWrapper:active {
   opacity: 0.75;
 }
 
@@ -228,9 +254,10 @@
 }
 .taskAsidePart {
   display: flex;
-  gap: 12px;
+  gap: 6px;
   position: absolute;
   right: 24px;
+  align-items: center;
 }
 
 .graphRoadmap {
@@ -302,7 +329,7 @@
     cursor: pointer;
     display: block;
   }
-  .stageName {
+  .stageName::placeholder {
     font-size: 20px;
   }
 }
@@ -315,13 +342,13 @@
       fill: transparent;
     }
   }
-  .stageName {
+  .stageName::placeholder {
     font-size: 20px;
     font-weight: bold;
   }
 }
 .graphCircleActive {
-  .stageName {
+  .stageName::placeholder {
     font-size: 20px;
     font-weight: bold;
     color: var(--text-color);
@@ -329,8 +356,8 @@
 }
 .deleteTask {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0px;
+  right: 0px;
   display: none;
   path {
     stroke: var(--text-color);
@@ -368,6 +395,12 @@
   border: none;
   background-color: transparent;
   padding: 6px;
+  color: var(--text-color);
+  user-select: none;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+.stageName::placeholder {
   text-align: center;
   font-size: 16px;
   font-weight: 500;
@@ -428,4 +461,11 @@
   path {
     stroke: var(--bg-move-roadmap);
   }
+}
+
+.taskWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

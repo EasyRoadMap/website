@@ -1,0 +1,148 @@
+@import "../../theme.module.css";
+.AddUserPlaceholderContainer {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background-color: var(--bg-color-and-popup);
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
+  padding: 18px;
+}
+
+.title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+.AddUserPlaceholderWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 24px;
+  align-items: center;
+}
+.AddUserSVG {
+  path {
+    fill: var(--bg-move-roadmap);
+  }
+}
+.AddUserPlaceholderText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  text-align: center;
+}
+.AddUserPlaceholderTitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+.AddUserPlaceholderDescription {
+  font-size: 18px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+}
+.AddUserWrapperScroll {
+  max-height: 252px;
+  scroll-behavior: smooth;
+  overflow: hidden;
+  overflow-y: auto;
+  padding-left: 66px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-right: 66px;
+}
+
+.AddUserWrapperScroll::-webkit-scrollbar {
+  width: 7px;
+}
+
+.AddUserWrapperScroll::-webkit-scrollbar-track {
+  background-color: var(--light-stroke);
+  border-radius: 20px;
+}
+
+.AddUserWrapperScroll::-webkit-scrollbar-thumb {
+  background-color: var(--light-stroke);
+  border-radius: 20px;
+}
+.AddUserContainer {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
+  padding: 18px;
+}
+.AddUserContainerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.AddUserDescription {
+  font-size: 14px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+  text-align: center;
+}
+.AddUserWrapperCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.AddUserWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  background-color: var(--bg-workspace-button-focus);
+  padding-left: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 12px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.AddUserInfoWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  width: 333px;
+}
+.AddUserName {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+.AddUserPosition {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+}
+.AddUserCount {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.AddUserButtonWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}

@@ -342,6 +342,11 @@
   height: 43px;
   outline: none;
 }
+.inputLink::placeholder {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+}
 .inputLink:hover {
   background-color: var(--bg-workspace-button-focus);
   border-width: 1.5px;
@@ -383,6 +388,11 @@
   width: 200px;
   height: 43px;
   outline: none;
+}
+.inputLinkTitle::placeholder {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--foreground-color50);
 }
 .inputLinkTitle:hover {
   background-color: var(--bg-workspace-button-focus);

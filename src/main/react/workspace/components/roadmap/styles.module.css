@@ -9,15 +9,19 @@
   gap: 12px;
 }
 .taskFieldDone {
+  min-height: 56px;
   padding-left: 24px;
   padding-top: 12px;
   padding-bottom: 12px;
-  padding-right: 45px;
+  padding-right: 12px;
   border-radius: 24px;
   display: flex;
   align-items: center;
   position: relative;
   background-color: var(--bg-task-complete);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
 }
 .taskFieldDone:hover {
   background-color: var(--bg-color-task-hover), var(--bg-task-complete);
@@ -37,15 +41,19 @@
     linear-gradient(var(--bg-task-complete), var(--bg-task-complete));
 }
 .taskFieldProgress {
+  min-height: 56px;
   padding-left: 24px;
   padding-top: 12px;
   padding-bottom: 12px;
-  padding-right: 45px;
+  padding-right: 12px;
   border-radius: 24px;
   display: flex;
   align-items: center;
   position: relative;
   background-color: var(--bg-task-in-progress);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
 }
 .taskFieldProgress:hover {
   background-color: var(--bg-color-task-hover), var(--bg-task-in-progress);
@@ -65,15 +73,19 @@
     linear-gradient(var(--bg-task-in-progress), var(--bg-task-in-progress));
 }
 .taskFieldPlanned {
+  min-height: 56px;
   padding-left: 24px;
   padding-top: 12px;
   padding-bottom: 12px;
-  padding-right: 45px;
+  padding-right: 12px;
   border-radius: 24px;
   display: flex;
   align-items: center;
   position: relative;
   background-color: var(--bg-task-in-planned);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
 }
 .taskFieldPlanned:hover {
   background-color: var(--bg-color-task-hover), var(--bg-task-in-planned);
@@ -140,6 +152,7 @@
 }
 
 .dotsWrapper {
+  opacity: 0.3;
   width: 32px;
   height: 32px;
   background-color: transparent;
@@ -150,26 +163,21 @@
   align-items: center;
   cursor: pointer;
   .dots {
-    opacity: 0.5;
     cursor: pointer;
     height: 16px;
+    width: 3.64px;
     path {
-      fill: black;
-      stroke: black;
+      fill: var(--text-color);
+      stroke: var(--text-color);
     }
   }
 }
 .dotsWrapper:hover {
+  opacity: 1;
   background-color: var(--light-stroke);
-  .dots {
-    opacity: 1;
-  }
 }
-.dotsWrapper:hover {
+.dotsWrapper:active {
   opacity: 0.75;
-  .dots {
-    opacity: 1;
-  }
 }
 
 .taskDescription {
@@ -246,9 +254,9 @@
 }
 .taskAsidePart {
   display: flex;
-  gap: 12px;
+  gap: 6px;
   position: absolute;
-  right: 0;
+  right: 6px;
   align-items: center;
 }
 

@@ -1,7 +1,9 @@
 import Base from "./Base.jsx";
 import LinkVisitorPage from "../components/linkVisitorPage/linkVisitorPage.jsx";
+import AddUser from "../components/popup/AddUser.jsx";
 import WorkspaceMainInfo from "../components/WorkspaceMainInfo.jsx";
 import Participants from "../components/participants/Participants.jsx";
+import AddUserPlaceholder from "../components/popup/AddUserPlaceholder.jsx";
 
 import useUserContext from "../hooks/useUserContext.js";
 import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
@@ -99,6 +101,8 @@ const Main = ({ fromInvite = false }) => {
             participants={workspaceContext?.users}
             type={"workspace"}
           />
+          <AddUserPlaceholder />
+          <AddUser />
         </Base>
       ) : (
         <CreateWorkspace type={"workspace"} />

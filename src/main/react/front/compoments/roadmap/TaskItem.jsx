@@ -82,20 +82,10 @@ const TaskItem = ({ task }) => {
           </div>
         </div>
         <div className={styles.taskAsidePart}>
-          <div
-            style={{
-              width: "32px",
-              height: "32px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <IconTaskComplete
-              className={styles.taskCompletionIcon}
-              style={{ width: "21px", height: "21px" }}
-            />
-          </div>
+          <IconTaskComplete
+            className={styles.taskCompletionIcon}
+            style={{ width: "21px", height: "21px" }}
+          />
         </div>
       </div>
     </div>

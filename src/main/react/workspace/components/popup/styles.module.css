@@ -480,6 +480,8 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  background-color: var(--bg-color-and-popup);
+  border-radius: 15px;
 }
 
 .addPhotoFieldWrapper {
