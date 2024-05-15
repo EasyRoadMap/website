@@ -211,6 +211,7 @@ public class RoadmapApiController extends ApiControllerBase {
 
     @Operation(summary = "Получение вложения задачи по ID", tags = "roadmap-api")
     @GenericErrorResponse({"upload_not_exists", "rmt_ownerless", "rmta_not_exists", "pr_membership_required"})
+    @DescribeError(code = "upload_not_exists", userMessage = "Файл вложения не найден", forUser = false)
     @GetMapping("/task/attachment")
     public TaskAttachmentModel getTaskAttachment(@RequestParam("rmta_id") UUID attachmentId) throws ApiException {
         String userEmail = requireUserExistance(userService);
