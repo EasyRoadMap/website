@@ -22,6 +22,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.io.IOUtils.closeQuietly;
+import static ru.easyroadmap.website.api.v1.service.WorkspaceService.MAX_MEMBERS_PER_WORKSPACE;
 
 @Service
 @RequiredArgsConstructor
@@ -49,8 +50,8 @@ public final class InvitationService {
         int usedMemberSlots = workspaceMemberRepository.countAllByWorkspaceIdEquals(workspaceId);
         usedMemberSlots += workspaceInvitationRepository.countNotExpiredInvitations(workspaceId);
 
-        if (usedMemberSlots >= WorkspaceService.MAX_MEMBERS_PER_WORKSPACE)
-            throw new ApiException("workspace_is_full", "You cannot invite one more user to this workspace");
+        if (usedMemberSlots >= MAX_MEMBERS_PER_WORKSPACE)
+            throw new ApiException("workspace_is_full", "You cannot invite one more user to this workspace", MAX_MEMBERS_PER_WORKSPACE);
 
         WorkspaceInvitation invitation = workspaceInvitationRepository.getUserInvitation(recipient.getEmail(), workspaceId).orElse(null);
         if (invitation != null && !invitation.isExpired())
@@ -96,7 +97,7 @@ public final class InvitationService {
 
         UUID workspaceId = invitation.getWorkspaceId();
         if (!workspaceRepository.existsById(workspaceId))
-            throw new ApiException("workspace_not_found", "The invitation targeted workspace doesn't exists");
+            throw new ApiException("invitation_ownerless", "The invitation targeted workspace doesn't exists");
 
         if (invitation.isExpired())
             throw new ApiException("invitation_expired", "The invitation is expired");
@@ -127,13 +128,13 @@ public final class InvitationService {
 
         UUID workspaceId = invitation.getWorkspaceId();
         if (!workspaceRepository.existsById(workspaceId))
-            throw new ApiException("workspace_not_found", "The invitation targeted workspace doesn't exists");
+            throw new ApiException("invitation_ownerless", "The invitation targeted workspace doesn't exists");
 
         if (invitation.isExpired())
             throw new ApiException("invitation_expired", "The invitation is expired");
 
         if (!invitation.getInviterUserEmail().equals(workspaceRepository.getWorkspaceAdminId(workspaceId).orElse(null)))
-            throw new ApiException("inviter_not_admin", "The invitation sender isn't an admin of the targeted workspace");
+            throw new ApiException("inviter_not_longer_admin", "The invitation sender isn't an admin of the targeted workspace");
 
         if (workspaceMemberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(userEmail, workspaceId))
             throw new ApiException("already_joined", "You're already joined to this workspace");

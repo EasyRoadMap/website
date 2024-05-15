@@ -50,7 +50,7 @@ public final class PublicApiService {
 
     public FrontWorkspaceModel getWorkspaceModel(UUID workspaceId) throws ApiException {
         Workspace workspace = workspaceRepository.findById(workspaceId).orElseThrow(() -> new ApiException(
-                "workspace_not_found",
+                "ws_not_exists",
                 "Workspace with this ID doesn't exist"
         ));
 
@@ -74,7 +74,7 @@ public final class PublicApiService {
 
     public FrontProjectModel getProjectModel(UUID projectId) throws ApiException {
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new ApiException(
-                "project_not_found",
+                "pr_not_exists",
                 "Project with this ID doesn't exist"
         ));
 
@@ -98,7 +98,7 @@ public final class PublicApiService {
 
     public List<FrontTaskModel> getTaskList(long stageId) throws ApiException {
         if (!stageRepository.existsById(stageId))
-            throw new ApiException("stage_not_found", "Roadmap stage with this ID doesn't exist");
+            throw new ApiException("rms_not_exists", "Roadmap stage with this ID doesn't exist");
 
         Sort sort = Sort.by("status", "deadlineAt", "name").ascending();
         List<FrontTaskModel> taskModels = new ArrayList<>();

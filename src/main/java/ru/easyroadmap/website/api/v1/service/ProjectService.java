@@ -38,7 +38,7 @@ public class ProjectService {
     public Project createProject(UUID workspaceId, String name, String description, LocalDate deadlineAt) throws ApiException {
         int projectsCount = projectRepository.countAllByWorkspaceIdEquals(workspaceId);
         if (projectsCount >= MAX_PROJECTS_PER_WORKSPACE)
-            throw new ApiException("too_many_projects", "No more than 5 projects can be in the workspace");
+            throw new ApiException("too_many_projects", "No more than %d projects can be in the workspace".formatted(MAX_PROJECTS_PER_WORKSPACE), MAX_PROJECTS_PER_WORKSPACE);
 
         Project project = new Project(workspaceId, name, description, deadlineAt);
         projectRepository.save(project);
@@ -81,7 +81,7 @@ public class ProjectService {
     public void addToProject(UUID projectId, String[] emails, String[] roles) throws ApiException {
         for (String email : emails)
             if (projectMemberRepository.existsByUserEmailEqualsAndProjectIdEquals(email, projectId))
-                throw new ApiException("target_already_joined", "Requested user is already joined to this project").withPayload(email);
+                throw new ApiException("user_already_joined", "Requested user is already joined to this project").withPayload(email);
 
         List<ProjectMember> members = new ArrayList<>();
         for (int i = 0; i < emails.length; i++)
@@ -92,7 +92,7 @@ public class ProjectService {
 
     public void kickFromProject(UUID projectId, String otherUserEmail) throws ApiException {
         if (!projectMemberRepository.existsByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId))
-            throw new ApiException("target_not_a_member", "Requested user isn't a member of this project");
+            throw new ApiException("user_not_a_member", "Requested user isn't a member of this project");
 
         projectMemberRepository.deleteAllByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId);
     }
@@ -107,7 +107,7 @@ public class ProjectService {
 
     public void changeMemberRole(UUID projectId, String otherUserEmail, String role) throws ApiException {
         ProjectMember member = projectMemberRepository.findByUserEmailEqualsAndProjectIdEquals(otherUserEmail, projectId).orElseThrow(() -> new ApiException(
-                "target_not_a_member",
+                "user_not_a_member",
                 "Requested user isn't a member of this project"
         ));
 
@@ -184,14 +184,14 @@ public class ProjectService {
 
     public void requireProjectExistance(UUID projectId) throws ApiException {
         if (!isProjectExist(projectId)) {
-            throw new ApiException("project_not_exists", "There is no project with this ID");
+            throw new ApiException("pr_not_exists", "There is no project with this ID");
         }
     }
 
     public Project requireProjectWorkspaceAdminRights(String userEmail, UUID projectId) throws ApiException {
         requireProjectExistance(projectId);
         return projectRepository.getProjectAsWorkspaceAdmin(projectId, userEmail).orElseThrow(() -> new ApiException(
-                "not_enough_rights",
+                "pr_ownership_required",
                 "This action isn't available to you"
         ));
     }
@@ -199,7 +199,7 @@ public class ProjectService {
     public Project requireProjectMembership(String userEmail, UUID projectId) throws ApiException {
         requireProjectExistance(projectId);
         return projectRepository.getProjectAsMember(projectId, userEmail).orElseThrow(() -> new ApiException(
-                "not_a_member",
+                "pr_membership_required",
                 "You're not a member of this project"
         ));
     }

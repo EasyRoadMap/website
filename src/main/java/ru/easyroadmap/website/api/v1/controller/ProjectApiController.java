@@ -25,9 +25,7 @@ import ru.easyroadmap.website.api.v1.service.PhotoService;
 import ru.easyroadmap.website.api.v1.service.ProjectService;
 import ru.easyroadmap.website.api.v1.service.UserService;
 import ru.easyroadmap.website.api.v1.service.WorkspaceService;
-import ru.easyroadmap.website.docs.annotation.GenericErrorResponse;
-import ru.easyroadmap.website.docs.annotation.SuccessResponse;
-import ru.easyroadmap.website.docs.annotation.WorkspaceAdminOperation;
+import ru.easyroadmap.website.docs.annotation.*;
 import ru.easyroadmap.website.exception.ApiException;
 import ru.easyroadmap.website.storage.model.User;
 import ru.easyroadmap.website.storage.model.project.Project;
@@ -43,6 +41,11 @@ import java.util.UUID;
 import static ru.easyroadmap.website.api.v1.service.PhotoService.generateProjectPhotoID;
 import static ru.easyroadmap.website.api.v1.service.PhotoService.generateUserPhotoID;
 
+@DescribeError(code = "ws_not_exists", userMessage = "Рабочая область не существует")
+@DescribeError(code = "ws_ownership_required", userMessage = "Требуются права администратора", forUser = true)
+@DescribeError(code = "pr_not_exists", userMessage = "Проект не существует")
+@DescribeError(code = "pr_ownership_required", userMessage = "Требуются права администратора", forUser = true)
+@DescribeError(code = "pr_membership_required", userMessage = "Вы не участник этого проекта", forUser = true)
 @RestController
 @RequestMapping("/api/v1/project")
 @RequiredArgsConstructor
@@ -57,7 +60,9 @@ public class ProjectApiController extends ApiControllerBase {
 
     @Operation(summary = "Создание нового проекта", tags = "project-api")
     @SuccessResponse("Проект создан")
-    @GenericErrorResponse({"workspace_not_exists", "!not_enough_rights", "!too_many_projects"})
+    @GenericErrorResponse({"ws_not_exists", "ws_ownership_required", "too_many_projects", "already_joined"})
+    @DescribeError(code = "too_many_projects", userMessage = "Нельзя создать больше N проектов", forUser = true)
+    @DescribeError(code = "already_joined", userMessage = "Вы уже присоединены к проекту")
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ProjectModel createProject(@RequestParam("ws_id") UUID workspaceId, @Valid ProjectDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -71,7 +76,7 @@ public class ProjectApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Получение проекта по ID", tags = "project-api")
-    @GenericErrorResponse({"project_not_exists", "not_a_member"})
+    @GenericErrorResponse({"pr_not_exists", "pr_membership_required"})
     @GetMapping
     public ProjectModel getProject(@RequestParam("pr_id") UUID projectId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -83,7 +88,7 @@ public class ProjectApiController extends ApiControllerBase {
 
     @Operation(summary = "Получение списка участников проекта", tags = "project-api")
     @SuccessResponse(canBeEmpty = true)
-    @GenericErrorResponse({"project_not_exists", "not_a_member"})
+    @GenericErrorResponse({"pr_not_exists", "pr_membership_required"})
     @GetMapping("/members")
     public ResponseEntity<List<ProjectMemberModel>> getProjectMembers(@RequestParam("pr_id") UUID projectId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -109,7 +114,7 @@ public class ProjectApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Получение информации о проекте", tags = "project-api")
-    @GenericErrorResponse({"project_not_exists", "not_a_member"})
+    @GenericErrorResponse({"pr_not_exists", "pr_membership_required"})
     @GetMapping("/info")
     public ProjectInfoModel getProjectInfo(@RequestParam("pr_id") UUID projectId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -120,7 +125,7 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Изменение информации о проекте", tags = "project-api")
     @WorkspaceAdminOperation
     @SuccessResponse("Информация о проекте изменена")
-    @GenericErrorResponse({"project_not_exists", "!not_enough_rights"})
+    @GenericErrorResponse({"pr_not_exists", "pr_ownership_required"})
     @PutMapping(value = "/info", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void putProjectInfo(@RequestParam("pr_id") UUID projectId, @Valid ProjectDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -129,7 +134,7 @@ public class ProjectApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Получение ссылок в проекте", tags = "project-api")
-    @GenericErrorResponse({"project_not_exists", "not_a_member"})
+    @GenericErrorResponse({"pr_not_exists", "pr_membership_required"})
     @GetMapping("/links")
     public ResponseEntity<List<ProjectLinkModel>> getProjectLinks(@RequestParam("pr_id") UUID projectId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -144,7 +149,8 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Изменение ссылок в проекте", tags = "project-api")
     @WorkspaceAdminOperation
     @SuccessResponse("Ссылки в проекте изменены")
-    @GenericErrorResponse({"bad_links", "project_not_exists", "!not_enough_rights"})
+    @GenericErrorResponse({"bad_links", "pr_not_exists", "pr_ownership_required"})
+    @DescribeError(code = "bad_links", userMessage = "Ссылки переданы неверно")
     @PutMapping(value = "/links", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void putProjectLinks(@RequestParam("pr_id") UUID projectId, @Valid ProjectLinksDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -155,7 +161,7 @@ public class ProjectApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Получение аватарки проекта", tags = "project-api")
-    @GenericErrorResponse({"project_not_exists", "not_a_member"})
+    @GenericErrorResponse({"pr_not_exists", "pr_membership_required"})
     @GetMapping("/photo")
     public PhotoModel getProjectPhoto(@RequestParam("pr_id") UUID projectId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -166,7 +172,11 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Изменение аватарки проекта", tags = "project-api")
     @WorkspaceAdminOperation
     @SuccessResponse("Аватарка проекта изменена")
-    @GenericErrorResponse({"project_not_exists", "!not_enough_rights", "!too_small_image", "!too_large_image", "!bad_image_ratio", "bad_image"})
+    @GenericErrorResponse({"pr_not_exists", "pr_ownership_required", "too_small_image", "too_large_image", "bad_image_ratio", "bad_image"})
+    @DescribeError(code = "too_small_image", userMessage = "Слишком маленькое изображение", forUser = true, payload = "WxH (минимальные размеры)")
+    @DescribeError(code = "too_large_image", userMessage = "Слишком большое изображение", forUser = true, payload = "WxH (максимальные размеры)")
+    @DescribeError(code = "bad_image_ratio", userMessage = "Изображение должно быть квадратным")
+    @DescribeError(code = "bad_image", userMessage = "Неподдерживаемое изображение")
     @PostMapping(value = "/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public PhotoModel uploadProjectPhoto(@RequestParam("pr_id") UUID projectId, MultipartFile photo) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -179,7 +189,7 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Получение списка доступных для добавления пользователей", tags = "project-api", description = "Вернет список участников рабочей области, которых можно добавить в этот проект.")
     @WorkspaceAdminOperation
     @SuccessResponse(canBeEmpty = true)
-    @GenericErrorResponse({"project_not_exists", "!not_enough_rights"})
+    @GenericErrorResponse({"pr_not_exists", "pr_ownership_required"})
     @GetMapping(value = "/members/attachable")
     public ResponseEntity<List<WorkspaceMemberModel>> getAttachableWorkspaceMembers(@RequestParam("pr_id") UUID projectId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -203,7 +213,9 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Добавление пользовател(я/ей) в проект", tags = "project-api")
     @WorkspaceAdminOperation
     @SuccessResponse("Пользовател(ь/и) добавлен(ы) в проект")
-    @GenericErrorResponse({"project_not_exists", "!not_enough_rights", "!target_is_admin", "!target_not_a_workspace_member", "!already_joined"})
+    @GenericErrorResponse({"pr_not_exists", "pr_ownership_required", "user_cannot_be_added", "user_already_joined"})
+    @DescribeError(code = "user_cannot_be_added", userMessage = "Пользователь не может быть добавлен", forUser = true, payload = "email (почта пользователя)")
+    @DescribeError(code = "user_already_joined", userMessage = "Пользователь уже добавлен в проект", forUser = true)
     @PostMapping(value = "/members/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void addMemberToProject(@RequestParam("pr_id") UUID projectId, @Valid UserIdentifierMultiDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -214,11 +226,11 @@ public class ProjectApiController extends ApiControllerBase {
 
         for (String email : emails) {
             if (workspaceService.isAdmin(email, workspaceId)) {
-                throw new ApiException("target_is_admin", "Requested user is an admin of this workspace").withPayload(email);
+                throw new ApiException("user_cannot_be_added", "Requested user is an admin of this workspace").withPayload(email);
             }
 
             if (!workspaceService.isMember(email, workspaceId)) {
-                throw new ApiException("target_not_a_workspace_member", "Requested user isn't a member of this workspace").withPayload(email);
+                throw new ApiException("user_cannot_be_added", "Requested user isn't a member of this workspace").withPayload(email);
             }
         }
 
@@ -232,7 +244,9 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Исключение пользователя из проекта", tags = "project-api")
     @WorkspaceAdminOperation
     @SuccessResponse("Пользователь исключен из проекта")
-    @GenericErrorResponse({"project_not_exists", "!not_enough_rights", "!target_is_admin", "!target_not_a_workspace_member", "!target_not_a_member"})
+    @GenericErrorResponse({"pr_not_exists", "pr_ownership_required", "user_cannot_be_removed", "user_not_a_member"})
+    @DescribeError(code = "user_cannot_be_removed", userMessage = "Пользователь не может быть исключен", forUser = true)
+    @DescribeError(code = "user_not_a_member", userMessage = "Пользователь не является участником проекта", forUser = true)
     @PostMapping(value = "/members/remove", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void removeMemberFromProject(@RequestParam("pr_id") UUID projectId, @Valid UserIdentifierDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -242,10 +256,10 @@ public class ProjectApiController extends ApiControllerBase {
         UUID workspaceId = project.getWorkspaceId();
 
         if (workspaceService.isAdmin(otherUserEmail, workspaceId))
-            throw new ApiException("target_is_admin", "Requested user is an admin of this workspace");
+            throw new ApiException("user_cannot_be_removed", "Requested user is an admin of this workspace");
 
         if (!workspaceService.isMember(otherUserEmail, workspaceId))
-            throw new ApiException("target_not_a_workspace_member", "Requested user isn't a member of this workspace");
+            throw new ApiException("user_cannot_be_removed", "Requested user isn't a member of this workspace");
 
         projectService.kickFromProject(projectId, otherUserEmail);
     }
@@ -253,7 +267,8 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Изменение должности участника проекта", tags = "project-api")
     @WorkspaceAdminOperation
     @SuccessResponse("Должность участника проекта изменена")
-    @GenericErrorResponse({"project_not_exists", "!not_enough_rights", "!target_not_a_member"})
+    @GenericErrorResponse({"pr_not_exists", "pr_ownership_required", "user_not_a_member"})
+    @DescribeError(code = "user_not_a_member", userMessage = "Пользователь не является участником проекта", forUser = true)
     @PatchMapping(value = "/members/role", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void changeMemberRole(@RequestParam("pr_id") UUID projectId, @Valid DomainMemberDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -264,7 +279,8 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Удаление проекта", tags = "project-api")
     @WorkspaceAdminOperation
     @SuccessResponse("Проект удален")
-    @GenericErrorResponse({"!wrong_password", "project_not_exists", "!not_enough_rights"})
+    @GenericErrorResponse({"wrong_password", "pr_not_exists", "pr_ownership_required"})
+    @DescribeError(code = "wrong_password", userMessage = "Неверный пароль", forUser = true)
     @DeleteMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void deleteProject(@RequestParam("pr_id") UUID projectId, @Valid ConfirmByPasswordDto dto) throws ApiException {
         User user = getCurrentUser(userService);

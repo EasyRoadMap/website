@@ -45,7 +45,7 @@ public class WorkspaceService {
     public Workspace createWorkspace(String userEmail, String name, String description) throws ApiException {
         int joinedWorkspaces = workspaceMemberRepository.countAllByUserEmailEquals(userEmail);
         if (joinedWorkspaces >= MAX_JOINED_WORKSPACES)
-            throw new ApiException("too_many_joined_workspaces", "You cannot be a member of more than 5 workspaces");
+            throw new ApiException("too_many_joined_workspaces", "You cannot be a member of more than %d workspaces".formatted(MAX_JOINED_WORKSPACES), MAX_JOINED_WORKSPACES);
 
         Workspace workspace = new Workspace(name, description, userEmail, Theme.LIGHT, Workspace.DEFAULT_ACCENT_COLOR);
         workspaceRepository.save(workspace);
@@ -88,11 +88,11 @@ public class WorkspaceService {
         if (!ignoreLimits) {
             int joinedWorkspaces = workspaceMemberRepository.countAllByUserEmailEquals(otherUserEmail);
             if (joinedWorkspaces >= MAX_JOINED_WORKSPACES)
-                throw new ApiException("too_many_joined_workspaces", "Requested user cannot be a member of more than 5 workspaces");
+                throw new ApiException("too_many_joined_workspaces", "Requested user cannot be a member of more than %d workspaces".formatted(MAX_JOINED_WORKSPACES), MAX_JOINED_WORKSPACES);
 
             int membersCount = workspaceMemberRepository.countAllByWorkspaceIdEquals(workspaceId);
             if (membersCount >= MAX_MEMBERS_PER_WORKSPACE)
-                throw new ApiException("workspace_members_limit_exceeded", "No more than 10 users can be in the workspace");
+                throw new ApiException("ws_full", "No more than %d users can be in the workspace".formatted(MAX_MEMBERS_PER_WORKSPACE), MAX_MEMBERS_PER_WORKSPACE);
         }
 
         if (workspaceMemberRepository.existsByUserEmailEqualsAndWorkspaceIdEquals(otherUserEmail, workspaceId))
@@ -141,7 +141,7 @@ public class WorkspaceService {
 
     public void transferOwnership(Workspace workspace, String otherUserEmail) throws ApiException {
         if (!isMember(otherUserEmail, workspace.getId()))
-            throw new ApiException("target_not_a_member", "Requested user isn't a member of this workspace");
+            throw new ApiException("user_not_a_member", "Requested user isn't a member of this workspace");
 
         workspace.setAdminId(otherUserEmail);
         workspaceRepository.save(workspace);
@@ -200,22 +200,22 @@ public class WorkspaceService {
 
     public void requireWorkspaceExistance(UUID workspaceId) throws ApiException {
         if (!isWorkspaceExist(workspaceId)) {
-            throw new ApiException("workspace_not_exists", "There is no workspace with this ID");
+            throw new ApiException("ws_not_exists", "There is no workspace with this ID");
         }
     }
 
     public Workspace requireWorkspaceAdminRights(String userEmail, UUID workspaceId) throws ApiException {
         requireWorkspaceExistance(workspaceId);
         return workspaceRepository.getWorkspaceAsAdmin(workspaceId, userEmail).orElseThrow(() -> new ApiException(
-                "not_enough_rights",
-                "This action isn't available to you"
+                "ws_ownership_required",
+                "You're not an admin of this workspace"
         ));
     }
 
     public Workspace requireWorkspaceMembership(String userEmail, UUID workspaceId) throws ApiException {
         requireWorkspaceExistance(workspaceId);
         return workspaceRepository.getWorkspaceAsMember(workspaceId, userEmail).orElseThrow(() -> new ApiException(
-                "not_a_member",
+                "ws_membership_required",
                 "You're not a member of this workspace"
         ));
     }

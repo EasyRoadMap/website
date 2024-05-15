@@ -32,8 +32,11 @@ public final class PhotoService {
 
     public static final int MIN_PHOTO_WIDTH = 200;
     public static final int MIN_PHOTO_HEIGHT = 200;
+    public static final String MIN_PHOTO_SIZE = MIN_PHOTO_WIDTH + "x" + MIN_PHOTO_HEIGHT;
+
     public static final int MAX_PHOTO_WIDTH = 1024;
     public static final int MAX_PHOTO_HEIGHT = 1024;
+    public static final String MAX_PHOTO_SIZE = MAX_PHOTO_WIDTH + "x" + MAX_PHOTO_HEIGHT;
 
     private final PhotoRepository photoRepository;
     private final FileSystemStorage fileSystemStorage;
@@ -65,10 +68,10 @@ public final class PhotoService {
             int height = image.getHeight();
 
             if (width < MIN_PHOTO_WIDTH || height < MIN_PHOTO_HEIGHT)
-                throw new ApiException("too_small_image", "The image must not be smaller than 200x200");
+                throw new ApiException("too_small_image", "The image must not be smaller than %s".formatted(MIN_PHOTO_SIZE), MIN_PHOTO_SIZE);
 
             if (width > MAX_PHOTO_WIDTH || height > MAX_PHOTO_HEIGHT)
-                throw new ApiException("too_large_image", "The image must not be larger than 1024x1024");
+                throw new ApiException("too_large_image", "The image must not be larger than %s".formatted(MAX_PHOTO_SIZE), MAX_PHOTO_SIZE);
 
             if (width != height)
                 throw new ApiException("bad_image_ratio", "The image must be squared (w = h)");

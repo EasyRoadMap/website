@@ -14,13 +14,13 @@ public abstract class ApiControllerBase {
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails)
             return userDetails.getUsername();
 
-        throw new ApiException("user_not_found", "The user was not found for the current authentication");
+        throw new ApiException("no_current_username", "The user was not found for the current authentication");
     }
 
     protected final User getCurrentUser(UserService userService) throws ApiException {
         String email = getCurrentUsername();
         return userService.findByEmail(email).orElseThrow(() -> new ApiException(
-                "user_not_found",
+                "no_current_user",
                 "The user was not found for the current authentication"
         ));
     }
@@ -29,7 +29,7 @@ public abstract class ApiControllerBase {
         String email = getCurrentUsername();
 
         if (!userService.isUserExist(email))
-            throw new ApiException("user_not_found", "The user was not found for the current authentication");
+            throw new ApiException("no_current_user", "The user was not found for the current authentication");
 
         return email;
     }

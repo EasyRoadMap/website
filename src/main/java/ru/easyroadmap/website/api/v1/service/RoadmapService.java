@@ -47,7 +47,7 @@ public class RoadmapService {
     public RoadmapStage createStage(UUID projectId, String name) throws ApiException {
         int position = stageRepository.countAllByProjectIdEquals(projectId);
         if (position >= MAX_STAGES_PER_ROADMAP)
-            throw new ApiException("too_many_stages", "One project roadmap can have no more than 25 stages");
+            throw new ApiException("too_many_stages", "One project roadmap can have no more than %d stages".formatted(MAX_STAGES_PER_ROADMAP), MAX_STAGES_PER_ROADMAP);
 
         RoadmapStage stage = new RoadmapStage(projectId, (byte) position, name);
         stageRepository.save(stage);
@@ -57,7 +57,7 @@ public class RoadmapService {
     public RoadmapTask createTask(long stageId, byte status, String name, String description, LocalDate deadlineAt, UUID[] uploadIds) throws ApiException {
         int taskCount = taskRepository.countAllByStageIdEquals(stageId);
         if (taskCount >= MAX_TASKS_PER_STAGE)
-            throw new ApiException("too_many_tasks", "One roadmap stage can have no more than 25 tasks");
+            throw new ApiException("too_many_tasks", "One roadmap stage can have no more than %d tasks".formatted(MAX_TASKS_PER_STAGE), MAX_TASKS_PER_STAGE);
 
         RoadmapTask task = new RoadmapTask(stageId, status, name, description, deadlineAt);
         taskRepository.save(task);

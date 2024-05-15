@@ -11,6 +11,7 @@ import ru.easyroadmap.website.api.v1.model.front.FrontProjectModel;
 import ru.easyroadmap.website.api.v1.model.front.FrontTaskModel;
 import ru.easyroadmap.website.api.v1.model.front.FrontWorkspaceModel;
 import ru.easyroadmap.website.api.v1.service.PublicApiService;
+import ru.easyroadmap.website.docs.annotation.DescribeError;
 import ru.easyroadmap.website.docs.annotation.GenericErrorResponse;
 import ru.easyroadmap.website.docs.annotation.SuccessResponse;
 import ru.easyroadmap.website.exception.ApiException;
@@ -26,14 +27,16 @@ public class PublicApiController extends ApiControllerBase {
     private final PublicApiService publicApiService;
 
     @Operation(summary = "Получение рабочей области по ID", tags = "public-api")
-    @GenericErrorResponse("workspace_not_found")
+    @GenericErrorResponse("ws_not_exists")
+    @DescribeError(code = "ws_not_exists", userMessage = "Рабочая область не существует", forUser = true)
     @GetMapping("/workspace")
     public FrontWorkspaceModel getWorkspace(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
         return publicApiService.getWorkspaceModel(workspaceId);
     }
 
     @Operation(summary = "Получение проекта по ID", tags = "public-api")
-    @GenericErrorResponse("project_not_found")
+    @GenericErrorResponse("pr_not_exists")
+    @DescribeError(code = "pr_not_exists", userMessage = "Проект не существует", forUser = true)
     @GetMapping("/project")
     public FrontProjectModel getProject(@RequestParam("pr_id") UUID projectId) throws ApiException {
         return publicApiService.getProjectModel(projectId);
@@ -41,7 +44,8 @@ public class PublicApiController extends ApiControllerBase {
 
     @Operation(summary = "Получение списка задач по ID этапа", tags = "public-api")
     @SuccessResponse(canBeEmpty = true)
-    @GenericErrorResponse("stage_not_found")
+    @GenericErrorResponse("rms_not_exists")
+    @DescribeError(code = "rms_not_exists", userMessage = "Этап дорожной карты не существует", forUser = true)
     @GetMapping("/roadmap/tasks")
     public ResponseEntity<List<FrontTaskModel>> getRoadmapTasks(@RequestParam("rms_id") long stageId) throws ApiException {
         List<FrontTaskModel> result = publicApiService.getTaskList(stageId);
