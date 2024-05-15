@@ -55,14 +55,14 @@ const Main = ({ fromInvite = false }) => {
     if (
       params[0].button !== "decline" &&
       params[0].button !== "accept" &&
-      !params[0].invite_id
+      !(params[0].invite_id && params[0].ws_id)
     )
       return;
 
     if (params[0].button === "decline") {
       DeclineInvite(params[0].invite_id);
     } else if (params[0].button === "accept") {
-      AcceptInvite(params[0].invite_id);
+      AcceptInvite(params[0].invite_id, params[0].ws_id);
     }
   };
 

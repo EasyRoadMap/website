@@ -12,10 +12,15 @@ import { getLinks } from "../api/project-api/getLinks.js";
 import { removeMember } from "../api/project-api/removeMember.js";
 import { addMember } from "../api/project-api/addMember.js";
 import { updateMemberRole } from "../api/project-api/updateMemberRole.js";
+import { getAttachableMembers } from "../api/project-api/getAttachableMembers.js";
+
+import useErrorContext from "./useErrorContext.js";
+import { getProjectError } from "../errors/project_errors.js";
 
 export const useProjectInfo = () => {
   const [project, setProject] = useState({});
-  const { projectContext, setProjectContext, setProjectId } =
+    const { pushError } = useErrorContext();
+    const { projectContext, setProjectContext, setProjectId } =
     useProjectContext();
 
   const { Projects } = useWorkspaceInfo();
@@ -27,27 +32,29 @@ export const useProjectInfo = () => {
     setProjectContext((prev) => ({ ...prev, ...project }));
   }, [project]);
 
+  const handleError = (e) => {
+    const error_message = getProjectError(e?.response?.data?.error_code);
+    pushError(error_message, "error");
+}
+
   const Project = (pr_id) => {
     getProject(pr_id)
       .then((response) => {
         setProject((prev) => ({ ...prev, ...response.data }));
       })
       .catch((e) => {
-        console.log("response error");
-        console.log(e);
+        handleError(e);
       });
   };
 
   const DeleteProject = (ws_id, pr_id, password, callback) => {
     deleteProject(pr_id, password)
       .then((response) => {
-        console.log("deleting Project");
         Projects(ws_id);
         if (callback) callback();
       })
       .catch((e) => {
-        console.log("response error");
-        console.log(e);
+        handleError(e);
       });
   };
 
@@ -59,21 +66,17 @@ export const useProjectInfo = () => {
         if (callback) callback(response.data);
       })
       .catch((e) => {
-        console.log("response error");
-        console.log(e);
+        handleError(e);
       });
   };
 
   const Members = (pr_id) => {
     getMembers(pr_id)
       .then((response) => {
-        console.log("response Project");
-        console.log(response);
         setProject((prev) => ({ ...prev, users: response.data }));
       })
       .catch((e) => {
-        console.log("response error");
-        console.log(e);
+        handleError(e);
       });
   };
 
@@ -83,21 +86,28 @@ export const useProjectInfo = () => {
         Members(pr_id);
       })
       .catch((e) => {
-        console.log("response error");
-        console.log(e);
+        handleError(e);
       });
   };
 
-  const AddMember = (pr_id, email, role) => {
-    addMember(pr_id, email, role)
+  const AddMember = (pr_id, email) => {
+    addMember(pr_id, email)
       .then((response) => {
         Members(pr_id);
       })
       .catch((e) => {
-        console.log("response error");
-        console.log(e);
+        handleError(e);
       });
   };
+
+  const GetAttachableMember = (pr_id) => {
+    getAttachableMembers(pr_id).then((response) => {
+      Members(pr_id);
+    })
+    .catch((e) => {
+      handleError(e);
+    });
+  }
 
   const Info = (pr_id) => {
     getInfo(pr_id)
@@ -105,8 +115,7 @@ export const useProjectInfo = () => {
         setProject((prev) => ({ ...prev, info: response.data }));
       })
       .catch((e) => {
-        console.log("response error");
-        console.log(e);
+        handleError(e);
       });
   };
 
@@ -116,8 +125,7 @@ export const useProjectInfo = () => {
         setProject((prev) => ({ ...prev, links: response.data }));
       })
       .catch((e) => {
-        console.log("response error");
-        console.log(e);
+        handleError(e);
       });
   };
 
@@ -128,8 +136,7 @@ export const useProjectInfo = () => {
         Projects(ws_id);
       })
       .catch((e) => {
-        console.log("response error");
-        console.log(e);
+        handleError(e);
       });
   };
 
@@ -139,8 +146,7 @@ export const useProjectInfo = () => {
         Links(pr_id);
       })
       .catch((e) => {
-        console.log("response error");
-        console.log(e);
+        handleError(e);
       });
   };
 
@@ -150,14 +156,14 @@ export const useProjectInfo = () => {
         Members(pr_id);
       })
       .catch((e) => {
-        console.log("response error");
-        console.log(e);
+        handleError(e);
       });
   };
 
   return {
     Project,
     DeleteProject,
+    GetAttachableMember,
     KickMember,
     AddMember,
     CreateProject,

@@ -1,12 +1,12 @@
-import { PostMultipartQuery } from "../PostMultipartQuery";
+import { XWWWPostQuery } from "../XWWWPostQuery";
 
-export const addMember = (pr_id, email, role) => {
+export const addMember = (pr_id, email) => {
     const URL = "/api/v1/project/members/add";
 
-    return PostMultipartQuery(URL, {
-        email: email,
-        role: role
+    return XWWWPostQuery(URL, {
+        email: email
     },
-    {pr_id: pr_id}
+    {pr_id: pr_id},
+    true
 );
 }

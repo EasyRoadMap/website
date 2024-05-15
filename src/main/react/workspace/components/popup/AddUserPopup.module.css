@@ -114,7 +114,9 @@
   border-radius: 15px;
   position: relative;
 }
-
+.pixelAvatar {
+  image-rendering: pixelated;
+}
 .AddUserInfoWrapper {
   display: flex;
   flex-direction: row;

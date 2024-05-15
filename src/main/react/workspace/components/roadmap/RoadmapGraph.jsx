@@ -116,7 +116,9 @@ const RoadmapGraph = ({
     }
 
     const moveToBlock = (i) => {
-        if (i < 0) i = 0;
+        if (stages.length >= 4 && i < 2) i = 2
+        else if (i < 0) i = 0;
+        if (stages.length >= 4 && i > stages.length - 2) i = stages.length - 2;
         if (i > stages.length) i = stages.length;
         const initRight = i * (-100);
         const goalRight = SIZES.viewportWidth/2 - SIZES.stageCircleWidth/2;
@@ -254,7 +256,7 @@ const RoadmapGraph = ({
               styles.moveGraphButtonLeft,
             ].join(" ")}
           ></div>
-          {stages.length > 0 && (
+          {stages.length > 4 && (
             <div className={styles.moveButtons}>
               <MoveRoadMap
                 style={{
@@ -273,7 +275,7 @@ const RoadmapGraph = ({
           )}
         </div>
       </div>
-      {stages.length > 0 && (
+      {stages.length > 4 && (
         <RoadmapPagination blocks={visibleStagesList} />
       )}
     </>

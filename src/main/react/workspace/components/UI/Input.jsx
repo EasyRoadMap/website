@@ -1,7 +1,7 @@
 import styles from "./input.module.css";
 import eyeSVG from "../../../assets/eye.jsx";
 import eyeOffSVG from "../../../assets/eyeOff.jsx";
-import ErrorTooltip from "../../../auth/components/ErrorTooltip.jsx";
+import ErrorTooltip from "./ErrorTooltip.jsx";
 import { useState } from "react";
 
 const autoCompleteName = {

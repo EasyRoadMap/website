@@ -10,7 +10,7 @@ const UserInvitationPopup = ({ close, invite }) => {
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "decline" && nameButtonClicked !== "accept")
       return;
-    close({ button: nameButtonClicked, invite_id: invite.id });
+    close({ button: nameButtonClicked, invite_id: invite.id, ws_id: invite.workspace.id });
   };
   return (
     <>

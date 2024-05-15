@@ -1,10 +1,36 @@
 import styles from "./AddUserPopup.module.css";
 import InputCheckBoxAddUser from "../UI/InputCheckBoxAddUser.jsx";
 import Button from "../UI/Button.jsx";
-const AddUserPlaceholder = () => {
-  //   const avatarClassName = participant?.user?.photo?.default
-  //     ? [styles.participantAvatar, styles.pixelAvatar].join(" ")
-  //     : styles.participantAvatar;
+import { useState } from "react";
+
+const AddUser = ({
+  close,
+  workspaceMembers,
+  adminEmail
+}) => {
+  console.debug("workspaceMembers",workspaceMembers);
+  const [membersChosen, setMembersChosen] = useState([]);
+
+  const handleClick = (nameButtonClicked) => {
+    if (nameButtonClicked !== "cancel" && nameButtonClicked !== "invite")
+      return;
+    close({ button: nameButtonClicked, membersChosen: membersChosen });
+  };
+
+  const avatarClassName = (isDefaultPhoto) => isDefaultPhoto
+    ? [styles.participantAvatar, styles.pixelAvatar].join(" ")
+    : styles.participantAvatar;
+
+  const toggleUser = (email) => {
+    if (membersChosen.includes(email)) {
+      const filtratedMembers = membersChosen.filter((member) => member !== email);
+      setMembersChosen(filtratedMembers);
+    } 
+    else {
+      setMembersChosen([...membersChosen, email]);
+    }
+  }
+
   return (
     <>
       <div className={styles.AddUserContainer}>
@@ -14,38 +40,43 @@ const AddUserPlaceholder = () => {
             Вы можете добавить в проект сразу нескольких <br /> участников из
             рабочей области.
           </span>
-          <div className={styles.AddUserWrapperScroll}>
-            <div className={styles.AddUserWrapperCard}>
-              <div className={styles.AddUserWrapper}>
-                <div className={styles.AddUserInfoWrapper}>
-                  <img
-                    //   src={participant?.user?.photo?.url}
-                    //   alt=""
-                    //   className={avatarClassName}
-                    style={{
-                      width: "64px",
-                      height: "64px",
-                      borderRadius: "50%",
-                      borderStyle: "solid",
-                      borderWidth: "1px",
-                      borderColor: "rgba(0, 0, 0, 0.1)",
-                    }}
-                  />
-                  <div className={styles.AddUserTextWrapper}>
-                    <div className={styles.AddUserName}>
-                      {/* {participant?.user?.name} */}Имя пользователя
-                    </div>
-                    <div className={styles.AddUserPosition}>
-                      {/* {participant?.role} */}Роль
+          {
+            (workspaceMembers && workspaceMembers?.length > 0) && workspaceMembers?.map((user, i) => 
+              user?.user?.email !== adminEmail &&
+            <div className={styles.AddUserWrapperScroll}>
+              <div className={styles.AddUserWrapperCard}>
+                <div className={styles.AddUserWrapper}>
+                  <div className={styles.AddUserInfoWrapper}>
+                    <img
+                        src={user?.user?.photo?.url}
+                        alt=""
+                        className={avatarClassName(user?.user?.photo?.default)}
+                        style={{
+                          width: "64px",
+                          height: "64px",
+                          borderRadius: "50%",
+                          borderStyle: "solid",
+                          borderWidth: "1px",
+                          borderColor: "rgba(0, 0, 0, 0.1)",
+                        }}
+                    />
+                    <div className={styles.AddUserTextWrapper}>
+                      <div className={styles.AddUserName}>
+                        {user?.user?.name}
+                      </div>
+                      <div className={styles.AddUserPosition}>
+                        {user?.role}
+                      </div>
                     </div>
                   </div>
+                  <InputCheckBoxAddUser id={i} email={user?.user?.email} toggleUser={toggleUser}/>
                 </div>
-                <InputCheckBoxAddUser id={"1"} />
               </div>
             </div>
-          </div>
+            )
+          }
           <span className={styles.AddUserCount}>
-            Пользователей выбрано: n из n
+            Пользователей выбрано: {" " + membersChosen.length + " из " + workspaceMembers.length}
           </span>
         </div>
         <div className={styles.AddUserButtonWrapper}>
@@ -58,7 +89,7 @@ const AddUserPlaceholder = () => {
           <Button
             text="Добавить"
             type="filledAccent"
-            callback={() => handleClick("create")}
+            callback={() => handleClick("invite")}
             style={{ width: "144px", height: "40px" }}
           />
         </div>
@@ -66,4 +97,4 @@ const AddUserPlaceholder = () => {
     </>
   );
 };
-export default AddUserPlaceholder;
+export default AddUser;

@@ -13,8 +13,17 @@ import { addAttachment } from "../api/roadmap-api/addAttachment.js";
 import { getAttachment } from "../api/roadmap-api/getAttachment.js";
 import { getAttachments } from "../api/roadmap-api/getAttachments.js";
 
+import useErrorContext from "./useErrorContext.js";
+import { getRoadmapError } from "../errors/roadmap_errors.js";
+
 export const useRoadmapInfo = () => {
+    const { pushError } = useErrorContext();
     const { roadmapContext, setRoadmapContext } = useRoadmapContext();
+
+    const handleError = (e) => {
+        const error_message = getRoadmapError(e?.response?.data?.error_code);
+        pushError(error_message, "error");
+    }
 
     const getStages = (pr_id, callback) => { 
         getStagesPage(pr_id, 1).then((response) => {
@@ -35,12 +44,16 @@ export const useRoadmapInfo = () => {
                     })
                 }
             }
-        }) 
+        }).catch((e) => {
+            handleError(e);
+        })
     }
 
     const Stage = (rms_id) => {
         getStage(rms_id).then((response) => {
             setRoadmapContext((prev) => ({...prev, stages: [... new Set(prev.stages.concat([response.data]))] }));
+        }).catch((e) => {
+            handleError(e);
         })
     }
 
@@ -49,8 +62,7 @@ export const useRoadmapInfo = () => {
             getStages(pr_id);
             onSuccess(response.data);
         }).catch((e) => {
-            console.log("error in Create Stage");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -58,16 +70,13 @@ export const useRoadmapInfo = () => {
         deleteStage(rms_id).then((response) => {
             getStages(pr_id, onSuccess);
         }).catch((e) => {
-            console.log("error in Delete Stage");
-            console.log(e);
+            handleError(e);
         })
     }
 
     const getTasks = (rms_id) => {
         getTasksPage(rms_id, 1).then((response) => {
             const tasks = response.data.content;
-            console.log("FF");
-            console.log(tasks);
             if (response.status === 204) {
                 setRoadmapContext((prev) => ({...prev, tasks: []}));
                 return;
@@ -84,6 +93,8 @@ export const useRoadmapInfo = () => {
                     })
                 }
             }
+        }).catch((e) => {
+            handleError(e);
         })
     }
 
@@ -92,8 +103,7 @@ export const useRoadmapInfo = () => {
             setRoadmapContext((prev) => ({...prev, tasks: [...prev.tasks, response.data]}));
             getStages(pr_id);
         }).catch((e) => {
-            console.log("error in Create task");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -102,8 +112,7 @@ export const useRoadmapInfo = () => {
             getTasks(rms_id);
             getStages(pr_id);
         }).catch((e) => {
-            console.log("error in Change Task");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -111,8 +120,7 @@ export const useRoadmapInfo = () => {
         deleteTask(rmt_id).then((response) => {
             getTasks(rms_id);
         }).catch((e) => {
-            console.log("error in Delete Task");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -126,8 +134,7 @@ export const useRoadmapInfo = () => {
             })
             setRoadmapContext((prev) => ({...prev, tasks: updatedTasks}));
         }).catch((e) => {
-            console.log("error in Attachments");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -136,8 +143,7 @@ export const useRoadmapInfo = () => {
             Attachments(rms_id);
             if (callback) callback(response.data.id);
         }).catch((e) => {
-            console.log("error in Delete Task");
-            console.log(e);
+            handleError(e);
         })
     }
 

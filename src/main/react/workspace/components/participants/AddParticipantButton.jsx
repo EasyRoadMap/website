@@ -17,7 +17,7 @@ const AddParticipantButton = () => {
     const role = params[0].role;
     const button = params[0].button;
 
-    if (button !== "invite" || !email || !role || !workspaceContext?.id) return;
+    if (button !== "invite" || !email || !workspaceContext?.id) return;
     console.log("sending invite", params);
     SendInvite(workspaceContext.id, email, role);
   };

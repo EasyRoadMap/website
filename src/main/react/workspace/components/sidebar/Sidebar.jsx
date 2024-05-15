@@ -85,11 +85,6 @@ const Sidebar = () => {
     }
   }
 
-  useEffect(() => {
-    console.debug("in Sidebar wsid", workspaceContext.id);
-    console.debug("and projects are", workspaceContext.projects);
-  }, [workspaceContext]);
-
   const openExitWorkspacePopup = () => {
     popupManager.open(Popup, {
       popup: {

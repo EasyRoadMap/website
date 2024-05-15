@@ -30,17 +30,26 @@ import WorkspaceContext from "../context/WorkspaceContextProvider.js";
 import { initWorkspace } from "./InitWorkspace.js";
 import { addWSID, removeWSID } from "../utils/WSIDStorage.js";
 
+import { getWorkspaceError } from "../errors/workspace_errors.js";
+import useErrorContext from "./useErrorContext.js";
+
 export const useWorkspaceInfo = () => {
     const [workspace, setWorkspace] = useState();
     const { setCurrentWorkspace, Workspaces } = useUserInfo();
     const { currentWorkspace, workspaceContext, setWorkspaceContext } = useWorkspaceContext();
     const { setUserContext } = useUserContext();
+    const { pushError } = useErrorContext();
 
     const navigate = useNavigate();
 
     useEffect(() => {
         setWorkspaceContext((prev) => ({...prev, ...workspace}));
-    }, [workspace])
+    }, [workspace]);
+
+    const handleError = (e) => {
+        const error_message = getWorkspaceError(e?.response?.data?.error_code);
+        pushError(error_message, "error");
+    }
 
     const Workspace = (ws_id, resetPrevious=false) => {
         getWorkspace(ws_id).then((response) => {
@@ -55,8 +64,7 @@ export const useWorkspaceInfo = () => {
             setCurrentWorkspace((prev) => ({...prev, currentWorkspace: ws_id}));
         }).catch((e) => {
             setWorkspaceContext((prev) => ({...prev, workspaceExists: false}));
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -89,12 +97,10 @@ export const useWorkspaceInfo = () => {
                     newWS.id
                 )});
             }).catch((e) => {
-                console.log("response error");
-                console.log(e);
+                handleError(e);
             })
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -106,8 +112,7 @@ export const useWorkspaceInfo = () => {
             Workspaces();
             navigate("/workspace");
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -119,8 +124,7 @@ export const useWorkspaceInfo = () => {
                 "accent_color": accentColorInt
             }}));
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -128,8 +132,7 @@ export const useWorkspaceInfo = () => {
         getAppearance(ws_id).then((response) => {
             setWorkspace((prev) => ({...prev, ...response.data}));
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -137,8 +140,7 @@ export const useWorkspaceInfo = () => {
         getInfo(ws_id).then((response) => {
             setWorkspace((prev) => ({...prev, info: response.data}));
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -149,8 +151,7 @@ export const useWorkspaceInfo = () => {
         putInfo(ws_id, name, description).then((response) => {
             Info(ws_id);
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -158,57 +159,57 @@ export const useWorkspaceInfo = () => {
         getInvite(invite_id).then((response) => {
             console.log(response);
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
     const SendInvite = (ws_id, email, role) => {
         sendInvite(ws_id, email, role).then((response) => {
-            console.debug("sent invite");
             Members(ws_id);
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
     const AbortInvite = (ws_id, email) => {
         abortInvite(ws_id, email).then((response) => {
-            console.log(response);
             Members(ws_id);
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
-    const AcceptInvite = (invite_id) => {
+    const AcceptInvite = (invite_id, ws_id) => {
         acceptInvite(invite_id).then((response) => {
+            navigate({
+                pathname: "/workspace",
+                search: "?ws_id=" + ws_id,
+            });
             Workspaces();
-            console.log(response);
+            Workspace(ws_id, true);
+            Members(ws_id);
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
     const DeclineInvite = (invite_id) => {
         declineInvite(invite_id).then((response) => {
             Workspaces();
-            console.log(response);
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
     const LeaveWorkspace = (ws_id) => {
         leaveWorkspace(ws_id).then((response) => {
-            console.log(response);
+            removeWSID(ws_id);
+            setWorkspace({});
+            setWorkspaceContext({})
+            Workspaces();
+            navigate("/workspace");
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -216,8 +217,7 @@ export const useWorkspaceInfo = () => {
         getWorkspaceMembers(ws_id).then((response) => {
             setWorkspaceContext((prev) => ({...prev, users: response.data}))
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -226,8 +226,7 @@ export const useWorkspaceInfo = () => {
         getProjects(ws_id).then((response) => {
             setWorkspaceContext((prev) => ({...prev, projects: response.data}))
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -235,8 +234,7 @@ export const useWorkspaceInfo = () => {
         getPhoto(ws_id).then((response) => {
             setWorkspace((prev) => ({...prev, photo: response.data}))
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -244,8 +242,7 @@ export const useWorkspaceInfo = () => {
         transferOwnership(ws_id, email).then((response) => {
             Members(ws_id);
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -253,8 +250,7 @@ export const useWorkspaceInfo = () => {
         kickMember(ws_id, email).then((response) => {
             Members(ws_id);
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 
@@ -262,8 +258,7 @@ export const useWorkspaceInfo = () => {
         updateMemberRole(ws_id, email, role).then((response) => {
             Members(ws_id);
         }).catch((e) => {
-            console.log("response error");
-            console.log(e);
+            handleError(e);
         })
     }
 

@@ -11,6 +11,7 @@ import WorkspaceContext, {
 } from "./context/WorkspaceContextProvider.js";
 import { ProjectProvider } from "./context/ProjectContextProvider.js";
 import { RoadmapProvider } from "./context/RoadmapContextProvider.js";
+import { ErrorProvider } from "./context/ErrorContextProvider.js";
 import Settings from "./pages/Settings.jsx";
 // import CreateWorkspace from "./pages/CreateWorkspace.jsx";
 
@@ -108,6 +109,7 @@ function App() {
           <ProjectProvider>
             <BrowserRouter> */}
             <RoadmapProvider>
+              <ErrorProvider>
               <Routes>
                   <Route path="/workspace" element={<Main key={workspaceContext.id + "main"}/>} />
                   <Route path="/workspace/projects" element={<ProjectsPage key={workspaceContext.id + "projects"}/>} />
@@ -115,6 +117,7 @@ function App() {
                   <Route path="/workspace/settings" element={<Settings key={workspaceContext.id + "settings"}/>} />
                   <Route path="/workspace/invite" element={<Main fromInvite={true} key={workspaceContext.id + "maininvite"}/>} />
                 </Routes>
+                </ErrorProvider>
             </RoadmapProvider>
             {/* </BrowserRouter>
           </ProjectProvider>
