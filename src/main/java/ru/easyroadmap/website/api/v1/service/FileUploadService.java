@@ -33,7 +33,7 @@ public final class FileUploadService {
 
     public FileUpload getFileUpload(UUID uuid) throws ApiException {
         return findFileUpload(uuid).orElseThrow(() -> new ApiException(
-                "file_upload_not_found",
+                "upload_not_exists",
                 "File upload with this ID doesn't exists"
         ));
     }

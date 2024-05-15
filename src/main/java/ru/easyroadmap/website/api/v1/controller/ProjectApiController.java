@@ -42,10 +42,10 @@ import static ru.easyroadmap.website.api.v1.service.PhotoService.generateProject
 import static ru.easyroadmap.website.api.v1.service.PhotoService.generateUserPhotoID;
 
 @DescribeError(code = "ws_not_exists", userMessage = "Рабочая область не существует")
-@DescribeError(code = "ws_ownership_required", userMessage = "Требуются права администратора", forUser = true)
+@DescribeError(code = "ws_ownership_required", userMessage = "Требуются права администратора")
 @DescribeError(code = "pr_not_exists", userMessage = "Проект не существует")
-@DescribeError(code = "pr_ownership_required", userMessage = "Требуются права администратора", forUser = true)
-@DescribeError(code = "pr_membership_required", userMessage = "Вы не участник этого проекта", forUser = true)
+@DescribeError(code = "pr_ownership_required", userMessage = "Требуются права администратора")
+@DescribeError(code = "pr_membership_required", userMessage = "Вы не участник этого проекта")
 @RestController
 @RequestMapping("/api/v1/project")
 @RequiredArgsConstructor
@@ -61,8 +61,8 @@ public class ProjectApiController extends ApiControllerBase {
     @Operation(summary = "Создание нового проекта", tags = "project-api")
     @SuccessResponse("Проект создан")
     @GenericErrorResponse({"ws_not_exists", "ws_ownership_required", "too_many_projects", "already_joined"})
-    @DescribeError(code = "too_many_projects", userMessage = "Нельзя создать больше N проектов", forUser = true)
-    @DescribeError(code = "already_joined", userMessage = "Вы уже присоединены к проекту")
+    @DescribeError(code = "too_many_projects", userMessage = "Нельзя создать больше N проектов", payload = "N (лимит проектов на рабочую область)")
+    @DescribeError(code = "already_joined", userMessage = "Вы уже состоите в проекте")
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ProjectModel createProject(@RequestParam("ws_id") UUID workspaceId, @Valid ProjectDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -173,8 +173,8 @@ public class ProjectApiController extends ApiControllerBase {
     @WorkspaceAdminOperation
     @SuccessResponse("Аватарка проекта изменена")
     @GenericErrorResponse({"pr_not_exists", "pr_ownership_required", "too_small_image", "too_large_image", "bad_image_ratio", "bad_image"})
-    @DescribeError(code = "too_small_image", userMessage = "Слишком маленькое изображение", forUser = true, payload = "WxH (минимальные размеры)")
-    @DescribeError(code = "too_large_image", userMessage = "Слишком большое изображение", forUser = true, payload = "WxH (максимальные размеры)")
+    @DescribeError(code = "too_small_image", userMessage = "Слишком маленькое изображение", payload = "WxH (минимальные размеры)")
+    @DescribeError(code = "too_large_image", userMessage = "Слишком большое изображение", payload = "WxH (максимальные размеры)")
     @DescribeError(code = "bad_image_ratio", userMessage = "Изображение должно быть квадратным")
     @DescribeError(code = "bad_image", userMessage = "Неподдерживаемое изображение")
     @PostMapping(value = "/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -214,8 +214,8 @@ public class ProjectApiController extends ApiControllerBase {
     @WorkspaceAdminOperation
     @SuccessResponse("Пользовател(ь/и) добавлен(ы) в проект")
     @GenericErrorResponse({"pr_not_exists", "pr_ownership_required", "user_cannot_be_added", "user_already_joined"})
-    @DescribeError(code = "user_cannot_be_added", userMessage = "Пользователь не может быть добавлен", forUser = true, payload = "email (почта пользователя)")
-    @DescribeError(code = "user_already_joined", userMessage = "Пользователь уже добавлен в проект", forUser = true)
+    @DescribeError(code = "user_cannot_be_added", userMessage = "Пользователь не может быть добавлен", payload = "email (почта пользователя)")
+    @DescribeError(code = "user_already_joined", userMessage = "Пользователь уже добавлен в проект", payload = "email (почта пользователя)")
     @PostMapping(value = "/members/add", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void addMemberToProject(@RequestParam("pr_id") UUID projectId, @Valid UserIdentifierMultiDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -245,8 +245,8 @@ public class ProjectApiController extends ApiControllerBase {
     @WorkspaceAdminOperation
     @SuccessResponse("Пользователь исключен из проекта")
     @GenericErrorResponse({"pr_not_exists", "pr_ownership_required", "user_cannot_be_removed", "user_not_a_member"})
-    @DescribeError(code = "user_cannot_be_removed", userMessage = "Пользователь не может быть исключен", forUser = true)
-    @DescribeError(code = "user_not_a_member", userMessage = "Пользователь не является участником проекта", forUser = true)
+    @DescribeError(code = "user_cannot_be_removed", userMessage = "Пользователь не может быть исключен")
+    @DescribeError(code = "user_not_a_member", userMessage = "Пользователь не является участником проекта")
     @PostMapping(value = "/members/remove", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void removeMemberFromProject(@RequestParam("pr_id") UUID projectId, @Valid UserIdentifierDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -268,7 +268,7 @@ public class ProjectApiController extends ApiControllerBase {
     @WorkspaceAdminOperation
     @SuccessResponse("Должность участника проекта изменена")
     @GenericErrorResponse({"pr_not_exists", "pr_ownership_required", "user_not_a_member"})
-    @DescribeError(code = "user_not_a_member", userMessage = "Пользователь не является участником проекта", forUser = true)
+    @DescribeError(code = "user_not_a_member", userMessage = "Пользователь не является участником проекта")
     @PatchMapping(value = "/members/role", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void changeMemberRole(@RequestParam("pr_id") UUID projectId, @Valid DomainMemberDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -280,7 +280,7 @@ public class ProjectApiController extends ApiControllerBase {
     @WorkspaceAdminOperation
     @SuccessResponse("Проект удален")
     @GenericErrorResponse({"wrong_password", "pr_not_exists", "pr_ownership_required"})
-    @DescribeError(code = "wrong_password", userMessage = "Неверный пароль", forUser = true)
+    @DescribeError(code = "wrong_password", userMessage = "Неверный пароль")
     @DeleteMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void deleteProject(@RequestParam("pr_id") UUID projectId, @Valid ConfirmByPasswordDto dto) throws ApiException {
         User user = getCurrentUser(userService);

@@ -158,14 +158,14 @@ public class ProjectService {
 
     public Project getProject(UUID projectId) throws ApiException {
         return projectRepository.findById(projectId).orElseThrow(() -> new ApiException(
-                "project_not_exists",
+                "pr_not_exists",
                 "There is no project with this ID"
         ));
     }
 
     public Workspace getProjectWorkspace(UUID projectId) throws ApiException {
         return projectRepository.getProjectWorkspace(projectId).orElseThrow(() -> new ApiException(
-                "workspace_not_exists",
+                "ws_not_exists",
                 "There is no workspace of this project"
         ));
     }

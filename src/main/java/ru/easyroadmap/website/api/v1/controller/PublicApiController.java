@@ -28,7 +28,7 @@ public class PublicApiController extends ApiControllerBase {
 
     @Operation(summary = "Получение рабочей области по ID", tags = "public-api")
     @GenericErrorResponse("ws_not_exists")
-    @DescribeError(code = "ws_not_exists", userMessage = "Рабочая область не существует", forUser = true)
+    @DescribeError(code = "ws_not_exists", userMessage = "Рабочая область не существует")
     @GetMapping("/workspace")
     public FrontWorkspaceModel getWorkspace(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
         return publicApiService.getWorkspaceModel(workspaceId);
@@ -36,7 +36,7 @@ public class PublicApiController extends ApiControllerBase {
 
     @Operation(summary = "Получение проекта по ID", tags = "public-api")
     @GenericErrorResponse("pr_not_exists")
-    @DescribeError(code = "pr_not_exists", userMessage = "Проект не существует", forUser = true)
+    @DescribeError(code = "pr_not_exists", userMessage = "Проект не существует")
     @GetMapping("/project")
     public FrontProjectModel getProject(@RequestParam("pr_id") UUID projectId) throws ApiException {
         return publicApiService.getProjectModel(projectId);
@@ -45,7 +45,7 @@ public class PublicApiController extends ApiControllerBase {
     @Operation(summary = "Получение списка задач по ID этапа", tags = "public-api")
     @SuccessResponse(canBeEmpty = true)
     @GenericErrorResponse("rms_not_exists")
-    @DescribeError(code = "rms_not_exists", userMessage = "Этап дорожной карты не существует", forUser = true)
+    @DescribeError(code = "rms_not_exists", userMessage = "Этап дорожной карты не существует")
     @GetMapping("/roadmap/tasks")
     public ResponseEntity<List<FrontTaskModel>> getRoadmapTasks(@RequestParam("rms_id") long stageId) throws ApiException {
         List<FrontTaskModel> result = publicApiService.getTaskList(stageId);

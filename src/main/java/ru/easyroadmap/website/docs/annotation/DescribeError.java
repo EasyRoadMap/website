@@ -12,7 +12,7 @@ public @interface DescribeError {
 
     String userMessage() default "—";
 
-    boolean forUser() default false;
+    boolean forUser() default true;
 
     String payload() default "—";
 

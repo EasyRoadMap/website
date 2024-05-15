@@ -41,9 +41,16 @@ import java.util.UUID;
 import static ru.easyroadmap.website.api.v1.service.PhotoService.*;
 
 @DescribeError(code = "ws_not_exists", userMessage = "Рабочая область не существует")
-@DescribeError(code = "ws_ownership_required", userMessage = "Требуются права администратора", forUser = true)
-@DescribeError(code = "ws_membership_required", userMessage = "Вы не состоите в этой рабочей области", forUser = true)
+@DescribeError(code = "ws_ownership_required", userMessage = "Требуются права администратора")
+@DescribeError(code = "ws_membership_required", userMessage = "Вы не состоите в этой рабочей области")
+@DescribeError(code = "user_not_found", userMessage = "Пользователь не найден")
+@DescribeError(code = "user_not_a_member", userMessage = "Пользователь не состоит в этой рабочей области")
 @DescribeError(code = "already_joined", userMessage = "Вы уже состоите в этой рабочей области")
+@DescribeError(code = "invitation_not_found", userMessage = "Приглашение не найдено")
+@DescribeError(code = "invitation_not_yours", userMessage = "Приглашение не принадлежит Вам", forUser = false)
+@DescribeError(code = "invitation_ownerless", userMessage = "Приглашение получено из несуществующей рабочей области")
+@DescribeError(code = "invitation_expired", userMessage = "Время действия приглашения истекло")
+@DescribeError(code = "inviter_not_longer_admin", userMessage = "Отправитель приглашения больше не является администратором")
 @RestController
 @RequestMapping("/api/v1/workspace")
 @RequiredArgsConstructor
@@ -59,7 +66,8 @@ public class WorkspaceApiController extends ApiControllerBase {
 
     @Operation(summary = "Создание новой рабочей области", tags = "workspace-api")
     @GenericErrorResponse({"too_many_joined_workspaces", "already_joined"})
-    @DescribeError(code = "too_many_joined_workspaces", userMessage = "Вы не можете состоять более чем в N рабочих областях", forUser = true)
+    @DescribeError(code = "too_many_joined_workspaces", userMessage = "Вы не можете состоять более чем в N рабочих областях", payload = "N (лимит рабочих областей на пользователя)")
+    @DescribeError(code = "already_joined", forUser = false)
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public WorkspaceModel createWorkspace(@Valid WorkspaceDataDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -203,8 +211,8 @@ public class WorkspaceApiController extends ApiControllerBase {
     @WorkspaceAdminOperation
     @SuccessResponse("Аватарка рабочей области изменена")
     @GenericErrorResponse({"ws_not_exists", "ws_ownership_required", "too_small_image", "too_large_image", "bad_image_ratio", "bad_image"})
-    @DescribeError(code = "too_small_image", userMessage = "Слишком маленькое изображение", forUser = true, payload = "WxH (минимальные размеры)")
-    @DescribeError(code = "too_large_image", userMessage = "Слишком большое изображение", forUser = true, payload = "WxH (максимальные размеры)")
+    @DescribeError(code = "too_small_image", userMessage = "Слишком маленькое изображение", payload = "WxH (минимальные размеры)")
+    @DescribeError(code = "too_large_image", userMessage = "Слишком большое изображение", payload = "WxH (максимальные размеры)")
     @DescribeError(code = "bad_image_ratio", userMessage = "Изображение должно быть квадратным")
     @DescribeError(code = "bad_image", userMessage = "Неподдерживаемое изображение")
     @PostMapping(value = "/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -218,8 +226,6 @@ public class WorkspaceApiController extends ApiControllerBase {
     @WorkspaceAdminOperation
     @SuccessResponse("Управление рабочей областью передано")
     @GenericErrorResponse({"ws_not_exists", "ws_ownership_required", "user_not_found", "user_not_a_member"})
-    @DescribeError(code = "user_not_found", userMessage = "Пользователь не найден", forUser = true)
-    @DescribeError(code = "user_not_a_member", userMessage = "Пользователь не состоит в этой рабочей области", forUser = true)
     @PostMapping(value = "/transfer", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void transferWorkspaceOwnership(@RequestParam("ws_id") UUID workspaceId, @Valid UserIdentifierDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -236,7 +242,6 @@ public class WorkspaceApiController extends ApiControllerBase {
     @WorkspaceAdminOperation
     @SuccessResponse("Должность участника рабочей области изменена")
     @GenericErrorResponse({"ws_not_exists", "ws_ownership_required", "user_not_a_member"})
-    @DescribeError(code = "user_not_a_member", userMessage = "Пользователь не состоит в этой рабочей области", forUser = true)
     @PatchMapping(value = "/members/role", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void changeMemberRole(@RequestParam("ws_id") UUID workspaceId, @Valid DomainMemberDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -246,7 +251,7 @@ public class WorkspaceApiController extends ApiControllerBase {
 
     @Operation(summary = "Получение приглашения по ID", tags = "workspace-api")
     @GenericErrorResponse({"invitation_not_found", "invitation_not_yours", "invitation_ownerless", "invitation_expired", "inviter_not_longer_admin", "already_joined", "inviter_not_found"})
-    @DescribeError(code = "inviter_not_found", userMessage = "Отправитель приглашения не найден", forUser = true)
+    @DescribeError(code = "inviter_not_found", userMessage = "Отправитель приглашения не найден")
     @GetMapping(value = "/invite")
     public WorkspaceInvitationModel getInvitation(@RequestParam("invite_id") UUID invitationId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -282,9 +287,8 @@ public class WorkspaceApiController extends ApiControllerBase {
     @Operation(summary = "Приглашение пользователя в рабочую область", tags = "workspace-api")
     @WorkspaceAdminOperation
     @GenericErrorResponse({"ws_not_exists", "ws_ownership_required", "user_not_found", "ws_full", "user_already_invited"})
-    @DescribeError(code = "user_not_found", userMessage = "Пользователь не найден", forUser = true)
-    @DescribeError(code = "ws_full", userMessage = "Рабочая область переполнена", forUser = true)
-    @DescribeError(code = "user_already_invited", userMessage = "Пользователь уже приглашен", forUser = true)
+    @DescribeError(code = "ws_full", userMessage = "В рабочей области могут состоять не более N участников", payload = "N (лимит участников на рабочую область)")
+    @DescribeError(code = "user_already_invited", userMessage = "Пользователь уже приглашен")
     @PostMapping(value = "/invite", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public WorkspaceInvitationModel inviteUserToWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid DomainMemberDto dto) throws ApiException {
         User sender = getCurrentUser(userService);
@@ -310,6 +314,7 @@ public class WorkspaceApiController extends ApiControllerBase {
     @WorkspaceAdminOperation
     @SuccessResponse("Приглашение в рабочую область отменено")
     @GenericErrorResponse({"ws_not_exists", "ws_ownership_required", "invitation_not_found", "invitation_ownerless", "invitation_expired"})
+    @DescribeError(code = "invitation_ownerless", forUser = false)
     @PostMapping(value = "/invite/abort", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void abortInvitation(@RequestParam("ws_id") UUID workspaceId, @Valid UserIdentifierDto dto) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -318,8 +323,9 @@ public class WorkspaceApiController extends ApiControllerBase {
     }
 
     @Operation(summary = "Принятие приглашения в рабочую область", tags = "workspace-api")
-    @GenericErrorResponse({"invitation_not_found", "invitation_not_yours", "invitation_ownerless", "invitation_expired", "inviter_not_longer_admin", "already_joined", "too_many_joined_workspaces", "ws_full"})
-    @DescribeError(code = "too_many_joined_workspaces", userMessage = "Вы не можете состоять более чем в N рабочих областях", forUser = true, payload = "N (макс. участников на область)")
+    @GenericErrorResponse({"invitation_not_found", "invitation_not_yours", "invitation_ownerless", "invitation_expired", "inviter_not_longer_admin", "too_many_joined_workspaces", "ws_full", "already_joined"})
+    @DescribeError(code = "too_many_joined_workspaces", userMessage = "Вы не можете состоять более чем в N рабочих областях", payload = "N (лимит рабочих областей на пользователя)")
+    @DescribeError(code = "ws_full", userMessage = "В рабочей области могут состоять не более N участников", payload = "N (лимит участников на рабочую область)")
     @PostMapping(value = "/invite/accept")
     public WorkspaceMemberModel acceptInvitation(@RequestParam("invite_id") UUID invitationId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -331,7 +337,7 @@ public class WorkspaceApiController extends ApiControllerBase {
 
     @Operation(summary = "Отклонение приглашения в рабочую область", tags = "workspace-api")
     @SuccessResponse("Приглашение в рабочую область отклонено")
-    @GenericErrorResponse({"!invitation_not_found", "invitation_not_yours", "!workspace_not_found", "!invitation_expired", "!inviter_not_admin", "!already_joined"})
+    @GenericErrorResponse({"invitation_not_found", "invitation_not_yours", "invitation_ownerless", "invitation_expired", "inviter_not_longer_admin", "already_joined"})
     @PostMapping(value = "/invite/decline")
     public void declineInvitation(@RequestParam("invite_id") UUID invitationId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -341,7 +347,8 @@ public class WorkspaceApiController extends ApiControllerBase {
     @Operation(summary = "Исключение пользователя из рабочей области", tags = "workspace-api")
     @WorkspaceAdminOperation
     @SuccessResponse("Пользователь исключен из рабочей области")
-    @GenericErrorResponse({"workspace_not_exists", "!not_enough_rights", "!target_is_admin", "!target_not_a_member"})
+    @GenericErrorResponse({"ws_not_exists", "ws_ownership_required", "user_cannot_be_kicked"})
+    @DescribeError(code = "user_cannot_be_kicked", userMessage = "Пользователь не может быть исключен")
     @PostMapping(value = "/members/kick", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void kickMemberFromWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid UserIdentifierDto dto) throws ApiException {
@@ -352,7 +359,8 @@ public class WorkspaceApiController extends ApiControllerBase {
 
     @Operation(summary = "Выход из рабочей области", tags = "workspace-api")
     @SuccessResponse("Совершен выход из рабочей области")
-    @GenericErrorResponse({"!user_is_admin", "not_a_member"})
+    @GenericErrorResponse({"ws_denied_for_admin", "ws_membership_required"})
+    @DescribeError(code = "ws_denied_for_admin", userMessage = "Администратор не может выйти из своей рабочей области")
     @PostMapping(value = "/leave")
     public void leaveFromWorkspace(@RequestParam("ws_id") UUID workspaceId) throws ApiException {
         String userEmail = requireUserExistance(userService);
@@ -362,7 +370,8 @@ public class WorkspaceApiController extends ApiControllerBase {
     @Operation(summary = "Удаление рабочей области", tags = "workspace-api")
     @WorkspaceAdminOperation
     @SuccessResponse("Рабочая область удалена")
-    @GenericErrorResponse({"!wrong_password", "workspace_not_exists", "!not_enough_rights"})
+    @GenericErrorResponse({"wrong_password", "ws_not_exists", "ws_ownership_required"})
+    @DescribeError(code = "wrong_password", userMessage = "Неверный пароль")
     @DeleteMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public void deleteWorkspace(@RequestParam("ws_id") UUID workspaceId, @Valid ConfirmByPasswordDto dto) throws ApiException {
         User user = getCurrentUser(userService);

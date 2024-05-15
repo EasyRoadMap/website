@@ -41,7 +41,14 @@ public record DescribedError(String code, String userMessage, boolean forUser, S
                 annotation.payload()
         );
 
-        map.put(annotation.code(), object);
+        map.compute(annotation.code(), (code, existing) -> {
+            if (existing != null) {
+                String userMessage = !existing.userMessage().isEmpty() ? existing.userMessage() : object.userMessage();
+                return new DescribedError(code, userMessage, object.forUser(), object.payload());
+            } else {
+                return object;
+            }
+        });
     }
 
 }

@@ -51,7 +51,7 @@ public final class InvitationService {
         usedMemberSlots += workspaceInvitationRepository.countNotExpiredInvitations(workspaceId);
 
         if (usedMemberSlots >= MAX_MEMBERS_PER_WORKSPACE)
-            throw new ApiException("workspace_is_full", "You cannot invite one more user to this workspace", MAX_MEMBERS_PER_WORKSPACE);
+            throw new ApiException("ws_full", "You cannot invite one more user to this workspace", MAX_MEMBERS_PER_WORKSPACE);
 
         WorkspaceInvitation invitation = workspaceInvitationRepository.getUserInvitation(recipient.getEmail(), workspaceId).orElse(null);
         if (invitation != null && !invitation.isExpired())

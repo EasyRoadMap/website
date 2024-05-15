@@ -127,10 +127,10 @@ public class WorkspaceService {
 
     public void leaveFromWorkspace(String userEmail, UUID workspaceId) throws ApiException {
         if (isAdmin(userEmail, workspaceId))
-            throw new ApiException("user_is_admin", "You're an admin of this workspace");
+            throw new ApiException("ws_denied_for_admin", "You're an admin of this workspace");
 
         if (!isMember(userEmail, workspaceId))
-            throw new ApiException("not_a_member", "You're not a member of this workspace");
+            throw new ApiException("ws_membership_required", "You're not a member of this workspace");
 
         List<UUID> joinedProjectsIds = projectRepository.getJoinedProjectsIds(userEmail, workspaceId);
         if (!joinedProjectsIds.isEmpty())

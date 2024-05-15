@@ -67,7 +67,7 @@ public class RoadmapService {
             for (UUID uploadId : uploadIds)
                 if (!fileUploadService.isFileUploadExist(uploadId))
                     throw new ApiException(
-                            "roadmap_task_attachment_not_found",
+                            "rmta_upload_not_found",
                             "Roadmap task attachment with ID '%s' wasn't uploaded".formatted(uploadId)
                     );
 
@@ -165,7 +165,7 @@ public class RoadmapService {
             for (UUID uploadId : uploadIds)
                 if (!fileUploadService.isFileUploadExist(uploadId))
                     throw new ApiException(
-                            "roadmap_task_attachment_not_found",
+                            "rmta_upload_not_found",
                             "Roadmap task attachment with ID '%s' wasn't uploaded".formatted(uploadId)
                     );
 
@@ -215,28 +215,28 @@ public class RoadmapService {
 
     public RoadmapStage getStage(long stageId) throws ApiException {
         return stageRepository.findById(stageId).orElseThrow(() -> new ApiException(
-                "roadmap_stage_not_found",
+                "rms_not_exists",
                 "Roadmap stage with this ID doesn't exists"
         ));
     }
 
     public RoadmapTask getTask(long taskId) throws ApiException {
         return taskRepository.findById(taskId).orElseThrow(() -> new ApiException(
-                "roadmap_task_not_found",
+                "rmt_not_exists",
                 "Roadmap task with this ID doesn't exists"
         ));
     }
 
     public RoadmapTaskAttachment getTaskAttachment(long attachmentId) throws ApiException {
         return taskAttachmentRepository.findById(attachmentId).orElseThrow(() -> new ApiException(
-                "roadmap_task_attachment_not_found",
+                "rmta_not_exists",
                 "Roadmap task attachment with this ID doesn't exists"
         ));
     }
 
     public RoadmapTaskAttachment getTaskAttachment(UUID uploadId) throws ApiException {
         return taskAttachmentRepository.findByAttachmentIdEquals(uploadId).orElseThrow(() -> new ApiException(
-                "roadmap_task_attachment_not_found",
+                "rmta_not_exists",
                 "Roadmap task attachment with this upload ID doesn't exists"
         ));
     }
@@ -251,13 +251,13 @@ public class RoadmapService {
 
     public void requireStageExistance(long stageId) throws ApiException {
         if (!isStageExist(stageId)) {
-            throw new ApiException("roadmap_stage_not_found", "Roadmap stage with this ID doesn't exists");
+            throw new ApiException("rms_not_exists", "Roadmap stage with this ID doesn't exists");
         }
     }
 
     public void requireTaskExistance(long taskId) throws ApiException {
         if (!isTaskExist(taskId)) {
-            throw new ApiException("roadmap_task_not_found", "Roadmap task with this ID doesn't exists");
+            throw new ApiException("rmt_not_exists", "Roadmap task with this ID doesn't exists");
         }
     }
 
@@ -267,33 +267,33 @@ public class RoadmapService {
 
     public UUID requireStageProjectMembership(String userEmail, long stageId) throws ApiException {
         UUID projectId = stageRepository.getStageProjectId(stageId).orElseThrow(() -> new ApiException(
-                "project_not_found",
+                "rms_ownerless",
                 "This stage doesn't belongs to anyone project"
         ));
 
         requireProjectExistance(projectId);
         if (!projectMemberRepository.existsByUserEmailEqualsAndProjectIdEquals(userEmail, projectId))
-            throw new ApiException("not_a_member", "You're not a member of this project");
+            throw new ApiException("pr_membership_required", "You're not a member of this project");
 
         return projectId;
     }
 
     public UUID requireTaskProjectMembership(String userEmail, long taskId) throws ApiException {
         UUID projectId = taskRepository.getTaskProjectId(taskId).orElseThrow(() -> new ApiException(
-                "project_not_found",
+                "rmt_ownerless",
                 "This task doesn't belongs to anyone project roadmap stage"
         ));
 
         requireProjectExistance(projectId);
         if (!projectMemberRepository.existsByUserEmailEqualsAndProjectIdEquals(userEmail, projectId))
-            throw new ApiException("not_a_member", "You're not a member of this project");
+            throw new ApiException("pr_membership_required", "You're not a member of this project");
 
         return projectId;
     }
 
     public void requireProjectExistance(UUID projectId) throws ApiException {
         if (!isProjectExist(projectId)) {
-            throw new ApiException("project_not_exists", "There is no project with this ID");
+            throw new ApiException("pr_not_exists", "There is no project with this ID");
         }
     }
 
