@@ -23,7 +23,7 @@
   border-width: 1px;
   border-color: var(--light-stroke);
 }
-.taskFieldDone:hover {
+/* .taskFieldDone:hover {
   background-color: var(--bg-color-task-hover), var(--bg-task-complete);
   background-image: linear-gradient(
       var(--bg-color-task-hover),
@@ -39,7 +39,7 @@
       var(--bg-color-task-hover)
     ),
     linear-gradient(var(--bg-task-complete), var(--bg-task-complete));
-}
+} */
 .taskFieldProgress {
   min-height: 56px;
   padding-left: 24px;
@@ -55,7 +55,7 @@
   border-width: 1px;
   border-color: var(--light-stroke);
 }
-.taskFieldProgress:hover {
+/* .taskFieldProgress:hover {
   background-color: var(--bg-color-task-hover), var(--bg-task-in-progress);
   background-image: linear-gradient(
       var(--bg-color-task-hover),
@@ -71,7 +71,7 @@
       var(--bg-color-task-hover)
     ),
     linear-gradient(var(--bg-task-in-progress), var(--bg-task-in-progress));
-}
+} */
 .taskFieldPlanned {
   min-height: 56px;
   padding-left: 24px;
@@ -87,7 +87,7 @@
   border-width: 1px;
   border-color: var(--light-stroke);
 }
-.taskFieldPlanned:hover {
+/* .taskFieldPlanned:hover {
   background-color: var(--bg-color-task-hover), var(--bg-task-in-planned);
   background-image: linear-gradient(
       var(--bg-color-task-hover),
@@ -103,7 +103,7 @@
       var(--bg-color-task-hover)
     ),
     linear-gradient(var(--bg-task-in-planned), var(--bg-task-in-planned));
-}
+} */
 
 .tasksListWrapper {
   width: 100%;
@@ -114,7 +114,7 @@
   flex-direction: column;
   gap: 12px;
   width: 500px;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 .taskInfo {
   display: flex;
