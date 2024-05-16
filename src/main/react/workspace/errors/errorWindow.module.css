@@ -1,0 +1,54 @@
+.errorsWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  max-width: 360px;
+  padding: 12px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--bg-workspace-button-focus);
+  background-color: var(--bg-color-and-popup);
+  border-radius: 15px;
+}
+
+.errorsWindowInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+}
+
+.errorsInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-width: 241px;
+}
+.errorsTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+.errorsText {
+  font-size: 14px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+  white-space: normal;
+}
+
+.closeButton {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border-radius: 12px;
+}
+.closeButton:hover {
+  background-color: var(--bg-workspace-button);
+}
+.closeButton:active {
+  opacity: 0.75;
+  background-color: var(--bg-workspace-button);
+}

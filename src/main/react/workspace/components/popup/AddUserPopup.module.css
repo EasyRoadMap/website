@@ -1,15 +1,8 @@
 @import "../../theme.module.css";
 .AddUserPlaceholderContainer {
-  width: 600px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  background-color: var(--bg-color-and-popup);
-  border-radius: 15px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: var(--light-stroke);
-  padding: 18px;
 }
 
 .title {
@@ -72,16 +65,10 @@
   border-radius: 20px;
 }
 .AddUserContainer {
-  width: 600px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   align-items: center;
-  border-radius: 15px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: var(--light-stroke);
-  padding: 18px;
 }
 .AddUserContainerInfo {
   display: flex;

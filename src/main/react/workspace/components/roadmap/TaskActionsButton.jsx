@@ -155,6 +155,7 @@ const TaskActionsButton = ({ task, listShowed, setListShowed }) => {
           style={{
             display: listShowed ? "block" : "none",
             top: "32px",
+            right: "8px",
           }}
         />
       </div>

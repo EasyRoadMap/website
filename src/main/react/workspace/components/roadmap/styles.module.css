@@ -155,6 +155,7 @@
   opacity: 0.3;
   width: 32px;
   height: 32px;
+  border: none;
   background-color: transparent;
   border-radius: 12px;
   display: flex;
@@ -177,6 +178,11 @@
   background-color: var(--light-stroke);
 }
 .dotsWrapper:active {
+  background-color: var(--light-stroke);
+  opacity: 0.75;
+}
+.dotsWrapper:focus {
+  background-color: var(--light-stroke);
   opacity: 0.75;
 }
 

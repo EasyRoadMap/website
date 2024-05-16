@@ -183,9 +183,9 @@ const TaskItem = ({ task }) => {
             />
           </div>
 
-          <div className={styles.dotsWrapper} onClick={toggleListvisibility}>
+          <button className={styles.dotsWrapper} onClick={toggleListvisibility}>
             <ButtonDotsVerticalSVG className={styles.dots} />
-          </div>
+          </button>
           <TaskActionsButton
             task={task}
             listShowed={listShowed}
