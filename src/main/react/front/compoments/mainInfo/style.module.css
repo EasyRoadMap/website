@@ -77,6 +77,6 @@
   text-decoration: underline;
 }
 
-.infoLinks:active {
+.infoLink:active {
   opacity: 0.75;
 }
