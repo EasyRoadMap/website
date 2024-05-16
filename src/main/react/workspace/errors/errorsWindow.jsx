@@ -26,16 +26,17 @@ const ErrorsWindow = ({
   const { errorContext, setErrorContext } = useErrorContext();
 
   const closeAlert = (error) => {
+    // const filteredErrors = errorContext.filter((el) => {
+    //   return el.message.message !== error.message.message;
+    // });
     setErrorContext();
   }
 
   useEffect(() => {
     if (!errorContext?.length > 0) return;
     setTimeout(() => {
-      setTimeout(() => {
-        setErrorContext();
-      }, 2000);
-    }, 4000);
+      setErrorContext();
+    }, props?.duration ? props.duration : 15000);
     
   }, [errorContext]);
 
@@ -44,20 +45,22 @@ const ErrorsWindow = ({
     <div className={[styles.alertContainer].join(" ")}>
     {
         (errorContext && errorContext?.length > 0) && errorContext?.map((error, i) => {
+          const errorBlockInfo = errorType[props?.type ? props.type : "error"];
+          const ErrorBlock = errorBlockInfo.icon;
             return (
               <div
               style={{
                 position: "fixed",
-                top: (120 + (60*i)) + "px",
-                right: "120px",
+                top: (124 + (60*i)) + "px",
+                right: "24px",
                 zIndex: "999"
                }}
               >
                 <div className={styles.errorsWrapper}>
                 <div className={styles.errorsWindowInfo}>
-                  <Error style={{ width: "30px", height: "30px" }} />
+                  <ErrorBlock style={{ width: "30px", height: "30px" }} />
                   <div className={styles.errorsInfo}>
-                    <span className={styles.errorsTitle}>{errorType["error"].name}</span>
+                    <span className={styles.errorsTitle}>{errorBlockInfo.name}</span>
                     <span className={styles.errorsText}>{error.message.message}</span>
                   </div>
                 </div>

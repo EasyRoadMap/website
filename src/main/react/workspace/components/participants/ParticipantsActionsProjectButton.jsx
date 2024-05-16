@@ -33,8 +33,7 @@ const ParticipantActionsButton = ({ participant }) => {
       params[0].button !== "change" ||
       !workspaceContext?.id ||
       !projectContext?.id ||
-      !participant?.user?.email ||
-      !params[0].role
+      !participant?.user?.email
     )
       return;
     UpdateMemberRole(projectContext.id, participant.user.email, params[0].role);
@@ -66,15 +65,15 @@ const ParticipantActionsButton = ({ participant }) => {
 
   const buttons = [
     {
-      icon: DeleteSVG,
-      text: "Исключить",
-      callback: () => openRemoveParticipantPopup(),
-    },
-    {
       icon: EditSVG,
       text: "Изменить должность",
       callback: () => openChangePositionPopup(),
     },
+    {
+      icon: DeleteSVG,
+      text: "Исключить",
+      callback: () => openRemoveParticipantPopup(),
+    }
   ];
 
   const toggleListvisibility = () => {
@@ -87,8 +86,8 @@ const ParticipantActionsButton = ({ participant }) => {
       style={{ width: "fit-content" }}
     >
       <div className={styles.dotsWrapper}>
-        <div className={styles.dotsContainer}>
-          <div className={styles.dots} onClick={toggleListvisibility}>
+        <div className={styles.dotsContainer} onClick={toggleListvisibility}>
+          <div className={styles.dots}>
             <ButtonDotsSVG style={{ width: "16px", height: "16px" }} />
           </div>
         </div>
