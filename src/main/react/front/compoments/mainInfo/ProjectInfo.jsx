@@ -1,12 +1,7 @@
 import styles from "./style.module.css";
 import LinkSVG from "../../../assets/linkSVG.jsx";
 
-const ProjectInfo = ({
-  name,
-  description,
-  links,
-  photo
-}) => {
+const ProjectInfo = ({ name, description, links, photo }) => {
   const avatarClassName = photo?.default
     ? [styles.projectAvatar, styles.pixelAvatar].join(" ")
     : styles.projectAvatar;
@@ -18,17 +13,21 @@ const ProjectInfo = ({
         <span className={styles.infoTitle}>{name}</span>
         <span className={styles.infoDescription}>{description}</span>
         <div className={styles.infoLinkWrapper}>
-          {
-            links &&
+          {links &&
             links?.map((link) => {
               return (
                 <div className={styles.infoLink}>
                   <LinkSVG />
-                  <a href={link?.url}>{link?.name}</a>
+                  <a
+                    href={link?.url}
+                    className={styles.infoLinks}
+                    target="_blank"
+                  >
+                    {link?.name}
+                  </a>
                 </div>
               );
-            })
-          }
+            })}
         </div>
       </div>
     </div>

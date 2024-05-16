@@ -52,10 +52,31 @@
   gap: 12px;
 }
 .infoLink {
+  opacity: 1;
   display: flex;
   flex-direction: row;
   gap: 6px;
-  color: var(--accent-color);
+  color: #0066fe;
   font-size: 16px;
   font-weight: normal;
+  text-decoration: none;
+}
+
+.infoLinks {
+  opacity: 1;
+  color: #0066fe;
+  font-size: 16px;
+  font-weight: normal;
+  text-decoration: none;
+  .infoLinks:visited {
+    color: #0066fe;
+  }
+}
+
+.infoLinks:hover {
+  text-decoration: underline;
+}
+
+.infoLinks:active {
+  opacity: 0.75;
 }
