@@ -28,7 +28,7 @@
   color: var(--foreground-color50);
   padding-left: 0;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: normal;
 }
 .input {
   background-color: transparent;
@@ -54,7 +54,7 @@
   border-color: var(--switch-hover-color);
   color: var(--foreground-color50);
   font-size: 16px;
-  font-weight: 500;
+  font-weight: normal;
   border-radius: 12px;
   padding-left: 18px;
   padding-right: 18px;
@@ -134,7 +134,7 @@
   color: var(--foreground-color50);
   padding-left: 0;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: normal;
 }
 .inputDate:hover {
   background-color: var(--bg-workspace-button-focus);

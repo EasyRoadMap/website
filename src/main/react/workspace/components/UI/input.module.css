@@ -17,6 +17,7 @@
 }
 .input::placeholder {
   font-size: 16px;
+  font-weight: normal;
   padding-left: 0;
   color: var(--foreground-color50);
   -webkit-user-select: none;
