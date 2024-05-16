@@ -13,6 +13,7 @@ import Popup from "../popup/Popup.jsx";
 import ChangeTaskPopup from "../popup/ChangeTaskPopup.jsx";
 import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
 import useRoadmapContext from "../../hooks/useRoadmapContext.js";
+import useProjectContext from "../../hooks/useProjectContext.js";
 import { useState } from "react";
 
 const completionIcons = {
@@ -21,17 +22,23 @@ const completionIcons = {
   planned: TaskInPlannedSVG,
 };
 
-// TODO: change colors
 const completionColors = {
   done: "taskFieldDone",
   in_progress: "taskFieldProgress",
   planned: "taskFieldPlanned",
 };
 
+const statusToInt = {
+  in_progress: 0,
+  planned: 1,
+  done: 2,
+};
+
 const TaskItem = ({ task }) => {
   const IconTaskComplete = completionIcons[task?.status];
   const classTask = styles[completionColors[task?.status]];
 
+  const { projectId } = useProjectContext();
   const { ChangeTask } = useRoadmapInfo();
   const { chosenStage } = useRoadmapContext();
   const [listShowed, setListShowed] = useState(false);

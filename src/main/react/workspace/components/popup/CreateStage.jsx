@@ -3,12 +3,28 @@ import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import { useState } from "react";
 
+import { validateName } from "../../errors/validation.js";
+
+
 const CreateStagePopup = ({ close }) => {
   const [name, setName] = useState("");
+
+  const [errorName, setErrorName] = useState(false);
+
+  const validate = () => {
+    const nameValidationResult = validateName(name, "stage");
+
+    if (nameValidationResult !== "passed") {
+      setErrorName(nameValidationResult);
+      return false;
+    }
+    return true;
+  }
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create")
       return;
+    if (!validate()) return;
     close({ button: nameButtonClicked, name: name });
   };
   return (
@@ -24,6 +40,8 @@ const CreateStagePopup = ({ close }) => {
           setData={setName}
           placeholder={"Введите название"}
           typeOfInput={"nameStage"}
+          error={errorName}
+          clearError={() => setErrorName("")}
         />
       </div>
       <div className={styles.buttonsWrapper}>

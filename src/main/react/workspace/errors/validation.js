@@ -24,8 +24,8 @@ export const validateName = (name, from) => {
 }
 
 export const validateDescription = (description) => {
-    if (description.length < 2) return "Описание должно состоять не менее чем из 2 символов";
-    if (description.length < 320) return "Описание должно состоять не более чем из 320 символов";
+    if (description.length < 2 && description.length !== 0) return "Описание должно состоять не менее чем из 2 символов";
+    if (description.length > 320) return "Описание должно состоять не более чем из 320 символов";
     return "passed";
 }
 
@@ -33,10 +33,13 @@ export const validateDeadlineDate = (strDeadlineAt) => {
     const currentDate = new Date(); 
     currentDate.setHours(0,0,0,0);
     const deadlineAt = new Date(strDeadlineAt);
-    return deadlineAt >= currentDate;
+    console.debug(deadlineAt, currentDate);
+    if (currentDate >= deadlineAt) return "Дата дедлайна должна быть позже сегодняшнего дня"
+    return "passed"
 }
 
 export const validateRole = (role) => {
-    if (role.length < 1) return "Название должности должно состоять не менее чем из 1 символа";
+    // if (role.length < 1) return "Название должности должно состоять не менее чем из 1 символа";
     if (role.length > 32) return "Название должности должно состоять не более чем из 32 символов";
+    return "passed"
 }

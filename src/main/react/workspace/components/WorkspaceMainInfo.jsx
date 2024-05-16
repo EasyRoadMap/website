@@ -7,6 +7,8 @@ import Button from "./UI/Button.jsx";
 import { useWorkspaceInfo } from "../hooks/useWorkspace.jsx";
 import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 
+import { validateName, validateDescription } from "../errors/validation.js";
+
 const WorkspaceMainInfo = ({ logo, initialValues }) => {
   const [name, setName] = useState(initialValues.name);
   const [description, setDescription] = useState(initialValues.description);
@@ -14,9 +16,9 @@ const WorkspaceMainInfo = ({ logo, initialValues }) => {
   const { updateInfo } = useWorkspaceInfo();
   const { workspaceContext } = useWorkspaceContext();
 
-  useEffect(() => {
-    console.debug("initialValues", initialValues.workspace);
-  }, []);
+  const [errorName, setErrorName] = useState(false);
+  const [errorDescription, setErrorDescription] = useState(false);
+
 
   const avatarClassName = logo?.default
     ? [styles.logo, styles.pixelAvatar].join(" ")
@@ -31,8 +33,24 @@ const WorkspaceMainInfo = ({ logo, initialValues }) => {
     );
   };
 
+  const validate = () => {
+    const nameValidationResult = validateName(name, "workspace");
+    const descriptionValidationResult = validateDescription(description);
+
+    if (nameValidationResult !== "passed") {
+      setErrorName(nameValidationResult);
+      return false;
+    }
+    if (descriptionValidationResult !== "passed") {
+      setErrorDescription(descriptionValidationResult);
+      return false;
+    }
+    return true;
+  }
+
   const changeData = () => {
     if (!workspaceContext?.id) return;
+    if (!validate()) return;
     if (
       name !== initialValues?.name ||
       description !== initialValues?.description
@@ -61,6 +79,8 @@ const WorkspaceMainInfo = ({ logo, initialValues }) => {
               data={name}
               setData={setName}
               loading={!initialValues.name}
+              error={errorName}
+              clearError={() => setErrorName("")}
             />
             <TextField
               title="Описание"
@@ -69,6 +89,8 @@ const WorkspaceMainInfo = ({ logo, initialValues }) => {
               data={description}
               setData={setDescription}
               loading={!initialValues.name}
+              error={errorDescription}
+              clearError={() => setErrorDescription("")}
             />
             {isDataChanged() && (
               <Button

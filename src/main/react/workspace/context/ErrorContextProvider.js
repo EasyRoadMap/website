@@ -7,7 +7,7 @@ export const ErrorProvider = ({ children }) => {
     const [errorContext, setErrorContext] = useState([]);
 
     const pushError = (message, type) => {
-        setErrorContext((prev) => prev?.length > 0 ? [...prev, {message: message, type: type}] : [{message: message, type: type}])
+        setErrorContext((prev) => [{message: message, type: type}])
     }
 
     return (

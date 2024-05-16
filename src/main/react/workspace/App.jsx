@@ -103,13 +103,14 @@ function App() {
   };
 
   return (
+    <ErrorProvider>
     <PopupProvider>
       {/* <UserProvider>
         <WorkspaceProvider>
           <ProjectProvider>
             <BrowserRouter> */}
             <RoadmapProvider>
-              <ErrorProvider>
+              
               <Routes>
                   <Route path="/workspace" element={<Main key={workspaceContext.id + "main"}/>} />
                   <Route path="/workspace/projects" element={<ProjectsPage key={workspaceContext.id + "projects"}/>} />
@@ -117,13 +118,13 @@ function App() {
                   <Route path="/workspace/settings" element={<Settings key={workspaceContext.id + "settings"}/>} />
                   <Route path="/workspace/invite" element={<Main fromInvite={true} key={workspaceContext.id + "maininvite"}/>} />
                 </Routes>
-                </ErrorProvider>
             </RoadmapProvider>
             {/* </BrowserRouter>
           </ProjectProvider>
         </WorkspaceProvider>
       </UserProvider> */}
     </PopupProvider>
+    </ErrorProvider>
   );
 }
 

@@ -423,3 +423,88 @@
   display: flex;
   gap: 12px;
 }
+
+
+.error {
+  border-color: #ff4848;
+  color: #ff0000;
+}
+.error::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+  -webkit-user-select: none;
+  user-select: none;
+}
+.error:hover {
+  border-color: #ff4848;
+  color: #ff0000;
+}
+.error:focus {
+  border-color: #ff4848;
+  color: #ff0000;
+}
+.error:active {
+  border-color: #ff4848;
+  color: #ff0000;
+}
+
+h3 {
+  font-size: 1.5vh;
+  color: #ff4848;
+  padding-bottom: 0.5vh;
+  font-weight: normal;
+}
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+.iconSVG {
+  position: absolute;
+  display: flex;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  align-items: center;
+  justify-content: center;
+  width: 19px;
+  height: 19px;
+  cursor: pointer;
+}
+.tooltip {
+  width: 100%;
+  max-width: 420px;
+  position: absolute;
+  z-index: 999;
+  border-radius: 12px;
+  background-image: linear-gradient(
+      rgba(241, 64, 58, 0.15),
+      rgba(241, 64, 58, 0.15)
+    ),
+    linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 1));
+
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+.tooltip::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 0;
+  height: 12px;
+  width: 100%;
+}
+.tooltipLogo {
+  height: 30px;
+  margin-right: 7px;
+}
+.tooltipText {
+  font-size: 14px;
+  color: #ff0000;
+}
+.tooltipTriangle {
+  height: 7px;
+  width: 10px;
+  position: absolute;
+  top: -7px;
+  left: 20px;
+}

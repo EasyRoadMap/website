@@ -94,8 +94,8 @@ export default function Input({
               </div>
             )}
           </div>
+          <ErrorTooltip isShown={active && error} errorText={error} stylesFromOutside={{bottom: "-59px"}}/>
         </div>
-        <ErrorTooltip isShown={active && error} errorText={error} />
       </>
     );
   }

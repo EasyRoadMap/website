@@ -4,15 +4,43 @@ import Input from "../UI/Input.jsx";
 import InputDate from "../UI/InputDate.jsx";
 import { useState } from "react";
 
+import { validateName, validateDescription, validateDeadlineDate } from "../../errors/validation.js";
+
 const CreateProjectPopup = ({ close }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
 
+  const [errorName, setErrorName] = useState(false);
+  const [errorDescription, setErrorDescription] = useState(false);
+  const [errorDate, setErrorDate] = useState(false);
+
+  const validate = () => {
+    const nameValidationResult = validateName(name, "project");
+    const descriptionValidationResult = validateDescription(description);
+    const dateValidationResult = validateDeadlineDate(date);
+
+
+    if (nameValidationResult !== "passed") {
+      setErrorName(nameValidationResult);
+      return false;
+    }
+    if (descriptionValidationResult !== "passed") {
+      setErrorDescription(descriptionValidationResult);
+      return false;
+    }
+    if (dateValidationResult !== "passed") {
+      setErrorDate(dateValidationResult);
+      return false;
+    }
+    return true;
+  }
+
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create")
       return;
-    close({ button: nameButtonClicked, name: name, description: description });
+    if (!validate()) return;
+    close({ button: nameButtonClicked, name: name, description: description, date: date });
   };
   return (
     <>
@@ -29,14 +57,19 @@ const CreateProjectPopup = ({ close }) => {
           setData={setName}
           placeholder={"Введите название"}
           typeOfInput={"nameProject"}
+          error={errorName}
+          clearError={() => setErrorName("")}
         />
         <Input
           data={description}
           setData={setDescription}
           placeholder={"Введите описание"}
           typeOfInput={"descriptionProject"}
+          error={errorDescription}
+          clearError={() => setErrorDescription("")}
         />
-        <InputDate typeDate="endDate" loading={true} />
+        <InputDate data={date} setData={setDate} typeDate="endDate" loading={true} error={errorDate}
+          clearError={() => setErrorDate("")} />
       </div>
       <div className={styles.buttonsWrapper}>
         <Button

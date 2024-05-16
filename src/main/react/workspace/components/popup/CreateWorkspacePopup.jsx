@@ -3,13 +3,35 @@ import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import { useState } from "react";
 
+import { validateName, validateDescription } from "../../errors/validation.js";
+
+
 const CreateWorkspacePopup = ({ close }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
+  const [errorName, setErrorName] = useState(false);
+  const [errorDescription, setErrorDescription] = useState(false);
+
+  const validate = () => {
+    const nameValidationResult = validateName(name, "workspace");
+    const descriptionValidationResult = validateDescription(description);
+
+    if (nameValidationResult !== "passed") {
+      setErrorName(nameValidationResult);
+      return false;
+    }
+    if (descriptionValidationResult !== "passed") {
+      setErrorDescription(descriptionValidationResult);
+      return false;
+    }
+    return true;
+  }
+
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create")
       return;
+    if (!validate()) return;
     close({ button: nameButtonClicked, name: name, description: description });
   };
   return (
@@ -28,12 +50,16 @@ const CreateWorkspacePopup = ({ close }) => {
           setData={setName}
           placeholder={"Введите название"}
           typeOfInput={"nameRegion"}
+          error={errorName}
+          clearError={() => setErrorName("")}
         />
         <Input
           data={description}
           setData={setDescription}
           placeholder={"Введите описание"}
           typeOfInput={"descriptionRegion"}
+          error={errorDescription}
+          clearError={() => setErrorDescription("")}
         />
       </div>
       <div className={styles.buttonsWrapper}>

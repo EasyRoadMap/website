@@ -52,3 +52,29 @@
   opacity: 0.75;
   background-color: var(--bg-workspace-button);
 }
+/* .alertContainer {
+  opacity: 1;
+} */
+.alertFade {
+  -webkit-animation-name: fadeIn;
+  -webkit-animation-duration: 2s;
+  animation-name: fadeIn;
+  animation-duration: 2s;
+}
+@-webkit-keyframes fadeIn { 
+  0% { opacity: 1; }
+  20% { opacity: 0.9; }
+  40% { opacity: 0.5; }
+  60% { opacity: 0.3; }
+  80% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 1; }
+  20% { opacity: 0.9; }
+  40% { opacity: 0.5; }
+  60% { opacity: 0.3; }
+  80% { opacity: 0; }
+  100% { opacity: 0; }
+}

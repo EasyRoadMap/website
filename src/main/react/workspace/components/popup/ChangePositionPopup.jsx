@@ -3,8 +3,22 @@ import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import { useState } from "react";
 
+import { validateRole } from "../../errors/validation.js";
+
 const ChangePositionPopup = ({ close, participant }) => {
   const [role, setRole] = useState(participant?.role);
+
+  const [errorRole, setErrorRole] = useState("");
+
+  const validate = () => {
+    const roleValidationResult = validateRole(role);
+
+    if (roleValidationResult !== "passed") {
+      setErrorRole(roleValidationResult);
+      return false;
+    }
+    return true;
+  }
 
   const avatarClassName = participant?.user?.photo?.default
     ? [styles.participantAvatar, styles.pixelAvatar].join(" ")
@@ -13,6 +27,7 @@ const ChangePositionPopup = ({ close, participant }) => {
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "change")
       return;
+    if (!validate()) return;
     close({button: nameButtonClicked, role: role});
   };
   return (
@@ -37,7 +52,14 @@ const ChangePositionPopup = ({ close, participant }) => {
             Вы можете назначить должность данному <br />
             пользователю в поле ниже.
           </div>
-          <Input placeholder={"Введите должность"} typeOfInput={"position"} data={role} setData={setRole}/>
+          <Input 
+            placeholder={"Введите должность"} 
+            typeOfInput={"position"} 
+            data={role} 
+            setData={setRole}
+            error={errorRole}
+            clearError={() => setErrorRole("")}
+          />
         </div>
       </div>
 

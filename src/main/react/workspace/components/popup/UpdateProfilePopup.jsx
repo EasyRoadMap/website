@@ -10,11 +10,15 @@ import { usePopupManager } from "react-popup-manager";
 import Popup from "./Popup.jsx";
 import AddPhotoPopup from "./AddPhotoPopup.jsx";
 
+import { validateName } from "../../errors/validation.js";
+
+
 const UpdateProfilePopup = ({ close, userName }) => {
   const [name, setName] = useState(userName);
   const {} = useUserInfo();
   const { userContext } = useUserContext();
 
+  const [errorName, setErrorName] = useState(false);
 
   const popupManager = usePopupManager();
 
@@ -25,8 +29,17 @@ const UpdateProfilePopup = ({ close, userName }) => {
     // }
   }
 
+  const validate = () => {
+    const nameValidationResult = validateName(name, "user");
+
+    if (nameValidationResult !== "passed") {
+      setErrorName(nameValidationResult);
+      return false;
+    }
+    return true;
+  }
+
   const openAddPhotoPopup = () => {
-    console.debug("opening");
     popupManager.open(Popup, {
       popup: {
         component: AddPhotoPopup
@@ -37,6 +50,7 @@ const UpdateProfilePopup = ({ close, userName }) => {
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "save") return;
+    if (!validate()) return;
     close({ button: nameButtonClicked, name: name });
   };
 
@@ -64,6 +78,8 @@ const UpdateProfilePopup = ({ close, userName }) => {
               setData={setName}
               placeholder={"Ваше имя"}
               typeOfInput={"name"}
+              error={errorName}
+              clearError={() => setErrorName("")}
             />
             <div className={styles.descriptionUser}>
               <span>

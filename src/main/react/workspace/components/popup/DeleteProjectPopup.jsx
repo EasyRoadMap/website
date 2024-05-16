@@ -5,13 +5,29 @@ import InputCheckBox from "../UI/InputCheckbox.jsx";
 import stylesInput from "../UI/InputCheckBox.module.css";
 import { useState } from "react";
 
+import { validatePassword } from "../../errors/validation.js";
+
+
 const DeleteProjectPopup = ({ project, close }) => {
   const [password, setPassword] = useState(null);
   const [check, setCheck] = useState(false);
 
+  const [errorPassword, setErrorPassword] = useState(false);
+
+  const validate = () => {
+    const passwordValidationResult = validatePassword(password);
+
+    if (passwordValidationResult !== "passed") {
+      setErrorPassword(passwordValidationResult);
+      return false;
+    }
+    return true;
+  }
+
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "delete")
       return;
+    if (!validate()) return;
     close({ button: nameButtonClicked, password: password });
   };
   return (
@@ -30,6 +46,8 @@ const DeleteProjectPopup = ({ project, close }) => {
           setData={setPassword}
           placeholder={"••••••••"}
           typeOfInput={"password"}
+          error={errorPassword}
+          clearError={() => setErrorPassword("")}
         />
       </div>
 

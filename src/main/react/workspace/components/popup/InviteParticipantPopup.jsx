@@ -3,12 +3,27 @@ import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import { useState } from "react";
 
+import { validateName, validateRole } from "../../errors/validation.js";
+
 const InviteParticipantPopup = ({ close }) => {
   const [email, setEmail] = useState("");
   const [position, setPosition] = useState("");
 
+  const [errorRole, setErrorRole] = useState(false);
+
+  const validate = () => {
+    const roleValidationResult = validateRole(position);
+
+    if (roleValidationResult !== "passed") {
+      setErrorRole(roleValidationResult);
+      return false;
+    }
+    return true;
+  }
+
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "invite") return;
+    if (!validate()) return;
     close({
       button: nameButtonClicked,
       email: email,
@@ -38,6 +53,8 @@ const InviteParticipantPopup = ({ close }) => {
           setData={setPosition}
           placeholder={"Введите должность"}
           typeOfInput={"position"}
+          error={errorRole}
+          clearError={() => setErrorRole("")}
         />
       </div>
       <div className={styles.buttonsWrapper}>

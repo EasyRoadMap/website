@@ -10,6 +10,8 @@ import { useState, useEffect } from "react";
 import { useProjectInfo } from "../hooks/useProject.jsx";
 import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 
+import { validateName, validateDescription, validateDeadlineDate } from "../errors/validation.js";
+
 const ProjectMainInfo = ({
   initialValues,
   projectId
@@ -19,6 +21,10 @@ const ProjectMainInfo = ({
   const [links, setLinks] = useState(initialValues?.links);
   const [date, setDate] = useState(initialValues?.date);
 
+  const [errorName, setErrorName] = useState(false);
+  const [errorDescription, setErrorDescription] = useState(false);
+  const [errorDate, setErrorDate] = useState(false);
+
   const { projectContext } = useProjectContext();
   const { UpdateInfo, UpdateLinks } = useProjectInfo();
   const { workspaceContext } = useWorkspaceContext();
@@ -27,9 +33,26 @@ const ProjectMainInfo = ({
     ? [styles.logo, styles.pixelAvatar].join(" ")
     : styles.logo;
 
-  useEffect(() => {
-    links.length
-  }, [links]);
+    const validate = () => {
+      const nameValidationResult = validateName(name, "project");
+      const descriptionValidationResult = validateDescription(description);
+      const dateValidationResult = validateDeadlineDate(date);
+
+  
+      if (nameValidationResult !== "passed") {
+        setErrorName(nameValidationResult);
+        return false;
+      }
+      if (descriptionValidationResult !== "passed") {
+        setErrorDescription(descriptionValidationResult);
+        return false;
+      }
+      if (dateValidationResult !== "passed") {
+        setErrorDate(dateValidationResult);
+        return false;
+      }
+      return true;
+    }
 
   const isDataChanged = () => {
     if (links?.length > 0) for (let i = 0; i < links.length; i++) {
@@ -50,6 +73,7 @@ const ProjectMainInfo = ({
 
   const changeData = () => {
     if (!projectContext?.id || !workspaceContext?.id) return;
+    if (!validate()) return;
     if (
       name !== initialValues?.name ||
       description !== initialValues?.description ||
@@ -104,6 +128,8 @@ const ProjectMainInfo = ({
             placeholder="Название проекта"
             data={name}
             setData={setName}
+            error={errorName}
+            clearError={() => setErrorName("")}
           />
           <TextField
             title="Описание проекта"
@@ -111,6 +137,8 @@ const ProjectMainInfo = ({
             type="textarea"
             data={description}
             setData={setDescription}
+            error={errorDescription}
+            clearError={() => setErrorDescription("")} 
           />
           <label className={styles.titleInput}>Ссылки</label>
           {
@@ -125,6 +153,8 @@ const ProjectMainInfo = ({
           <TextFieldDate 
             data={date}
             setData={setDate}
+            error={errorDate}
+            clearError={() => setErrorDate("")} 
           />
           {
             isDataChanged() &&

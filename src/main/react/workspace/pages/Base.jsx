@@ -10,7 +10,7 @@ import useProjectContext from "../hooks/useProjectContext.js";
 import { useEffect } from "react";
 import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 
-import Alert from "../components/alert/Alert.jsx";
+import ErrorsWindow from "../errors/errorsWindow.jsx";
 
 const Base = ({children}) => {
   const { currentWorkspace, DeleteUser, UpdateUser } = useUserInfo();
@@ -33,7 +33,7 @@ const Base = ({children}) => {
   return (
     
     <main className={styles.main}>
-      <Alert>
+      <ErrorsWindow>
     <Header  DeleteUser={DeleteUser} UpdateUser={UpdateUser} currentWorkspace={currentWorkspace}/>
       <div className={styles.themeButton}>
         <ThemeButton />
@@ -42,7 +42,7 @@ const Base = ({children}) => {
         <Sidebar />
         <section className={styles.centeredContent}>{children}</section>
       </section>
-      </Alert>
+      </ErrorsWindow>
     </main>
   );
 };
