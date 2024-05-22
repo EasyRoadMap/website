@@ -20,7 +20,6 @@ import ru.easyroadmap.website.storage.model.workspace.Workspace;
 import ru.easyroadmap.website.storage.repository.project.ProjectLinkRepository;
 import ru.easyroadmap.website.storage.repository.project.ProjectRepository;
 import ru.easyroadmap.website.storage.repository.roadmap.RoadmapStageRepository;
-import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskAttachmentRepository;
 import ru.easyroadmap.website.storage.repository.roadmap.RoadmapTaskRepository;
 import ru.easyroadmap.website.storage.repository.workspace.WorkspaceRepository;
 
@@ -40,7 +39,6 @@ public final class PublicApiService {
 
     private final RoadmapStageRepository stageRepository;
     private final RoadmapTaskRepository taskRepository;
-    private final RoadmapTaskAttachmentRepository taskAttachmentRepository;
 
     private final PhotoService photoService;
     private final FileUploadService fileUploadService;
@@ -82,7 +80,8 @@ public final class PublicApiService {
                 .map(ProjectLink::createFrontModel)
                 .toList();
 
-        List<FrontProjectModel.StageModel> stageModels = stageRepository.findAllByProjectIdEquals(projectId).stream()
+        Pageable pageable = Pageable.unpaged(Sort.by("position"));
+        List<FrontProjectModel.StageModel> stageModels = stageRepository.findAllByProjectIdEquals(projectId, pageable).stream()
                 .map(s -> s.createFrontModel(taskRepository.existsByStageIdEqualsAndStatusEquals(s.getId(), 0)))
                 .toList();
 
@@ -103,7 +102,7 @@ public final class PublicApiService {
         Sort sort = Sort.by("status", "deadlineAt", "name").ascending();
         List<FrontTaskModel> taskModels = new ArrayList<>();
 
-        for (RoadmapTask task : taskRepository.findAllByStageIdEquals(stageId, Pageable.unpaged())) {
+        for (RoadmapTask task : taskRepository.findAllByStageIdEquals(stageId, Pageable.unpaged(sort))) {
             List<FrontTaskAttachmentModel> attachmentModels = fileUploadService.getTaskAttachments(task.getId()).stream()
                     .map(a -> a.createFrontTaskAttachmentModel(serverHost))
                     .toList();
