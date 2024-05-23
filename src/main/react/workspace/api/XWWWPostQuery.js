@@ -21,6 +21,4 @@ export const XWWWPostQuery = (URL, params, query, isArray=false) => {
         },
         params: new URLSearchParams(query)
     })
-    // TODO refactor this
-
 }

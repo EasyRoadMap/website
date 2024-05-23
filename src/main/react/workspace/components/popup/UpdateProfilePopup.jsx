@@ -50,6 +50,10 @@ const UpdateProfilePopup = ({ close, userName }) => {
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "save") return;
+    if (nameButtonClicked === "cancel") {
+      close({ button: nameButtonClicked, name: name });
+      return;
+    }
     if (!validate()) return;
     close({ button: nameButtonClicked, name: name });
   };

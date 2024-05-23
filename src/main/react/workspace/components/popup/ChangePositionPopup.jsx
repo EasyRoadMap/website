@@ -27,6 +27,10 @@ const ChangePositionPopup = ({ close, participant }) => {
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "change")
       return;
+    if (nameButtonClicked === "cancel") {
+      close({button: nameButtonClicked, role: role});
+      return;
+    }
     if (!validate()) return;
     close({button: nameButtonClicked, role: role});
   };

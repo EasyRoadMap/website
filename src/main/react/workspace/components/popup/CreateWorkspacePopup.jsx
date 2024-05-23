@@ -31,6 +31,10 @@ const CreateWorkspacePopup = ({ close }) => {
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create")
       return;
+    if (nameButtonClicked === "cancel") {
+      close({ button: nameButtonClicked, name: name, description: description });
+      return;
+    }
     if (!validate()) return;
     close({ button: nameButtonClicked, name: name, description: description });
   };

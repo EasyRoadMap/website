@@ -4,15 +4,17 @@ import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import InputCheckBox from "../UI/InputCheckbox.jsx";
 import { useState } from "react";
-
+import { deleteUser } from "../../api/user-api/deleteUser.js";
 import { validatePassword } from "../../errors/validation.js";
-
+import { useNavigate } from "react-router-dom";
 
 const DeleteAccountPopup = ({ deleteUser, close }) => {
   const [password, setPassword] = useState(null);
   const [check, setCheck] = useState(false);
 
   const [errorPassword, setErrorPassword] = useState(false);
+
+  const navigate = useNavigate();
 
   const validate = () => {
     const passwordValidationResult = validatePassword(password);
@@ -27,6 +29,10 @@ const DeleteAccountPopup = ({ deleteUser, close }) => {
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "delete")
       return;
+    if (nameButtonClicked === "cancel") {
+      close({ button: nameButtonClicked });
+      return;
+    }
     if (!validate()) return;
     // if (nameButtonClicked === "delete") {
     //     if (check === true) {
@@ -42,6 +48,11 @@ const DeleteAccountPopup = ({ deleteUser, close }) => {
     //     }
     //     return;
     // }
+    deleteUser(password).then((response) => {
+      window.location.replace("/auth/sign-in");
+    }).catch((e) => {
+      console.log("error happened while delete user");
+    })
     close({ button: nameButtonClicked });
   };
   return (

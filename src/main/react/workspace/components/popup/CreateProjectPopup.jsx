@@ -39,6 +39,10 @@ const CreateProjectPopup = ({ close }) => {
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create")
       return;
+    if (nameButtonClicked === "cancel") {
+      close({ button: nameButtonClicked, name: name, description: description, date: date });
+      return;
+    }
     if (!validate()) return;
     close({ button: nameButtonClicked, name: name, description: description, date: date });
   };

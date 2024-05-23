@@ -27,6 +27,10 @@ const DeleteProjectPopup = ({ project, close }) => {
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "delete")
       return;
+    if (nameButtonClicked === "cancel") {
+      close({ button: nameButtonClicked, password: password });
+      return;
+    }
     if (!validate()) return;
     close({ button: nameButtonClicked, password: password });
   };

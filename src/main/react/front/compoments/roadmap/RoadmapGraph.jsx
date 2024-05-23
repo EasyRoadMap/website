@@ -136,10 +136,10 @@ const RoadmapGraph = ({
                 >
                     <>
                         {
-                            (i % 2 === 0 && stages.length > 1) &&
+                            (stage.position % 2 === 0 && stages.length > 1) &&
                             <div className={styles.graphBranchLine}></div>
                         }
-                        <div style={(i % 2 === 0 && stages.length > 1) ? 
+                        <div style={(stage.position % 2 === 0 && stages.length > 1) ? 
                             {marginTop: "10px", position: "relative"} : 
                             {marginBottom: "10px", position: "relative"}}
                         >
@@ -158,7 +158,7 @@ const RoadmapGraph = ({
                         </div>
                       </div>
                         {
-                            i % 2 === 1 &&
+                            stage.position % 2 === 1 &&
                             <div className={styles.graphBranchLine}></div>
                         }
                     </>

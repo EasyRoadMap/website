@@ -116,10 +116,12 @@ const RoadmapGraph = ({
     }
 
     const moveToBlock = (i) => {
-        if (stages.length >= 4 && i < 2) i = 2
+        if (stages.length >= 4 && i < 2) i = 2;
         else if (i < 0) i = 0;
         if (stages.length >= 4 && i > stages.length - 2) i = stages.length - 2;
-        if (i > stages.length) i = stages.length;
+        if (i > stages.length) i = stages.length - 2;
+        if (stages.length <= 4 && stages.length > 1) i = Math.ceil(stages.length / 2);
+        console.debug("moved to ", i, stages.length / 2);
         const initRight = i * (-100);
         const goalRight = SIZES.viewportWidth/2 - SIZES.stageCircleWidth/2;
         setCenteredBlock(i);
@@ -154,7 +156,7 @@ const RoadmapGraph = ({
                 return stage.id !== stageToDelete.id;
             })
             const initialStage = pickInitialCenteredStage(newStages);
-            moveToBlock(initialStage);
+            stages.length - 1 > 4 ? moveToBlock(initialStage) : moveToBlock(Math.ceil((stages.length - 1) / 2));
             setChosenStage(null);
         });
         

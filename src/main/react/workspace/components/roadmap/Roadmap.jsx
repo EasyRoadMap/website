@@ -30,7 +30,7 @@ const Roadmap = ({
                     <RoadmapGraph stages={roadmapContext?.stages} projectId={pr_id}/>
                     {/* <RoadmapPagination /> */}
                 </div>
-                {chosenStage && 
+                {chosenStage && Object.keys(roadmapContext?.length > 0) && 
                 <div className={styles.tasksListWrapper}>
                     <TasksList tasks={roadmapContext?.tasks}/>
                 </div>}

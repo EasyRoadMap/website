@@ -24,6 +24,10 @@ const CreateStagePopup = ({ close }) => {
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create")
       return;
+    if (nameButtonClicked === "cancel") {
+      close({ button: nameButtonClicked, name: name });
+      return;
+    }
     if (!validate()) return;
     close({ button: nameButtonClicked, name: name });
   };

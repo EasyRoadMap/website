@@ -44,6 +44,17 @@ const CreateTaskPopup = ({ close, chosenStage }) => {
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create")
       return;
+    if (nameButtonClicked === "cancel") {
+      close({
+        button: nameButtonClicked,
+        name: name,
+        description: description,
+        status: status,
+        deadline: deadline,
+        attachment: files.map((file) => {return file.id}),
+      });
+      return;
+    }
     if (!validate()) return;
     close({
       button: nameButtonClicked,

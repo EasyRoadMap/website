@@ -28,13 +28,14 @@ export const useRoadmapInfo = () => {
     const getStages = (pr_id, callback) => { 
         getStagesPage(pr_id, 1).then((response) => {
             const stages = response.data.content;
-            if (callback) callback();
             if (response.status === 204) {
                 setRoadmapContext((prev) => ({...prev, stages: []}));
+                if (callback) callback();
                 return;
             }
             if (response?.data?.pagination?.total_pages-1 === 0) {
                 setRoadmapContext((prev) => ({...prev, stages: stages}));
+                if (callback) callback();
                 return;
             }
             if (response.data) {
@@ -43,6 +44,7 @@ export const useRoadmapInfo = () => {
                         setRoadmapContext((prev) => ({...prev, stages: stages.concat(response.data.content)}));
                     })
                 }
+                if (callback) callback();
             }
         }).catch((e) => {
             handleError(e);
@@ -140,7 +142,7 @@ export const useRoadmapInfo = () => {
 
     const UploadAttachment = (rms_id, attachment, callback) => {
         addAttachment(rms_id, attachment).then((response) => {
-            Attachments(rms_id);
+            // Attachments(rmt_id);
             if (callback) callback(response.data.id);
         }).catch((e) => {
             handleError(e);

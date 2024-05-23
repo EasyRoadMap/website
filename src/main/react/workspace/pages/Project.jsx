@@ -5,6 +5,7 @@ import Roadmap from "../components/roadmap/Roadmap.jsx";
 import LinkVisitorPage from "../components/linkVisitorPage/linkVisitorPage.jsx";
 import DeleteBlock from "../components/deleteBlock/DeleteBlock.jsx";
 import useProjectContext from "../hooks/useProjectContext.js";
+import useRoadmapContext from "../hooks/useRoadmapContext.js";
 import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 import { useRoadmapInfo } from "../hooks/useRoadmap.js";
 import { useProjectInfo } from "../hooks/useProject.jsx";
@@ -20,6 +21,7 @@ import { initProject } from "../hooks/InitProject.js";
 
 const Project = () => {
   const { projectContext, setProjectContext } = useProjectContext();
+  const { setRoadmapContext } = useRoadmapContext();
   const { workspaceContext } = useWorkspaceContext();
   const { Project, Members, DeleteProject } = useProjectInfo();
   const { getStages } = useRoadmapInfo();
@@ -88,6 +90,7 @@ const Project = () => {
     setProjectID(state.pr_id);
     setProjectContext(state.pr_id);
     initProject(Project, Members, getStages, state.pr_id);
+    setRoadmapContext({});
   }, [state]);
 
   useEffect(() => {
