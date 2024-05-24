@@ -110,7 +110,6 @@ function App() {
           <ProjectProvider>
             <BrowserRouter> */}
             <RoadmapProvider>
-              
               <Routes>
                   <Route path="/workspace" element={<Main key={workspaceContext.id + "main"}/>} />
                   <Route path="/workspace/projects" element={<ProjectsPage key={workspaceContext.id + "projects"}/>} />

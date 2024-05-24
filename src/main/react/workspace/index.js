@@ -7,9 +7,11 @@ import { WorkspaceProvider } from "./context/WorkspaceContextProvider.js";
 import { ProjectProvider } from "./context/ProjectContextProvider.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import { isAppropriateViewport } from './utils/isAppropriateViewport.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+    isAppropriateViewport() ? 
     <UserProvider>
         <WorkspaceProvider>
             <ProjectProvider>
@@ -21,4 +23,8 @@ root.render(
             </ProjectProvider>
         </WorkspaceProvider>
     </UserProvider>
+    :
+    <div>
+        Заглушка
+    </div>
 );

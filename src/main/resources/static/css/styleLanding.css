@@ -7,7 +7,7 @@ body {
   width: 100%;
 }
 .heightBlock {
-  height: 110vh;
+  height: 100vh;
 }
 .background {
   background-image: url("/erm-web/image/landing/backgroundLanding.svg");
@@ -167,7 +167,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 50%;
+  align-items: end;
 }
 .wrapperContentPlatformRight {
   width: 100%;
@@ -175,8 +175,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-right: 50%;
-  align-items: end;
+  padding-left: 135px;
 }
 .wrapperInfoProjectBlock {
   display: flex;
@@ -199,6 +198,7 @@ body {
 
 .infoProjectBlock {
   display: flex;
+  position: absolute;
   flex-direction: column;
   justify-content: center;
   gap: 32px;
@@ -271,8 +271,23 @@ body {
   font-weight: normal;
   color: black;
 }
+.pt15 {
+  padding-top: 15vh;
+}
+.pr12 {
+  padding-right: calc(12vw - 50px);
+}
+.ttx-20 {
+  transform: translateX(-20px);
+}
+.ttx90 {
+  transform: translateX(90px);
+}
+.ttx-65 {
+  transform: translateX(-65px);
+}
 
-@media screen and ((max-width: 1400px)) {
+@media screen and ((max-width: 1100px)) {
   .heightBlock {
     max-height: 90vh;
   }

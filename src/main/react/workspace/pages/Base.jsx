@@ -12,6 +12,7 @@ import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 
 import ErrorsWindow from "../errors/errorsWindow.jsx";
 
+
 const Base = ({children}) => {
   const { currentWorkspace, DeleteUser, UpdateUser } = useUserInfo();
   const { CreateWorkspace } = useWorkspaceInfo();
