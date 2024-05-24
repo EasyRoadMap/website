@@ -8,6 +8,7 @@ import { ProjectProvider } from "./context/ProjectContextProvider.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { isAppropriateViewport } from './utils/isAppropriateViewport.js';
+import NoMobileVersion from './components/UI/noMobileVersion.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -24,7 +25,5 @@ root.render(
         </WorkspaceProvider>
     </UserProvider>
     :
-    <div>
-        Заглушка
-    </div>
+    <NoMobileVersion pageName="workspace"/>
 );

@@ -3,7 +3,20 @@ import Logo from "../../../assets/Logo.jsx";
 import ExitMobileVersionSVG from "../../../assets/exitMobileVersionSVG.jsx";
 import NoMobileVersionSVG from "../../../assets/noMobileVersionSVG.jsx";
 
-const NoMobileVersion = () => {
+const pagesFullNames = {
+  "workspace": "Личный кабинет",
+  "publicPage": "Страница посетителей"
+}
+
+const NoMobileVersion = ({
+  pageName
+}) => {
+
+  const handleClick = () => {
+    console.debug("clicked exit button");
+    window.location.replace("/");
+  }
+
   return (
     <div className={styles.noMobileVersionWrapper}>
       <div className={styles.headerWrapper}>
@@ -11,10 +24,10 @@ const NoMobileVersion = () => {
           <Logo className={styles.logo} />
           <div className={styles.titleWrapper}>
             <div className={styles.title}>EASYROADMAP</div>
-            <div className={styles.subTitle}>Личный кабинет</div>
+            <div className={styles.subTitle}>{pagesFullNames[pageName]}</div>
           </div>
         </div>
-        <ExitMobileVersionSVG />
+        <ExitMobileVersionSVG onClick={handleClick}/>
       </div>
       <div
         style={{ display: "flex", justifyContent: "center", height: "100%" }}
