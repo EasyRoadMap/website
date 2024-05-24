@@ -21,7 +21,7 @@ import { initProject } from "../hooks/InitProject.js";
 
 const Project = () => {
   const { projectContext, setProjectContext } = useProjectContext();
-  const { setRoadmapContext } = useRoadmapContext();
+  const { setRoadmapContext, setChosenStage } = useRoadmapContext();
   const { workspaceContext } = useWorkspaceContext();
   const { Project, Members, DeleteProject } = useProjectInfo();
   const { getStages } = useRoadmapInfo();
@@ -91,6 +91,7 @@ const Project = () => {
     setProjectContext(state.pr_id);
     initProject(Project, Members, getStages, state.pr_id);
     setRoadmapContext({});
+    setChosenStage(null);
   }, [state]);
 
   useEffect(() => {
