@@ -50,6 +50,7 @@
   border: none;
   height: 44px;
   background-color: transparent;
+  cursor: pointer;
 }
 /* стили для кнопок проектов */
 .projectButton {

@@ -150,6 +150,8 @@
 .dotsContainer {
   width: 32px;
   height: 32px;
+  opacity: 0.3;
+  border: none;
   background-color: transparent;
   border-radius: 12px;
   display: flex;
@@ -160,19 +162,27 @@
   .dots {
     width: 16px;
     height: 16px;
-    opacity: 0.5;
+    opacity: 1;
     cursor: pointer;
+    path {
+      fill: var(--text-color);
+      stroke: var(--text-color);
+    }
   }
 }
 .dotsContainer:hover {
   background-color: var(--light-stroke);
-  .dots {
-    opacity: 1;
-  }
+  opacity: 1;
 }
-.dotsContainer:hover {
+.dotsContainer:active {
+  background-color: var(--light-stroke);
   opacity: 0.75;
-  .dots {
-    opacity: 1;
-  }
+}
+.dotsContainer:focus {
+  background-color: var(--light-stroke);
+  opacity: 0.75;
+}
+
+.dotsWrapper {
+  position: relative;
 }

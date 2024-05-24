@@ -73,7 +73,7 @@ const ParticipantActionsButton = ({ participant }) => {
       icon: DeleteSVG,
       text: "Исключить",
       callback: () => openRemoveParticipantPopup(),
-    }
+    },
   ];
 
   const toggleListvisibility = () => {
@@ -86,11 +86,11 @@ const ParticipantActionsButton = ({ participant }) => {
       style={{ width: "fit-content" }}
     >
       <div className={styles.dotsWrapper}>
-        <div className={styles.dotsContainer} onClick={toggleListvisibility}>
+        <button className={styles.dotsContainer} onClick={toggleListvisibility}>
           <div className={styles.dots}>
             <ButtonDotsSVG style={{ width: "16px", height: "16px" }} />
           </div>
-        </div>
+        </button>
         <DropdownActionsList
           buttons={buttons}
           showed={listShowed}

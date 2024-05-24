@@ -335,7 +335,7 @@
     cursor: pointer;
     display: block;
   }
-  .stageName::placeholder {
+  .stageName {
     font-size: 20px;
   }
 }
@@ -348,18 +348,18 @@
       fill: transparent;
     }
   }
-  .stageName::placeholder {
+  .stageName {
     font-size: 20px;
     font-weight: bold;
   }
 }
-.graphCircleActive {
-  .stageName::placeholder {
-    font-size: 20px;
-    font-weight: bold;
-    color: var(--text-color);
-  }
+
+span.stageNameActive {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--text-color);
 }
+
 .deleteTask {
   position: absolute;
   top: 0px;
@@ -401,20 +401,15 @@
   border: none;
   background-color: transparent;
   padding: 6px;
-  color: var(--text-color);
   user-select: none;
   text-overflow: ellipsis;
   overflow-x: hidden;
-}
-.stageName::placeholder {
   text-align: center;
   font-size: 16px;
   font-weight: 500;
   color: var(--foreground-color50);
-  user-select: none;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
 }
+
 .unhandledFile {
   width: 40px;
   height: 40px;

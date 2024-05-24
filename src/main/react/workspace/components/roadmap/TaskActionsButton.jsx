@@ -154,7 +154,7 @@ const TaskActionsButton = ({ task, listShowed, setListShowed }) => {
           close={() => setListShowed(false)}
           style={{
             display: listShowed ? "block" : "none",
-            top: "32px",
+            top: "40px",
             right: "8px",
           }}
         />

@@ -56,14 +56,11 @@
   </head>
   <body>
     <div class="background">
-      <div style="height: 900px">
+      <div class="heightBlock">
         <div class="header">
           <div class="wrapper">
             <div class="logoWrapper">
-              <img
-                th:src="@{/erm-web/image/logo.svg}"
-                style="width: 64px; height: 64px"
-              />
+              <img th:src="@{/erm-web/image/logo.svg}" class="logo" />
               <span class="textLogo">EASYROADMAP</span>
             </div>
             <div class="buttonWrapper">
@@ -101,14 +98,7 @@
             <div>
               <button
                 onclick="window.location.href='/workspace'"
-                class="buttonFilledAccent"
-                style="
-                  width: 361px;
-                  height: 103px;
-                  font-size: 32px;
-                  font-weight: 500;
-                  border-radius: 24px;
-                "
+                class="buttonFilledAccent buttonStart"
               >
                 Начать работу
               </button>
@@ -116,7 +106,7 @@
           </div>
         </div>
       </div>
-      <div style="height: 900px">
+      <div class="heightBlock">
         <div class="wrapperContentPlatform">
           <div class="wrapperInfo">
             <div class="infoProject">
@@ -131,12 +121,7 @@
                 <sapn class="textTitlePlatform" style="position: absolute"
                   >НАША ПЛАТФОРМА</sapn
                 >
-                <span
-                  style="
-                    font-size: 100px;
-                    font-weight: bold;
-                    color: rgb(0, 102, 254, 0.1);
-                  "
+                <span class="textTitlePlatform bacgroungText"
                   >НАША ПЛАТФОРМА</span
                 >
               </div>
@@ -152,79 +137,88 @@
                 >
               </div>
             </div>
-            <div style="display: flex; flex-direction: row; gap: 48px">
-              <img th:src="@{/erm-web/image/landing/ProjectBlock.svg}" />
-              <img th:src="@{/erm-web/image/landing/DeveloperBlock.svg}" />
-              <img th:src="@{/erm-web/image/landing/TaskBlock.svg}" />
+            <div class="wrapperImg">
+              <img
+                th:src="@{/erm-web/image/landing/ProjectBlock.svg}"
+                class="imageCircle"
+              />
+              <img
+                th:src="@{/erm-web/image/landing/DeveloperBlock.svg}"
+                class="imageCircle"
+              />
+              <img
+                th:src="@{/erm-web/image/landing/TaskBlock.svg}"
+                class="imageCircle"
+              />
             </div>
           </div>
         </div>
       </div>
-      <div style="height: 900px">
-        <div class="wrapperContentPlatform" style="padding-left: 50%">
-          <div class="wrapperInfoProjectBlock">
-            <div class="infoProjectBlock">
-              <span class="textTitleProjectBlock">СОЗДАВАЙТЕ ПРОЕКТЫ</span>
-              <span class="descriptionProjectBlock"
-                >Организуйте все процессы <br />разработки в виде списка
-                <br />проектов с уникальным <br />
-                оформлением, добавляйте<br />
-                участников и распределяйте им <br />
-                роли.</span
-              >
+      <div>
+        <div class="heightBlock">
+          <div class="wrapperContentPlatformLeft">
+            <div class="wrapperInfoProjectBlock">
+              <div class="infoProjectBlock">
+                <span class="textTitleProjectBlock">СОЗДАВАЙТЕ ПРОЕКТЫ</span>
+                <span class="descriptionProjectBlock"
+                  >Организуйте все процессы <br />разработки в виде списка
+                  <br />проектов с уникальным <br />
+                  оформлением, добавляйте<br />
+                  участников и распределяйте им <br />
+                  роли.</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="heightBlock">
+          <div class="wrapperContentPlatformRight">
+            <div class="wrapperInfoDeveloperBlock">
+              <div class="infoProjectBlock">
+                <span class="textTitleProjectBlock">ПЛАНИРУЙТЕ РАЗРАБОТКУ</span>
+                <span class="descriptionProjectBlock"
+                  >Собирайте дорожную карту для <br />
+                  проекта из отдельных этапов с <br />
+                  уникальным именем и <br />собственным прогрессом <br />
+                  выполнения.</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="heightBlock">
+          <div class="wrapperContentPlatformLeft">
+            <div
+              class="wrapperInfoProjectBlock"
+              style="
+                background-image: url('/erm-web/image/landing/task.svg');
+                width: 715px;
+                height: 792px;
+              "
+            >
+              <div class="infoProjectBlock">
+                <span class="textTitleProjectBlock">ДОБАВЛЯЙТЕ ЗАДАЧИ</span>
+                <span class="descriptionProjectBlock"
+                  >Управляйте списком задач <br />
+                  для каждого этапа, <br />изменяйте их статус, <br />
+                  добавляйте описание и <br />
+                  прикрепляйте вложения.</span
+                >
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div style="height: 900px">
-        <div
-          class="wrapperContentPlatform"
-          style="padding-right: 50%; align-items: end"
-        >
-          <div class="wrapperInfoDeveloperBlock">
-            <div class="infoProjectBlock">
-              <span class="textTitleProjectBlock">ПЛАНИРУЙТЕ РАЗРАБОТКУ</span>
-              <span class="descriptionProjectBlock"
-                >Собирайте дорожную карту для <br />
-                проекта из отдельных этапов с <br />
-                уникальным именем и <br />собственным прогрессом <br />
-                выполнения.</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="height: 900px">
-        <div class="wrapperContentPlatform" style="padding-left: 50%">
-          <div
-            class="wrapperInfoProjectBlock"
-            style="
-              background-image: url('/erm-web/image/landing/task.svg');
-              width: 715px;
-              height: 792px;
-            "
-          >
-            <div class="infoProjectBlock">
-              <span class="textTitleProjectBlock">ДОБАВЛЯЙТЕ ЗАДАЧИ</span>
-              <span class="descriptionProjectBlock"
-                >Управляйте списком задач <br />
-                для каждого этапа, <br />изменяйте их статус, <br />
-                добавляйте описание и <br />
-                прикрепляйте вложения.</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="height: 900px">
+
+      <div class="heightBlock">
         <div class="wrapperContent">
           <div class="wrapperInfo" style="padding-top: 176px">
-            <div class="infoProject" style="gap: 36px">
+            <div class="infoProject">
               <div class="titleProject">
                 <sapn class="textTitleProject">EASY ROAD MAP</sapn>
               </div>
               <div class="textInfoProjectWrapper">
-                <span class="textInfoProject" style="font-size: 50px"
+                <span class="textInfoProject footer"
                   >Расскажите аудитории о Ваших планах!</span
                 >
               </div>
@@ -232,14 +226,7 @@
             <div>
               <button
                 onclick="window.location.href='/workspace'"
-                class="buttonFilledAccent"
-                style="
-                  width: 462px;
-                  height: 103px;
-                  font-size: 32px;
-                  font-weight: 500;
-                  border-radius: 24px;
-                "
+                class="buttonFilledAccent buttonStart"
               >
                 Приступить к работе
               </button>

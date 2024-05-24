@@ -209,40 +209,50 @@ const RoadmapGraph = ({
                   onClick={() => openStage(stage.id)}
                   style={getPlace(stage.position)}
                 >
-                    <>
-                        {
-                            i % 2 === 0 &&
-                            <div className={styles.graphBranchLine}></div>
-                        }
-                        <div style={i % 2 === 0 ? 
-                            {marginTop: "10px", position: "relative"} : 
-                            {marginBottom: "10px", position: "relative"}}
+                  <>
+                    {i % 2 === 0 && (
+                      <div className={styles.graphBranchLine}></div>
+                    )}
+                    <div
+                      style={
+                        i % 2 === 0
+                          ? { marginTop: "10px", position: "relative" }
+                          : { marginBottom: "10px", position: "relative" }
+                      }
+                    >
+                      <div className={styles.graphCircle}>
+                        <DeleteTaskRoadmap
+                          className={styles.deleteTask}
+                          onClick={() => {
+                            openDeleteStagePopup(stage?.name, i);
+                          }}
+                        />
+                        <TaskRoadmapSVG
+                          status={getStatusByProgress(
+                            stage.progress,
+                            stage.is_in_progress
+                          )}
+                          isActive={chosenStage === stage.id}
+                          progress={stage.progress}
+                          id={stage.id}
+                        />
+                        <span
+                          className={
+                            chosenStage === stage.id
+                              ? [styles.stageName, styles.stageNameActive].join(
+                                  " "
+                                )
+                              : styles.stageName
+                          }
                         >
-                        <div className={styles.graphCircle}>
-                          <DeleteTaskRoadmap
-                            className={styles.deleteTask}
-                            onClick={() => {
-                                openDeleteStagePopup(stage?.name, i);
-                            }}
-                          />
-                          <TaskRoadmapSVG
-                            status={getStatusByProgress(stage.progress, stage.is_in_progress)}
-                            isActive={chosenStage === stage.id}
-                            progress={stage.progress}
-                            id={stage.id}
-                          />
-                          <input
-                            type="text"
-                            placeholder={stage.name}
-                            className={styles.stageName}
-                          />
-                        </div>
+                          {stage?.name}
+                        </span>
                       </div>
-                        {
-                            i % 2 === 1 &&
-                            <div className={styles.graphBranchLine}></div>
-                        }
-                    </>
+                    </div>
+                    {i % 2 === 1 && (
+                      <div className={styles.graphBranchLine}></div>
+                    )}
+                  </>
                 </div>
               );
             })}

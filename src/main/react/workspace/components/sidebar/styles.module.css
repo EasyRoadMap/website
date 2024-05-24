@@ -20,11 +20,13 @@
   flex-direction: column;
   user-select: none;
   color: var(--text-color);
+  cursor: pointer;
 }
 .projectButtonWrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
+  cursor: pointer;
 }
 .projectButtonWrapper hr {
   margin: 12px 0;
@@ -50,10 +52,10 @@
   border: none;
   height: 44px;
   background-color: transparent;
+  cursor: pointer;
 }
 /* стили для кнопок проектов */
 .projectButton {
-  cursor: pointer;
   width: 272px;
   border-radius: 15px;
   border: none;
