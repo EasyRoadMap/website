@@ -63,7 +63,7 @@
               <img th:src="@{/erm-web/image/logo.svg}" class="logo" />
               <span class="textLogo">EASYROADMAP</span>
             </div>
-            <div class="buttonWrapper">
+            <div class="buttonWrapper inlineButtons">
               <button
                 class="buttonOutlineAccent"
                 onclick="window.location.href='/auth/sign-up'"
@@ -77,20 +77,28 @@
                 Войти
               </button>
             </div>
+            <div class="buttonWrapper iconButton">
+              <button
+                class="emptyButton"
+                onclick="window.location.href='/auth/sign-up'"
+              >
+                <img th:src="@{/erm-web/image/landing/user.svg}" alt="">
+              </button>
+            </div>
           </div>
         </div>
         <div class="wrapperContent">
           <div class="wrapperInfo">
             <div class="infoProject">
               <div class="titleProject">
-                <sapn class="textTitleProject">EASY ROAD MAP</sapn>
+                <span class="textTitleProject">EASY&nbsp;ROAD MAP</span>
                 <span class="descriptionProject"
                   >ПУТЕВОДИТЕЛЬ ДЛЯ ВАШИХ ПРОЕКТОВ</span
                 >
               </div>
               <div class="textInfoProjectWrapper">
                 <span class="textInfoProject"
-                  >Делитесь с аудиторией состоянием разработки <br />с помощью
+                  >Делитесь с аудиторией состоянием разработки с помощью
                   красивых дорожных карт!</span
                 >
               </div>
@@ -106,7 +114,7 @@
           </div>
         </div>
       </div>
-      <div class="heightBlock pt15">
+      <div class="pb36 pt15">
         <div class="wrapperContentPlatform">
           <div class="wrapperInfo">
             <div class="infoProject">
@@ -119,10 +127,10 @@
                 "
               >
                 <sapn class="textTitlePlatform" style="position: absolute"
-                  >НАША ПЛАТФОРМА</sapn
+                  >НАША&nbsp;ПЛАТФОРМА</sapn
                 >
                 <span class="textTitlePlatform bacgroungText"
-                  >НАША ПЛАТФОРМА</span
+                  >НАША&nbsp;ПЛАТФОРМА</span
                 >
               </div>
               <hr
@@ -130,10 +138,10 @@
               />
               <div class="textInfoProjectWrapper">
                 <span class="textInfoPlatform"
-                  >Мы предоставляем возможность создавать наглядные
-                  <br />дорожные карты для проектов, что позволит
-                  <br />визуализировать работу над ними и демонстрировать ход
-                  <br />работы для заинтересованной аудитории.</span
+                  >Мы предоставляем возможность создавать наглядные 
+                  дорожные карты для проектов, что позволит 
+                  визуализировать работу над ними и демонстрировать ход 
+                  работы для заинтересованной аудитории.</span
                 >
               </div>
             </div>
@@ -156,16 +164,16 @@
       </div>
 
 
-      <div>
+      <div class="mainInfoWrapperBigScreen">
         <div class="heightBlock">
           <div class="wrapperContentPlatformLeft pr12">
             <div class="infoProjectBlock">
               <span class="textTitleProjectBlock">СОЗДАВАЙТЕ ПРОЕКТЫ</span>
               <span class="descriptionProjectBlock"
-                >Организуйте все процессы <br />разработки в виде списка
-                <br />проектов с уникальным <br />
-                оформлением, добавляйте<br />
-                участников и распределяйте им <br />
+                >Организуйте все процессы разработки в виде списка 
+                проектов с уникальным 
+                оформлением, добавляйте 
+                участников и распределяйте им 
                 роли.</span
               >
             </div>
@@ -174,30 +182,14 @@
           </div>
         </div>
 
-        <!-- <div class="heightBlock">
-          <div class="wrapperContentPlatformLeft">
-            <div class="wrapperInfoProjectBlock">
-              <div class="infoProjectBlock">
-                <span class="textTitleProjectBlock">СОЗДАВАЙТЕ ПРОЕКТЫ</span>
-                <span class="descriptionProjectBlock"
-                  >Организуйте все процессы <br />разработки в виде списка
-                  <br />проектов с уникальным <br />
-                  оформлением, добавляйте<br />
-                  участников и распределяйте им <br />
-                  роли.</span
-                >
-              </div>
-            </div>
-          </div>
-        </div> -->
         <div class="heightBlock">
           <div class="wrapperContentPlatformRight">
             <div class="infoProjectBlock">
               <span class="textTitleProjectBlock">ПЛАНИРУЙТЕ РАЗРАБОТКУ</span>
               <span class="descriptionProjectBlock"
-                >Собирайте дорожную карту для <br />
-                проекта из отдельных этапов с <br />
-                уникальным именем и <br />собственным прогрессом <br />
+                >Собирайте дорожную карту для 
+                проекта из отдельных этапов с 
+                уникальным именем и собственным прогрессом 
                 выполнения.</span
               >
             </div>
@@ -211,9 +203,9 @@
             <div class="infoProjectBlock">
               <span class="textTitleProjectBlock">ДОБАВЛЯЙТЕ ЗАДАЧИ</span>
               <span class="descriptionProjectBlock"
-                >Управляйте списком задач <br />
-                для каждого этапа, <br />изменяйте их статус, <br />
-                добавляйте описание и <br />
+                >Управляйте списком задач 
+                для каждого этапа, изменяйте их статус, 
+                добавляйте описание и 
                 прикрепляйте вложения.</span
               >
             </div>
@@ -227,6 +219,50 @@
             >
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="mainInfoWrapperSmallScreen">
+        <div class="wrapperOfImagesAndText">
+          <img
+          th:src="@{/erm-web/image/landing/ProjectBlock.svg}"
+          class="imageCircle"
+          style="
+            margin-bottom: 18px;
+          "
+        />
+        <div class="descriptionProjectBlock"
+        style="
+            margin-bottom: 36px;
+          "
+        >
+          Организуйте все процессы разработки в виде списка проектов с уникальным оформлением, добавляйте участников и распределяйте им роли.
+        </div>
+        <img
+          th:src="@{/erm-web/image/landing/DeveloperBlock.svg}"
+          class="imageCircle"
+          style="
+            margin-bottom: 18px;
+          "
+        />
+        <div class="descriptionProjectBlock"
+        style="
+            margin-bottom: 36px;
+          "
+        >
+          Собирайте дорожную карту для проекта из отдельных этапов с уникальным именем и собственным прогрессом выполнения.
+        </div>
+        <img
+          th:src="@{/erm-web/image/landing/TaskBlock.svg}"
+          class="imageCircle"
+          style="
+            margin-bottom: 18px;
+          "
+        />
+        <div class="descriptionProjectBlock"
+        >
+          Управляйте списком задач для каждого этапа, изменяйте их статус, добавляйте описание и прикрепляйте вложения.
+        </div>
         </div>
       </div>
 
