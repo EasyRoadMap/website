@@ -312,6 +312,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   display: flex;
+  cursor: pointer;
 }
 
 .inlineButtons {
@@ -398,7 +399,7 @@ body {
     font-size: 18px;
   }
   .background {
-    background-image: url("/erm-web/image/landing/landingBackgroundSmall.svg");;
+    background-image: url("/erm-web/image/landing/landingBackgroundSmall.svg");
   }
   .textTitlePlatform {
     font-size: calc(40px * 0.8);

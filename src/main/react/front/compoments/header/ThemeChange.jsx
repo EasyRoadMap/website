@@ -1,7 +1,8 @@
 import DarkThemeSVGVisitor from "../../../assets/darkThemeSVGVisitor.jsx";
 import LightThemeSVGVisitor from "../../../assets/lightThemeSVGVisitor.jsx";
 import styles from "./style.module.css";
-import { useTheme } from "../../../workspace/hooks/useTheme";
+// import { useTheme } from "../../../workspace/hooks/useTheme";
+import { useTheme } from "../../hooks/useTheme.js";
 
 const ThemeChange = () => {
   const { theme, setTheme } = useTheme();

@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from "react";
 
 const isDarkTheme = window?.matchMedia("(prefers-color-scheme: dark)").matches;
 const defaultTheme = isDarkTheme ? "dark" : "light";
-const storageKey = "app-theme-tab1";
+const storageKey = "app-theme-tab2";
 
 export const useTheme = () => {
   const [theme, setTheme] = useState(
