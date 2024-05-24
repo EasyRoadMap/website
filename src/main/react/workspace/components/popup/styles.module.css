@@ -374,6 +374,11 @@
   border-width: 1px;
   border-color: var(--light-stroke);
 }
+.participantAvatarUser {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
 .participantCard {
   display: flex;
   padding-left: 36px;

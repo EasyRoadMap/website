@@ -53,6 +53,12 @@
   border-width: 1px;
 }
 
+.projectItemAvatarUser {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
 .pixelAvatar {
   image-rendering: pixelated;
 }

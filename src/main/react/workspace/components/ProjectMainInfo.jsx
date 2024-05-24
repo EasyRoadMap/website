@@ -10,12 +10,13 @@ import { useState, useEffect } from "react";
 import { useProjectInfo } from "../hooks/useProject.jsx";
 import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 
-import { validateName, validateDescription, validateDeadlineDate } from "../errors/validation.js";
+import {
+  validateName,
+  validateDescription,
+  validateDeadlineDate,
+} from "../errors/validation.js";
 
-const ProjectMainInfo = ({
-  initialValues,
-  projectId
-}) => {
+const ProjectMainInfo = ({ initialValues, projectId }) => {
   const [name, setName] = useState(initialValues?.name);
   const [description, setDescription] = useState(initialValues?.description);
   const [links, setLinks] = useState(initialValues?.links);
@@ -31,35 +32,39 @@ const ProjectMainInfo = ({
 
   const avatarClassName = projectContext?.photo?.default
     ? [styles.logo, styles.pixelAvatar].join(" ")
-    : styles.logo;
+    : styles.logoAvatarUser;
 
-    const validate = () => {
-      const nameValidationResult = validateName(name, "project");
-      const descriptionValidationResult = validateDescription(description);
-      const dateValidationResult = validateDeadlineDate(date);
+  const validate = () => {
+    const nameValidationResult = validateName(name, "project");
+    const descriptionValidationResult = validateDescription(description);
+    const dateValidationResult = validateDeadlineDate(date);
 
-  
-      if (nameValidationResult !== "passed") {
-        setErrorName(nameValidationResult);
-        return false;
-      }
-      if (descriptionValidationResult !== "passed") {
-        setErrorDescription(descriptionValidationResult);
-        return false;
-      }
-      if (dateValidationResult !== "passed") {
-        setErrorDate(dateValidationResult);
-        return false;
-      }
-      return true;
+    if (nameValidationResult !== "passed") {
+      setErrorName(nameValidationResult);
+      return false;
     }
+    if (descriptionValidationResult !== "passed") {
+      setErrorDescription(descriptionValidationResult);
+      return false;
+    }
+    if (dateValidationResult !== "passed") {
+      setErrorDate(dateValidationResult);
+      return false;
+    }
+    return true;
+  };
 
   const isDataChanged = () => {
-    if (links?.length > 0) for (let i = 0; i < links.length; i++) {
-      if ((links[i]?.name !== initialValues.links[i]?.name ||
-          links[i]?.url !== initialValues.links[i]?.url) &&
-          links[i]?.name && links[i]?.url) return true;
-    }
+    if (links?.length > 0)
+      for (let i = 0; i < links.length; i++) {
+        if (
+          (links[i]?.name !== initialValues.links[i]?.name ||
+            links[i]?.url !== initialValues.links[i]?.url) &&
+          links[i]?.name &&
+          links[i]?.url
+        )
+          return true;
+      }
 
     if (description === "" && !initialValues?.description) return false;
     if (name === "" && !initialValues?.name) return false;
@@ -68,8 +73,8 @@ const ProjectMainInfo = ({
       name === initialValues?.name &&
       description === initialValues?.description &&
       date === initialValues?.date
-    )
-  }
+    );
+  };
 
   const changeData = () => {
     if (!projectContext?.id || !workspaceContext?.id) return;
@@ -79,13 +84,21 @@ const ProjectMainInfo = ({
       description !== initialValues?.description ||
       date !== initialValues?.date
     ) {
-      UpdateInfo(workspaceContext.id, projectContext.id, name, description, date);
-    } 
-    if (!(
-      links[0] === initialValues.links[0] &&
-      links[1] === initialValues.links[1] &&
-      links[2] === initialValues.links[2]
-    )) {
+      UpdateInfo(
+        workspaceContext.id,
+        projectContext.id,
+        name,
+        description,
+        date
+      );
+    }
+    if (
+      !(
+        links[0] === initialValues.links[0] &&
+        links[1] === initialValues.links[1] &&
+        links[2] === initialValues.links[2]
+      )
+    ) {
       const names = [];
       const urls = [];
       links.forEach((link) => {
@@ -93,17 +106,17 @@ const ProjectMainInfo = ({
           names.push(link.name);
           urls.push(link.url);
         }
-      })
+      });
       if (names.length === urls.length) {
         UpdateLinks(projectContext.id, names, urls);
       }
     }
-  }
+  };
 
   const isLinkInputShowing = (i) => {
-    const areLinkValuesNull = !links[i-1]?.url || !links[i-1]?.name;
-    return i === 0 || !(links[i-1] === null || areLinkValuesNull);
-  }
+    const areLinkValuesNull = !links[i - 1]?.url || !links[i - 1]?.name;
+    return i === 0 || !(links[i - 1] === null || areLinkValuesNull);
+  };
 
   return (
     <section className={styles.section} id="main">
@@ -138,32 +151,36 @@ const ProjectMainInfo = ({
             data={description}
             setData={setDescription}
             error={errorDescription}
-            clearError={() => setErrorDescription("")} 
+            clearError={() => setErrorDescription("")}
           />
           <label className={styles.titleInput}>Ссылки</label>
-          {
-            links && links.map((link, i) => {
+          {links &&
+            links.map((link, i) => {
               return (
-                isLinkInputShowing(i) &&
-                <TextFieldLink data={links} setData={setLinks} order={i} key={i} />
+                isLinkInputShowing(i) && (
+                  <TextFieldLink
+                    data={links}
+                    setData={setLinks}
+                    order={i}
+                    key={i}
+                  />
+                )
               );
-            })
-          }
+            })}
           <label className={styles.titleInput}>Дата дедлайна</label>
-          <TextFieldDate 
+          <TextFieldDate
             data={date}
             setData={setDate}
             error={errorDate}
-            clearError={() => setErrorDate("")} 
+            clearError={() => setErrorDate("")}
           />
-          {
-            isDataChanged() &&
+          {isDataChanged() && (
             <Button
               text={"Сохранить изменения"}
               type={"filledAccent"}
               callback={changeData}
             />
-          }
+          )}
         </div>
       </div>
     </section>

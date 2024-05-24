@@ -27,8 +27,8 @@ const DropdownUser = ({ user, updateUser, hide }) => {
       popup: {
         component: UpdateProfilePopup,
         props: {
-          userName: user.name
-        }
+          userName: user.name,
+        },
       },
       onClose: onUpdateProfile,
     });
@@ -36,7 +36,7 @@ const DropdownUser = ({ user, updateUser, hide }) => {
 
   const avatarClassName = user?.photo?.default
     ? [styles.avatar, styles.pixelAvatar].join(" ")
-    : styles.avatar;
+    : styles.avatarUser;
 
   return (
     <div className={styles.userDropdown}>

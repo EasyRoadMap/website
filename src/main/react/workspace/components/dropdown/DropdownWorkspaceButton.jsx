@@ -8,7 +8,7 @@ import { addWSID } from "../../utils/WSIDStorage.js";
 
 const DropdownWorkspaceButton = ({ workspace }) => {
   const { userContext } = useUserContext();
-  const { workspaceContext } = useWorkspaceContext(); 
+  const { workspaceContext } = useWorkspaceContext();
   const { Workspace, Members, Projects } = useWorkspaceInfo();
   const navigate = useNavigate();
 
@@ -17,20 +17,28 @@ const DropdownWorkspaceButton = ({ workspace }) => {
       addWSID(workspace.id);
       navigate({
         pathname: "/workspace",
-        search: '?ws_id='+workspace.id
-      })
+        search: "?ws_id=" + workspace.id,
+      });
       userContext.currentWorkspace = workspace;
       initWorkspace(Workspace, Members, Projects, workspace.id);
     }
-  }
+  };
 
-  const avatarClassName = workspace?.photo?.default ? [styles.workspaceAvatar, styles.pixelAvatar].join(" ") : styles.workspaceAvatar;
+  const avatarClassName = workspace?.photo?.default
+    ? [styles.workspaceAvatar, styles.pixelAvatar].join(" ")
+    : styles.workspaceAvatarUser;
 
   return (
-    <button className={
-      (workspace?.id && workspace?.id === workspaceContext?.id) ? [styles.dropdownWorkspaceButton, styles.dropdownWorkspaceButtonActive].join(" ") : styles.dropdownWorkspaceButton
-    }
-    onClick={changeWorkspace}
+    <button
+      className={
+        workspace?.id && workspace?.id === workspaceContext?.id
+          ? [
+              styles.dropdownWorkspaceButton,
+              styles.dropdownWorkspaceButtonActive,
+            ].join(" ")
+          : styles.dropdownWorkspaceButton
+      }
+      onClick={changeWorkspace}
     >
       <img src={workspace?.photo?.url} alt="" className={avatarClassName} />
       <div className={styles.workspaceName}>{workspace?.info?.name}</div>

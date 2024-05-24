@@ -19,10 +19,9 @@ const WorkspaceMainInfo = ({ logo, initialValues }) => {
   const [errorName, setErrorName] = useState(false);
   const [errorDescription, setErrorDescription] = useState(false);
 
-
   const avatarClassName = logo?.default
     ? [styles.logo, styles.pixelAvatar].join(" ")
-    : styles.logo;
+    : styles.logoAvatarUser;
 
   const isDataChanged = () => {
     if (!initialValues?.name && name === "") return false;
@@ -46,7 +45,7 @@ const WorkspaceMainInfo = ({ logo, initialValues }) => {
       return false;
     }
     return true;
-  }
+  };
 
   const changeData = () => {
     if (!workspaceContext?.id) return;

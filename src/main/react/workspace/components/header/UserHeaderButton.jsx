@@ -3,19 +3,21 @@ import Dropdown from "../dropdown/Dropdown.jsx";
 import { useState, useRef } from "react";
 
 const UserHeaderButton = ({
-    user,
-    DeleteUser,
-    UpdateUser,
-    currentWorkspace
+  user,
+  DeleteUser,
+  UpdateUser,
+  currentWorkspace,
 }) => {
-    const [dropdownShowed, setDropdownShowed] = useState(false);
-    const showButton = useRef(null);
+  const [dropdownShowed, setDropdownShowed] = useState(false);
+  const showButton = useRef(null);
 
   const toggleDropdown = () => {
     setDropdownShowed((prev) => !prev);
   };
 
-  const avatarClassName = user?.photo?.default ? [styles.avatarCircle, styles.pixelAvatar].join(" ") : styles.avatarCircle;
+  const avatarClassName = user?.photo?.default
+    ? [styles.avatarCircle, styles.pixelAvatar].join(" ")
+    : styles.avatarCircleUser;
 
   return (
     <>
@@ -24,8 +26,7 @@ const UserHeaderButton = ({
         onClick={toggleDropdown}
         ref={showButton}
       >
-        <img src={user?.photo?.url} alt="" className={avatarClassName}>
-        </img>
+        <img src={user?.photo?.url} alt="" className={avatarClassName}></img>
       </div>
       <Dropdown
         visible={dropdownShowed}

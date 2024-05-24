@@ -5,12 +5,16 @@ import Input from "../UI/Input.jsx";
 const UserInvitationPopup = ({ close, invite }) => {
   const avatarClassName = invite?.workspace?.photo?.default
     ? [styles.participantAvatar, styles.pixelAvatar].join(" ")
-    : styles.participantAvatar;
+    : styles.participantAvatarUser;
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "decline" && nameButtonClicked !== "accept")
       return;
-    close({ button: nameButtonClicked, invite_id: invite.id, ws_id: invite.workspace.id });
+    close({
+      button: nameButtonClicked,
+      invite_id: invite.id,
+      ws_id: invite.workspace.id,
+    });
   };
   return (
     <>
@@ -29,7 +33,11 @@ const UserInvitationPopup = ({ close, invite }) => {
         </div>
         <div className={styles.participantCard}>
           <div className={styles.participantCardWrapper}>
-            <img src={invite?.workspace?.photo?.url} alt="" className={avatarClassName} />
+            <img
+              src={invite?.workspace?.photo?.url}
+              alt=""
+              className={avatarClassName}
+            />
             <div className={styles.participantCardTextWrapper}>
               <div className={styles.participantCardTitle}>
                 {invite?.workspace?.name}

@@ -32,6 +32,12 @@
   border-color: var(--light-stroke);
   border-width: 1px;
 }
+.logoAvatarUser {
+  height: 120px;
+  width: 120px;
+  aspect-ratio: 1;
+  border-radius: 15px;
+}
 .pixelAvatar {
   image-rendering: pixelated;
 }

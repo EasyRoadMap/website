@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 import { initProject } from "../../hooks/InitProject.js";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
-import useProjectContext from "../../hooks/useProjectContext.js"; 
+import useProjectContext from "../../hooks/useProjectContext.js";
 import { useProjectInfo } from "../../hooks/useProject.jsx";
 
 const getBlock = (blocks, toBlock) => {
@@ -37,27 +37,32 @@ const SidebarProjectButton = ({ project, chosen, blocks, places }) => {
 
   const { workspaceContext } = useWorkspaceContext();
   const { projectContext, setProjectContext } = useProjectContext();
-  const {Project, Members} = useProjectInfo();
+  const { Project, Members } = useProjectInfo();
 
   const toProject = () => {
     if (project?.id && workspaceContext?.id) {
       console.debug("project.id", project.id);
-      setProjectContext((prev) => ({...prev, id: project.id}));
-      navigate({
-        pathname: "/workspace/project",
-        search: '?ws_id='+workspaceContext.id+"&pr_id="+project.id,
-        // key: project.id
-      }, {
-        state: {
-          pr_id: project.id,
-          replace: false
+      setProjectContext((prev) => ({ ...prev, id: project.id }));
+      navigate(
+        {
+          pathname: "/workspace/project",
+          search: "?ws_id=" + workspaceContext.id + "&pr_id=" + project.id,
+          // key: project.id
+        },
+        {
+          state: {
+            pr_id: project.id,
+            replace: false,
+          },
         }
-      })
+      );
       // initProject(Project, Members, getStages, project.id);
     }
-  }
+  };
 
-  const avatarClassName = project?.photo?.default ? [styles.avatar, styles.pixelAvatar].join(" ") : styles.avatar;
+  const avatarClassName = project?.photo?.default
+    ? [styles.avatar, styles.pixelAvatar].join(" ")
+    : styles.avatarUser;
 
   return (
     <div className={styles.projectButtonWrapper}>
@@ -65,7 +70,7 @@ const SidebarProjectButton = ({ project, chosen, blocks, places }) => {
         <img src={project?.photo?.url} alt="" className={avatarClassName} />
         <span className={styles.name}>{project?.name}</span>
       </button>
-      {(chosen && project?.id === projectContext?.id) && (
+      {chosen && project?.id === projectContext?.id && (
         <>
           <hr />
           <div className={styles.placesInProject}>

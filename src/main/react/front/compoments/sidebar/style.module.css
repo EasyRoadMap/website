@@ -76,6 +76,13 @@
   border-width: 1px;
   border-color: var(--light-stroke);
 }
+.avatarUser {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  opacity: 0.5;
+}
 .pixelAvatar {
   image-rendering: pixelated;
 }

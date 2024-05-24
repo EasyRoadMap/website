@@ -33,6 +33,15 @@
   width: 120px;
   aspect-ratio: 1;
   border-radius: 50%;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
+}
+.avatarUser {
+  height: 120px;
+  width: 120px;
+  aspect-ratio: 1;
+  border-radius: 50%;
 }
 .pixelAvatar {
   image-rendering: pixelated;

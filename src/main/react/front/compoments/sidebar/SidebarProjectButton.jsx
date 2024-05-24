@@ -5,21 +5,19 @@ import useWorkspaceContext from "../../hooks/useWorkspaceContext";
 const SidebarProjectButton = ({ project, chosen, blocks, places }) => {
   const avatarClassName = project?.photo?.default
     ? [styles.avatar, styles.pixelAvatar].join(" ")
-    : styles.avatar;
+    : styles.avatarUser;
 
-    const navigate = useNavigate();
-    const { workspaceContext } = useWorkspaceContext();
+  const navigate = useNavigate();
+  const { workspaceContext } = useWorkspaceContext();
 
-    const toProject = () => {
-      if (!workspaceContext?.id || !project?.id) return;
-      navigate(`/p/${workspaceContext.id}/${project.id}`)
-    }
+  const toProject = () => {
+    if (!workspaceContext?.id || !project?.id) return;
+    navigate(`/p/${workspaceContext.id}/${project.id}`);
+  };
 
   return (
     <div className={styles.projectButtonWrapper}>
-      <button className={styles.projectdiv}
-              onClick={toProject}
-      >
+      <button className={styles.projectdiv} onClick={toProject}>
         <img src={project?.photo?.url} alt="" className={avatarClassName} />
         <span className={styles.name}>{project?.info?.name}</span>
       </button>

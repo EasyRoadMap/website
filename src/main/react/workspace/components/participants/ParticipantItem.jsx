@@ -10,7 +10,7 @@ import useUserContext from "../../hooks/useUserContext.js";
 const ParticipantItem = ({ participant, type }) => {
   const avatarClassName = participant?.user?.photo?.default
     ? [styles.avatar, styles.pixelAvatar].join(" ")
-    : styles.avatar;
+    : styles.avatarUser;
 
   const { AbortInvite } = useWorkspaceInfo();
   const { workspaceContext } = useWorkspaceContext();
@@ -52,8 +52,9 @@ const ParticipantItem = ({ participant, type }) => {
           !participant?.is_invited &&
           !participant?.is_admin &&
           (type === "project" ? (
-              (participant?.user?.email !== userContext?.email) &&
+            participant?.user?.email !== userContext?.email && (
               <ParticipantsActionsProjectButton participant={participant} />
+            )
           ) : (
             <ParticipantActionsButton participant={participant} />
           ))}

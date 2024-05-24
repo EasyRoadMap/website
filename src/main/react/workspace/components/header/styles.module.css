@@ -52,6 +52,12 @@
   border-radius: 50%;
   border: 1px solid var(--light-stroke);
 }
+.avatarCircleUser {
+  height: 64px;
+  width: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
 .pixelAvatar {
   image-rendering: pixelated;
 }

@@ -4,7 +4,7 @@ import LinkSVG from "../../../assets/linkSVG.jsx";
 const ProjectInfo = ({ name, description, links, photo }) => {
   const avatarClassName = photo?.default
     ? [styles.projectAvatar, styles.pixelAvatar].join(" ")
-    : styles.projectAvatar;
+    : styles.projectAvatarUser;
 
   return (
     <div className={styles.mainInfo}>

@@ -119,6 +119,13 @@ button.dropdownWorkspaceButtonActive {
   opacity: 0.5;
   border: 1px solid var(--light-stroke);
 }
+.workspaceAvatarUser {
+  width: 32px;
+  height: 32px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0.5;
+}
 .pixelAvatar {
   image-rendering: pixelated;
 }
@@ -197,6 +204,12 @@ button.dropdownWorkspaceButtonActive {
   aspect-ratio: 1;
   border-radius: 50%;
   border: 1px solid var(--light-stroke);
+}
+.avatarUser {
+  width: 80px;
+  height: 80px;
+  aspect-ratio: 1;
+  border-radius: 50%;
 }
 .userDropdown {
   display: flex;

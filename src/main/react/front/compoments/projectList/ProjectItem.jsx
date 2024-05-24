@@ -11,7 +11,7 @@ const ProjectItem = ({ name, description, photo, date, id }) => {
   const { workspaceContext } = useWorkspaceContext();
   const avatarClassName = photo?.default
     ? [styles.projectItemAvatar, styles.pixelAvatar].join(" ")
-    : styles.projectItemAvatar;
+    : styles.projectItemAvatarUser;
 
   return (
     <div className={styles.projectItem}>
