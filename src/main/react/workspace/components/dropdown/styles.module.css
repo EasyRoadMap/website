@@ -25,6 +25,7 @@ button.dropdownWorkspaceButtonActive {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  right: 24px;
 }
 .dropdownSettings {
   display: flex;

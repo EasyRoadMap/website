@@ -4,7 +4,7 @@ import { useState } from "react";
 import { OutsideAlerter } from "../../hooks/useOutsideAlerter.jsx";
 import { usePopupManager } from "react-popup-manager";
 import ButtonDotsSVG from "../../../assets/buttonDots.jsx";
-import DeleteSVG from "../../../assets/deleteSVG.jsx";
+import DeleteInviteSVG from "../../../assets/deleteInviteSVG.jsx";
 
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
@@ -23,7 +23,7 @@ const ParticipanInviteActionsButton = ({ participant }) => {
 
   const buttons = [
     {
-      icon: DeleteSVG,
+      icon: DeleteInviteSVG,
       text: "Отменить приглашение",
       callback: () => removeInvite(),
     },
