@@ -28,7 +28,7 @@ const Roadmap = ({ pr_id, stages }) => {
             setChosenStage={setChosenStage}
           />
         </div>
-        {chosenStage && tasksContext && tasksContext?.length >= 0 && (
+        {chosenStage && tasksContext?.length >= 0 && (
           <div className={styles.tasksListWrapper}>
             <TasksList tasks={tasksContext} />
           </div>

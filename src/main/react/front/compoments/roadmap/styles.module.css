@@ -10,10 +10,10 @@
 }
 .taskFieldDone {
   min-height: 56px;
-  padding-left: 24px;
+  padding-left: 18px;
   padding-top: 12px;
   padding-bottom: 12px;
-  padding-right: 24px;
+  padding-right: 12px;
   border-radius: 24px;
   display: flex;
   align-items: center;
@@ -23,7 +23,7 @@
   border-width: 1px;
   border-color: var(--light-stroke);
 }
-/* .taskFieldDone:hover {
+.taskFieldDone:hover {
   background-color: var(--bg-color-task-hover), var(--bg-task-complete);
   background-image: linear-gradient(
       var(--bg-color-task-hover),
@@ -39,13 +39,29 @@
       var(--bg-color-task-hover)
     ),
     linear-gradient(var(--bg-task-complete), var(--bg-task-complete));
-} */
-.taskFieldProgress {
+}
+.taskFieldDoneActive {
   min-height: 56px;
-  padding-left: 24px;
+  padding-left: 18px;
   padding-top: 12px;
   padding-bottom: 12px;
-  padding-right: 24px;
+  padding-right: 12px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: var(--bg-task-complete);
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--accent-color);
+}
+
+.taskFieldProgress {
+  min-height: 56px;
+  padding-left: 18px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 12px;
   border-radius: 24px;
   display: flex;
   align-items: center;
@@ -55,7 +71,7 @@
   border-width: 1px;
   border-color: var(--light-stroke);
 }
-/* .taskFieldProgress:hover {
+.taskFieldProgress:hover {
   background-color: var(--bg-color-task-hover), var(--bg-task-in-progress);
   background-image: linear-gradient(
       var(--bg-color-task-hover),
@@ -71,13 +87,29 @@
       var(--bg-color-task-hover)
     ),
     linear-gradient(var(--bg-task-in-progress), var(--bg-task-in-progress));
-} */
-.taskFieldPlanned {
+}
+
+.taskFieldProgressActive {
   min-height: 56px;
-  padding-left: 24px;
+  padding-left: 18px;
   padding-top: 12px;
   padding-bottom: 12px;
-  padding-right: 24px;
+  padding-right: 12px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: var(--bg-task-in-progress);
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--accent-color);
+}
+.taskFieldPlanned {
+  min-height: 56px;
+  padding-left: 18px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 12px;
   border-radius: 24px;
   display: flex;
   align-items: center;
@@ -87,7 +119,7 @@
   border-width: 1px;
   border-color: var(--light-stroke);
 }
-/* .taskFieldPlanned:hover {
+.taskFieldPlanned:hover {
   background-color: var(--bg-color-task-hover), var(--bg-task-in-planned);
   background-image: linear-gradient(
       var(--bg-color-task-hover),
@@ -103,7 +135,22 @@
       var(--bg-color-task-hover)
     ),
     linear-gradient(var(--bg-task-in-planned), var(--bg-task-in-planned));
-} */
+}
+.taskFieldPlannedActive {
+  min-height: 56px;
+  padding-left: 18px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-right: 12px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: var(--bg-task-in-planned);
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--accent-color);
+}
 
 .tasksListWrapper {
   width: 100%;
@@ -113,13 +160,14 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 500px;
-  /* cursor: pointer; */
+  width: 400px;
+  cursor: pointer;
 }
 .taskInfo {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: calc(100% - 45px);
 }
 .taskName {
   max-width: 350px;
@@ -131,9 +179,25 @@
   white-space: nowrap;
 }
 .taskDate {
+  height: auto;
+  width: auto;
+  padding-left: 6px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-right: 8px;
+  background-color: var(--bg-workspace-button-focus);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
+  border-radius: 24px;
   display: flex;
   gap: 4px;
   align-items: center;
+}
+.taskDateWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
 }
 .taskDateText {
   font-size: 16px;
@@ -184,11 +248,16 @@
   font-size: 14px;
   font-weight: normal;
   color: var(--foreground-color50);
-  height: 17px;
+  overflow: hidden;
   text-overflow: ellipsis;
-  overflow-x: hidden;
-  white-space: nowrap;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow-wrap: anywhere;
 }
+
 .paginationWrapper {
   width: 100%;
   /* position: absolute; */
@@ -246,6 +315,25 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
+  height: 500px;
+}
+.tasksCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  padding-right: 5px;
+  overflow-x: auto;
+}
+.tasksCardListWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  height: 100%;
+  padding-right: 5px;
+  overflow-x: auto;
 }
 
 .taskFieldsWrapper {
@@ -351,6 +439,7 @@ span.stageNameActive {
   font-size: 20px;
   font-weight: bold;
   color: var(--text-color);
+  text-wrap: nowrap;
 }
 .deleteTask {
   position: absolute;
@@ -400,6 +489,8 @@ span.stageNameActive {
   user-select: none;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  text-wrap: nowrap;
+  width: 114px;
 }
 .unhandledFile {
   width: 40px;
@@ -428,6 +519,15 @@ span.stageNameActive {
   justify-content: center;
   padding-bottom: 42px;
   padding-top: 12px;
+  width: 100%;
+}
+.noTasksWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 42px;
+  padding-top: 12px;
+  width: 100%;
 }
 
 .noTasksText {
@@ -460,4 +560,80 @@ span.stageNameActive {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.tasksListWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  height: 100%;
+}
+.tasksDescription {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 450px);
+}
+
+.noTaskSelected {
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.noTasksText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.noTasksDescriotion {
+  display: none;
+}
+
+.tasksCardList::-webkit-scrollbar {
+  width: 7px;
+}
+
+.tasksCardList::-webkit-scrollbar-track {
+  background-color: var(--light-stroke);
+  border-radius: 20px;
+}
+
+.tasksCardList::-webkit-scrollbar-thumb {
+  background-color: var(--light-stroke);
+  border-radius: 20px;
+}
+
+.taskAttachmentsLength {
+  height: auto;
+  width: auto;
+  padding-left: 6px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-right: 8px;
+  background-color: var(--bg-workspace-button-focus);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+}
+
+.taskAttachmentsLengthText {
+  font-size: 14px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+}
+
+.paperClipSVG {
+  path {
+    fill: var(--text-color);
+  }
 }

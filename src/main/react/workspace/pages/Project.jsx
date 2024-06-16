@@ -1,4 +1,5 @@
 import Base from "./Base.jsx";
+import styles from "./projectsPage.module.css";
 import ProjectMainInfo from "../components/ProjectMainInfo.jsx";
 import Participants from "../components/participants/Participants.jsx";
 import Roadmap from "../components/roadmap/Roadmap.jsx";
@@ -124,24 +125,30 @@ const Project = () => {
   if (projectContext?.info?.name && state?.pr_id) {
     return (
       <Base>
-        <ProjectMainInfo
-          initialValues={{
-            name: projectContext?.info?.name,
-            description: projectContext?.info?.description,
-            links: getFulledLinksArray(),
-            date: projectContext?.info?.deadline_at
-              ? projectContext?.info?.deadline_at
-              : "",
-          }}
-          projectId={projectID}
-        />
-        <LinkVisitorPage link={getLinkToPublicPage()} type="project" />
-        <Participants participants={projectContext?.users} type="project" />
-        <Roadmap pr_id={projectID} />
-        <DeleteBlock
-          typeButton="deleteProject"
-          callback={openDeleteProjectPopup}
-        />
+        <div className={styles.container}>
+          <div className={styles.wrapperContent}>
+            <div className={styles.wrapperInfo}>
+              <ProjectMainInfo
+                initialValues={{
+                  name: projectContext?.info?.name,
+                  description: projectContext?.info?.description,
+                  links: getFulledLinksArray(),
+                  date: projectContext?.info?.deadline_at
+                    ? projectContext?.info?.deadline_at
+                    : "",
+                }}
+                projectId={projectID}
+              />
+              <LinkVisitorPage link={getLinkToPublicPage()} type="project" />
+            </div>
+            <Participants participants={projectContext?.users} type="project" />
+          </div>
+          <Roadmap pr_id={projectID} />
+          <DeleteBlock
+            typeButton="deleteProject"
+            callback={openDeleteProjectPopup}
+          />
+        </div>
       </Base>
     );
   }

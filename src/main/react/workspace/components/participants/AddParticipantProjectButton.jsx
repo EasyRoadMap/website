@@ -2,6 +2,7 @@ import styles from "./styles.module.css";
 import AddPersonSVG from "../../../assets/addPerson.jsx";
 
 import { usePopupManager } from "react-popup-manager";
+import Button from "../UI/Button.jsx";
 import Popup from "../popup/Popup.jsx";
 import AddUser from "../popup/AddUser.jsx";
 import AddUserPlaceholder from "../popup/AddUserPlaceholder.jsx";
@@ -26,55 +27,68 @@ const AddParticipantProjectButton = () => {
 
     if (button !== "invite" || !membersChosen || !projectId) return;
     console.log("sending invite", params);
-      AddMember(projectId, membersChosen);
+    AddMember(projectId, membersChosen);
   };
 
   const openSendInvitePopup = (...params) => {
     if (!projectContext?.id || !userContext?.email) return;
 
-    getAttachableMembers(projectContext.id).then((response) => {
-      let attachableMembers = null;
+    getAttachableMembers(projectContext.id)
+      .then((response) => {
+        let attachableMembers = null;
 
-      attachableMembers = response.data;
-      if (response.status === 204) {
-        attachableMembers = [];
-      }
+        attachableMembers = response.data;
+        if (response.status === 204) {
+          attachableMembers = [];
+        }
 
-      if (attachableMembers === null) return;
-      if (attachableMembers?.length === 0) {
-            popupManager.open(Popup, {
-              popup: {
-                component: AddUserPlaceholder
-              },
-              onClose: ()=>{},
-            });
-            return;
-      }
-        
-      popupManager.open(Popup, {
-        popup: {
-          component: AddUser,
-          props: {
-            workspaceMembers: attachableMembers,
-            adminEmail: userContext.email
-          }
-        },
-        onClose: onSendInvite,
+        if (attachableMembers === null) return;
+        if (attachableMembers?.length === 0) {
+          popupManager.open(Popup, {
+            popup: {
+              component: AddUserPlaceholder,
+            },
+            onClose: () => {},
+          });
+          return;
+        }
+
+        popupManager.open(Popup, {
+          popup: {
+            component: AddUser,
+            props: {
+              workspaceMembers: attachableMembers,
+              adminEmail: userContext.email,
+            },
+          },
+          onClose: onSendInvite,
+        });
+      })
+      .catch((e) => {
+        console.log("error");
       });
-    }).catch((e) => {
-      console.log("error");
-    })
   };
 
   return (
     <>
       {workspaceContext?.is_admin && (
-        <button className={styles.addButton} onClick={openSendInvitePopup}>
-          <div className={styles.addLogo}>
-            <AddPersonSVG className={styles.addPersonSVG} />
-          </div>
-          <div className={styles.addUser}>Добавить участника</div>
-        </button>
+        // <button className={styles.addButton} onClick={openSendInvitePopup}>
+        //   <div className={styles.addLogo}>
+        //     <AddPersonSVG className={styles.addPersonSVG} />
+        //   </div>
+        //   <div className={styles.addUser}>Добавить участника</div>
+        // </button>
+        <Button
+          text="Добавить участника"
+          type="outlineAccent"
+          callback={openSendInvitePopup}
+          style={{
+            width: "402px",
+            height: "48px",
+            fontSize: "20px",
+            fontWeight: "500",
+          }}
+        />
       )}
     </>
   );

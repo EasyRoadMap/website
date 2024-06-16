@@ -4,9 +4,8 @@ import TaskInProgressSVG from "../../../assets/taskInProgress.jsx";
 import TaskInPlannedSVG from "../../../assets/taskInPlanned.jsx";
 import CalendarSVG from "../../../assets/calendarSVG.jsx";
 import TaskActionsButton from "./TaskActionsButton.jsx";
-import ZipFielIconSVG from "../../../assets/zipFielIconSVG.jsx";
 import ButtonDotsVerticalSVG from "../../../assets/buttonDotsVertical.jsx";
-import UnhandledFieldIcon from "../../../assets/unhandledFieldIconSVG.jsx";
+import PaperClipSVG from "../../../assets/paperClipSVG.jsx";
 import { transformDate } from "../../../common/utils/separatedByDashesDateToSeparatedByDots.js";
 import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
@@ -38,73 +37,73 @@ const TaskItem = ({ task }) => {
   const IconTaskComplete = completionIcons[task?.status];
   const classTask = styles[completionColors[task?.status]];
 
-  const { projectId } = useProjectContext();
-  const { ChangeTask } = useRoadmapInfo();
-  const { chosenStage } = useRoadmapContext();
+  // const { projectId } = useProjectContext();
+  // const { ChangeTask } = useRoadmapInfo();
+  // const { chosenStage } = useRoadmapContext();
   const [listShowed, setListShowed] = useState(false);
 
-  const popupManager = usePopupManager();
-  const onCloseChangeTaskPopup = (...params) => {
-    if (
-      params?.[0]?.button === "change" &&
-      chosenStage &&
-      task?.id &&
-      projectId &&
-      params?.[0]?.status &&
-      params?.[0]?.name
-    ) {
-      ChangeTask(
-        projectId,
-        chosenStage,
-        task?.id,
-        statusToInt[params?.[0]?.status],
-        params?.[0]?.name,
-        params?.[0]?.description,
-        params?.[0]?.deadline,
-        params?.[0]?.attachment
-      );
-    }
-  };
+  // const popupManager = usePopupManager();
+  // const onCloseChangeTaskPopup = (...params) => {
+  //   if (
+  //     params?.[0]?.button === "change" &&
+  //     chosenStage &&
+  //     task?.id &&
+  //     projectId &&
+  //     params?.[0]?.status &&
+  //     params?.[0]?.name
+  //   ) {
+  //     ChangeTask(
+  //       projectId,
+  //       chosenStage,
+  //       task?.id,
+  //       statusToInt[params?.[0]?.status],
+  //       params?.[0]?.name,
+  //       params?.[0]?.description,
+  //       params?.[0]?.deadline,
+  //       params?.[0]?.attachment
+  //     );
+  //   }
+  // };
 
-  const checkCollision = (event) => {
-    const dotsBlock = document.querySelector("." + styles.dots);
-    const dotsBlockBoundingClientRect = dotsBlock.getBoundingClientRect();
-    console.debug(
-      dotsBlockBoundingClientRect.x,
-      dotsBlockBoundingClientRect.width,
-      dotsBlockBoundingClientRect.y,
-      dotsBlockBoundingClientRect.height
-    );
+  // const checkCollision = (event) => {
+  //   const dotsBlock = document.querySelector("." + styles.dots);
+  //   const dotsBlockBoundingClientRect = dotsBlock.getBoundingClientRect();
+  //   console.debug(
+  //     dotsBlockBoundingClientRect.x,
+  //     dotsBlockBoundingClientRect.width,
+  //     dotsBlockBoundingClientRect.y,
+  //     dotsBlockBoundingClientRect.height
+  //   );
 
-    return (
-      dotsBlockBoundingClientRect.x <= event.clientX &&
-      event.clientX <=
-        dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.width &&
-      dotsBlockBoundingClientRect.y <= event.clientY &&
-      event.clientY <=
-        dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.height
-    );
-  };
+  //   return (
+  //     dotsBlockBoundingClientRect.x <= event.clientX &&
+  //     event.clientX <=
+  //       dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.width &&
+  //     dotsBlockBoundingClientRect.y <= event.clientY &&
+  //     event.clientY <=
+  //       dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.height
+  //   );
+  // };
 
-  const openChangeTaskPopup = (event) => {
-    if (checkCollision(event)) return;
-    popupManager.open(Popup, {
-      popup: {
-        component: ChangeTaskPopup,
-        props: {
-          task: {
-            name: task?.name,
-            description: task?.description,
-            status: task?.status,
-            deadline: task?.deadline_at,
-            attachments: task?.attachments,
-          },
-          chosenStage: chosenStage,
-        },
-      },
-      onClose: onCloseChangeTaskPopup,
-    });
-  };
+  // const openChangeTaskPopup = (event) => {
+  //   if (checkCollision(event)) return;
+  //   popupManager.open(Popup, {
+  //     popup: {
+  //       component: ChangeTaskPopup,
+  //       props: {
+  //         task: {
+  //           name: task?.name,
+  //           description: task?.description,
+  //           status: task?.status,
+  //           deadline: task?.deadline_at,
+  //           attachments: task?.attachments,
+  //         },
+  //         chosenStage: chosenStage,
+  //       },
+  //     },
+  //     onClose: onCloseChangeTaskPopup,
+  //   });
+  // };
   const toggleListvisibility = () => {
     setListShowed((prev) => !prev);
   };
@@ -112,7 +111,7 @@ const TaskItem = ({ task }) => {
   return (
     <>
       <div className={styles.taskWrapper}>
-        <div className={classTask} onClick={openChangeTaskPopup}>
+        <div className={classTask}>
           <div className={styles.taskFieldsWrapper}>
             <div className={styles.taskMainPart}>
               <div className={styles.taskInfo}>
@@ -128,48 +127,21 @@ const TaskItem = ({ task }) => {
                       </span>
                     </div>
                   )}
+                  {task?.attachments?.length > 0 && (
+                    <div className={styles.taskAttachmentsLength}>
+                      <PaperClipSVG className={styles.paperClipSVG} />
+                      <span className={styles.taskAttachmentsLengthText}>
+                        {task?.attachments?.length}
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <span
                   className={styles.taskDescription}
-                  style={
-                    task?.description
-                      ? { display: "flex" }
-                      : { display: "none" }
-                  }
+                  style={task?.description ? null : { display: "none" }}
                 >
                   {task?.description}
                 </span>
-              </div>
-
-              <div
-                className={styles.taskParticipantsAvatars}
-                style={
-                  task?.attachments ? { display: "flex" } : { display: "none" }
-                }
-              >
-                {task?.attachments?.map((participantAvatar, i) => {
-                  return (
-                    <>
-                      {participantAvatar.type === "image" ? (
-                        <img
-                          src={participantAvatar.url}
-                          alt=""
-                          key={i}
-                          className={styles.taskParticipantAvatar}
-                        />
-                      ) : (
-                        <div className={styles.unhandledFile}>
-                          {participantAvatar.type === "archive" && (
-                            <ZipFielIconSVG className={styles.fileIcon} />
-                          )}
-                          {participantAvatar.type === "default" && (
-                            <UnhandledFieldIcon className={styles.fileIcon} />
-                          )}
-                        </div>
-                      )}
-                    </>
-                  );
-                })}
               </div>
             </div>
           </div>

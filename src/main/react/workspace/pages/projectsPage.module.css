@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wrapperContent {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.wrapperInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: calc(100% - 450px);
+}

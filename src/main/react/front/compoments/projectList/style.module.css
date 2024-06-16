@@ -7,9 +7,10 @@
   border-style: solid;
   border-color: var(--light-stroke);
   border-width: 1px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  flex-wrap: wrap;
   gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(min(564px, 100%), 1fr));
 }
 
 .projectItem {
@@ -19,18 +20,20 @@
   gap: 24px;
   background-color: var(--bg-color-sidebar-and-dropdown);
   border-radius: 15px;
+  /* width: 564px; */
+  height: 200px;
 }
 
 .projectItemInfo {
   display: flex;
   gap: 24px;
-  width: 608px;
+  height: 96px;
 }
 .infoWrapper {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  width: 100%;
+  width: calc(100% - 90px);
 }
 
 .infoTitle {
@@ -70,7 +73,7 @@
   text-overflow: ellipsis;
   overflow-x: hidden;
   white-space: nowrap;
-  width: 350px;
+  width: calc(100% - 150px);
 }
 
 .projectItemDate {
@@ -84,4 +87,13 @@
   font-weight: 50;
   color: var(--foreground-color50);
   height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow-wrap: anywhere;
+  /* width: 200px; */
 }

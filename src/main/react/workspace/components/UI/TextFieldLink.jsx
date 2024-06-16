@@ -17,15 +17,14 @@ export default function TextFieldLink({
   const changeTitle = (e) => {
     if (e.target.value === "") {
       const newData = data.map((elem, i) => {
-        if (i === order) return {...elem, name: null};
-        return elem
+        if (i === order) return { ...elem, name: null };
+        return elem;
       });
       setData(newData);
-    }
-    else {
+    } else {
       const newData = data.map((elem, i) => {
-        if (i === order) return {...elem, name: e.target.value};
-        return elem
+        if (i === order) return { ...elem, name: e.target.value };
+        return elem;
       });
       setData(newData);
     }
@@ -33,15 +32,14 @@ export default function TextFieldLink({
   const changeURL = (e) => {
     if (e.target.value === "") {
       const newData = data.map((elem, i) => {
-        if (i === order) return {...elem, url: null};
-        return elem
+        if (i === order) return { ...elem, url: null };
+        return elem;
       });
       setData(newData);
-    }
-    else {
+    } else {
       const newData = data.map((elem, i) => {
-        if (i === order) return {...elem, url: e.target.value};
-        return elem
+        if (i === order) return { ...elem, url: e.target.value };
+        return elem;
       });
       setData(newData);
     }
@@ -49,18 +47,18 @@ export default function TextFieldLink({
   return (
     <div className={styles.textFieldLink}>
       <div className={styles.textFieldLinkTitleForm}>
-        <input 
-          className={styles.inputLinkTitle} 
-          placeholder="Название" 
-          onChange={changeTitle} 
+        <input
+          className={styles.inputLinkTitle}
+          placeholder="Название"
+          onChange={changeTitle}
           value={data?.[order]?.name}
         />
       </div>
       <div className={styles.textFieldLinkForm}>
-        <input 
-          className={styles.inputLink} 
+        <input
+          className={styles.inputLink}
           placeholder="https://"
-          onChange={changeURL} 
+          onChange={changeURL}
           value={data?.[order]?.url}
         />
       </div>

@@ -1,0 +1,208 @@
+.taskDescriptionWrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color-project);
+  border-radius: 24px;
+  width: 100%;
+  height: 100%;
+  gap: 12px;
+  padding-left: 24px;
+  padding-top: 18px;
+  padding-bottom: 12px;
+  padding-right: 6px;
+}
+.taskDate {
+  display: flex;
+  gap: 12px;
+  height: auto;
+  width: auto;
+}
+.taskDateWraper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 16px;
+}
+.DateWraper {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding-left: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 12px;
+  border-radius: 20px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--light-stroke);
+  background-color: var(--light-stroke);
+}
+.calendarSVG {
+  width: 24px;
+  height: 24px;
+}
+.taskDateText {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+}
+
+.taskName {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.hr {
+  width: calc(100% - 5px);
+  height: 2px;
+  color: var(--light-stroke);
+  border-radius: 2px;
+}
+.taskDescription {
+  font-size: 18px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+  width: calc(100% - 32px);
+  overflow-wrap: anywhere;
+}
+
+.taskDescriptionInfoPhoto {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-x: auto;
+  height: 370px;
+}
+
+.taskParticipantAttachments {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding-right: 5px;
+}
+
+.attachmentContainer {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+.attachmentImgInfo {
+  padding-left: 3px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 3px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.attachmentImgInfoName {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent-color);
+  white-space: nowrap;
+  overflow-x: hidden;
+  width: 70px;
+  text-overflow: ellipsis;
+}
+.attachmentImgInfoSize {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--foreground-color50);
+}
+
+.taskParticipantAvatar {
+  height: 140px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--light-stroke);
+}
+
+.unhandledFile {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--light-stroke);
+  border-radius: 8px;
+}
+
+.fileIcon {
+  width: 50px;
+  height: 50px;
+  path {
+    stroke: var(--foreground-color50);
+  }
+}
+
+.taskFieldDone {
+  width: auto;
+  padding-left: 6px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 12px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--bg-task-complete);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
+  color: var(--color-task-done);
+}
+
+.taskFieldProgress {
+  width: auto;
+  padding-left: 6px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 12px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--bg-task-in-progress);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
+  color: var(--color-task-progress);
+}
+
+.taskFieldPlanned {
+  width: auto;
+  padding-left: 6px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-right: 12px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--bg-task-in-planned);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--light-stroke);
+  color: var(--color-task-planned);
+}
+
+.taskStatus {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.taskDescriptionInfoPhoto::-webkit-scrollbar {
+  width: 7px;
+}
+
+.taskDescriptionInfoPhoto::-webkit-scrollbar-track {
+  background-color: var(--light-stroke);
+  border-radius: 20px;
+}
+
+.taskDescriptionInfoPhoto::-webkit-scrollbar-thumb {
+  background-color: var(--light-stroke);
+  border-radius: 20px;
+}

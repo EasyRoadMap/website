@@ -26,7 +26,7 @@ const TextLink = ({ data, placeholder, type, loading = null }) => {
     );
 
   if (loading === null || loading === false) {
-    return <form className={styles.form}>{inputField}</form>;
+    return <form className={styles.formLink}>{inputField}</form>;
   }
 };
 

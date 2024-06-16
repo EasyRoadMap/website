@@ -1,5 +1,6 @@
 import styles from "./styles.module.css";
 import AddPersonSVG from "../../../assets/addPerson.jsx";
+import Button from "../UI/Button.jsx";
 
 import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
@@ -34,13 +35,24 @@ const AddParticipantButton = () => {
   return (
     <>
       {workspaceContext?.is_admin && (
-        <button className={styles.addButton} onClick={openSendInvitePopup}>
-          {/* add icon */}
-          <div className={styles.addLogo}>
-            <AddPersonSVG className={styles.addPersonSVG} />
-          </div>
-          <div className={styles.addUser}>Добавить участника</div>
-        </button>
+        // <button className={styles.addButton} onClick={openSendInvitePopup}>
+        //   {/* add icon */}
+        //   <div className={styles.addLogo}>
+        //     <AddPersonSVG className={styles.addPersonSVG} />
+        //   </div>
+        //   <div className={styles.addUser}>Добавить участника</div>
+        // </button>
+        <Button
+          text="Добавить участника"
+          type="outlineAccent"
+          callback={openSendInvitePopup}
+          style={{
+            width: "402px",
+            height: "48px",
+            fontSize: "20px",
+            fontWeight: "500",
+          }}
+        />
       )}
     </>
   );

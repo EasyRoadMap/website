@@ -2,6 +2,9 @@ import Base from "./Base.jsx";
 import LinkVisitorPage from "../components/linkVisitorPage/linkVisitorPage.jsx";
 import WorkspaceMainInfo from "../components/WorkspaceMainInfo.jsx";
 import Participants from "../components/participants/Participants.jsx";
+import styles from "./mainPage.module.css";
+
+import DeleteBlock from "../components/deleteBlock/DeleteBlock.jsx";
 
 import useUserContext from "../hooks/useUserContext.js";
 import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
@@ -9,6 +12,7 @@ import { useWorkspaceInfo } from "../hooks/useWorkspace.jsx";
 
 import { usePopupManager } from "react-popup-manager";
 import Popup from "../components/popup/Popup.jsx";
+import DeleteWorkspacePopup from "../components/popup/DeleteWorkspacePopup.jsx";
 import UserInvitationPopup from "../components/popup/UserInvitationPopup.jsx";
 import { getInvite } from "../api/workspace-api/getInvite.js";
 
@@ -23,6 +27,25 @@ const Main = ({ fromInvite = false }) => {
   const { workspaceContext } = useWorkspaceContext();
   const { userContext } = useUserContext();
   const { AcceptInvite, DeclineInvite } = useWorkspaceInfo();
+
+  const { DeleteWorkspace } = useWorkspaceInfo();
+
+  const onCloseDeleteWorkspacePopup = (...params) => {
+    console.log(params?.[0]);
+    if (params?.[0]?.button === "delete") {
+      DeleteWorkspace(workspaceContext.id, params?.[0].password);
+    }
+  };
+
+  const openDeleteWorkspacePopup = () => {
+    popupManager.open(Popup, {
+      popup: {
+        component: DeleteWorkspacePopup,
+        props: { workspace: workspaceContext?.info?.name },
+      },
+      onClose: onCloseDeleteWorkspacePopup,
+    });
+  };
 
   useEffect(() => {
     if (!fromInvite) return;
@@ -82,23 +105,36 @@ const Main = ({ fromInvite = false }) => {
     <>
       {userContext?.workspaces != [] ? (
         <Base>
-          <WorkspaceMainInfo
-            logo={workspaceContext?.photo}
-            initialValues={{
-              name: workspaceContext?.info?.name,
-              description: workspaceContext?.info?.description,
-              waitUntilLoadName: workspaceContext?.info?.name === null,
-              waitUntilLoadDescription:
-                workspaceContext?.info?.description === null,
-              workspace: workspaceContext,
-            }}
-          />
+          <div className={styles.container}>
+            <div className={styles.contentWraper}>
+              <WorkspaceMainInfo
+                logo={workspaceContext?.photo}
+                initialValues={{
+                  name: workspaceContext?.info?.name,
+                  description: workspaceContext?.info?.description,
+                  waitUntilLoadName: workspaceContext?.info?.name === null,
+                  waitUntilLoadDescription:
+                    workspaceContext?.info?.description === null,
+                  workspace: workspaceContext,
+                }}
+              />
+              <LinkVisitorPage
+                link={getLinkToPublicPage()}
+                type={"workspace"}
+              />
+              <DeleteBlock
+                typeButton="deleteWorkspace"
+                callback={openDeleteWorkspacePopup}
+              />
+            </div>
+            <Participants
+              participants={workspaceContext?.users}
+              type={"workspace"}
+              className={styles.participants}
+            />
+          </div>
+
           {console.debug("workspaceContext?.id", workspaceContext)}
-          <LinkVisitorPage link={getLinkToPublicPage()} type={"workspace"} />
-          <Participants
-            participants={workspaceContext?.users}
-            type={"workspace"}
-          />
         </Base>
       ) : (
         <CreateWorkspace type={"workspace"} />

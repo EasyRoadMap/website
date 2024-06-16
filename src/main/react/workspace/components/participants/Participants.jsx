@@ -9,16 +9,20 @@ const Participants = ({ participants, type }) => {
   console.log(participants);
   return (
     <section className={styles.section} id="participants">
-      <h1 className={styles.title}>Участники</h1>
-      <div className={styles.participantsList}>
-        {participants &&
-          participants.map((participant, i) => {
-            return (
-              //   <div key={i}>
-              <ParticipantItem participant={participant} type={type} />
-              //   </div>
-            );
-          })}
+      <div className={styles.participantsListWrapper}>
+        <h1 className={styles.title}>Участники</h1>
+        <div className={styles.participantsList}>
+          {participants &&
+            participants.map((participant, i) => {
+              return (
+                //   <div key={i}>
+                <ParticipantItem participant={participant} type={type} />
+                //   </div>
+              );
+            })}
+        </div>
+      </div>
+      <div>
         {type === "project" ? (
           <AddParticipantProjectButton />
         ) : (

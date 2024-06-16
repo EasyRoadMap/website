@@ -4,7 +4,8 @@
   position: fixed;
   height: fit-content;
   width: 340px;
-  left: calc((100vw - 1060px) / 2);
+  /* left: calc((100vw - 1060px) / 2); */
+  left: 24px;
   background-color: var(--bg-color-sidebar-and-dropdown);
   padding: 12px;
   display: flex;

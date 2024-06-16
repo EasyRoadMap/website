@@ -40,7 +40,7 @@ const ProjectItem = ({ name, description, photo, date, id }) => {
         callback={() => {
           navigate(`/p/${workspaceContext.id}/${id}`);
         }}
-        style={{ width: "608px", height: "40px" }}
+        style={{ height: "40px" }}
       />
     </div>
   );

@@ -51,6 +51,7 @@ color-4 - для бокового меню
   --bg-color-task-hover: rgba(255, 255, 255, 0.1);
   /* color-2 в виде r, g, b */
   --bg-color-project-rgb: 246, 247, 248;
+  --white-quarter-color: rgba(255, 255, 255, 0.25);
 }
 [data-public-theme="light"],
 [data-theme="light"] {
@@ -99,7 +100,7 @@ color-4 - для бокового меню
   --color-task-progress: #7a722b;
   --color-task-planned: #55575a;
   --bg-color-task: rgba(255, 255, 255, 0.2);
-
+  --white-quarter-color: rgba(255, 255, 255, 0.25);
   /* color-2 в виде r, g, b */
   --bg-color-project-rgb: 246, 247, 248;
 }
@@ -150,6 +151,7 @@ color-4 - для бокового меню
   --color-task-progress: #f9f1aa;
   --color-task-planned: #d4d6d9;
   --bg-color-task: rgba(0, 0, 0, 0.2);
+  --white-quarter-color: rgba(0, 0, 0, 0.25);
   /* color-2 в виде r, g, b */
   --bg-color-project-rgb: 21, 23, 27;
 }
