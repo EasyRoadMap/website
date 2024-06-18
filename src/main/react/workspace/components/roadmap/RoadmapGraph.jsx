@@ -10,15 +10,8 @@ import { askForDeleteStageProps } from "../popup/PopupsData.jsx";
 import Popup from "../popup/Popup.jsx";
 import CreateStagePopup from "../popup/CreateStage.jsx";
 import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import RoadmapPagination from "./RoadmapPagination.jsx";
-
-
-const SIZES = {
-    viewportWidth: 648,
-    viewportHeight: 453,
-    stageCircleWidth: 131
-}
 
 const getStatusByProgress = (progress, is_in_progress) => {
     if (progress === 0 && is_in_progress) return "progress";
@@ -33,17 +26,45 @@ const RoadmapGraph = ({
 }) => {
     const { chosenStage, setChosenStage } = useRoadmapContext();
     const { CreateStage, DeleteStage } = useRoadmapInfo();
-    const [moveDelta, setMoveDelta] = useState(SIZES.viewportWidth/2 - SIZES.stageCircleWidth/2);
+    const [moveDelta, setMoveDelta] = useState(1);
     const [centeredBlock, setCenteredBlock] = useState(0);
     const [visibleStagesList, setVisibleStagesList] = useState(null);
+    const [SIZES, setSizes] = useState({
+      viewportWidth: null,
+      viewportHeight: 453,
+      stageCircleWidth: 131
+    });
+    const [circlesFitsIn, setCirclesFitsIn] = useState(null);
+    const viewport = useRef(null);
 
     useEffect(() => {
-        moveToBlock(pickInitialCenteredStage(stages));
-    }, []);
+      if (circlesFitsIn == null) return;
+      moveToBlock(pickInitialCenteredStage(stages));
+    }, [circlesFitsIn]);
+
+    useEffect(() => {
+      if (SIZES.viewportWidth == null) return;
+      setCirclesFitsIn(countCirclesFitsIntoViewport(SIZES.viewportWidth));
+    }, [SIZES]);
+
+    useEffect(() => {
+      if (!viewport.current) return;
+      const vpw = viewport.current.offsetWidth;
+      // const vph = viewport.current.offsetHeight;
+      setSizes((prev) => ({
+        ...prev,
+        viewportWidth: vpw
+      }))
+    }, [viewport]);
 
     useEffect(() => {
       updateVisibleBlocksList();
     }, [stages, moveDelta]);
+
+
+    const countCirclesFitsIntoViewport = (viewportWidth) => {
+        return Math.floor((viewportWidth - 131) / 100);
+    }
 
     const openStage = (stage_id) => {
         setChosenStage(stage_id);
@@ -68,7 +89,6 @@ const RoadmapGraph = ({
       blocks.forEach((container) => {
         blocksVisible.push(isBlockVisible(container, viewport));
       });
-      console.debug("getBloksVisibility", blocksVisible);
       return blocksVisible;
     };
 
@@ -116,14 +136,16 @@ const RoadmapGraph = ({
     }
 
     const moveToBlock = (i) => {
-        if (stages.length >= 4 && i < 2) i = 2;
+        const circleOnCenter = countCirclesFitsIntoViewport(SIZES.viewportWidth / 2);
+        console.debug("NADO", [SIZES.viewportWidth / 2, countCirclesFitsIntoViewport(SIZES.viewportWidth / 2)]);
+        if (stages.length >= circlesFitsIn && i < circleOnCenter) i = circleOnCenter;
         else if (i < 0) i = 0;
-        if (stages.length >= 4 && i > stages.length - 2) i = stages.length - 2;
-        if (i > stages.length) i = stages.length - 2;
-        if (stages.length <= 4 && stages.length > 1) i = Math.ceil(stages.length / 2);
-        console.debug("moved to ", i, stages.length / 2);
+        if (stages.length >= circlesFitsIn && i > stages.length - circleOnCenter) i = stages.length - circleOnCenter;
+        if (i > stages.length) i = stages.length - circleOnCenter;
+        if (stages.length <= circlesFitsIn && stages.length > 1) i = Math.ceil(stages.length / 2);
         const initRight = i * (-100);
         const goalRight = SIZES.viewportWidth/2 - SIZES.stageCircleWidth/2;
+        console.debug("moved to ", [i, stages.length / 2, initRight, goalRight, SIZES.viewportWidth/2, circlesFitsIn]);
         setCenteredBlock(i);
         setMoveDelta(goalRight - initRight);
     }
@@ -156,7 +178,7 @@ const RoadmapGraph = ({
                 return stage.id !== stageToDelete.id;
             })
             const initialStage = pickInitialCenteredStage(newStages);
-            stages.length - 1 > 4 ? moveToBlock(initialStage) : moveToBlock(Math.ceil((stages.length - 1) / 2));
+            stages.length - 1 > circlesFitsIn ? moveToBlock(initialStage) : moveToBlock(Math.ceil((stages.length - 1) / 2));
             setChosenStage(null);
         });
         
@@ -175,7 +197,7 @@ const RoadmapGraph = ({
 
     return (
         <>
-      <div className={styles.graph}>
+      <div className={styles.graph} ref={viewport}>
         {stages.length > 0 && (
           <div
             className={styles.graphLine}
@@ -268,7 +290,7 @@ const RoadmapGraph = ({
               styles.moveGraphButtonLeft,
             ].join(" ")}
           ></div>
-          {stages.length > 4 && (
+          {stages.length > circlesFitsIn && (
             <div className={styles.moveButtons}>
               <MoveRoadMap
                 style={{
@@ -287,7 +309,7 @@ const RoadmapGraph = ({
           )}
         </div>
       </div>
-      {stages.length > 4 && (
+      {stages.length > circlesFitsIn && (
         <RoadmapPagination blocks={visibleStagesList} />
       )}
     </>
