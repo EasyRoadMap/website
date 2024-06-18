@@ -5,8 +5,8 @@
   top: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0 calc((100vw - 1060px) / 2);
+  justify-content: space-between;
+  padding: 24px;
   user-select: none;
   background-color: var(--bg-color-header-and-dropdown-user);
   position: fixed;
@@ -23,8 +23,12 @@
   align-items: center;
   gap: 10px;
 }
+
+.themeChange {
+  cursor: pointer;
+}
 .title {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: bold;
   color: var(--text-color);
 }
@@ -37,14 +41,49 @@
   display: flex;
   flex-direction: column;
 }
-.themeChange {
-  cursor: pointer;
-  position: absolute;
-  right: 30px;
-}
 
 .iconTheme {
   path {
     fill: var(--bg-pagination-circle);
+  }
+}
+.menuHeader {
+  display: none;
+  path {
+    fill: var(--foreground-color50);
+  }
+}
+.menuHeaderActive {
+  path {
+    fill: var(--text-color);
+  }
+}
+
+@media (min-width: 0px) and (max-width: 999px) {
+  .header {
+    justify-content: center;
+  }
+  .themeChange {
+    position: absolute;
+    right: 24px;
+  }
+  .menuHeader {
+    display: flex;
+    position: absolute;
+    left: 24px;
+  }
+}
+@media (min-width: 0px) and (max-width: 479px) {
+  .title {
+    font-size: 20px;
+  }
+  .logo {
+    width: 54px;
+  }
+  .themeChange {
+    width: 35px;
+  }
+  .menuHeader {
+    width: 35px;
   }
 }

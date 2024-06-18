@@ -3,6 +3,8 @@ import TaskCompletedSVG from "../../../assets/taskCompleted.jsx";
 import TaskInProgressSVG from "../../../assets/taskInProgress.jsx";
 import TaskInPlannedSVG from "../../../assets/taskInPlanned.jsx";
 import ZipFielIconSVG from "../../../assets/zipFielIconSVG.jsx";
+import TaskActionsButtonDescription from "./TaskActionButtonDescription.jsx";
+import ButtonDotsVerticalSVG from "../../../assets/buttonDotsVertical.jsx";
 import UnhandledFieldIcon from "../../../assets/unhandledFieldIconSVG.jsx";
 import CalendarSVG from "../../../assets/calendarSVG.jsx";
 import { beautifyDate } from "../../../front/utils/transformDateToMoreReadable.js";
@@ -13,6 +15,7 @@ import ChangeTaskPopup from "../popup/ChangeTaskPopup.jsx";
 import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
 import useRoadmapContext from "../../hooks/useRoadmapContext.js";
 import useProjectContext from "../../hooks/useProjectContext.js";
+import { useState, useEffect } from "react";
 
 const statusToInt = {
   in_progress: 0,
@@ -36,6 +39,12 @@ const titleTaskStatus = {
   planned: "В плане",
 };
 
+const bgColorTaskDescription = {
+  done: "taskDescriptionDone",
+  in_progress: "taskDescriptionProgress",
+  planned: "taskDescriptionPlanned",
+};
+
 function formatBytes(a, b = 2) {
   if (!+a) return "0 B";
   const c = 0 > b ? 0 : b,
@@ -45,12 +54,23 @@ function formatBytes(a, b = 2) {
   }`;
 }
 
-const TaskDescription = ({ task }) => {
+const TaskDescription = ({ task, onClose }) => {
   const { projectId } = useProjectContext();
   const { ChangeTask } = useRoadmapInfo();
   const { chosenStage } = useRoadmapContext();
-
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const popupManager = usePopupManager();
+  const IconTaskComplete = completionIcons[task?.status];
+  const classTask = styles[completionColors[task?.status]];
+  const bcgTaskDescription = styles[bgColorTaskDescription[task?.status]];
+
+  const [listShowed, setListShowed] = useState(false);
+
+  const toggleListvisibility = (event) => {
+    event.stopPropagation();
+    setListShowed((prev) => !prev);
+  };
+
   const onCloseChangeTaskPopup = (...params) => {
     if (
       params?.[0]?.button === "change" &&
@@ -72,26 +92,6 @@ const TaskDescription = ({ task }) => {
       );
     }
   };
-
-  // const checkCollision = (event) => {
-  //   const dotsBlock = document.querySelector("." + styles.dots);
-  //   const dotsBlockBoundingClientRect = dotsBlock.getBoundingClientRect();
-  //   console.debug(
-  //     dotsBlockBoundingClientRect.x,
-  //     dotsBlockBoundingClientRect.width,
-  //     dotsBlockBoundingClientRect.y,
-  //     dotsBlockBoundingClientRect.height
-  //   );
-
-  //   return (
-  //     dotsBlockBoundingClientRect.x <= event.clientX &&
-  //     event.clientX <=
-  //       dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.width &&
-  //     dotsBlockBoundingClientRect.y <= event.clientY &&
-  //     event.clientY <=
-  //       dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.height
-  //   );
-  // };
   const openChangeTaskPopup = () => {
     popupManager.open(Popup, {
       popup: {
@@ -111,17 +111,36 @@ const TaskDescription = ({ task }) => {
     });
   };
 
-  const IconTaskComplete = completionIcons[task?.status];
-  const classTask = styles[completionColors[task?.status]];
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <div className={styles.taskDescriptionWrapper}>
+    <div
+      className={
+        screenWidth >= 1600 ? styles.taskDescriptionWrapper : bcgTaskDescription
+      }
+    >
       <div className={styles.taskDateWraper}>
         <div className={styles.taskDate}>
           <div className={classTask}>
             <IconTaskComplete />
-            <span className={styles.taskStatus}>
-              {titleTaskStatus[task?.status]}
-            </span>
+            {screenWidth >= 1600 && (
+              <span className={styles.taskStatus}>
+                {titleTaskStatus[task?.status]}
+              </span>
+            )}
+            {screenWidth < 1600 && (
+              <span className={styles.taskName}>{task?.name}</span>
+            )}
           </div>
           {task.deadline_at && (
             <div className={styles.DateWraper}>
@@ -132,25 +151,54 @@ const TaskDescription = ({ task }) => {
             </div>
           )}
         </div>
-        <div>
-          <Button
-            text="Редактировать"
-            type="outlineSecondary"
-            callback={openChangeTaskPopup}
-            style={{
-              width: "156px",
-              height: "36px",
-              fontSize: "16px",
-              fontWeight: "500",
-            }}
-          />
-        </div>
+        {screenWidth >= 1600 && (
+          <div>
+            <Button
+              text="Редактировать"
+              type="outlineSecondary"
+              callback={openChangeTaskPopup}
+              style={{
+                width: "156px",
+                height: "36px",
+                fontSize: "16px",
+                fontWeight: "500",
+              }}
+            />
+          </div>
+        )}
+        {screenWidth < 1600 && (
+          <>
+            <button
+              className={styles.dotsWrapper}
+              onClick={toggleListvisibility}
+            >
+              <ButtonDotsVerticalSVG className={styles.dots} />
+            </button>
+            <TaskActionsButtonDescription
+              task={task}
+              listShowed={listShowed}
+              setListShowed={setListShowed}
+              onClose={onClose}
+            />
+          </>
+        )}
       </div>
-      <div className={styles.taskDescriptionInfo}>
-        <span className={styles.taskName}>{task?.name}</span>
-      </div>
-      <div className={styles.taskDescriptionInfoPhoto}>
-        <span className={styles.taskDescription}>{task?.description}</span>
+      {screenWidth >= 1600 && (
+        <div className={styles.taskName}>{task?.name}</div>
+      )}
+      <div
+        className={styles.taskDescriptionInfoPhoto}
+        style={{
+          display:
+            task?.attachments?.length > 0 || task?.description ? null : "none",
+        }}
+      >
+        <span
+          className={styles.taskDescription}
+          style={{ display: task.description ? null : "none" }}
+        >
+          {task?.description}
+        </span>
         {task?.attachments?.length > 0 && <hr className={styles.hr}></hr>}
         <div className={styles.taskParticipantAttachments}>
           {task?.attachments?.map((attachmentPhoto, i) => (

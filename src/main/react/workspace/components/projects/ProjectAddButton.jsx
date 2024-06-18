@@ -20,22 +20,35 @@ const ProjectAddButton = () => {
 
   const toProject = (project, workspaceContext) => {
     if (project?.id && workspaceContext?.id) {
-        Projects();
-        navigate({
-            pathname: "/workspace/project",
-            search: '?ws_id='+workspaceContext.id+"&pr_id="+project.id,
-        }, {
-            state: {
+      Projects();
+      navigate(
+        {
+          pathname: "/workspace/project",
+          search: "?ws_id=" + workspaceContext.id + "&pr_id=" + project.id,
+        },
+        {
+          state: {
             pr_id: project.id,
-            replace: false
-            }
-        })
+            replace: false,
+          },
+        }
+      );
     }
-  } 
+  };
 
   const onCreateProject = (...params) => {
-    if (params?.[0]?.button === "create" && workspaceContext?.id && params?.[0]?.name)
-    CreateProject(workspaceContext?.id, params?.[0]?.name, params?.[0]?.description, params?.[0]?.date, (project) => toProject(project, workspaceContext));
+    if (
+      params?.[0]?.button === "create" &&
+      workspaceContext?.id &&
+      params?.[0]?.name
+    )
+      CreateProject(
+        workspaceContext?.id,
+        params?.[0]?.name,
+        params?.[0]?.description,
+        params?.[0]?.date,
+        (project) => toProject(project, workspaceContext)
+      );
   };
 
   const openCreateProjectPopup = (...params) => {
@@ -52,7 +65,11 @@ const ProjectAddButton = () => {
       <div className={styles.addLogo}>
         <AddProjectSVG />
       </div>
-      <Button text="Создать новый" type="filledAccent" callback={openCreateProjectPopup}/>
+      <Button
+        text="Создать новый"
+        type="filledAccent"
+        callback={openCreateProjectPopup}
+      />
     </div>
   );
 };

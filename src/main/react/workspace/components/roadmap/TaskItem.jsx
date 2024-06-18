@@ -26,6 +26,11 @@ const completionColors = {
   in_progress: "taskFieldProgress",
   planned: "taskFieldPlanned",
 };
+const completionColorsActive = {
+  done: "taskFieldDoneActive",
+  in_progress: "taskFieldProgressActive",
+  planned: "taskFieldPlannedActive",
+};
 
 const statusToInt = {
   in_progress: 0,
@@ -33,78 +38,16 @@ const statusToInt = {
   done: 2,
 };
 
-const TaskItem = ({ task }) => {
+const TaskItem = ({ task, isSelected }) => {
   const IconTaskComplete = completionIcons[task?.status];
-  const classTask = styles[completionColors[task?.status]];
+  const classTask = isSelected
+    ? styles[completionColorsActive[task?.status]]
+    : styles[completionColors[task?.status]];
 
-  // const { projectId } = useProjectContext();
-  // const { ChangeTask } = useRoadmapInfo();
-  // const { chosenStage } = useRoadmapContext();
   const [listShowed, setListShowed] = useState(false);
 
-  // const popupManager = usePopupManager();
-  // const onCloseChangeTaskPopup = (...params) => {
-  //   if (
-  //     params?.[0]?.button === "change" &&
-  //     chosenStage &&
-  //     task?.id &&
-  //     projectId &&
-  //     params?.[0]?.status &&
-  //     params?.[0]?.name
-  //   ) {
-  //     ChangeTask(
-  //       projectId,
-  //       chosenStage,
-  //       task?.id,
-  //       statusToInt[params?.[0]?.status],
-  //       params?.[0]?.name,
-  //       params?.[0]?.description,
-  //       params?.[0]?.deadline,
-  //       params?.[0]?.attachment
-  //     );
-  //   }
-  // };
-
-  // const checkCollision = (event) => {
-  //   const dotsBlock = document.querySelector("." + styles.dots);
-  //   const dotsBlockBoundingClientRect = dotsBlock.getBoundingClientRect();
-  //   console.debug(
-  //     dotsBlockBoundingClientRect.x,
-  //     dotsBlockBoundingClientRect.width,
-  //     dotsBlockBoundingClientRect.y,
-  //     dotsBlockBoundingClientRect.height
-  //   );
-
-  //   return (
-  //     dotsBlockBoundingClientRect.x <= event.clientX &&
-  //     event.clientX <=
-  //       dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.width &&
-  //     dotsBlockBoundingClientRect.y <= event.clientY &&
-  //     event.clientY <=
-  //       dotsBlockBoundingClientRect.x + dotsBlockBoundingClientRect.height
-  //   );
-  // };
-
-  // const openChangeTaskPopup = (event) => {
-  //   if (checkCollision(event)) return;
-  //   popupManager.open(Popup, {
-  //     popup: {
-  //       component: ChangeTaskPopup,
-  //       props: {
-  //         task: {
-  //           name: task?.name,
-  //           description: task?.description,
-  //           status: task?.status,
-  //           deadline: task?.deadline_at,
-  //           attachments: task?.attachments,
-  //         },
-  //         chosenStage: chosenStage,
-  //       },
-  //     },
-  //     onClose: onCloseChangeTaskPopup,
-  //   });
-  // };
-  const toggleListvisibility = () => {
+  const toggleListvisibility = (event) => {
+    event.stopPropagation();
     setListShowed((prev) => !prev);
   };
 

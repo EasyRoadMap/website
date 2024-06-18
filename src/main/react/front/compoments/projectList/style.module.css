@@ -39,12 +39,22 @@
 .infoTitle {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .projectItemDateWrapper {
   display: flex;
-  align-items: center;
   gap: 4px;
+  align-items: center;
+  padding-left: 8px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-right: 6px;
+  border-radius: 20px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--light-stroke);
+  background-color: var(--light-stroke);
 }
 
 .projectItemAvatar {
@@ -96,4 +106,22 @@
   -webkit-box-orient: vertical;
   overflow-wrap: anywhere;
   /* width: 200px; */
+}
+
+@media (min-width: 0px) and (max-width: 510px) {
+  .infoTitle {
+    align-items: baseline;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .projectItem {
+    width: 100%;
+    height: 100%;
+  }
+  .projectItemTitle {
+    width: calc(100% - 10px);
+  }
+  .projectItemInfo {
+    height: 100%;
+  }
 }

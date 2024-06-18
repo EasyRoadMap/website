@@ -5,7 +5,7 @@
   background-color: var(--bg-color-project);
   border-radius: 24px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(364px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
 }
 .name {
   width: 100%;
@@ -28,6 +28,8 @@
   justify-content: space-between;
   gap: 24px;
   border-radius: 15px;
+  min-height: 340px;
+  min-width: 290px;
 }
 .avatar {
   height: 120px;
@@ -69,6 +71,9 @@
   justify-content: space-between;
   gap: 24px;
   border-radius: 15px;
+  min-height: 340px;
+  min-width: 290px;
+  max-width: 620px;
 }
 .buttonChapter {
   margin-bottom: 12px;

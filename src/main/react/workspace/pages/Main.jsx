@@ -101,6 +101,20 @@ const Main = ({ fromInvite = false }) => {
     });
   };
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
       {userContext?.workspaces != [] ? (
@@ -122,16 +136,25 @@ const Main = ({ fromInvite = false }) => {
                 link={getLinkToPublicPage()}
                 type={"workspace"}
               />
-              <DeleteBlock
-                typeButton="deleteWorkspace"
-                callback={openDeleteWorkspacePopup}
-              />
+
+              {screenWidth >= 1600 && (
+                <DeleteBlock
+                  typeButton="deleteWorkspace"
+                  callback={openDeleteWorkspacePopup}
+                />
+              )}
             </div>
             <Participants
               participants={workspaceContext?.users}
               type={"workspace"}
               className={styles.participants}
             />
+            {screenWidth < 1600 && (
+              <DeleteBlock
+                typeButton="deleteWorkspace"
+                callback={openDeleteWorkspacePopup}
+              />
+            )}
           </div>
 
           {console.debug("workspaceContext?.id", workspaceContext)}

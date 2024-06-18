@@ -160,14 +160,12 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 400px;
   cursor: pointer;
 }
 .taskInfo {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  width: calc(100% - 45px);
 }
 .taskName {
   max-width: 350px;
@@ -325,7 +323,18 @@
   height: 100%;
   padding-right: 5px;
   overflow-x: auto;
+  width: 440px;
 }
+.tasksCardListBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  padding-right: 5px;
+  overflow-x: auto;
+  width: 450px;
+}
+
 .tasksCardListWrapper {
   display: flex;
   flex-direction: column;
@@ -339,6 +348,7 @@
 .taskFieldsWrapper {
   display: flex;
   align-items: center;
+  width: calc(100% - 50px);
 }
 .taskAsidePart {
   display: flex;
@@ -469,13 +479,7 @@ span.stageNameActive {
 }
 
 .showMoreButton {
-  font-size: 16px;
-  font-weight: 500;
-  text-decoration: underline;
-  color: var(--foreground-color50);
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
+  display: none;
 }
 
 .stageName {
@@ -541,11 +545,13 @@ span.stageNameActive {
   font-size: 18px;
   font-weight: 500;
   color: var(--text-color);
+  text-align: center;
 }
 .noTasksSubTitle {
   font-size: 18px;
   font-weight: normal;
   color: var(--foreground-color50);
+  text-align: center;
 }
 
 .noTasksSVG {
@@ -591,7 +597,7 @@ span.stageNameActive {
   gap: 6px;
 }
 
-.noTasksDescriotion {
+.noTasksDescription {
   display: none;
 }
 
@@ -635,5 +641,132 @@ span.stageNameActive {
 .paperClipSVG {
   path {
     fill: var(--text-color);
+  }
+}
+
+.closeTaskDescription {
+  display: none;
+}
+
+@media (min-width: 1000px) and (max-width: 1599px) {
+  .tasksList {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .noTaskSelected {
+    display: none;
+  }
+
+  .closeTaskDescription {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 15px;
+    right: 24px;
+  }
+
+  .showMoreButton {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: underline;
+    color: var(--foreground-color50);
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .tasksCardList {
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+  }
+  .tasksCardListBlock {
+    width: 100%;
+  }
+
+  .tasksDescription {
+    display: none;
+    position: relative;
+  }
+
+  .tasksListWrapper {
+    flex-direction: column;
+  }
+
+  .tasksDescription {
+    display: flex;
+    width: 100%;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 999px) {
+  .tasksList {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .noTaskSelected {
+    display: none;
+  }
+
+  .closeTaskDescription {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 15px;
+    right: 24px;
+  }
+
+  .showMoreButton {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: underline;
+    color: var(--foreground-color50);
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .tasksCardList {
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+  }
+  .tasksCardListBlock {
+    width: 100%;
+  }
+
+  .tasksDescription {
+    display: none;
+    position: relative;
+  }
+
+  .tasksListWrapper {
+    flex-direction: column;
+  }
+
+  .tasksDescription {
+    display: flex;
+    width: 100%;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 559px) {
+  .taskTitleWrapper {
+    flex-direction: column;
+    align-items: normal;
   }
 }

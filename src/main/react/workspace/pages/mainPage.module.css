@@ -9,3 +9,14 @@
   gap: 12px;
   width: calc(100% - 450px);
 }
+
+@media (min-width: 1000px) and (max-width: 1599px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .contentWraper {
+    width: 100%;
+  }
+}

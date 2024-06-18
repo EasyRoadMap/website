@@ -28,3 +28,10 @@
   flex-direction: column;
   gap: 24px;
 }
+
+@media (min-width: 0px) and (max-width: 999px) {
+  .centeredContent {
+    width: calc(100% - 48px);
+    left: 24px;
+  }
+}

@@ -6,9 +6,7 @@ const HeaderLogo = () => {
     <div className={styles.logoWrapper}>
       <Logo className={styles.logo} />
       <div className={styles.titleWrapper}>
-        <div className={styles.title} style={{ fontSize: "24px" }}>
-          EASYROADMAP
-        </div>
+        <div className={styles.title}>EASYROADMAP</div>
       </div>
     </div>
   );

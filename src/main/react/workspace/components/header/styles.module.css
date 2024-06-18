@@ -7,8 +7,9 @@
   display: flex;
   align-items: center;
   /* justify-content: space-between; */
-  justify-content: center;
-  padding: 0 calc((100vw - 1060px) / 2);
+  justify-content: space-between;
+  /* padding: 0 calc((100vw - 1060px) / 2); */
+  padding: 24px;
   user-select: none;
   background-color: var(--bg-color-header-and-dropdown-user);
   position: fixed;
@@ -44,8 +45,6 @@
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  position: absolute;
-  right: 30px;
 }
 .avatarCircle {
   height: 64px;

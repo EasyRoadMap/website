@@ -571,3 +571,11 @@
     fill: white;
   }
 }
+
+.clsFill {
+  fill: var(--text-color);
+}
+
+.clsStroke {
+  stroke: var(--text-color);
+}

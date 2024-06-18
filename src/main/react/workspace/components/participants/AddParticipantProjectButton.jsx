@@ -12,6 +12,7 @@ import { useProjectInfo } from "../../hooks/useProject.jsx";
 import useProjectContext from "../../hooks/useProjectContext.js";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 import { getAttachableMembers } from "../../api/project-api/getAttachableMembers.js";
+import { useEffect, useState } from "react";
 
 const AddParticipantProjectButton = () => {
   const popupManager = usePopupManager();
@@ -69,26 +70,46 @@ const AddParticipantProjectButton = () => {
       });
   };
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
       {workspaceContext?.is_admin && (
-        // <button className={styles.addButton} onClick={openSendInvitePopup}>
-        //   <div className={styles.addLogo}>
-        //     <AddPersonSVG className={styles.addPersonSVG} />
-        //   </div>
-        //   <div className={styles.addUser}>Добавить участника</div>
-        // </button>
-        <Button
-          text="Добавить участника"
-          type="outlineAccent"
-          callback={openSendInvitePopup}
-          style={{
-            width: "402px",
-            height: "48px",
-            fontSize: "20px",
-            fontWeight: "500",
-          }}
-        />
+        <>
+          {screenWidth < 1600 && (
+            <button className={styles.addButton} onClick={openSendInvitePopup}>
+              <div className={styles.addLogo}>
+                <AddPersonSVG className={styles.addPersonSVG} />
+              </div>
+              <div className={styles.addUser}>Добавить участника</div>
+            </button>
+          )}
+
+          {screenWidth >= 1600 && (
+            <Button
+              text="Добавить участника"
+              type="outlineAccent"
+              callback={openSendInvitePopup}
+              style={{
+                height: "48px",
+                fontSize: "20px",
+                fontWeight: "500",
+              }}
+            />
+          )}
+        </>
       )}
     </>
   );
