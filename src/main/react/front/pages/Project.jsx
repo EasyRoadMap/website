@@ -19,10 +19,15 @@ const Project = () => {
         photo={projectContext?.photo}
       />
       <TasksProvider>
-        <Roadmap
-          pr_id={projectContext?.id}
-          stages={projectContext?.stages}
-        />
+        {
+          (params?.pr_id === projectContext?.id || 
+            projectContext?.id == null
+          ) && 
+          <Roadmap
+            pr_id={projectContext?.id}
+            stages={projectContext?.stages}
+          />
+        }
       </TasksProvider>
     </Base>
     </div>

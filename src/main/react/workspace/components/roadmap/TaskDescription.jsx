@@ -178,7 +178,7 @@ const TaskDescription = ({ task, onClose }) => {
               task={task}
               listShowed={listShowed}
               setListShowed={setListShowed}
-              onClose={onClose}
+              closeDetails={onClose}
             />
           </>
         )}

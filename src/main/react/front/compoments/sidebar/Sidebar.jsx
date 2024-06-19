@@ -45,19 +45,6 @@ const Sidebar = () => {
       />
       <SidebarProjects
         projects={workspaceContext?.projects}
-        // chosen={projectField}
-        // blocks={getProjectsFieldsRefs()}
-        // projects={[
-        //   {
-        //     avatar: "",
-        //     name: "Проект 1",
-        //     id: "1",
-        //     blocks: "",
-        //     chosen: false,
-        //     placeInProject: null,
-        //   },
-        // ]}
-        // places={placesInProjects}
       />
     </aside>
   );

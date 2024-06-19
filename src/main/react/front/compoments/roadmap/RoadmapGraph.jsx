@@ -1,15 +1,9 @@
 import styles from "./styles.module.css";
 import TaskRoadmapSVG from "../../../assets/TaskRoadmapSVG.jsx";
 import MoveRoadMap from "../../../assets/moveRoadMap.jsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import RoadmapPagination from "./RoadmapPagination.jsx";
 
-
-const SIZES = {
-    viewportWidth: 648,
-    viewportHeight: 453,
-    stageCircleWidth: 131
-}
 
 const getStatusByProgress = (progress, is_in_progress) => {
     if (progress === 0 && is_in_progress) return "progress";
@@ -21,17 +15,44 @@ const getStatusByProgress = (progress, is_in_progress) => {
 const RoadmapGraph = ({
     stages, chosenStage, setChosenStage
 }) => {
-    const [moveDelta, setMoveDelta] = useState(SIZES.viewportWidth/2 - SIZES.stageCircleWidth/2);
+    const [moveDelta, setMoveDelta] = useState(null);
     const [centeredBlock, setCenteredBlock] = useState(0);
     const [visibleStagesList, setVisibleStagesList] = useState(null);
+    const [SIZES, setSizes] = useState({
+      viewportWidth: null,
+      viewportHeight: 453,
+      stageCircleWidth: 131
+    });
+    const [circlesFitsIn, setCirclesFitsIn] = useState(null);
+    const viewport = useRef(null);
 
     useEffect(() => {
-        moveToBlock(pickInitialCenteredStage(stages));
-    }, []);
+      if (circlesFitsIn == null) return;
+      moveToBlock(pickInitialCenteredStage(stages));
+    }, [circlesFitsIn]);
+
+    useEffect(() => {
+      if (SIZES.viewportWidth == null) return;
+      setCirclesFitsIn(countCirclesFitsIntoViewport(SIZES.viewportWidth));
+    }, [SIZES]);
+
+    useEffect(() => {
+      if (!viewport.current) return;
+      const vpw = viewport.current.offsetWidth;
+      // const vph = viewport.current.offsetHeight;
+      setSizes((prev) => ({
+        ...prev,
+        viewportWidth: vpw
+      }))
+    }, [viewport]);
 
     useEffect(() => {
       updateVisibleBlocksList();
     }, [stages, moveDelta]);
+
+    const countCirclesFitsIntoViewport = (viewportWidth) => {
+      return Math.floor((viewportWidth - 131) / 100);
+  }
 
     const openStage = (stage_id) => {
         setChosenStage(stage_id);
@@ -56,7 +77,6 @@ const RoadmapGraph = ({
       blocks.forEach((container) => {
         blocksVisible.push(isBlockVisible(container, viewport));
       });
-      console.debug("getBloksVisibility", blocksVisible);
       return blocksVisible;
     };
 
@@ -104,20 +124,22 @@ const RoadmapGraph = ({
     }
 
     const moveToBlock = (i) => {
-        if (stages.length >= 5 && i < 2) i = 2
+        const circleOnCenter = countCirclesFitsIntoViewport(SIZES.viewportWidth / 2);
+        if (stages.length >= circlesFitsIn + 1 && i < circleOnCenter) i = circleOnCenter;
         else if (i < 0) i = 0;
-        if (stages.length >= 5 && i > stages.length - 2) i = stages.length - 2;
-        if (i > stages.length - 1) i = stages.length - 1;
-        if (stages.length <= 5 && stages.length !== 0) i = Math.ceil(stages.length / 2) - 1; 
+        if (stages.length >= circlesFitsIn + 1 && i > stages.length - circleOnCenter) i = stages.length - circleOnCenter;
+        if (i > stages.length - 1) i = stages.length - circleOnCenter - 1;
+        if (stages.length <= circlesFitsIn + 1 && stages.length > 1) i = Math.ceil(stages.length / 2) - 1;
         const initRight = i * (-100);
         const goalRight = SIZES.viewportWidth/2 - SIZES.stageCircleWidth/2;
+        // console.debug("moved to ", [i, stages.length / 2, initRight, goalRight, SIZES.viewportWidth/2, circlesFitsIn]);
         setCenteredBlock(i);
         setMoveDelta(goalRight - initRight);
     }
 
     return (
         <>
-      <div className={styles.graph}>
+      <div className={styles.graph} ref={viewport}>
         {stages.length > 0 && (
           <div
             className={styles.graphLine}
@@ -187,7 +209,7 @@ const RoadmapGraph = ({
               styles.moveGraphButtonLeft,
             ].join(" ")}
           ></div>
-          {stages.length > 5 && (
+          {stages.length > circlesFitsIn + 1 && (
             <div className={styles.moveButtons}>
               <MoveRoadMap
                 style={{
@@ -206,7 +228,7 @@ const RoadmapGraph = ({
           )}
         </div>
       </div>
-      {stages.length > 5 && <RoadmapPagination blocks={visibleStagesList} />}
+      {stages.length > circlesFitsIn + 1 && <RoadmapPagination blocks={visibleStagesList} />}
     </>
   );
 };

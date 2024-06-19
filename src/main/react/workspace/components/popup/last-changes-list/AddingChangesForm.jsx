@@ -16,16 +16,9 @@ function formatBytes(a, b = 2) {
 }
 
 const AddingChangesForm = ({ files, setFiles, chosenStage }) => {
-  console.debug("files", files);
 
   const removeFile = (id) => {
     if (!files) return;
-    console.debug(
-      "file",
-      files.filter((file, i) => {
-        return i !== id;
-      })
-    );
     const newFilesList = files.filter((file, i) => {
       return i !== id;
     });

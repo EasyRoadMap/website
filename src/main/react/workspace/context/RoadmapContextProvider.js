@@ -8,7 +8,8 @@ export const RoadmapProvider = ({ children }) => {
     const [chosenStage, setChosenStage] = useState(null);
 
     useEffect(() => {
-        console.debug("chosen stage actually chosen", chosenStage);
+        setRoadmapContext((prev) => ({...prev, tasks: null}));
+        console.debug("chosen stage actually chosen", [chosenStage, roadmapContext]);
     }, [chosenStage])
 
     useEffect(() => {

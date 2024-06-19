@@ -27,6 +27,7 @@ const TasksList = ({ tasks }) => {
   };
 
   const handleTaskClick = (task) => {
+    if (selectedTask === task) return;
     setSelectedTask(task);
     if (screenWidth < 1600) {
       setShowTaskDescription(true);

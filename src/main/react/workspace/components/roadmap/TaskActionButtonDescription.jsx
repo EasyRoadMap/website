@@ -30,10 +30,8 @@ const TaskActionsButtonDescription = ({
   task,
   listShowed,
   setListShowed,
-  onClose,
+  closeDetails
 }) => {
-  // const [listShowed, setListShowed] = useState(false);
-
   const { projectId } = useProjectContext();
   const { chosenStage } = useRoadmapContext();
   const { ChangeTask, DeleteTask } = useRoadmapInfo();
@@ -140,7 +138,7 @@ const TaskActionsButtonDescription = ({
     {
       icon: CloseTaskActionButtonSVG,
       text: "Скрыть подробности",
-      callback: () => onClose(),
+      callback: () => closeDetails(),
     },
     {
       icon: DeleteSVG,

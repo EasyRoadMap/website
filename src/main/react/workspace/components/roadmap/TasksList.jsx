@@ -26,7 +26,20 @@ const TasksList = ({ tasks }) => {
   const { chosenStage } = useRoadmapContext();
   const { projectContext } = useProjectContext();
 
+
   const popupManager = usePopupManager();
+
+  const getTaskById = (tasks, id) => {
+    return tasks?.find((task) => {
+      return task.id === id;
+    });
+  } 
+
+  useEffect(() => {
+    const task = getTaskById(tasks, selectedTask?.id);
+    if (task == undefined) setSelectedTask(null);
+    setSelectedTask(task);
+  }, [tasks]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,21 +54,19 @@ const TasksList = ({ tasks }) => {
   }, []);
 
   const handleTaskClick = (task) => {
+    if (selectedTask === task) return;
     setSelectedTask(task);
     if (screenWidth < 1600) {
       setShowTaskDescription(true);
     }
   };
 
-  const handleCloseTaskDescription = () => {
-    setShowTaskDescription(false);
+  const handleCloseTaskDescription = (e) => {
     setSelectedTask(null);
-    console.log("closed");
-    console.log(showTaskDescription);
+    setShowTaskDescription(false);
   };
 
   const onCloseCreateTaskPopup = (...params) => {
-    console.log(params?.[0]);
     if (
       params?.[0]?.button === "create" &&
       chosenStage &&
@@ -63,7 +74,6 @@ const TasksList = ({ tasks }) => {
       params?.[0]?.name &&
       projectContext?.id
     ) {
-      console.debug("closed with status", statusToInt[params?.[0]?.status]);
       CreateTask(
         projectContext?.id,
         chosenStage,

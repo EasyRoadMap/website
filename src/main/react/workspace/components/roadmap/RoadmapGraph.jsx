@@ -137,7 +137,6 @@ const RoadmapGraph = ({
 
     const moveToBlock = (i) => {
         const circleOnCenter = countCirclesFitsIntoViewport(SIZES.viewportWidth / 2);
-        console.debug("NADO", [SIZES.viewportWidth / 2, countCirclesFitsIntoViewport(SIZES.viewportWidth / 2)]);
         if (stages.length >= circlesFitsIn && i < circleOnCenter) i = circleOnCenter;
         else if (i < 0) i = 0;
         if (stages.length >= circlesFitsIn && i > stages.length - circleOnCenter) i = stages.length - circleOnCenter;
@@ -145,7 +144,6 @@ const RoadmapGraph = ({
         if (stages.length <= circlesFitsIn && stages.length > 1) i = Math.ceil(stages.length / 2);
         const initRight = i * (-100);
         const goalRight = SIZES.viewportWidth/2 - SIZES.stageCircleWidth/2;
-        console.debug("moved to ", [i, stages.length / 2, initRight, goalRight, SIZES.viewportWidth/2, circlesFitsIn]);
         setCenteredBlock(i);
         setMoveDelta(goalRight - initRight);
     }
