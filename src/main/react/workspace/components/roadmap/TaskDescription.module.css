@@ -128,7 +128,7 @@
 
 .taskParticipantAttachments {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
   gap: 10px;
   padding-right: 5px;
 }
@@ -363,5 +363,98 @@
     border-width: 0px;
     border-color: transparent;
     color: transparent;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 999px) {
+  .closeTaskDescription {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 15px;
+    right: 24px;
+  }
+
+  .taskName {
+    font-size: 20px;
+    max-width: 140px;
+    width: auto;
+  }
+
+  .taskDateText {
+    font-size: 14px;
+  }
+
+  .calendarSVG {
+    width: 16px;
+    height: 16px;
+  }
+
+  .taskFieldDone {
+    width: auto;
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    border-radius: 0px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: transparent;
+    border-style: none;
+    border-width: 0px;
+    border-color: transparent;
+    color: transparent;
+  }
+
+  .taskFieldProgress {
+    width: auto;
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    border-radius: 0px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: transparent;
+    border-style: none;
+    border-width: 0px;
+    border-color: transparent;
+    color: transparent;
+  }
+
+  .taskFieldPlanned {
+    width: auto;
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    border-radius: 0px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: transparent;
+    border-style: none;
+    border-width: 0px;
+    border-color: transparent;
+    color: transparent;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 560px) {
+  .taskName {
+    font-size: 20px;
+    max-width: 100px;
+    width: auto;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 510px) {
+  .taskDate {
+    flex-direction: column;
   }
 }

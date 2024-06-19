@@ -218,3 +218,9 @@
 .buttonChapter:disabled {
   opacity: 0.3;
 }
+
+@media (min-width: 0px) and (max-width: 999px) {
+  .aside {
+    display: none;
+  }
+}

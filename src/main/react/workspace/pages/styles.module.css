@@ -16,8 +16,6 @@
 }
 .centeredContent {
   position: absolute;
-  /* left: calc((100vw - 1060px) / 2 + 340px + 24px); */
-  /* width: 696px; */
   right: 24px;
   width: calc(100% - 410px);
   display: flex;
@@ -35,4 +33,11 @@
 }
 .themeButton {
   display: none;
+}
+
+@media (min-width: 0px) and (max-width: 999px) {
+  .centeredContent {
+    left: 24px;
+    width: calc(100% - 48px);
+  }
 }

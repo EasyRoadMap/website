@@ -770,3 +770,13 @@ span.stageNameActive {
     align-items: normal;
   }
 }
+
+@media (min-width: 0px) and (max-width: 370px) {
+  .taskDateWrapper {
+    flex-direction: column;
+    width: 110px;
+  }
+  .taskAttachmentsLength {
+    width: 50px;
+  }
+}

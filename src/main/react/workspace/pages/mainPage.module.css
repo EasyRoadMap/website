@@ -20,3 +20,14 @@
     width: 100%;
   }
 }
+
+@media (min-width: 0px) and (max-width: 999px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .contentWraper {
+    width: 100%;
+  }
+}

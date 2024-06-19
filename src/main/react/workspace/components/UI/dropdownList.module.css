@@ -42,3 +42,15 @@
   font-size: 16px;
   font-weight: normal;
 }
+
+@media (min-width: 0px) and (max-width: 424px) {
+  .dropdownList {
+    width: 190px;
+  }
+  .elemText {
+    font-size: 10px;
+  }
+  .elem {
+    width: 100%;
+  }
+}

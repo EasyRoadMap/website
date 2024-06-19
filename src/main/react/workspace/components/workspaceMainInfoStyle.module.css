@@ -90,3 +90,9 @@
     opacity: 1;
   }
 }
+
+@media (min-width: 0px) and (max-width: 424px) {
+  .info {
+    flex-direction: column;
+  }
+}

@@ -78,12 +78,26 @@
     font-size: 20px;
   }
   .logo {
-    width: 54px;
+    height: 54px;
   }
-  .themeChange {
+  .iconTheme {
+    height: 35px;
     width: 35px;
   }
   .menuHeader {
     width: 35px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 350px) {
+  .title {
+    font-size: 18px;
+  }
+  .iconTheme {
+    height: 30px;
+    width: 30px;
+  }
+  .menuHeader {
+    width: 30px;
   }
 }

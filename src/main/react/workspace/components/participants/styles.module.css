@@ -261,3 +261,14 @@
     overflow: visible;
   }
 }
+
+@media (min-width: 0px) and (max-width: 999px) {
+  .section {
+    width: 100%;
+  }
+  .participantsList {
+    min-height: 0px;
+    max-height: 530px;
+    overflow: visible;
+  }
+}

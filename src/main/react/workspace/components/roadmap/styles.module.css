@@ -206,7 +206,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
 }
 .calendarSVG {
   width: 19px;
@@ -272,6 +272,7 @@
   flex-direction: row;
   gap: 3px;
   left: calc(50% - 50px);
+  /* overflow: hidden; */
 }
 .paginationCircle {
   width: 18px;
@@ -705,5 +706,89 @@ span.stageNameActive {
   .tasksDescription {
     display: flex;
     width: 100%;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 999px) {
+  .tasksList {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .noTaskSelected {
+    display: none;
+  }
+
+  .closeTaskDescription {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 15px;
+    right: 24px;
+  }
+
+  .showMoreButton {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: underline;
+    color: var(--foreground-color50);
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .tasksCardList {
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+  }
+  .tasksCardListBlock {
+    width: 100%;
+  }
+
+  .tasksDescription {
+    display: none;
+    position: relative;
+  }
+
+  .tasksListWrapper {
+    flex-direction: column;
+  }
+
+  .tasksDescription {
+    display: flex;
+    width: 100%;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 559px) {
+  .taskTitleWrapper {
+    flex-direction: column;
+    align-items: normal;
+    gap: 6px;
+  }
+  .taskAttachmentsLength {
+    width: 100px;
+  }
+  .taskDate {
+    width: 100px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 424px) {
+  .title {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 404px) {
+  .title {
+    font-size: 18px;
   }
 }

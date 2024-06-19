@@ -111,18 +111,48 @@ const TasksList = ({ tasks }) => {
       {screenWidth < 1600 && (
         <div className={styles.tasksListTitleWrapper}>
           <h1 className={styles.title}>Список задач</h1>
-          <Button
-            text="Добавить задачу"
-            type="outlineAccent"
-            callback={openCreateTaskPopup}
-            style={{
-              width: "142px",
-              height: "30px",
-              fontSize: "14px",
-              fontWeight: "500",
-              padding: "0",
-            }}
-          />
+          {screenWidth >= 405 && (
+            <Button
+              text="Добавить задачу"
+              type="outlineAccent"
+              callback={openCreateTaskPopup}
+              style={{
+                width: "142px",
+                height: "30px",
+                fontSize: "14px",
+                fontWeight: "500",
+                padding: "0",
+              }}
+            />
+          )}
+          {screenWidth < 405 && screenWidth >= 350 && (
+            <Button
+              text="Добавить задачу"
+              type="outlineAccent"
+              callback={openCreateTaskPopup}
+              style={{
+                width: "120px",
+                height: "30px",
+                fontSize: "12px",
+                fontWeight: "500",
+                padding: "0",
+              }}
+            />
+          )}
+          {screenWidth < 350 && (
+            <Button
+              text="Добавить задачу"
+              type="outlineAccent"
+              callback={openCreateTaskPopup}
+              style={{
+                width: "120px",
+                height: "30px",
+                fontSize: "10px",
+                fontWeight: "500",
+                padding: "0",
+              }}
+            />
+          )}
         </div>
       )}
       <div className={styles.tasksListWrapper}>
@@ -136,6 +166,18 @@ const TasksList = ({ tasks }) => {
           {screenWidth >= 1600 && (
             <div className={styles.tasksListTitleWrapper}>
               <h1 className={styles.title}>Список задач</h1>
+              <Button
+                text="Добавить задачу"
+                type="outlineAccent"
+                callback={openCreateTaskPopup}
+                style={{
+                  width: "142px",
+                  height: "30px",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  padding: "0",
+                }}
+              />
             </div>
           )}
 
@@ -151,10 +193,10 @@ const TasksList = ({ tasks }) => {
                 <NoTaskSVG className={styles.noTasksSVG} />
                 <div className={styles.noTasksText}>
                   <div className={styles.noTasksTitle}>
-                    Список задач пока пуст
+                    Ваш список задач еще пуст
                   </div>
                   <div className={styles.noTasksSubTitle}>
-                    Администратор еще не добавил задачи для этого этапа
+                    Добавьте первую задачу прямо сейчас!
                   </div>
                 </div>
               </div>

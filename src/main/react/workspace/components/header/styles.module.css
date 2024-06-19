@@ -77,3 +77,47 @@
   font-weight: normal;
   color: var(--foreground-color50);
 }
+
+@media (min-width: 0px) and (max-width: 999px) {
+  .header {
+    justify-content: center;
+  }
+  .menuHeader {
+    display: flex;
+    position: absolute;
+    left: 24px;
+  }
+  .userButton {
+    position: absolute;
+    right: 24px;
+  }
+}
+@media (min-width: 0px) and (max-width: 479px) {
+  .title {
+    font-size: 20px;
+  }
+  .logo {
+    height: 54px;
+  }
+  .menuHeader {
+    width: 35px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 479px) {
+  .title {
+    font-size: 16px;
+  }
+  .subTitle {
+    font-size: 16px;
+  }
+  .logo {
+    height: 50px;
+  }
+  .avatarCircle {
+    height: 50px;
+  }
+  .avatarCircleUser {
+    height: 50px;
+  }
+}

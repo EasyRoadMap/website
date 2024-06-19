@@ -128,7 +128,7 @@
 
 .taskParticipantAttachments {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
   gap: 10px;
   padding-right: 5px;
 }
@@ -417,9 +417,6 @@
     max-width: 100px;
     width: auto;
   }
-  .taskParticipantAttachments {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 @media (min-width: 0px) and (max-width: 510px) {
@@ -427,12 +424,6 @@
     flex-direction: column;
   }
   .DateWraper {
-    width: calc(100% - 15px);
-  }
-}
-
-@media (min-width: 0px) and (max-width: 424px) {
-  .taskParticipantAttachments {
-    grid-template-columns: repeat(1, 1fr);
+    width: 140px;
   }
 }

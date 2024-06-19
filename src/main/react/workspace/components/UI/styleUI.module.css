@@ -516,3 +516,9 @@ h3 {
   top: -7px;
   left: 20px;
 }
+
+@media (min-width: 0px) and (max-width: 559px) {
+  .inputLinkTitle {
+    width: 100px;
+  }
+}

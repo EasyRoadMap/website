@@ -242,3 +242,51 @@ button.dropdownWorkspaceButtonActive {
   width: 100%;
   width: 225px;
 }
+
+@media (min-width: 0px) and (max-width: 425px) {
+  .dropdown {
+    width: calc(100% - 48px);
+  }
+  .dropdownWorkspaceButton {
+    width: calc(100% - 6px);
+  }
+  .addSection {
+    width: calc(100% - 6px);
+  }
+  .userDropdown {
+    gap: 6px;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 380px) {
+  .avatarUser {
+    width: 70px;
+    height: 70px;
+  }
+  .avatar {
+    width: 70px;
+    height: 70px;
+  }
+  .userEmail {
+    font-size: 14px;
+  }
+  .userName {
+    font-size: 20px;
+  }
+}
+@media (min-width: 0px) and (max-width: 350px) {
+  .userEmail {
+    font-size: 12px;
+  }
+  .userName {
+    font-size: 16px;
+  }
+  .avatarUser {
+    width: 60px;
+    height: 60px;
+  }
+  .avatar {
+    width: 60px;
+    height: 60px;
+  }
+}
