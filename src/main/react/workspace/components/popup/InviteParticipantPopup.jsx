@@ -2,12 +2,14 @@ import styles from "./styles.module.css";
 import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import { useState } from "react";
+import useScreenWidth from "../../hooks/useScreenWidth.js";
 
 import { validateName, validateRole } from "../../errors/validation.js";
 
 const InviteParticipantPopup = ({ close }) => {
   const [email, setEmail] = useState("");
   const [position, setPosition] = useState("");
+  const screenWidth = useScreenWidth();
 
   const [errorRole, setErrorRole] = useState(false);
 
@@ -19,7 +21,7 @@ const InviteParticipantPopup = ({ close }) => {
       return false;
     }
     return true;
-  }
+  };
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "invite") return;
@@ -35,9 +37,9 @@ const InviteParticipantPopup = ({ close }) => {
       <div className={styles.containerWithGaps}>
         <h1 className={styles.title}>Пригласить участника</h1>
         <div className={styles.description}>
-          Введите электронную почту добавляемого <br />
+          Введите электронную почту добавляемого {screenWidth >= 455 && <br />}
           пользователя ниже. Вы также можете сразу
-          <br /> определить его должность.
+          {screenWidth >= 455 && <br />} определить его должность.
         </div>
       </div>
 

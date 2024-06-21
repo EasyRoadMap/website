@@ -91,7 +91,7 @@
   }
 }
 
-@media (min-width: 0px) and (max-width: 424px) {
+@media (min-width: 0px) and (max-width: 500px) {
   .info {
     flex-direction: column;
   }

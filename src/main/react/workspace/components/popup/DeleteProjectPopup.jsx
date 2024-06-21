@@ -4,13 +4,14 @@ import Input from "../UI/Input.jsx";
 import InputCheckBox from "../UI/InputCheckbox.jsx";
 import stylesInput from "../UI/InputCheckBox.module.css";
 import { useState } from "react";
+import useScreenWidth from "../../hooks/useScreenWidth.js";
 
 import { validatePassword } from "../../errors/validation.js";
-
 
 const DeleteProjectPopup = ({ project, close }) => {
   const [password, setPassword] = useState(null);
   const [check, setCheck] = useState(false);
+  const screenWidth = useScreenWidth();
 
   const [errorPassword, setErrorPassword] = useState(false);
 
@@ -22,7 +23,7 @@ const DeleteProjectPopup = ({ project, close }) => {
       return false;
     }
     return true;
-  }
+  };
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "delete")
@@ -40,10 +41,9 @@ const DeleteProjectPopup = ({ project, close }) => {
       <div className={styles.containerWithGaps}>
         <div className={styles.description}>
           Для удаления проекта{" "}
-          <span className={styles.descriptionBolder}>
-            {" " + project + " "}
-          </span>{" "}
-          подтвердите личность <br /> вводом текущего пароля от него.
+          <p className={styles.descriptionBolder}>{" " + project + " "}</p>{" "}
+          подтвердите личность {screenWidth >= 605 && <br />} вводом текущего
+          пароля от него.
         </div>
         <Input
           data={password}
@@ -79,27 +79,47 @@ const DeleteProjectPopup = ({ project, close }) => {
           }}
         ></input>
         <label for="check" className={stylesInput.label}>
-          Я понимаю, что все данные проекта будут <br /> удалены и не могут быть
-          восстановлены.
+          Я понимаю, что все данные проекта будут {screenWidth >= 530 && <br />}{" "}
+          удалены и не могут быть восстановлены.
         </label>
       </div>
       {/* <InputCheckBox typeDescription="deleteProject" /> */}
 
-      <div className={styles.buttonsWrapper}>
-        <Button
-          text="Отмена"
-          type="outlineSecondary"
-          callback={() => handleClick("cancel")}
-          style={{ width: "131px", height: "40px", fontSize: "16px" }}
-        />
-        <Button
-          text="Удалить проект"
-          type="filledAccent"
-          disabled={!check}
-          callback={() => handleClick("delete")}
-          style={{ width: "214px", height: "40px", fontSize: "16px" }}
-        />
-      </div>
+      {screenWidth >= 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отмена"
+            type="outlineSecondary"
+            callback={() => handleClick("cancel")}
+            style={{ width: "131px", height: "40px" }}
+          />
+          <Button
+            text="Удалить проект"
+            type="filledAccent"
+            disabled={!check}
+            callback={() => handleClick("delete")}
+            style={{ width: "222px", height: "40px" }}
+          />
+        </div>
+      )}
+
+      {screenWidth < 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отмена"
+            type="outlineSecondary"
+            callback={() => handleClick("cancel")}
+            style={{ width: "calc(100% - 65px)", height: "40px" }}
+          />
+          <Button
+            text="Удалить проект"
+            type="filledAccent"
+            disabled={!check}
+            callback={() => handleClick("delete")}
+            style={{ width: "calc(100% - 65px)", height: "40px" }}
+          />
+        </div>
+      )}
     </>
   );
 };

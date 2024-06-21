@@ -26,14 +26,13 @@ const TasksList = ({ tasks }) => {
   const { chosenStage } = useRoadmapContext();
   const { projectContext } = useProjectContext();
 
-
   const popupManager = usePopupManager();
 
   const getTaskById = (tasks, id) => {
     return tasks?.find((task) => {
       return task.id === id;
     });
-  } 
+  };
 
   useEffect(() => {
     const task = getTaskById(tasks, selectedTask?.id);
@@ -92,6 +91,7 @@ const TasksList = ({ tasks }) => {
         component: CreateTaskPopup,
         props: {
           chosenStage: chosenStage,
+          type: "createTask",
         },
       },
       onClose: onCloseCreateTaskPopup,

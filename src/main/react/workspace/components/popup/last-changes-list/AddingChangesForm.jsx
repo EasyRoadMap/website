@@ -16,7 +16,6 @@ function formatBytes(a, b = 2) {
 }
 
 const AddingChangesForm = ({ files, setFiles, chosenStage }) => {
-
   const removeFile = (id) => {
     if (!files) return;
     const newFilesList = files.filter((file, i) => {
@@ -28,6 +27,11 @@ const AddingChangesForm = ({ files, setFiles, chosenStage }) => {
   return (
     <>
       <div className={styles.photosList}>
+        {/* <div
+        className={
+          files.length > 0 ? styles.photosList : styles.photosListEmpty
+        }
+      > */}
         {/* {files[0] && <PhotoCropper photo={files[0].URL} />} */}
         {files &&
           files.map((file, i) => {

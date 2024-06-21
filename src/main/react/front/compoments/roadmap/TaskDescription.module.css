@@ -153,7 +153,7 @@
   color: var(--accent-color);
   white-space: nowrap;
   overflow-x: hidden;
-  width: 70px;
+  width: calc(100% - 90px);
   text-overflow: ellipsis;
 }
 .attachmentImgInfoSize {
@@ -261,6 +261,13 @@
 .closeTaskDescription {
   display: none;
 }
+.closeTaskDescription:hover {
+  background-color: var(--bg-workspace-button);
+}
+.closeTaskDescription:active {
+  opacity: 0.75;
+  background-color: var(--bg-workspace-button);
+}
 
 @media (min-width: 1000px) and (max-width: 1599px) {
   .closeTaskDescription {
@@ -272,6 +279,7 @@
     position: absolute;
     top: 15px;
     right: 24px;
+    border-radius: 12px;
   }
 
   .taskName {
@@ -342,6 +350,7 @@
     position: absolute;
     top: 15px;
     right: 24px;
+    cursor: pointer;
   }
 
   .taskName {

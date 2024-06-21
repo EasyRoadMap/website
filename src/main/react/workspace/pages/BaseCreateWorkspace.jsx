@@ -1,5 +1,5 @@
 import Header from "../components/header/Header.jsx";
-import styles from "./styles.module.css";
+import styles from "./createWorkspace.module.css";
 import ThemeButton from "../components/UI/ThemeButton.jsx";
 
 import { useUserInfo } from "../hooks/useUser.jsx";

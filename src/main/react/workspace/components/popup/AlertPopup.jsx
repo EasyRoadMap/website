@@ -23,14 +23,17 @@ const AlertPopup = ({ type, title, description, close }) => {
 
   return (
     <>
-      <div className={styles.logoWrapper}>
-        {/* <img src={logoByType[type]} alt="" /> */}
-        <IconComponentSVG />
+      <div className={styles.infoWrapper}>
+        <div className={styles.logoWrapper}>
+          {/* <img src={logoByType[type]} alt="" /> */}
+          <IconComponentSVG />
+        </div>
+        <div className={styles.info}>
+          <div className={styles.titlePopup}>{title}</div>
+          <div className={styles.descriptionPopup}>{description()}</div>
+        </div>
       </div>
-      <div className={styles.info}>
-        <div className={styles.titlePopup}>{title}</div>
-        <div className={styles.descriptionPopup}>{description()}</div>
-      </div>
+
       <div className={styles.buttons}>
         <Button
           className={styles.button}

@@ -1,7 +1,8 @@
 import styles from "../styles.module.css";
 import AddPhotoFieldSVG from "../../../../assets/addPhotoField.jsx";
 import AddPhotoFieldActive from "../../../../assets/addPhotoFieldActive.jsx";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import UnhandledFieldIcon from "../../../../assets/unhandledFieldIconSVG.jsx";
 
 import { useRoadmapInfo } from "../../../hooks/useRoadmap.js";
 import useRoadmapContext from "../../../hooks/useRoadmapContext.js";
@@ -21,6 +22,7 @@ const ARCHIVE_MIME_SUBTYPES = [
 function AddFileField({ setFiles, chosenStage }) {
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef(null);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   const { UploadAttachment } = useRoadmapInfo();
 
@@ -87,6 +89,18 @@ function AddFileField({ setFiles, chosenStage }) {
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const onButtonClick = () => {
     inputRef.current.click();
   };
@@ -96,7 +110,19 @@ function AddFileField({ setFiles, chosenStage }) {
       className={styles.addPhotoFieldInput}
       dragActive={dragActive.toString()}
     >
-      {dragActive ? <AddPhotoFieldActive /> : <AddPhotoFieldSVG />}
+      {screenWidth >= 1000 &&
+        (dragActive ? <AddPhotoFieldActive /> : <AddPhotoFieldSVG />)}
+
+      {screenWidth < 1000 && (
+        <div className={styles.addPhotoFieldText}>
+          <UnhandledFieldIcon
+            style={{ width: "20px", height: "20px" }}
+            className={styles.fielIcon}
+          />
+          <div className={styles.AddPhotoFieldLink}>Добавить вложение</div>
+        </div>
+      )}
+
       <input
         className={styles.fileInput}
         ref={inputRef}

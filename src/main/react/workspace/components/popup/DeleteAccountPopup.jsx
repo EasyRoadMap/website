@@ -7,10 +7,12 @@ import { useState } from "react";
 import { deleteUser } from "../../api/user-api/deleteUser.js";
 import { validatePassword } from "../../errors/validation.js";
 import { useNavigate } from "react-router-dom";
+import useScreenWidth from "../../hooks/useScreenWidth.js";
 
 const DeleteAccountPopup = ({ deleteUser, close }) => {
   const [password, setPassword] = useState(null);
   const [check, setCheck] = useState(false);
+  const screenWidth = useScreenWidth();
 
   const [errorPassword, setErrorPassword] = useState(false);
 
@@ -24,7 +26,7 @@ const DeleteAccountPopup = ({ deleteUser, close }) => {
       return false;
     }
     return true;
-  }
+  };
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "delete")
@@ -48,11 +50,13 @@ const DeleteAccountPopup = ({ deleteUser, close }) => {
     //     }
     //     return;
     // }
-    deleteUser(password).then((response) => {
-      window.location.replace("/auth/sign-in");
-    }).catch((e) => {
-      console.log("error happened while delete user");
-    })
+    deleteUser(password)
+      .then((response) => {
+        window.location.replace("/auth/sign-in");
+      })
+      .catch((e) => {
+        console.log("error happened while delete user");
+      });
     close({ button: nameButtonClicked });
   };
   return (
@@ -60,8 +64,8 @@ const DeleteAccountPopup = ({ deleteUser, close }) => {
       <h1 className={styles.title}>Удалить аккаунт</h1>
       <div className={styles.containerWithGaps}>
         <div className={styles.description}>
-          Для удаления аккаунта подтвердите личность <br /> вводом текущего
-          пароля от него.
+          Для удаления аккаунта подтвердите личность{" "}
+          {screenWidth >= 480 && <br />} вводом текущего пароля от него.
         </div>
 
         <Input
@@ -99,26 +103,47 @@ const DeleteAccountPopup = ({ deleteUser, close }) => {
           }}
         ></input>
         <label for="check" className={stylesInput.label}>
-          Я понимаю, что все данные аккаунта будут <br /> удалены и не могут
-          быть восстановлены.
+          Я понимаю, что все данные аккаунта будут{" "}
+          {screenWidth >= 530 && <br />}
+          удалены и не могут быть восстановлены.
         </label>
       </div>
 
-      <div className={styles.buttonsWrapper}>
-        <Button
-          text="Отмена"
-          type="outlineSecondary"
-          callback={() => handleClick("cancel")}
-          style={{ width: "131px", height: "40px", fontSize: "16px" }}
-        />
-        <Button
-          text="Удалить аккаунт"
-          type="filledAccent"
-          disabled={!check}
-          callback={() => handleClick("delete")}
-          style={{ width: "214px", height: "40px", fontSize: "16px" }}
-        />
-      </div>
+      {screenWidth >= 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отмена"
+            type="outlineSecondary"
+            callback={() => handleClick("cancel")}
+            style={{ width: "131px", height: "40px" }}
+          />
+          <Button
+            text="Удалить аккаунт"
+            type="filledAccent"
+            disabled={!check}
+            callback={() => handleClick("delete")}
+            style={{ width: "222px", height: "40px" }}
+          />
+        </div>
+      )}
+
+      {screenWidth < 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отмена"
+            type="outlineSecondary"
+            callback={() => handleClick("cancel")}
+            style={{ width: "calc(100% - 65px)", height: "40px" }}
+          />
+          <Button
+            text="Удалить аккаунт"
+            type="filledAccent"
+            disabled={!check}
+            callback={() => handleClick("delete")}
+            style={{ width: "calc(100% - 65px)", height: "40px" }}
+          />
+        </div>
+      )}
     </>
   );
 };

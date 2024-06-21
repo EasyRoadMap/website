@@ -5,7 +5,7 @@ const transferControlDescription = (name) => {
     <span>
       Вы уверены что хотите передать <br /> управление рабочей областью <br />
       участнику
-      <span className={styles.descriptionBolder}>{" " + name}?</span>
+      <p className={styles.descriptionBolder}>{" " + name}?</p>
     </span>
   );
 };
@@ -15,7 +15,7 @@ const removeParticipantDecsription = (name) => {
       Вы уверены, что хотите исключить из
       <br /> рабочей области учаcтника
       <br />
-      <span className={styles.descriptionBolder}>{" " + name}?</span>
+      <p className={styles.descriptionBolder}>{" " + name}?</p>
     </span>
   );
 };
@@ -25,21 +25,19 @@ const removeParticipantFromProjectDecsription = (name) => {
       Вы уверены, что хотите исключить из
       <br /> проекта учаcтника
       <br />
-      <span className={styles.descriptionBolder}>{" " + name}?</span>
+      <p className={styles.descriptionBolder}>{" " + name}?</p>
     </span>
   );
 };
 const removeImageDecsription = () => {
-  return (
-    <span>Вы уверены, что хотите удалить текущее изображение проекта?</span>
-  );
+  return <p>Вы уверены, что хотите удалить текущее изображение проекта?</p>;
 };
 const removeStageDecsription = (stage) => {
   return (
     <span>
       Вы уверены, что хотите удалить этап
       <br />
-      <span className={styles.descriptionBolder}>{" " + stage}?</span>
+      <p className={styles.descriptionBolder}>{" " + stage}?</p>
     </span>
   );
 };
@@ -48,7 +46,7 @@ const removeTaskDecsription = (task) => {
     <span>
       Вы уверены, что хотите удалить задачу
       <br />
-      <span className={styles.descriptionBolder}>{" " + task}?</span>
+      <p className={styles.descriptionBolder}>{" " + task}?</p>
     </span>
   );
 };
@@ -56,34 +54,34 @@ const askForExitFromWorkspace = (workspace) => {
   return (
     <span>
       Вы уверены, что хотите выйти из рабочей области
-      <span className={styles.descriptionBolder}>{" " + workspace}?</span>
+      <p className={styles.descriptionBolder}>{" " + workspace}?</p>
     </span>
   );
-}
+};
 const askForDeleteWorkspace = (workspace) => {
   return (
     <span>
       Вы уверены, что хотите удалить рабочую область
-      <span className={styles.descriptionBolder}>{" " + workspace}?</span>
+      <p className={styles.descriptionBolder}>{" " + workspace}?</p>
     </span>
   );
-}
+};
 const askForDeleteStage = (stage) => {
   return (
     <span>
       Вы уверены, что хотите удалить этап
-      <span className={styles.descriptionBolder}>{" " + stage}?</span>
+      <p className={styles.descriptionBolder}>{" " + stage}?</p>
     </span>
   );
-}
+};
 const askForDeleteTask = (task) => {
   return (
     <span>
       Вы уверены, что хотите удалить задачу
-      <span className={styles.descriptionBolder}>{" " + task}?</span>
+      <p className={styles.descriptionBolder}>{" " + task}?</p>
     </span>
   );
-}
+};
 
 export const transferControlProps = (name) => {
   return {

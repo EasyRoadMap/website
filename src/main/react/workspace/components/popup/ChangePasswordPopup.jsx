@@ -4,6 +4,7 @@ import Input from "../UI/Input.jsx";
 import { useState } from "react";
 import { changePassword } from "../../api/user-api/changePassword.js";
 import { getUserError } from "../../errors/user_errors.js";
+import useScreenWidth from "../../hooks/useScreenWidth.js";
 
 import { validatePassword } from "../../errors/validation.js";
 import useErrorContext from "../../hooks/useErrorContext.js";
@@ -18,12 +19,13 @@ const ChangePasswordPopup = ({ close }) => {
   const [errorRepPassword, setErrorRepPassword] = useState(false);
 
   const { pushError } = useErrorContext();
+  const screenWidth = useScreenWidth();
 
   const validate = () => {
     const passwordValidationResult = validatePassword(password);
     const newPasswordValidationResult = validatePassword(newPassword);
-    const repPasswordValidationResult = repeatedPassword === newPassword ? "passed" : "Пароли не совпадают";
-
+    const repPasswordValidationResult =
+      repeatedPassword === newPassword ? "passed" : "Пароли не совпадают";
 
     if (passwordValidationResult !== "passed") {
       setErrorPassword(passwordValidationResult);
@@ -38,12 +40,12 @@ const ChangePasswordPopup = ({ close }) => {
       return false;
     }
     return true;
-  }
+  };
 
   const handleError = (e) => {
     const error_message = getUserError(e?.response?.data?.error_code);
     pushError(error_message, "error");
-}
+  };
 
   const handleClick = (nameButtonClicked) => {
     if (
@@ -103,20 +105,39 @@ const ChangePasswordPopup = ({ close }) => {
           clearError={() => setErrorRepPassword("")}
         />
       </div>
-      <div className={styles.buttonsWrapper}>
-        <Button
-          text="Отмена"
-          type="outlineSecondary"
-          callback={() => handleClick("cancel")}
-          style={{ width: "131px", height: "40px" }}
-        />
-        <Button
-          text="Изменить пароль"
-          type="filledAccent"
-          callback={() => handleClick("change-password")}
-          style={{ width: "222px", height: "40px" }}
-        />
-      </div>
+      {screenWidth >= 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отмена"
+            type="outlineSecondary"
+            callback={() => handleClick("cancel")}
+            style={{ width: "131px", height: "40px" }}
+          />
+          <Button
+            text="Изменить пароль"
+            type="filledAccent"
+            callback={() => handleClick("change-password")}
+            style={{ width: "222px", height: "40px" }}
+          />
+        </div>
+      )}
+
+      {screenWidth < 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отмена"
+            type="outlineSecondary"
+            callback={() => handleClick("cancel")}
+            style={{ width: "calc(100% - 65px)", height: "40px" }}
+          />
+          <Button
+            text="Изменить пароль"
+            type="filledAccent"
+            callback={() => handleClick("change-password")}
+            style={{ width: "calc(100% - 65px)", height: "40px" }}
+          />
+        </div>
+      )}
     </>
   );
 };

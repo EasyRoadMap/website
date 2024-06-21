@@ -3,13 +3,19 @@ import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import InputDate from "../UI/InputDate.jsx";
 import { useState } from "react";
+import useScreenWidth from "../../hooks/useScreenWidth.js";
 
-import { validateName, validateDescription, validateDeadlineDate } from "../../errors/validation.js";
+import {
+  validateName,
+  validateDescription,
+  validateDeadlineDate,
+} from "../../errors/validation.js";
 
 const CreateProjectPopup = ({ close }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
+  const screenWidth = useScreenWidth();
 
   const [errorName, setErrorName] = useState(false);
   const [errorDescription, setErrorDescription] = useState(false);
@@ -19,7 +25,6 @@ const CreateProjectPopup = ({ close }) => {
     const nameValidationResult = validateName(name, "project");
     const descriptionValidationResult = validateDescription(description);
     const dateValidationResult = validateDeadlineDate(date);
-
 
     if (nameValidationResult !== "passed") {
       setErrorName(nameValidationResult);
@@ -34,17 +39,27 @@ const CreateProjectPopup = ({ close }) => {
       return false;
     }
     return true;
-  }
+  };
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create")
       return;
     if (nameButtonClicked === "cancel") {
-      close({ button: nameButtonClicked, name: name, description: description, date: date });
+      close({
+        button: nameButtonClicked,
+        name: name,
+        description: description,
+        date: date,
+      });
       return;
     }
     if (!validate()) return;
-    close({ button: nameButtonClicked, name: name, description: description, date: date });
+    close({
+      button: nameButtonClicked,
+      name: name,
+      description: description,
+      date: date,
+    });
   };
   return (
     <>
@@ -72,23 +87,48 @@ const CreateProjectPopup = ({ close }) => {
           error={errorDescription}
           clearError={() => setErrorDescription("")}
         />
-        <InputDate data={date} setData={setDate} typeDate="endDate" loading={true} error={errorDate}
-          clearError={() => setErrorDate("")} />
-      </div>
-      <div className={styles.buttonsWrapper}>
-        <Button
-          text="Отмена"
-          type="outlineSecondary"
-          callback={() => handleClick("cancel")}
-          style={{ width: "131px", height: "40px" }}
-        />
-        <Button
-          text="Создать"
-          type="filledAccent"
-          callback={() => handleClick("create")}
-          style={{ width: "131px", height: "40px" }}
+        <InputDate
+          data={date}
+          setData={setDate}
+          typeDate="endDate"
+          loading={true}
+          error={errorDate}
+          clearError={() => setErrorDate("")}
         />
       </div>
+      {screenWidth >= 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отмена"
+            type="outlineSecondary"
+            callback={() => handleClick("cancel")}
+            style={{ width: "131px", height: "40px" }}
+          />
+          <Button
+            text="Создать"
+            type="filledAccent"
+            callback={() => handleClick("create")}
+            style={{ width: "131px", height: "40px" }}
+          />
+        </div>
+      )}
+
+      {screenWidth < 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отмена"
+            type="outlineSecondary"
+            callback={() => handleClick("cancel")}
+            style={{ width: "calc(100% - 65px)", height: "40px" }}
+          />
+          <Button
+            text="Создать"
+            type="filledAccent"
+            callback={() => handleClick("create")}
+            style={{ width: "calc(100% - 65px)", height: "40px" }}
+          />
+        </div>
+      )}
     </>
   );
 };

@@ -2,16 +2,16 @@ import styles from "./styles.module.css";
 import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import CameraSVG from "../../../assets/cameraSVG.jsx";
-import { useState } from "react";
 import { useUserInfo } from "../../hooks/useUser.jsx";
 import useUserContext from "../../hooks/useUserContext.js";
+import useScreenWidth from "../../hooks/useScreenWidth.js";
 
 import { usePopupManager } from "react-popup-manager";
 import Popup from "./Popup.jsx";
 import AddPhotoPopup from "./AddPhotoPopup.jsx";
+import { useEffect, useState } from "react";
 
 import { validateName } from "../../errors/validation.js";
-
 
 const UpdateProfilePopup = ({ close, userName }) => {
   const [name, setName] = useState(userName);
@@ -22,12 +22,10 @@ const UpdateProfilePopup = ({ close, userName }) => {
 
   const popupManager = usePopupManager();
 
+  const screenWidth = useScreenWidth();
   const onAddPhotoPopup = (...params) => {
     console.log(params);
-    // if (params?.[0]?.button === "delete" && workspaceContext?.id && projectContext?.id) {
-    //   DeleteProject(workspaceContext?.id, projectContext?.id, params?.[0].password);
-    // }
-  }
+  };
 
   const validate = () => {
     const nameValidationResult = validateName(name, "user");
@@ -37,12 +35,12 @@ const UpdateProfilePopup = ({ close, userName }) => {
       return false;
     }
     return true;
-  }
+  };
 
   const openAddPhotoPopup = () => {
     popupManager.open(Popup, {
       popup: {
-        component: AddPhotoPopup
+        component: AddPhotoPopup,
       },
       onClose: onAddPhotoPopup,
     });
@@ -69,7 +67,11 @@ const UpdateProfilePopup = ({ close, userName }) => {
 
         <div className={styles.containerInfoUser}>
           <div className={styles.UserAvatarWrapper}>
-            <img src={userContext?.photo?.url} alt="" className={avatarClassName} ></img>
+            <img
+              src={userContext?.photo?.url}
+              alt=""
+              className={avatarClassName}
+            ></img>
             <div className={styles.userAvatarDiv}>
               <div className={styles.UserAvatarPlaceholder}>
                 <CameraSVG />
@@ -86,9 +88,10 @@ const UpdateProfilePopup = ({ close, userName }) => {
               clearError={() => setErrorName("")}
             />
             <div className={styles.descriptionUser}>
-              <span>
-                Введите имя и загрузите фото, они будут <br /> отображаться в
-                интерфейсе <span className={styles.bolder}>EasyRoadMap</span>
+              <span className={styles.descriptionText}>
+                Введите имя и загрузите фото, они будут
+                {screenWidth > 570 && <br />} отображаться в интерфейсе
+                <span className={styles.bolder}> EasyRoadMap</span>
               </span>
             </div>
           </div>

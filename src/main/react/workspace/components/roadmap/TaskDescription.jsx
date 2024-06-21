@@ -105,6 +105,7 @@ const TaskDescription = ({ task, onClose }) => {
             attachments: task?.attachments,
           },
           chosenStage: chosenStage,
+          type: "changeTask",
         },
       },
       onClose: onCloseChangeTaskPopup,

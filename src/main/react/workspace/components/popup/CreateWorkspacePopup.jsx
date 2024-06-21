@@ -2,9 +2,9 @@ import styles from "./styles.module.css";
 import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import { useState } from "react";
+import useScreenWidth from "../../hooks/useScreenWidth.js";
 
 import { validateName, validateDescription } from "../../errors/validation.js";
-
 
 const CreateWorkspacePopup = ({ close }) => {
   const [name, setName] = useState("");
@@ -12,6 +12,8 @@ const CreateWorkspacePopup = ({ close }) => {
 
   const [errorName, setErrorName] = useState(false);
   const [errorDescription, setErrorDescription] = useState(false);
+
+  const screenWidth = useScreenWidth();
 
   const validate = () => {
     const nameValidationResult = validateName(name, "workspace");
@@ -26,13 +28,17 @@ const CreateWorkspacePopup = ({ close }) => {
       return false;
     }
     return true;
-  }
+  };
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "create")
       return;
     if (nameButtonClicked === "cancel") {
-      close({ button: nameButtonClicked, name: name, description: description });
+      close({
+        button: nameButtonClicked,
+        name: name,
+        description: description,
+      });
       return;
     }
     if (!validate()) return;
@@ -66,20 +72,39 @@ const CreateWorkspacePopup = ({ close }) => {
           clearError={() => setErrorDescription("")}
         />
       </div>
-      <div className={styles.buttonsWrapper}>
-        <Button
-          text="Отмена"
-          type="outlineSecondary"
-          callback={() => handleClick("cancel")}
-          style={{ width: "131px", height: "40px" }}
-        />
-        <Button
-          text="Создать"
-          type="filledAccent"
-          callback={() => handleClick("create")}
-          style={{ width: "131px", height: "40px" }}
-        />
-      </div>
+      {screenWidth >= 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отмена"
+            type="outlineSecondary"
+            callback={() => handleClick("cancel")}
+            style={{ width: "131px", height: "40px" }}
+          />
+          <Button
+            text="Создать"
+            type="filledAccent"
+            callback={() => handleClick("create")}
+            style={{ width: "222px", height: "40px" }}
+          />
+        </div>
+      )}
+
+      {screenWidth < 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отмена"
+            type="outlineSecondary"
+            callback={() => handleClick("cancel")}
+            style={{ width: "calc(100% - 65px)", height: "40px" }}
+          />
+          <Button
+            text="Создать"
+            type="filledAccent"
+            callback={() => handleClick("create")}
+            style={{ width: "calc(100% - 65px)", height: "40px" }}
+          />
+        </div>
+      )}
     </>
   );
 };

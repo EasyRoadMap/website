@@ -30,7 +30,7 @@ const TaskActionsButtonDescription = ({
   task,
   listShowed,
   setListShowed,
-  closeDetails
+  closeDetails,
 }) => {
   const { projectId } = useProjectContext();
   const { chosenStage } = useRoadmapContext();
@@ -93,6 +93,7 @@ const TaskActionsButtonDescription = ({
             attachments: task?.attachments,
           },
           chosenStage: chosenStage,
+          type: "changeTask",
         },
       },
       onClose: onCloseChangeTaskPopup,

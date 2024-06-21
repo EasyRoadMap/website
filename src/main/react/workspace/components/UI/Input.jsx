@@ -74,27 +74,57 @@ export default function Input({
         <div className={styles.inputWithTextWrapper}>
           <label className={styles.label}>{translation[typeOfInput]}</label>
           <div className={styles.inputWrapper}>
-            <input
-              type={(type === "repeatedPassword" || type === "newPassword") ? "password" : type}
-              className={[styles.input, inputWithContentStyle, inputStyle].join(
-                " "
-              )}
-              placeholder={placeholder}
-              onChange={changeValue}
-              value={data}
-              autoComplete={autoCompleteName[typeOfInput]}
-              onMouseEnter={() => setActive(true)}
-              onMouseLeave={() => setActive(false)}
-              min={type === "date" ? "1990-01-01" : undefined}
-              max={type === "date" ? "2990-01-01" : undefined}
-            ></input>
+            {typeOfInput === "descriptionTask" ? (
+              <textarea
+                type={
+                  type === "repeatedPassword" || type === "newPassword"
+                    ? "password"
+                    : type
+                }
+                c
+                className={[styles.input, styles.textarea, inputStyle].join(
+                  " "
+                )}
+                placeholder={placeholder}
+                onChange={changeValue}
+                value={data}
+                onMouseEnter={() => setActive(true)}
+                onMouseLeave={() => setActive(false)}
+              ></textarea>
+            ) : (
+              <input
+                type={
+                  type === "repeatedPassword" || type === "newPassword"
+                    ? "password"
+                    : type
+                }
+                className={[
+                  styles.input,
+                  inputWithContentStyle,
+                  inputStyle,
+                ].join(" ")}
+                placeholder={placeholder}
+                onChange={changeValue}
+                value={data}
+                autoComplete={autoCompleteName[typeOfInput]}
+                onMouseEnter={() => setActive(true)}
+                onMouseLeave={() => setActive(false)}
+                min={type === "date" ? "1990-01-01" : undefined}
+                max={type === "date" ? "2990-01-01" : undefined}
+              ></input>
+            )}
+
             {(typeOfInput === "password" || typeOfInput === "newPassword") && (
               <div onClick={handleToggle} className={styles.iconSVG}>
                 {icon}
               </div>
             )}
           </div>
-          <ErrorTooltip isShown={active && error} errorText={error} stylesFromOutside={{bottom: "-59px"}}/>
+          <ErrorTooltip
+            isShown={active && error}
+            errorText={error}
+            stylesFromOutside={{ bottom: "-59px" }}
+          />
         </div>
       </>
     );

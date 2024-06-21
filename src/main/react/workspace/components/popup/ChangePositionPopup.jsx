@@ -2,6 +2,7 @@ import styles from "./styles.module.css";
 import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
 import { useState } from "react";
+import useScreenWidth from "../../hooks/useScreenWidth.js";
 
 import { validateRole } from "../../errors/validation.js";
 
@@ -19,6 +20,7 @@ const ChangePositionPopup = ({ close, participant }) => {
     }
     return true;
   };
+  const screenWidth = useScreenWidth();
 
   const avatarClassName = participant?.user?.photo?.default
     ? [styles.participantAvatar, styles.pixelAvatar].join(" ")
@@ -57,7 +59,7 @@ const ChangePositionPopup = ({ close, participant }) => {
         </div>
         <div className={styles.containerInput}>
           <div className={styles.description}>
-            Вы можете назначить должность данному <br />
+            Вы можете назначить должность данному {screenWidth > 580 && <br />}
             пользователю в поле ниже.
           </div>
           <Input
@@ -71,20 +73,39 @@ const ChangePositionPopup = ({ close, participant }) => {
         </div>
       </div>
 
-      <div className={styles.buttonsWrapper}>
-        <Button
-          text="Отмена"
-          type="outlineSecondary"
-          callback={() => handleClick("cancel")}
-          style={{ width: "131px", height: "40px" }}
-        />
-        <Button
-          text="Изменить"
-          type="filledAccent"
-          callback={() => handleClick("change")}
-          style={{ width: "146px", height: "40px" }}
-        />
-      </div>
+      {screenWidth >= 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отмена"
+            type="outlineSecondary"
+            callback={() => handleClick("cancel")}
+            style={{ width: "131px", height: "40px" }}
+          />
+          <Button
+            text="Изменить"
+            type="filledAccent"
+            callback={() => handleClick("change")}
+            style={{ width: "146px", height: "40px" }}
+          />
+        </div>
+      )}
+
+      {screenWidth < 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отмена"
+            type="outlineSecondary"
+            callback={() => handleClick("cancel")}
+            style={{ width: "calc(100% - 65px)", height: "40px" }}
+          />
+          <Button
+            text="Изменить"
+            type="filledAccent"
+            callback={() => handleClick("change")}
+            style={{ width: "calc(100% - 65px)", height: "40px" }}
+          />
+        </div>
+      )}
     </>
   );
 };

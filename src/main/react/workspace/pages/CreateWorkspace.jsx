@@ -6,7 +6,6 @@ import BaseCreateWorkspace from "./BaseCreateWorkspace.jsx";
 import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 import useUserContext from "../hooks/useUserContext.js";
 
-
 import { useWorkspaceInfo } from "../hooks/useWorkspace.jsx";
 
 import { usePopupManager } from "react-popup-manager";
@@ -61,7 +60,7 @@ const CreateWorkspace = ({ type }) => {
           text={typeCreate.workspace.textButton}
           type="filledAccent"
           callback={openCreateWorkspacePopup}
-          style={{ width: "345px", height: "48px", padding: "0" }}
+          style={{ height: "48px", padding: "0", fontSize: "18px" }}
         />
       </BaseCreateWorkspace>
     </>

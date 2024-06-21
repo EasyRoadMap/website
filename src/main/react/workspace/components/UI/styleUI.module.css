@@ -107,6 +107,17 @@
   height: 91px;
   resize: none;
 }
+.textarea::-webkit-scrollbar {
+  width: 7px;
+}
+.textarea::-webkit-scrollbar-track {
+  background-color: var(--light-stroke);
+  border-radius: 20px;
+}
+.textarea::-webkit-scrollbar-thumb {
+  background-color: var(--light-stroke);
+  border-radius: 20px;
+}
 .form {
   display: flex;
   flex-direction: column;

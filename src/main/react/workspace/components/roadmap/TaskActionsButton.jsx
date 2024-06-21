@@ -89,6 +89,7 @@ const TaskActionsButton = ({ task, listShowed, setListShowed }) => {
             attachments: task?.attachments,
           },
           chosenStage: chosenStage,
+          type: "changeTask",
         },
       },
       onClose: onCloseChangeTaskPopup,

@@ -770,6 +770,12 @@ span.stageNameActive {
     align-items: normal;
   }
 }
+@media (min-width: 0px) and (max-width: 425px) {
+  .paginationCircle {
+    width: 13px;
+    height: 13px;
+  }
+}
 
 @media (min-width: 0px) and (max-width: 370px) {
   .taskDateWrapper {

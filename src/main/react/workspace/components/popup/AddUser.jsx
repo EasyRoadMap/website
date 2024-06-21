@@ -1,11 +1,24 @@
 import styles from "./AddUserPopup.module.css";
 import InputCheckBoxAddUser from "../UI/InputCheckBoxAddUser.jsx";
 import Button from "../UI/Button.jsx";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 
 const AddUser = ({ close, workspaceMembers, adminEmail }) => {
   console.debug("workspaceMembers", workspaceMembers);
   const [membersChosen, setMembersChosen] = useState([]);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "cancel" && nameButtonClicked !== "invite")
@@ -35,8 +48,9 @@ const AddUser = ({ close, workspaceMembers, adminEmail }) => {
         <div className={styles.AddUserContainerInfo}>
           <h1 className={styles.title}>Добавить участника </h1>
           <span className={styles.AddUserDescription}>
-            Вы можете добавить в проект сразу нескольких <br /> участников из
-            рабочей области.
+            Вы можете добавить в проект сразу нескольких{" "}
+            {screenWidth >= 400 && <br />}
+            участников из рабочей области.
           </span>
           {workspaceMembers &&
             workspaceMembers?.length > 0 &&

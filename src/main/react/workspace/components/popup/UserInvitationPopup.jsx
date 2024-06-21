@@ -1,11 +1,14 @@
 import styles from "./styles.module.css";
 import Button from "../UI/Button.jsx";
 import Input from "../UI/Input.jsx";
+import useScreenWidth from "../../hooks/useScreenWidth.js";
 
 const UserInvitationPopup = ({ close, invite }) => {
   const avatarClassName = invite?.workspace?.photo?.default
     ? [styles.participantAvatar, styles.pixelAvatar].join(" ")
     : styles.participantAvatarUser;
+
+  const screenWidth = useScreenWidth();
 
   const handleClick = (nameButtonClicked) => {
     if (nameButtonClicked !== "decline" && nameButtonClicked !== "accept")
@@ -22,14 +25,13 @@ const UserInvitationPopup = ({ close, invite }) => {
         <h1 className={styles.title}>Приглашение в рабочую область</h1>
         <div className={styles.description}>
           Вы получили приглашение в
-          <span className={styles.descriptionBolder}>
+          <p className={styles.descriptionBolder}>
             {" " + invite?.workspace?.name + " "}
-          </span>{" "}
-          <br />
+          </p>{" "}
           от администратора
-          <span className={styles.descriptionBolder}>
+          <p className={styles.descriptionBolder}>
             {" " + invite?.inviter?.name + " "}
-          </span>{" "}
+          </p>{" "}
         </div>
         <div className={styles.participantCard}>
           <div className={styles.participantCardWrapper}>
@@ -42,28 +44,50 @@ const UserInvitationPopup = ({ close, invite }) => {
               <div className={styles.participantCardTitle}>
                 {invite?.workspace?.name}
               </div>
-              {/* <div className={styles.participantCardPosition}>
-                {participant?.role}
-              </div> */}
             </div>
           </div>
         </div>
       </div>
 
-      <div className={styles.buttonsWrapper}>
-        <Button
-          text="Отклонить"
-          type="outlineAccent"
-          callback={() => handleClick("decline")}
-          style={{ width: "131px", height: "40px" }}
-        />
-        <Button
-          text="Принять"
-          type="filledAccent"
-          callback={() => handleClick("accept")}
-          style={{ width: "146px", height: "40px" }}
-        />
-      </div>
+      {screenWidth >= 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отклонить"
+            type="outlineAccent"
+            callback={() => handleClick("decline")}
+            style={{ width: "131px", height: "40px" }}
+          />
+          <Button
+            text="Принять"
+            type="filledAccent"
+            callback={() => handleClick("accept")}
+            style={{ width: "146px", height: "40px" }}
+          />
+        </div>
+      )}
+
+      {screenWidth < 400 && (
+        <div className={styles.buttonsWrapper}>
+          <Button
+            text="Отклонить"
+            type="outlineAccent"
+            callback={() => handleClick("decline")}
+            style={{
+              width: "calc(100% - 65px)",
+              height: "40px",
+            }}
+          />
+          <Button
+            text="Принять"
+            type="filledAccent"
+            callback={() => handleClick("accept")}
+            style={{
+              width: "calc(100% - 65px)",
+              height: "40px",
+            }}
+          />
+        </div>
+      )}
     </>
   );
 };
