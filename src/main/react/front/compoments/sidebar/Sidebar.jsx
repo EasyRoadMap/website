@@ -16,12 +16,12 @@ const Sidebar = () => {
   const getPage = () => {
     const path = "/" + location.pathname.split("/")[1] + "/" + params.ws_id;
     return path === location.pathname;
-  }
+  };
 
   const handleScrollTo = (toBlock) => {
     const main = document.querySelector("main");
     const block = document.querySelector("#" + toBlock);
-  
+
     main.scrollTo({
       top: block?.offsetTop,
       left: 0,
@@ -43,9 +43,7 @@ const Sidebar = () => {
         // active={page === "projects"}
         callback={() => handleScrollTo("projects")}
       />
-      <SidebarProjects
-        projects={workspaceContext?.projects}
-      />
+      <SidebarProjects projects={workspaceContext?.projects} />
     </aside>
   );
 };

@@ -4,15 +4,19 @@
   position: fixed;
   height: fit-content;
   width: 340px;
+  display: unset;
   /* left: calc((100vw - 1060px) / 2); */
   left: 24px;
   background-color: var(--bg-color-sidebar-and-dropdown);
   padding: 12px;
-  display: flex;
   gap: 12px;
   flex-direction: column;
   border-radius: 24px;
   border: 1px solid var(--light-stroke);
+  z-index: 100;
+}
+.aside .active {
+  display: flex;
 }
 .project {
   margin-left: 44px;
@@ -219,7 +223,12 @@
 }
 
 @media (min-width: 0px) and (max-width: 999px) {
-  .aside {
+  /* .aside {
     display: none;
+    width: calc(100vw - 48px);
+  } */
+  .aside .active {
+    display: none;
+    width: calc(100vw - 48px);
   }
 }

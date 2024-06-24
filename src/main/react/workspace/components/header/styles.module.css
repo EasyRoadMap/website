@@ -77,6 +77,12 @@
   font-weight: normal;
   color: var(--foreground-color50);
 }
+.menuHeader {
+  display: none;
+  path {
+    fill: var(--foreground-color50);
+  }
+}
 
 @media (min-width: 0px) and (max-width: 999px) {
   .header {

@@ -19,15 +19,20 @@ const Header = () => {
     };
   }, []);
 
+  const toggleMenu = () => {
+    console.log("aside toggled", document.querySelector("#sidebar"));
+    let menuStyle = document.querySelector(".a").style;
+    if (menuStyle.display === "none") {
+      menuStyle.setProperty("display", "flex");
+      return;
+    }
+    menuStyle.setProperty("display", "none");
+  };
+
   return (
     <header className={styles.header}>
       {screenWidth < 1000 && (
-        <MenuHeaderSVG
-          className={styles.menuHeader}
-          // onClick={() => {
-          //   document.querySelector(".sidebar").classList.toggle("active");
-          // }}
-        />
+        <MenuHeaderSVG className={styles.menuHeader} onClick={toggleMenu} />
       )}
       <HeaderLogo />
       <ThemeChange />

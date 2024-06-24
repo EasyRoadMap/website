@@ -73,8 +73,72 @@
   border-radius: 15px;
   min-height: 340px;
   min-width: 290px;
-  max-width: 620px;
+}
+.addProjectNone {
+  height: 339px;
+  flex-basis: calc(50% - 12px);
+  background-color: var(--bg-color-sidebar-and-dropdown);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-radius: 15px;
+  min-height: 340px;
+  min-width: 290px;
+  max-width: 400px;
 }
 .buttonChapter {
   margin-bottom: 12px;
+}
+
+.noProjectWrapper {
+  width: 100%;
+  padding: 24px;
+  background-color: var(--bg-color-project);
+  border-radius: 15px;
+}
+.noProjectInfo {
+  width: 100%;
+  padding: 20px;
+  background-color: var(--bg-color-sidebar-and-dropdown);
+  border-radius: 15px;
+}
+.noProjectText {
+  padding-left: 24px;
+  padding-top: 48px;
+  padding-bottom: 48px;
+  padding-right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  justify-content: center;
+  align-items: center;
+}
+.noProjectSVG {
+  margin-left: 29px;
+  path {
+    stroke: var(--text-color);
+  }
+  line {
+    stroke: var(--text-color);
+  }
+}
+.noProjectTextWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.noProjectTextTitle {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-color);
+  text-align: center;
+}
+.noProjectTextDescription {
+  font-size: 18px;
+  font-weight: normal;
+  color: var(--foreground-color50);
+  text-align: center;
 }

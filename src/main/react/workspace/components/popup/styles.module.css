@@ -93,6 +93,12 @@
   font-weight: 600;
   color: var(--text-color);
 }
+.titleWorkspace {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color);
+}
 .containerWithGaps {
   display: flex;
   flex-direction: column;
@@ -667,6 +673,9 @@
   }
   .containerInfoUser {
     flex-direction: column;
+  }
+  .titleWorkspace {
+    max-width: 200px;
   }
 }
 @media (min-width: 0px) and (max-width: 780px) {

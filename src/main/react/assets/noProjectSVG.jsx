@@ -1,0 +1,67 @@
+const NoProjectSVG = (props) => (
+  <svg
+    width={114}
+    height={120}
+    viewBox="0 0 114 120"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M108.121 72.4823C110.969 70.8366 112.149 67.5768 110.771 65.1743C110.771 65.1739 110.771 65.1735 110.772 65.1738C110.772 65.1741 110.773 65.1737 110.772 65.1733L109.109 62.2838C107.72 59.8854 104.302 59.2803 101.453 60.9266L57.6265 86.4427C57.5381 86.4942 57.4619 86.5642 57.4032 86.648L49.3418 98.1594C48.9935 98.6567 49.393 99.3326 49.9966 99.2674L63.8397 97.772C63.9366 97.7615 64.0304 97.7311 64.115 97.6826L108.121 72.4823Z"
+      stroke="black"
+      strokeOpacity={0.2}
+      strokeWidth={5}
+      strokeLinejoin="round"
+    />
+    <path
+      d="M87.4593 55.8304V14.629C87.4593 8.46211 82.4601 3.46289 76.2933 3.46289H13.8198C7.65291 3.46289 2.65369 8.46211 2.65369 14.629V105.371C2.65369 111.538 7.65291 116.537 13.8198 116.537H76.2933C82.4601 116.537 87.4593 111.538 87.4593 105.371C87.4593 103.587 87.4593 101.767 87.4593 99.576"
+      stroke="black"
+      strokeOpacity={0.2}
+      strokeWidth={5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <line
+      x1={18.5}
+      y1={21.5}
+      x2={40.3551}
+      y2={21.5}
+      stroke="black"
+      strokeOpacity={0.2}
+      strokeWidth={5}
+      strokeLinecap="round"
+    />
+    <line
+      x1={18.5}
+      y1={31.5}
+      x2={70.6025}
+      y2={31.5}
+      stroke="black"
+      strokeOpacity={0.2}
+      strokeWidth={5}
+      strokeLinecap="round"
+    />
+    <line
+      x1={18.5}
+      y1={41.5}
+      x2={57.1749}
+      y2={41.5}
+      stroke="black"
+      strokeOpacity={0.2}
+      strokeWidth={5}
+      strokeLinecap="round"
+    />
+    <line
+      x1={18.5}
+      y1={51.5}
+      x2={70.7438}
+      y2={51.5}
+      stroke="black"
+      strokeOpacity={0.2}
+      strokeWidth={5}
+      strokeLinecap="round"
+    />
+  </svg>
+);
+export default NoProjectSVG;

@@ -4,18 +4,16 @@ import Button from "../UI/Button.jsx";
 import { useProjectInfo } from "../../hooks/useProject.jsx";
 import { useWorkspaceInfo } from "../../hooks/useWorkspace.jsx";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
-
 import { usePopupManager } from "react-popup-manager";
 import Popup from "../popup/Popup.jsx";
 import CreateProjectPopup from "../popup/CreateProjectPopup.jsx";
 import { useNavigate } from "react-router-dom";
 
-const ProjectAddButton = () => {
+const ProjectAddButton = ({ projectsCount }) => {
   const { CreateProject } = useProjectInfo();
   const { Projects } = useWorkspaceInfo();
   const { workspaceContext } = useWorkspaceContext();
   const navigate = useNavigate();
-
   const popupManager = usePopupManager();
 
   const toProject = (project, workspaceContext) => {
@@ -61,7 +59,9 @@ const ProjectAddButton = () => {
   };
 
   return (
-    <div className={styles.addProject}>
+    <div
+      className={projectsCount > 0 ? styles.addProject : styles.addProjectNone}
+    >
       <div className={styles.addLogo}>
         <AddProjectSVG />
       </div>

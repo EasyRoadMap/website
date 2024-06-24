@@ -37,7 +37,16 @@ const DeleteWorkspacePopup = ({ workspace, close }) => {
   };
   return (
     <>
-      <h1 className={styles.title}>Удалить рабочую область</h1>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <h1 className={styles.titleWorkspace}>Удалить рабочую область</h1>
+      </div>
       <div className={styles.containerWithGaps}>
         <div className={styles.description}>
           Для удаления рабочей области{" "}
