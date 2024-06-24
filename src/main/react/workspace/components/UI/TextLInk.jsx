@@ -1,9 +1,6 @@
 import styles from "./styleUI.module.css";
 
 const TextLink = ({ data, placeholder, type, loading = null }) => {
-  console.log("INPUT");
-  console.log(data);
-
   const inputField =
     type === "textarea" ? (
       <textarea

@@ -41,8 +41,6 @@ export const useUserInfo = () => {
 
     const User = () => {
         getUser().then((response) => {
-            console.log("response User");
-            console.log(response);
             setUser((prev) => ({...prev, ...response.data}));
         }).catch((e) => {
             handleError(e);

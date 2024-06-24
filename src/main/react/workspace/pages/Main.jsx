@@ -31,7 +31,6 @@ const Main = ({ fromInvite = false }) => {
   const { DeleteWorkspace } = useWorkspaceInfo();
 
   const onCloseDeleteWorkspacePopup = (...params) => {
-    console.log(params?.[0]);
     if (params?.[0]?.button === "delete") {
       DeleteWorkspace(workspaceContext.id, params?.[0].password);
     }
@@ -156,8 +155,6 @@ const Main = ({ fromInvite = false }) => {
               />
             )}
           </div>
-
-          {console.debug("workspaceContext?.id", workspaceContext)}
         </Base>
       ) : (
         <CreateWorkspace type={"workspace"} />

@@ -18,7 +18,6 @@ const filterArray = (arr, valueToRemove) => {
 }
 
 export const getWSIDs = () => {
-    console.debug("gettin wsid", get("last_visited_ws_ids"));
     return get("last_visited_ws_ids");
 }
 
@@ -35,6 +34,5 @@ export const addWSID = (ws_id) => {
 export const removeWSID = (ws_id) => {
     const prev_ws_ids = getWSIDs();
     const filtered_ws_ids = filterArray(prev_ws_ids, ws_id);
-    console.debug("removin wsid", filtered_ws_ids);
     return save("last_visited_ws_ids", filtered_ws_ids);
 }

@@ -157,7 +157,6 @@ export const useWorkspaceInfo = () => {
 
     const GetInviteInfo = (invite_id) => {
         getInvite(invite_id).then((response) => {
-            console.log(response);
         }).catch((e) => {
             handleError(e);
         })

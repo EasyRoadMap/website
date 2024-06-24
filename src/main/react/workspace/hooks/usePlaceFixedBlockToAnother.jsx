@@ -11,12 +11,6 @@ const usePlaceFixedBlockToAnother = (fixedBlock, targetBlock) => {
 
     fixedBlock.current.style.position = "fixed";
     // fixedBlock.current.style.left = leftSide + "px";
-    console.log("asdsad");
-    console.log(
-      "calc((100vw - 1060px) / 2 - " +
-        fixedBlock.current.firstChild.firstChild.offsetWidth +
-        "px)"
-    );
     // fixedBlock.current.style.right = "calc((100vw - 1060px) / 2 + " + fixedBlock.current.firstChild.firstChild.offsetWidth + "px)";
     fixedBlock.current.style.bottom = bottomSide + "px";
   }, [fixedBlock, targetBlock]);

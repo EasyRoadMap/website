@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 
 import useUserContext from "../../hooks/useUserContext.js";
 
-const Header = ({ DeleteUser, UpdateUser, workspaces, currentWorkspace }) => {
+const Header = ({ DeleteUser, UpdateUser, workspaces, currentWorkspace, sidebarRef }) => {
   const { userContext } = useUserContext();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -14,6 +14,10 @@ const Header = ({ DeleteUser, UpdateUser, workspaces, currentWorkspace }) => {
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
+      if (window.innerWidth < 1000)
+        sidebarRef.current.style.display = "none";
+      else 
+        sidebarRef.current.style.display = "flex";
     };
 
     window.addEventListener("resize", handleResize);
@@ -22,14 +26,28 @@ const Header = ({ DeleteUser, UpdateUser, workspaces, currentWorkspace }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+
+  const toggleMenu = () => {
+    if (!sidebarRef.current) return;
+
+    sidebarRef.current.classList.toggle("active");
+
+    const isMenuOpened = sidebarRef.current.classList.contains("active");
+
+    if (isMenuOpened) {
+      sidebarRef.current.style.display = "flex";
+      return;
+    }
+    sidebarRef.current.style.display = "none";
+  }
+
   return (
     <header className={styles.header}>
       {screenWidth < 1000 && (
         <MenuHeaderSVG
           className={styles.menuHeader}
-          // onClick={() => {
-          //   document.querySelector(".sidebar").classList.toggle("active");
-          // }}
+          onClick={toggleMenu}
         />
       )}
       <HeaderLogo />

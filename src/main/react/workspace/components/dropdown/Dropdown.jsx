@@ -44,10 +44,6 @@ const Dropdown = ({ visible, hide, showButtonRef, user, deleteUser, updateUser, 
   const { userContext } = useUserContext();
   const popupManager = usePopupManager();
 
-  useEffect(() => {
-    console.debug("usercontext updated in dropdown", userContext);
-  }, [userContext]);
-
   const onCloseSettingsPopup = (...params) => {
     if (params[0] === "change-password") openAskForChangePasswordPopup();
     else if (params[0] === "delete-account") openAskForDeletionPopup();

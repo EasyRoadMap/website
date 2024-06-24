@@ -40,13 +40,13 @@ function App() {
   const { workspaceContext } = useWorkspaceContext();
   const { setFirstAnswerReceived } = useUserContext();
 
+  const [projectIdFromParams, setProjectIdFromParams] = useState(null);
+
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     const ws = getWSFromURL();
-    console.debug("WS_ID");
-    console.debug(ws);
     if (ws && ws.ws_id && workspaceContext.workspaceExists) {
       User();
       setCurrentWorkspace(ws.ws_id);
@@ -57,14 +57,23 @@ function App() {
       Projects(ws.ws_id);
       return;
     }
-    console.debug("no found ws id");
+    console.log("damn", ws);
+    addProjectIdFromURL(ws?.pr_id);
     User();
     Workspaces((ws) => {setCurrentWorkspace(ws);});
     Photo();
   }, [workspaceContext?.workspaceExists]);
 
   useEffect(() => {
-    console.debug("currentWorkspace was updated with value", currentWorkspace);
+    if (projectIdFromParams == null || workspaceContext?.projects == null || !currentWorkspace.id) return;
+    navigate({
+      pathname: "/workspace/project",
+      search: '?ws_id='+currentWorkspace.id+"&pr_id="+projectIdFromParams,
+    });
+    setProjectIdFromParams(null);
+  }, [workspaceContext?.projects]);
+
+  useEffect(() => {
     if (user.workspaces?.length > 0 && currentWorkspace?.id) {
       Workspace(currentWorkspace.id);
       Members(currentWorkspace.id);
@@ -86,9 +95,7 @@ function App() {
   };
 
   const updateURLWithNewWS = (ws) => {
-    console.debug("started updateURLWithNewWS with value", ws);
     if (!ws || !workspaceContext?.workspaceExists) return;
-    console.debug("updateURLWithNewWS condition passed");
     // if (ws && !ws.pr_id && setProjectContext) setProjectContext({});
     // const searchParam = Object.keys(ws).length === 2 ? '?ws_id='+ws.ws_id+"&pr_id="+ws.pr__id : '?ws_id='+ws.ws_id;
     addWSID(ws);
@@ -97,6 +104,11 @@ function App() {
       search: "?ws_id=" + ws,
     });
   };
+
+  const addProjectIdFromURL = (pr_id) => {
+    if (pr_id == null) return;
+    setProjectIdFromParams(pr_id);
+  }
 
   const clearProjectHighlight = () => {
     if (location.pathname !== "/workspace/project") setProjectContext({});

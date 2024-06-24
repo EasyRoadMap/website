@@ -52,7 +52,6 @@ const Project = () => {
   };
 
   const onCloseDeleteProjectPopup = (...params) => {
-    console.log(params?.[0]);
     if (
       params?.[0]?.button === "delete" &&
       workspaceContext?.id &&
@@ -80,12 +79,7 @@ const Project = () => {
   };
 
   useEffect(() => {
-    console.debug("projectContext has been updated");
-  }, [projectContext]);
-
-  useEffect(() => {
     // if (!location?.state?.pr_id) return;
-    console.debug("state has been updated", state?.pr_id);
     if (!state?.pr_id) return;
 
     setProjectID(state.pr_id);

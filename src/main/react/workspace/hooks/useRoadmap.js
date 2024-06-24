@@ -84,7 +84,6 @@ export const useRoadmapInfo = () => {
                 return;
             }
             if (response?.data?.pagination?.total_pages-1 === 0) {
-                console.log({...roadmapContext, tasks: tasks});
                 setRoadmapContext((prev) => ({...prev, tasks: tasks}));
                 return;
             }

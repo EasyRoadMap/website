@@ -5,8 +5,6 @@ import AddParticipantProjectButton from "./AddParticipantProjectButton.jsx";
 import styles from "./styles.module.css";
 
 const Participants = ({ participants, type }) => {
-  console.log("kajsdasd");
-  console.log(participants);
   return (
     <section className={styles.section} id="participants">
       <div className={styles.participantsListWrapper}>

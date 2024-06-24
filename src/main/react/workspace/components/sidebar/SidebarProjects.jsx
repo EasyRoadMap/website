@@ -3,7 +3,6 @@ import styles from "./styles.module.css";
 import useProjectContext from "../../hooks/useProjectContext.js";
 
 const SidebarProjects = ({ projects, chosen, blocks, places }) => {
-  console.debug("projects ISSSSSSSSSSSSSSSSSSSSSSS", projects);
   const { projectContext } = useProjectContext();
   return (
       <>{

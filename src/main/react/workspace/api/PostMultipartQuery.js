@@ -9,7 +9,6 @@ export const PostMultipartQuery = (URL, params = {}, query = {}) => {
 
     const bodyFormData = new FormData();
     Object.keys(checkedParams).forEach((key) => {
-        console.debug("item", key, checkedParams[key]);
         bodyFormData.append(key, checkedParams[key]);
     })
 

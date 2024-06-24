@@ -13,6 +13,8 @@
   flex-direction: column;
   border-radius: 24px;
   border: 1px solid var(--light-stroke);
+  z-index: 100;
+  display: flex;
 }
 .project {
   margin-left: 44px;

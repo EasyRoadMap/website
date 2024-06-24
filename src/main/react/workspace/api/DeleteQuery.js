@@ -3,8 +3,6 @@ import qs from 'qs';
 
 export const DeleteQuery = (URL, params, query) => {
     const TOKEN = document.getElementsByName("_csrf")[0].value;
-    console.log("params");
-    console.log(params);
     return axios({
         method: "delete",
         url: URL,

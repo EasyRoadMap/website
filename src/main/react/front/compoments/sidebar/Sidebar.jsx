@@ -6,7 +6,9 @@ import SidebarProjects from "./SidebarProjects.jsx";
 
 import useProjectContext from "../../hooks/useProjectContext.js";
 
-const Sidebar = () => {
+const Sidebar = ({
+  sidebarRef
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
@@ -31,7 +33,7 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className={styles.aside}>
+    <aside className={styles.aside} ref={sidebarRef}>
       <SidebarButton
         type="main"
         callback={() => navigate(`/p/${workspaceContext.id}`)}

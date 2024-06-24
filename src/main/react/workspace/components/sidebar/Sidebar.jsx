@@ -68,7 +68,9 @@ const getProject = (location, refs) => {
   // if (observeBlock) return observeBlock;
 };
 
-const Sidebar = () => {
+const Sidebar = ({
+  sidebarRef
+}) => {
   const { workspaceContext } = useWorkspaceContext();
   const location = useLocation();
   const navigate = useNavigate();
@@ -115,7 +117,9 @@ const Sidebar = () => {
   }
 
   return (
-    <aside className={styles.aside}>
+    <aside className={styles.aside}
+           ref={sidebarRef}
+    >
       <SidebarButton
         type="main"
         active={page === "main"}

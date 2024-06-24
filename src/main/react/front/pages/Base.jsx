@@ -9,6 +9,8 @@ import { useWorkspaceAPI } from "../hooks/useWorkspaceAPI.js";
 import useProjectContext from "../hooks/useProjectContext.js";
 import { useProjectAPI } from "../hooks/useProjectAPI.js";
 
+import { useRef } from "react";
+
 const Base = ({ children }) => {
   const params = useParams();
   const ws_id = params.ws_id;
@@ -27,11 +29,13 @@ const Base = ({ children }) => {
     GetProject(pr_id);
   }
 
+  const sidebarRef = useRef(null);
+
   return (
     <main className={styles.main}>
-      <Header />
+      <Header sidebarRef={sidebarRef}/>
       <section className={styles.content}>
-        <Sidebar />
+        <Sidebar sidebarRef={sidebarRef}/>
         <section className={styles.centeredContent}>{children}</section>
       </section>
     </main>

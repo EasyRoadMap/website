@@ -9,12 +9,7 @@ export const RoadmapProvider = ({ children }) => {
 
     useEffect(() => {
         setRoadmapContext((prev) => ({...prev, tasks: null}));
-        console.debug("chosen stage actually chosen", [chosenStage, roadmapContext]);
     }, [chosenStage])
-
-    useEffect(() => {
-        console.debug("roadmapContext was updated", roadmapContext);
-    }, [roadmapContext])
 
     return (
         <RoadmapContext.Provider value={{ roadmapContext, setRoadmapContext, chosenStage, setChosenStage }}>

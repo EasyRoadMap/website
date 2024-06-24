@@ -38,6 +38,7 @@ const RoadmapGraph = ({
     const viewport = useRef(null);
 
     useEffect(() => {
+      console.debug("so, circles fits in", circlesFitsIn);
       if (circlesFitsIn == null) return;
       moveToBlock(pickInitialCenteredStage(stages));
     }, [circlesFitsIn]);
