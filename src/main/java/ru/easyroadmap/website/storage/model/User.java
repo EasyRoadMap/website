@@ -16,7 +16,7 @@ import java.util.Collections;
 public final class User implements UserDetails {
 
     @Id
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, length = 64)
     private String email;
 
     @Column(name = "password", nullable = false)

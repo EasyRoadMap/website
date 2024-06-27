@@ -24,7 +24,7 @@ public final class RoadmapStage {
     @Column(name = "position", nullable = false)
     private byte position;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 32)
     private String name;
 
     @Column(name = "progress", nullable = false)

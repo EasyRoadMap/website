@@ -16,13 +16,13 @@ public final class EmailConfirmation {
     private static final long REQUEST_CAN_BE_RENEWED_IN = 1L;
 
     @Id
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, length = 64)
     private String email;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code", nullable = false, length = 6)
     private String code;
 
-    @Column(name = "proof_key", nullable = false)
+    @Column(name = "proof_key", nullable = false, length = 32)
     private String proofKey;
 
     @Column(name = "attempts_left", nullable = false)

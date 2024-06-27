@@ -23,13 +23,13 @@ public final class Workspace {
     @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 64)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 320)
     private String description;
 
-    @Column(name = "admin_id", nullable = false)
+    @Column(name = "admin_id", nullable = false, length = 64)
     private String adminId;
 
     @Column(name = "theme", nullable = false)

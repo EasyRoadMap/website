@@ -29,10 +29,10 @@ public final class RoadmapTask {
     @Column(name = "status", nullable = false)
     private byte status;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 80)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 320)
     private String description;
 
     @Column(name = "deadline_at")

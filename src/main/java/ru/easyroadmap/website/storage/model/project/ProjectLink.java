@@ -21,10 +21,10 @@ public final class ProjectLink {
     @Column(name = "project_id", nullable = false)
     private UUID projectId;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 32)
     private String name;
 
-    @Column(name = "url", nullable = false)
+    @Column(name = "url", nullable = false, length = 120)
     private String url;
 
     @Column(name = "created_at", nullable = false)

@@ -23,10 +23,10 @@ public final class Project {
     @Column(name = "workspace_id", nullable = false)
     private UUID workspaceId;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, length = 64)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 320)
     private String description;
 
     @Column(name = "deadline_at")

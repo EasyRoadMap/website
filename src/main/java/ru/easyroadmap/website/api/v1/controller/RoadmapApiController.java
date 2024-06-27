@@ -125,7 +125,7 @@ public class RoadmapApiController extends ApiControllerBase {
 
     @Operation(summary = "Создание новой задачи", tags = "roadmap-api")
     @SuccessResponse("Новая задача создана")
-    @GenericErrorResponse({"rms_not_exists", "pr_not_exists", "pr_membership_requirred", "too_many_tasks", "rmta_not_exists"})
+    @GenericErrorResponse({"rms_not_exists", "pr_not_exists", "pr_membership_required", "too_many_tasks", "rmta_not_exists"})
     @DescribeError(code = "too_many_tasks", userMessage = "В этапе не может быть более N задач", payload = "N (лимит задач на этап)")
     @PostMapping(value = "/task/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public TaskModel createTask(@RequestParam("rms_id") long stageId, @Valid TaskDataDto dto) throws ApiException {

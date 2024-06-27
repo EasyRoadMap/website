@@ -19,10 +19,10 @@ public final class ProjectMember {
     @Column(name = "project_id", nullable = false)
     private UUID projectId;
 
-    @Column(name = "user_email", nullable = false)
+    @Column(name = "user_email", nullable = false, length = 64)
     private String userEmail;
 
-    @Column(name = "role")
+    @Column(name = "role", length = 32)
     private String role;
 
     @Column(name = "created_at", nullable = false)

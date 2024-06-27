@@ -34,7 +34,7 @@ public class FileUpload {
     @Column(name = "mime_type", nullable = false)
     private String mimeType;
 
-    @Column(name = "md5", nullable = false)
+    @Column(name = "md5", nullable = false, length = 32)
     private String md5;
 
     @Column(name = "size", nullable = false)

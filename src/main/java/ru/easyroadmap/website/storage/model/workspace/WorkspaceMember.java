@@ -19,10 +19,10 @@ public final class WorkspaceMember {
     @Column(name = "workspace_id", nullable = false)
     private UUID workspaceId;
 
-    @Column(name = "user_email", nullable = false)
+    @Column(name = "user_email", nullable = false, length = 64)
     private String userEmail;
 
-    @Column(name = "role")
+    @Column(name = "role", length = 32)
     private String role;
 
     @Column(name = "created_at", nullable = false)
