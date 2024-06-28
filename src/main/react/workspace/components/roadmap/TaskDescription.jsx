@@ -201,17 +201,33 @@ const TaskDescription = ({ task, onClose }) => {
           {task?.description}
         </span>
         {task?.attachments?.length > 0 && <hr className={styles.hr}></hr>}
-        <div className={styles.taskParticipantAttachments}>
+        <div
+          className={
+            task?.attachments?.length > 1
+              ? styles.taskParticipantAttachments
+              : styles.taskParticipantAttachmentsOne
+          }
+        >
           {task?.attachments?.map((attachmentPhoto, i) => (
             <div key={i} className={styles.attachmentContainer}>
               {attachmentPhoto.type === "image" ? (
                 <img
                   src={attachmentPhoto.url}
                   alt=""
-                  className={styles.taskParticipantAvatar}
+                  className={
+                    task?.attachments?.length > 1
+                      ? styles.taskParticipantAvatar
+                      : styles.taskParticipantAvatarOne
+                  }
                 />
               ) : (
-                <div className={styles.unhandledFile}>
+                <div
+                  className={
+                    task?.attachments?.length > 1
+                      ? styles.unhandledFile
+                      : styles.unhandledFileOne
+                  }
+                >
                   {attachmentPhoto.type === "archive" && (
                     <ZipFielIconSVG className={styles.fileIcon} />
                   )}

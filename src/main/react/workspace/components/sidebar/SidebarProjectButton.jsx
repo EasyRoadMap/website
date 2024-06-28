@@ -5,6 +5,7 @@ import { initProject } from "../../hooks/InitProject.js";
 import useWorkspaceContext from "../../hooks/useWorkspaceContext.js";
 import useProjectContext from "../../hooks/useProjectContext.js";
 import { useProjectInfo } from "../../hooks/useProject.jsx";
+import useScreenWidth from "../../hooks/useScreenWidth.js";
 
 const getBlock = (blocks, toBlock) => {
   let block = null;
@@ -34,6 +35,7 @@ const handleScrollTo = (blocks, toBlock) => {
 const SidebarProjectButton = ({ project, chosen, blocks, places }) => {
   const placesList = Object.values(places);
   const navigate = useNavigate();
+  const screenWidth = useScreenWidth();
 
   const { workspaceContext } = useWorkspaceContext();
   const { projectContext, setProjectContext } = useProjectContext();
@@ -71,24 +73,28 @@ const SidebarProjectButton = ({ project, chosen, blocks, places }) => {
       </button>
       {chosen && project?.id === projectContext?.id && (
         <>
-          <hr />
-          <div className={styles.placesInProject}>
-            {placesList.map((place, i) => {
-              const keyByValue = Object.keys(places).find(
-                (key) => places[key] === place
-              );
-              const isKeyChosen = keyByValue === chosen;
-              const className = isKeyChosen ? styles.activePlaceButton : "";
-              return (
-                <span
-                  className={className}
-                  onClick={() => handleScrollTo(blocks, keyByValue)}
-                >
-                  {place}
-                </span>
-              );
-            })}
-          </div>
+          {screenWidth > 999 && (
+            <>
+              <hr />
+              <div className={styles.placesInProject}>
+                {placesList.map((place, i) => {
+                  const keyByValue = Object.keys(places).find(
+                    (key) => places[key] === place
+                  );
+                  const isKeyChosen = keyByValue === chosen;
+                  const className = isKeyChosen ? styles.activePlaceButton : "";
+                  return (
+                    <span
+                      className={className}
+                      onClick={() => handleScrollTo(blocks, keyByValue)}
+                    >
+                      {place}
+                    </span>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </>
       )}
     </div>

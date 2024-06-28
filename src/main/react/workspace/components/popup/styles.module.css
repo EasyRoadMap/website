@@ -671,13 +671,18 @@
   .descriptionText {
     text-align: center;
   }
-  .containerInfoUser {
-    flex-direction: column;
-  }
+
   .titleWorkspace {
     max-width: 200px;
   }
 }
+
+@media (min-width: 0px) and (max-width: 450px) {
+  .containerInfoUser {
+    flex-direction: column;
+  }
+}
+
 @media (min-width: 0px) and (max-width: 780px) {
   .photosList {
     width: auto;
