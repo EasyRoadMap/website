@@ -84,6 +84,17 @@
   }
 }
 
+.menuHeader:hover {
+  path {
+    fill: var(--text-color);
+  }
+}
+.menuHeader:active {
+  path {
+    fill: var(--title-input-color);
+  }
+}
+
 @media (min-width: 0px) and (max-width: 999px) {
   .header {
     justify-content: center;

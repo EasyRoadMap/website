@@ -60,15 +60,22 @@ function App() {
     console.log("damn", ws);
     addProjectIdFromURL(ws?.pr_id);
     User();
-    Workspaces((ws) => {setCurrentWorkspace(ws);});
+    Workspaces((ws) => {
+      setCurrentWorkspace(ws);
+    });
     Photo();
   }, [workspaceContext?.workspaceExists]);
 
   useEffect(() => {
-    if (projectIdFromParams == null || workspaceContext?.projects == null || !currentWorkspace.id) return;
+    if (
+      projectIdFromParams == null ||
+      workspaceContext?.projects == null ||
+      !currentWorkspace.id
+    )
+      return;
     navigate({
       pathname: "/workspace/project",
-      search: '?ws_id='+currentWorkspace.id+"&pr_id="+projectIdFromParams,
+      search: "?ws_id=" + currentWorkspace.id + "&pr_id=" + projectIdFromParams,
     });
     setProjectIdFromParams(null);
   }, [workspaceContext?.projects]);
@@ -108,7 +115,7 @@ function App() {
   const addProjectIdFromURL = (pr_id) => {
     if (pr_id == null) return;
     setProjectIdFromParams(pr_id);
-  }
+  };
 
   const clearProjectHighlight = () => {
     if (location.pathname !== "/workspace/project") setProjectContext({});
@@ -116,25 +123,42 @@ function App() {
 
   return (
     <ErrorProvider>
-    <PopupProvider>
-      {/* <UserProvider>
+      <PopupProvider>
+        {/* <UserProvider>
         <WorkspaceProvider>
           <ProjectProvider>
             <BrowserRouter> */}
-            <RoadmapProvider>
-              <Routes>
-                  <Route path="/workspace" element={<Main key={workspaceContext.id + "main"}/>} />
-                  <Route path="/workspace/projects" element={<ProjectsPage key={workspaceContext.id + "projects"}/>} />
-                  <Route path="/workspace/project" element={<Project key={workspaceContext.id + "" + projectId}/>} />
-                  <Route path="/workspace/settings" element={<Settings key={workspaceContext.id + "settings"}/>} />
-                  <Route path="/workspace/invite" element={<Main fromInvite={true} key={workspaceContext.id + "maininvite"}/>} />
-                </Routes>
-            </RoadmapProvider>
-            {/* </BrowserRouter>
+        <RoadmapProvider>
+          <Routes>
+            <Route
+              path="/workspace"
+              element={<Main key={workspaceContext.id + "main"} />}
+            />
+            <Route
+              path="/workspace/projects"
+              element={<ProjectsPage key={workspaceContext.id + "projects"} />}
+            />
+            <Route
+              path="/workspace/project"
+              element={<Project key={workspaceContext.id + "" + projectId} />}
+            />
+            {/* <Route path="/workspace/settings" element={<Settings key={workspaceContext.id + "settings"}/>} /> */}
+            <Route
+              path="/workspace/invite"
+              element={
+                <Main
+                  fromInvite={true}
+                  key={workspaceContext.id + "maininvite"}
+                />
+              }
+            />
+          </Routes>
+        </RoadmapProvider>
+        {/* </BrowserRouter>
           </ProjectProvider>
         </WorkspaceProvider>
       </UserProvider> */}
-    </PopupProvider>
+      </PopupProvider>
     </ErrorProvider>
   );
 }

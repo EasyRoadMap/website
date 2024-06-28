@@ -68,9 +68,7 @@ const getProject = (location, refs) => {
   // if (observeBlock) return observeBlock;
 };
 
-const Sidebar = ({
-  sidebarRef
-}) => {
+const Sidebar = ({ sidebarRef }) => {
   const { workspaceContext } = useWorkspaceContext();
   const location = useLocation();
   const navigate = useNavigate();
@@ -85,7 +83,7 @@ const Sidebar = ({
     if (params?.[0] === "yes") {
       LeaveWorkspace(workspaceContext.id);
     }
-  }
+  };
 
   const openExitWorkspacePopup = () => {
     popupManager.open(Popup, {
@@ -112,40 +110,45 @@ const Sidebar = ({
 
   const getWS = () => {
     const searchParam = qs.parse(location.search, { ignoreQueryPrefix: true });
-    if (Object.keys(searchParam).length > 0) return "?ws_id=" + searchParam.ws_id;
+    if (Object.keys(searchParam).length > 0)
+      return "?ws_id=" + searchParam.ws_id;
     return "";
-  }
+  };
 
   return (
-    <aside className={styles.aside}
-           ref={sidebarRef}
-    >
-      <SidebarButton
-        type="main"
-        active={page === "main"}
-        callback={() => navigate("/workspace" + getWS())}
-      />
-      <SidebarButton
-        type="projects"
-        active={page === "projects"}
-        callback={() => navigate("/workspace/projects" + getWS())}
-      />
-      <SidebarProjects
-        projects={workspaceContext?.projects}
-        chosen={projectField}
-        blocks={getProjectsFieldsRefs()}
-        places={placesInProjects}
-      />
-      {
+    <div className={styles.wrapper} ref={sidebarRef}>
+      <aside className={styles.aside}>
+        <SidebarButton
+          type="main"
+          active={page === "main"}
+          callback={() => navigate("/workspace" + getWS())}
+        />
+        <SidebarButton
+          type="projects"
+          active={page === "projects"}
+          callback={() => navigate("/workspace/projects" + getWS())}
+        />
+        <SidebarProjects
+          projects={workspaceContext?.projects}
+          chosen={projectField}
+          blocks={getProjectsFieldsRefs()}
+          places={placesInProjects}
+        />
+        {/* {
         workspaceContext?.is_admin &&
         <SidebarButton
           type="settings"
           active={page === "settings"}
           callback={() => navigate("/workspace/settings" + getWS())}
         />
-      }
-      <SidebarButton type="exit" active={false} callback={openExitWorkspacePopup} />
-    </aside>
+      } */}
+        <SidebarButton
+          type="exit"
+          active={false}
+          callback={openExitWorkspacePopup}
+        />
+      </aside>
+    </div>
   );
 };
 

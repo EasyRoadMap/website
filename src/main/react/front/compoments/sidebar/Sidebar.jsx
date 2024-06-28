@@ -6,9 +6,7 @@ import SidebarProjects from "./SidebarProjects.jsx";
 
 import useProjectContext from "../../hooks/useProjectContext.js";
 
-const Sidebar = ({
-  sidebarRef
-}) => {
+const Sidebar = ({ sidebarRef }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
@@ -33,20 +31,22 @@ const Sidebar = ({
   };
 
   return (
-    <aside className={styles.aside} ref={sidebarRef}>
-      <SidebarButton
-        type="main"
-        callback={() => navigate(`/p/${workspaceContext.id}`)}
-        active={getPage()}
-        // callback={() => navigate("/workspace" + getWS())}
-      />
-      <SidebarButton
-        type="projects"
-        // active={page === "projects"}
-        callback={() => handleScrollTo("projects")}
-      />
-      <SidebarProjects projects={workspaceContext?.projects} />
-    </aside>
+    <div className={styles.wrapper} ref={sidebarRef}>
+      <aside className={styles.aside}>
+        <SidebarButton
+          type="main"
+          callback={() => navigate(`/p/${workspaceContext.id}`)}
+          active={getPage()}
+          // callback={() => navigate("/workspace" + getWS())}
+        />
+        <SidebarButton
+          type="projects"
+          // active={page === "projects"}
+          callback={() => handleScrollTo("projects")}
+        />
+        <SidebarProjects projects={workspaceContext?.projects} />
+      </aside>
+    </div>
   );
 };
 

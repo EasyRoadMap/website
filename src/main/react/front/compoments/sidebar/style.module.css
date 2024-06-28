@@ -4,7 +4,7 @@
   position: fixed;
   height: fit-content;
   width: 340px;
-  display: unset;
+  display: flex;
   /* left: calc((100vw - 1060px) / 2); */
   left: 24px;
   background-color: var(--bg-color-sidebar-and-dropdown);
@@ -14,10 +14,16 @@
   border-radius: 24px;
   border: 1px solid var(--light-stroke);
   z-index: 100;
+  pointer-events: all;
 }
-.aside .active {
-  display: flex;
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+  display: block;
+  pointer-events: none;
 }
+
 .project {
   margin-left: 44px;
   display: flex;
@@ -223,12 +229,19 @@
 }
 
 @media (min-width: 0px) and (max-width: 999px) {
-  /* .aside {
+  .aside {
+    width: calc(100vw - 24px);
+    left: 12px;
+    top: 24px;
+  }
+  .wrapper {
     display: none;
-    width: calc(100vw - 48px);
-  } */
-  .aside .active {
-    display: none;
-    width: calc(100vw - 48px);
+    pointer-events: all;
+    margin-top: -24px;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+  }
+  .projectButton {
+    width: calc(100% - 24px);
   }
 }

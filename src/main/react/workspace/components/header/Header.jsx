@@ -6,7 +6,13 @@ import { useState, useEffect } from "react";
 
 import useUserContext from "../../hooks/useUserContext.js";
 
-const Header = ({ DeleteUser, UpdateUser, workspaces, currentWorkspace, sidebarRef }) => {
+const Header = ({
+  DeleteUser,
+  UpdateUser,
+  workspaces,
+  currentWorkspace,
+  sidebarRef,
+}) => {
   const { userContext } = useUserContext();
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -14,10 +20,13 @@ const Header = ({ DeleteUser, UpdateUser, workspaces, currentWorkspace, sidebarR
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
-      if (window.innerWidth < 1000)
+      if (window.innerWidth < 1000) {
         sidebarRef.current.style.display = "none";
-      else 
+        sidebarRef.current.style.position = "unset";
+      } else {
         sidebarRef.current.style.display = "flex";
+        sidebarRef.current.style.position = "fixed";
+      }
     };
 
     window.addEventListener("resize", handleResize);
@@ -26,7 +35,6 @@ const Header = ({ DeleteUser, UpdateUser, workspaces, currentWorkspace, sidebarR
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
 
   const toggleMenu = () => {
     if (!sidebarRef.current) return;
@@ -37,18 +45,17 @@ const Header = ({ DeleteUser, UpdateUser, workspaces, currentWorkspace, sidebarR
 
     if (isMenuOpened) {
       sidebarRef.current.style.display = "flex";
+      sidebarRef.current.style.position = "fixed";
       return;
     }
     sidebarRef.current.style.display = "none";
-  }
+    sidebarRef.current.style.position = "unset";
+  };
 
   return (
     <header className={styles.header}>
       {screenWidth < 1000 && (
-        <MenuHeaderSVG
-          className={styles.menuHeader}
-          onClick={toggleMenu}
-        />
+        <MenuHeaderSVG className={styles.menuHeader} onClick={toggleMenu} />
       )}
       <HeaderLogo />
       <UserHeaderButton

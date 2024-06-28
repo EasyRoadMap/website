@@ -464,3 +464,9 @@ body {
     padding: 15px;
   }
 }
+
+@media (min-width: 0px) and (max-width: 620px) {
+  .bacgroungText {
+    display: none;
+  }
+}

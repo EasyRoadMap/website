@@ -15,11 +15,11 @@ const types = {
     icon: ProjectsSVG,
     className: "buttonChapterIcon",
   },
-  settings: {
-    name: "Настройки",
-    icon: SettingsSVG,
-    className: "buttonChapterIcon",
-  },
+  // settings: {
+  //   name: "Настройки",
+  //   icon: SettingsSVG,
+  //   className: "buttonChapterIcon",
+  // },
   exit: {
     name: "Выход",
     icon: ExitIconSidebarSVG,

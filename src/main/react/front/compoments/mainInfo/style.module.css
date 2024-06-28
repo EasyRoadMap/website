@@ -89,18 +89,20 @@
 .infoLink:active {
   opacity: 0.75;
 }
-@media (min-width: 520px) and (max-width: 999px) {
+@media (min-width: 650px) and (max-width: 999px) {
   .infoLinks {
-    max-width: 150px;
+    max-width: 120px;
+  }
+}
+@media (min-width: 0px) and (max-width: 649px) {
+  .infoLinks {
+    max-width: 70px;
   }
 }
 
 @media (min-width: 0px) and (max-width: 519px) {
   .mainInfo {
     flex-direction: column;
-  }
-  .infoLinks {
-    max-width: 70px;
   }
   .infoWrapper {
     width: 100%;

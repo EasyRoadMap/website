@@ -142,3 +142,9 @@
   color: var(--foreground-color50);
   text-align: center;
 }
+
+@media (min-width: 0px) and (max-width: 400px) {
+  .project {
+    min-width: 0px;
+  }
+}

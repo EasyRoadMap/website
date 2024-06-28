@@ -272,7 +272,7 @@
   flex-direction: row;
   gap: 3px;
   left: calc(50% - 50px);
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 .paginationCircle {
   width: 18px;

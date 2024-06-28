@@ -48,7 +48,6 @@
   }
 }
 .menuHeader {
-  display: none;
   path {
     fill: var(--foreground-color50);
   }
@@ -56,6 +55,16 @@
 .menuHeaderActive {
   path {
     fill: var(--text-color);
+  }
+}
+.menuHeader:hover {
+  path {
+    fill: var(--text-color);
+  }
+}
+.menuHeader:active {
+  path {
+    fill: var(--title-input-color);
   }
 }
 
@@ -69,6 +78,10 @@
   }
   .menuHeader {
     display: flex;
+    position: absolute;
+    left: 24px;
+  }
+  .menuHeaderActive {
     position: absolute;
     left: 24px;
   }
