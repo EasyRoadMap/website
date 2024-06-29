@@ -116,7 +116,6 @@
   }
   .projectItem {
     width: 100%;
-    height: 100%;
   }
   .projectItemTitle {
     width: calc(100% - 10px);
