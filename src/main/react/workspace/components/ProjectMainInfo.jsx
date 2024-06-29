@@ -30,6 +30,8 @@ const ProjectMainInfo = ({ initialValues, projectId }) => {
   const { UpdateInfo, UpdateLinks } = useProjectInfo();
   const { workspaceContext } = useWorkspaceContext();
 
+  console.log(initialValues.links);
+
   const avatarClassName = projectContext?.photo?.default
     ? [styles.logo, styles.pixelAvatar].join(" ")
     : styles.logoAvatarUser;
@@ -55,15 +57,28 @@ const ProjectMainInfo = ({ initialValues, projectId }) => {
   };
 
   const isDataChanged = () => {
+    console.log(links);
     if (links?.length > 0)
       for (let i = 0; i < links.length; i++) {
         if (
-          (links[i]?.name !== initialValues.links[i]?.name ||
-            links[i]?.url !== initialValues.links[i]?.url) &&
+          (links[i]?.name != initialValues.links[i]?.name ||
+            links[i]?.url != initialValues.links[i]?.url) &&
           links[i]?.name &&
           links[i]?.url
-        )
+        ) {
+          console.log("true!!!");
           return true;
+        }
+        else if ((links[i]?.name != initialValues.links[i]?.name ||
+        links[i]?.url != initialValues.links[i]?.url) &&
+        initialValues.links[i]?.name &&
+        initialValues.links[i]?.url
+        ) {
+          console.log("a", links[i], initialValues.links[i]);
+          console.log(links[i]?.name != initialValues.links[i]?.name);
+          console.log(links[i]?.url != initialValues.links[i]?.url);
+          return true;
+        }
       }
 
     if (description === "" && !initialValues?.description) return false;
@@ -107,6 +122,17 @@ const ProjectMainInfo = ({ initialValues, projectId }) => {
           urls.push(link.url);
         }
       });
+
+      const newLinks = [null, null, null];
+      names.forEach((name, i) => {
+        newLinks[i] = {
+          name: name,
+          url: urls[i]
+        };
+      });
+      console.log(newLinks);
+      setLinks(newLinks);
+
       if (names.length === urls.length) {
         UpdateLinks(projectContext.id, names, urls);
       }

@@ -10,7 +10,7 @@ import useRoadmapContext from "../hooks/useRoadmapContext.js";
 import useWorkspaceContext from "../hooks/useWorkspaceContext.js";
 import { useRoadmapInfo } from "../hooks/useRoadmap.js";
 import { useProjectInfo } from "../hooks/useProject.jsx";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import qs from "qs";
 
@@ -21,6 +21,7 @@ import DeleteProjectPopup from "../components/popup/DeleteProjectPopup.jsx";
 import { initProject } from "../hooks/InitProject.js";
 
 const Project = () => {
+  console.log("in project");
   const { projectContext, setProjectContext } = useProjectContext();
   const { setRoadmapContext, setChosenStage } = useRoadmapContext();
   const { workspaceContext } = useWorkspaceContext();
@@ -32,6 +33,7 @@ const Project = () => {
   const { state } = useLocation();
 
   const popupManager = usePopupManager();
+  const roadmapRef = useRef(null); 
 
   const getWS = () => {
     const searchParam = qs.parse(location.search, { ignoreQueryPrefix: true });
@@ -137,7 +139,7 @@ const Project = () => {
             </div>
             <Participants participants={projectContext?.users} type="project" />
           </div>
-          <Roadmap pr_id={projectID} />
+          <Roadmap pr_id={projectID} roadmapRef={roadmapRef}/>
           <DeleteBlock
             typeButton="deleteProject"
             callback={openDeleteProjectPopup}

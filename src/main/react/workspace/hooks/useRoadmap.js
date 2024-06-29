@@ -26,6 +26,8 @@ export const useRoadmapInfo = () => {
     }
 
     const getStages = (pr_id, callback) => { 
+        console.log("--------------------------");
+        console.log("trying get stages");
         getStagesPage(pr_id, 1).then((response) => {
             const stages = response.data.content;
             if (response.status === 204) {
@@ -39,8 +41,10 @@ export const useRoadmapInfo = () => {
                 return;
             }
             if (response.data) {
+                console.log("got stages", [response.data, roadmapContext.stages]);
                 for (let i = 2; i <= response.data.pagination.total_pages; i++) {
                     getStagesPage(pr_id, i).then((response) => {
+                        console.log("iteration", response.data.content);
                         setRoadmapContext((prev) => ({...prev, stages: stages.concat(response.data.content)}));
                     })
                 }

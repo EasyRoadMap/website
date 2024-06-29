@@ -74,10 +74,11 @@ export const useUserInfo = () => {
             const last_visited_ws_id = last_visited_ws_ids?.length > 0 ? last_visited_ws_ids[last_visited_ws_ids.length - 1] : null;
             const last_visited_ws = last_visited_ws_id ? getObjInArrayByItsValue(response.data, "id", last_visited_ws_id) : null;
 
-            if (firstRequestCallback) firstRequestCallback(last_visited_ws ? last_visited_ws : response.data?.[0]);
             if (chosenWS) {
                 const ws = Object.keys(response.data).find(key => response.data[key] === chosenWS);
                 firstRequestCallback(ws);
+            } else {
+                if (firstRequestCallback) firstRequestCallback(last_visited_ws ? last_visited_ws : response.data?.[0]);
             }
         }).catch((e) => {
             handleError(e);

@@ -37,6 +37,16 @@ export const useProjectInfo = () => {
     pushError(error_message, "error");
 }
 
+  const CheckProject = (pr_id, onCompletion) => {
+    getProject(pr_id)
+    .then((response) => {
+      onCompletion(response.data);
+    })
+    .catch((e) => {
+      handleError(e);
+    });
+  }
+
   const Project = (pr_id) => {
     getProject(pr_id)
       .then((response) => {
@@ -161,6 +171,7 @@ export const useProjectInfo = () => {
   };
 
   return {
+    CheckProject,
     Project,
     DeleteProject,
     GetAttachableMember,

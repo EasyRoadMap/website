@@ -8,7 +8,8 @@ import { useRoadmapInfo } from "../../hooks/useRoadmap.js";
 import useRoadmapContext from "../../hooks/useRoadmapContext.js";
 
 const Roadmap = ({
-    pr_id
+    pr_id,
+    roadmapRef
 }) => {
     const { getStages, getTasks } = useRoadmapInfo();
     const { roadmapContext, chosenStage } = useRoadmapContext();
@@ -21,7 +22,7 @@ const Roadmap = ({
 
     if (roadmapContext?.stages) {
         return (
-            <section className={styles.section} id="roadmap">
+            <section className={styles.section} ref={roadmapRef} id="roadmap">
                 <h1 className={styles.title}>
                     Дорожная карта
                 </h1>
